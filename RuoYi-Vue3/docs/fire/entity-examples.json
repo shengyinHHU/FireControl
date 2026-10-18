@@ -1,0 +1,171 @@
+{
+  "places": {
+    "id": "p1",
+    "name": "扬子石化厂区",
+    "category": "重点企业",
+    "gridId": "g1",
+    "address": "大厂街道新华路28号",
+    "owner": "王强",
+    "phone": "13800001000",
+    "risk": "一般",
+    "lng": 118.736,
+    "lat": 32.216,
+    "crs": "GCJ02",
+    "description": "落实消防安全责任制，定期开展设施巡检和应急演练。"
+  },
+  "grids": {
+    "id": "g1",
+    "name": "扬子第一社区",
+    "owner": "李建国",
+    "phone": "13900001000",
+    "polygon": [
+      [
+        118.728,
+        32.207
+      ],
+      [
+        118.746,
+        32.211
+      ],
+      [
+        118.745,
+        32.248
+      ],
+      [
+        118.727,
+        32.244
+      ]
+    ],
+    "description": "消防安全网格责任区"
+  },
+  "personnel": {
+    "id": "u1",
+    "name": "王强",
+    "phone": "13800002000",
+    "role": "安全总监",
+    "placeId": "p1"
+  },
+  "materials": {
+    "id": "m1",
+    "placeId": "p1",
+    "category": "消防车",
+    "name": "小型消防车",
+    "unit": "辆",
+    "quantity": 1
+  },
+  "hazards": {
+    "id": "r1",
+    "placeId": "p1",
+    "name": "消防通道占用隐患",
+    "category": "隐患",
+    "level": "一般",
+    "status": "待整改",
+    "owner": "王强",
+    "source": "181平台",
+    "description": "巡查中发现，已交办责任人核查。",
+    "deadline": "2026-10-18 18:00:00"
+  },
+  "cameras": {
+    "id": "c1",
+    "name": "扬子石化厂区 · 消控室",
+    "placeId": "p1",
+    "category": "街道高点",
+    "status": "在线",
+    "lng": 118.736,
+    "lat": 32.216,
+    "crs": "GCJ02"
+  },
+  "hosts": {
+    "id": "h1",
+    "name": "扬子石化厂区消控主机",
+    "placeId": "p1",
+    "serial": "WH-001",
+    "status": "在线",
+    "model": "JB-QB-GST",
+    "loops": 8,
+    "voltage": 24.1,
+    "lastSeen": "2026-10-18 11:56:30"
+  },
+  "devices": {
+    "id": "d1",
+    "name": "扬子石化厂区烟感探测器",
+    "placeId": "p1",
+    "hostId": "h1",
+    "cameraId": "c1",
+    "category": "烟感探测器",
+    "status": "在线",
+    "value": 0,
+    "unit": "%LEL",
+    "lng": 118.736,
+    "lat": 32.216,
+    "crs": "GCJ02"
+  },
+  "alarms": {
+    "id": "a1",
+    "name": "三楼烟感探测器报警",
+    "code": "119-20261018-001",
+    "source": "119警情",
+    "placeId": "p1",
+    "deviceId": "d1",
+    "status": "待处理",
+    "level": "紧急",
+    "occurredAt": "2026-10-18 11:32:18",
+    "timeline": [
+      {
+        "time": "2026-10-18 11:32:18",
+        "action": "告警接入",
+        "note": "模拟告警接入",
+        "operator": "系统"
+      }
+    ]
+  },
+  "inspections": {
+    "id": "i1",
+    "placeId": "p1",
+    "cameraId": "c1",
+    "name": "臧晓鹏",
+    "result": "在岗",
+    "time": "2026-10-18 10:20:12",
+    "note": "视频查岗",
+    "evidence": ""
+  },
+  "duty": {
+    "id": "shift0",
+    "placeId": "p1",
+    "name": "王强",
+    "phone": "13800002000",
+    "date": "2026-10-18",
+    "start": "00:00",
+    "end": "23:59",
+    "startsAt": "2026-10-18T00:00:00+08:00",
+    "endsAt": "2026-10-18T23:59:59+08:00",
+    "status": "已上报",
+    "submissionId": "seed0"
+  },
+  "tasks": {
+    "id": "t1",
+    "name": "开展消防通道专项检查",
+    "placeId": "p1",
+    "personnelId": "u1",
+    "status": "待执行",
+    "deadline": "2026-10-18 18:00:00",
+    "description": "核查疏散通道和应急照明，记录整改情况。"
+  },
+  "messages": {
+    "id": "msg0",
+    "name": "三楼烟感探测器报警",
+    "alarmId": "a1",
+    "placeId": "p1",
+    "status": "未读",
+    "time": "2026-10-18 11:32:18",
+    "source": "119警情"
+  },
+  "smsRules": {
+    "id": "rule1",
+    "name": "紧急警情通知",
+    "source": "119警情",
+    "recipients": "13800001000",
+    "enabled": true,
+    "trigger": "接单"
+  }
+}
