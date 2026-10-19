@@ -251,12 +251,12 @@
         >重新绘制网格边界</el-button
       >
     </div>
-    <div class="map-fire-legend">🔥 未办结火警 {{ alarmPoints.length }} <span>点击火焰查看详情</span></div>
+    <div v-if="!isFireMock" class="map-fire-legend">🔥 未办结火警 {{ alarmPoints.length }} <span>点击火焰查看详情</span></div>
     <div class="map-caption">
       <span class="online-dot"></span
       >{{
         useRealMap
-          ? '高德地图 · GCJ-02'
+          ? '高德地图 · 大厂街道资料边界'
           : isFireMock
             ? '示意地图 · 非测绘边界'
             : '待配置GIS · 当前为示意底图'
@@ -380,6 +380,15 @@ function selectGrid(id) {
 }
 async function load() {
   error.value = ''
+  // Keep demo business records off display maps; real API data remains enabled.
+  if (isFireMock && !props.editable) {
+    places.value = []
+    grids.value = []
+    cameras.value = []
+    devices.value = []
+    alarms.value = []
+    return
+  }
   try {
     const [p, g, c, d, a] = await Promise.all(
       ['places', 'grids', 'cameras', 'devices', 'alarms'].map((r) =>
@@ -473,7 +482,13 @@ function changeZoom(direction) {
 function renderMap() {
   adapter?.setFeatures({
     places: shownPlaces.value,
-    grids: shownGrids.value,
+    // The initial demo rectangles are not surveyed administrative boundaries.
+    // Retain user-drawn geometry and the grid editor, but never overlay seed boxes on the real map.
+    grids: shownGrids.value.filter(g => props.editable || !isFireMock || !(
+      /^g[123]$/.test(g.id) && g.polygon?.length === 4 &&
+      g.polygon[0]?.[1] === 32.207 && g.polygon[1]?.[1] === 32.211 &&
+      g.polygon[2]?.[1] === 32.248 && g.polygon[3]?.[1] === 32.244
+    )),
     cameras: shownCameras.value,
     devices: shownDevices.value,
     alarms: alarmPoints.value,
@@ -497,6 +512,7 @@ async function retryMap() {
   if (useRealMap && !adapter) {
     try {
       const instance = await mountMap(sdkContainer.value, {
+        showBoundary: !props.editable && !props.pickPoint,
         onSelect: (type, id) =>
           type === 'grid' ? selectGrid(id) : emit(type, id),
         onPoint: (point) => {

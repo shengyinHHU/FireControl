@@ -139,7 +139,7 @@
           @device="showDevice"
           @grid="grid = $event"
         />
-        <button class="video-tools-toggle" :aria-expanded="videoToolsOpen" @click="videoToolsOpen = !videoToolsOpen">▣ 视频监控 <b>{{ stats.cameras || 0 }}</b> {{ videoToolsOpen ? '⌃' : '⌄' }}</button>
+        <button class="video-tools-toggle" :aria-expanded="videoToolsOpen" @click="videoToolsOpen = !videoToolsOpen">▣ 视频监控 <b v-if="!isFireMock">{{ stats.cameras || 0 }}</b> {{ videoToolsOpen ? '⌃' : '⌄' }}</button>
         <div v-show="videoToolsOpen" class="map-video-types">
           <button
             v-for="type in ['街道高点', '城中村', '无人机', '布控球']"
@@ -162,7 +162,7 @@
             "
           >
             <el-icon><VideoCamera /></el-icon> 视频监控
-            <b>{{ stats.cameras || 0 }}</b>
+            <b v-if="!isFireMock">{{ stats.cameras || 0 }}</b>
           </button>
         </div>
         <div v-if="isFireMock" class="map-street-label">

@@ -1,5 +1,6 @@
 import { defineConfig, loadEnv } from 'vite'
 import path from 'path'
+import { createAmapProxy } from './vite/amapProxy'
 import createVitePlugins from './vite/plugins'
 
 const baseUrl = 'http://localhost:8080' // 后端接口
@@ -8,6 +9,8 @@ const baseUrl = 'http://localhost:8080' // 后端接口
 export default defineConfig(({ mode, command }) => {
   const env = loadEnv(mode, process.cwd())
   const { VITE_APP_ENV } = env
+  const serverEnv = loadEnv(mode, process.cwd(), 'AMAP_')
+  const amapProxy = createAmapProxy(serverEnv.AMAP_SECURITY_JSCODE)
   return {
     // 部署生产环境和开发环境下的URL。
     // 默认情况下，vite 会假设你的应用是被部署在一个域名的根路径上
@@ -40,12 +43,14 @@ export default defineConfig(({ mode, command }) => {
         }
       }
     },
+    preview: { proxy: amapProxy },
     // vite 相关配置
     server: {
       port: 80,
       host: true,
       open: env.VITE_FIRE_MOCK === 'true' ? '/fire/dashboard' : true,
       proxy: {
+        ...amapProxy,
         // https://cn.vitejs.dev/config/#server-proxy
         '/dev-api': {
           target: baseUrl,
