@@ -13,7 +13,7 @@ export function listMapPlaces() {
 export async function listDatabasePlaces(query = {}) {
   requireLogin()
   const { category, keyword, ...params } = query
-  if (category) params.placeType = PLACE_LAYERS.find(layer => layer.label === category)?.type || category
+  if (category) params.placeType = (category === '机关单位' ? 'government' : PLACE_LAYERS.find(layer => layer.label === category)?.type) || category
   if (keyword) params.name = keyword
   const response = await request({ url: '/fire/places/list', method: 'get', params })
   return { ...response, rows: (response.rows || []).map(normalizePlaceRecord).filter(Boolean) }

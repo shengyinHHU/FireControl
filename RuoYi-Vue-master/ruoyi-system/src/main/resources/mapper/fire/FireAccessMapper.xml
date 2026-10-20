@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.FireAccessMapper">
+ <select id="gatewayForUpdate" resultType="map">
+ SELECT gateway_id AS gatewayId,place_id AS placeId,source_address AS sourceAddress,center_address AS centerAddress,allowed_ip AS allowedIp,enabled
+ FROM fire_gateway WHERE source_address=#{source} FOR UPDATE
+ </select>
+ <insert id="insertMessage" useGeneratedKeys="true" keyProperty="messageId">
+ INSERT INTO fire_protocol_message(gateway_id,session_id,peer_ip,direction,sequence_no,command_no,received_at,device_time,raw_hex,parse_status,error_text,parsed_json,transmission_status)
+ VALUES(#{gatewayId},#{session},#{peerIp},#{direction},#{sequence},#{command},#{receivedAt},#{deviceTime},#{raw},#{parseStatus},#{error},#{parsed},#{transmissionStatus})
+ </insert>
+ <update id="updateTransmission">UPDATE fire_protocol_message SET transmission_status=#{status},error_text=#{error} WHERE message_id=#{id}</update>
+ <update id="touchGateway">UPDATE fire_gateway SET last_received_at=#{receivedAt},update_time=NOW() WHERE gateway_id=#{gatewayId}</update>
+ <update id="updateGatewayState">
+ UPDATE fire_gateway SET status_bits=#{bits},status_description=#{name},status_device_time=#{deviceTime}
+ WHERE gateway_id=#{gatewayId} AND ((#{deviceTime} IS NOT NULL AND (status_device_time IS NULL OR status_device_time &lt;= #{deviceTime})) OR status_bits IS NULL)
+ </update>
+ <insert id="upsertHost">
+ INSERT INTO fire_host(gateway_id,system_type,system_address,name,status_bits,status_description,status_device_time,last_received_at,software_version,description)
+ VALUES(#{gatewayId},#{systemType},#{systemAddress},#{hostName},#{bits},#{stateName},#{stateTime},#{receivedAt},#{version},#{description})
+ ON DUPLICATE KEY UPDATE
+ status_bits=IF(VALUES(status_bits) IS NOT NULL AND (status_device_time IS NULL OR VALUES(status_device_time)&gt;=status_device_time),VALUES(status_bits),status_bits),
+ status_description=IF(VALUES(status_bits) IS NOT NULL AND (status_device_time IS NULL OR VALUES(status_device_time)&gt;=status_device_time),VALUES(status_description),status_description),
+ status_device_time=IF(VALUES(status_bits) IS NOT NULL AND (status_device_time IS NULL OR VALUES(status_device_time)&gt;=status_device_time),VALUES(status_device_time),status_device_time),
+ last_received_at=VALUES(last_received_at),software_version=COALESCE(VALUES(software_version),software_version),
+ description=COALESCE(VALUES(description),description),update_time=NOW()
+ </insert>
+ <select id="host" resultType="map">SELECT host_id AS hostId FROM fire_host WHERE gateway_id=#{gatewayId} AND system_type=#{systemType} AND system_address=#{systemAddress}</select>
+ <insert id="insertEvent">
+ INSERT INTO fire_event(event_id,gateway_id,host_id,message_id,object_type,object_index,object_key,event_kind,name,device_time,received_at,clock_warning,details_json)
+ VALUES(#{eventId},#{gatewayId},#{hostId},#{messageId},#{type},#{objectIndex},#{objectKey},#{kind},#{name},#{deviceTime},#{receivedAt},#{clockWarning},#{details})
+ ON DUPLICATE KEY UPDATE event_id=event_id
+ </insert>
+ <sql id="scope"> AND p.del_flag='0' AND p.status='0' ${params.dataScope}
+ <if test="keyword != null and keyword != ''">AND (p.name LIKE CONCAT('%',#{keyword},'%') OR g.name LIKE CONCAT('%',#{keyword},'%'))</if>
+ <if test="gatewayId != null and gatewayId != ''">AND g.gateway_id=#{gatewayId}</if>
+ </sql>
+ <sql id="joins">FROM fire_gateway g JOIN fire_place p ON p.place_id=g.place_id</sql>
+ <select id="gateways" resultType="map">
+ SELECT CAST(g.gateway_id AS CHAR) AS id,g.name,p.name AS placeName,CAST(p.place_id AS CHAR) AS placeId,g.model,
+ g.source_address AS serial,g.allowed_ip AS peerIp,g.last_received_at AS lastSeen,g.status_description AS deviceStatus,
+ g.status_bits AS statusBits,g.status_device_time AS deviceTime,'database' AS dataSource
+ <include refid="joins"/> WHERE 1=1 <include refid="scope"/>
+ <if test="id != null and id != ''">AND g.gateway_id=#{id}</if> ORDER BY g.gateway_id
+ </select>
+ <select id="hosts" resultType="map">
+ SELECT CAST(h.host_id AS CHAR) AS id,h.name,p.name AS placeName,CAST(p.place_id AS CHAR) AS placeId,
+ CAST(g.gateway_id AS CHAR) AS gatewayId,g.name AS gatewayName,g.source_address AS gatewayAddress,
+ CONCAT(h.system_type,'/',h.system_address) AS serial,h.status_description AS deviceStatus,h.status_bits AS statusBits,
+ h.status_device_time AS deviceTime,h.last_received_at AS lastSeen,h.software_version AS softwareVersion,
+ h.description,'database' AS dataSource
+ FROM fire_host h JOIN fire_gateway g ON h.gateway_id=g.gateway_id JOIN fire_place p ON p.place_id=g.place_id
+ WHERE 1=1 <include refid="scope"/>
+ <if test="id != null and id != ''">AND h.host_id=#{id}</if> ORDER BY h.host_id
+ </select>
+ <select id="events" resultType="map">
+ SELECT e.event_id AS id,e.event_id AS code,e.name,e.event_kind AS kind,
+ e.object_type AS objectType,e.object_key AS deviceId,'消控室主机' AS source,
+ '设备记录' AS status,CAST(p.place_id AS CHAR) AS placeId,p.name AS placeName,
+ CAST(g.gateway_id AS CHAR) AS gatewayId,g.name AS gatewayName,g.source_address AS gatewayAddress,
+ e.device_time AS deviceTime,e.received_at AS occurredAt,e.clock_warning AS clockWarning,
+ e.details_json AS details,CAST(e.message_id AS CHAR) AS messageId,'database' AS dataSource
+ FROM fire_event e JOIN fire_gateway g ON e.gateway_id=g.gateway_id JOIN fire_place p ON p.place_id=g.place_id
+ WHERE 1=1 <include refid="scope"/>
+ <if test="id != null and id != ''">AND e.event_id=#{id}</if>
+ <if test="kind != null and kind != ''">AND e.event_kind=#{kind}</if>
+ ORDER BY e.received_at DESC,e.event_id DESC
+ </select>
+ <select id="messages" resultType="map">
+ SELECT CAST(m.message_id AS CHAR) AS id,m.session_id AS sessionId,m.peer_ip AS peerIp,m.direction,m.sequence_no AS sequenceNo,m.command_no AS commandNo,
+ m.received_at AS receivedAt,m.device_time AS deviceTime,m.raw_hex AS rawHex,m.parse_status AS parseStatus,
+ m.error_text AS error,m.transmission_status AS transmissionStatus,m.parsed_json AS parsed
+ FROM fire_protocol_message m JOIN fire_gateway g ON m.gateway_id=g.gateway_id JOIN fire_place p ON p.place_id=g.place_id
+ WHERE 1=1 <include refid="scope"/> ORDER BY m.message_id DESC
+ </select>
+ <select id="hostStats" resultType="map">SELECT COUNT(*) AS hosts FROM fire_host h JOIN fire_gateway g ON h.gateway_id=g.gateway_id JOIN fire_place p ON p.place_id=g.place_id WHERE 1=1 <include refid="scope"/></select>
+ <select id="eventStats" resultType="map">
+ SELECT COUNT(*) AS eventTotal,COALESCE(SUM(e.event_kind IN ('fire','manual_alarm')),0) AS fireEvents,
+ COALESCE(SUM(e.event_kind='fault'),0) AS faultEvents
+ FROM fire_event e JOIN fire_gateway g ON e.gateway_id=g.gateway_id JOIN fire_place p ON p.place_id=g.place_id
+ WHERE e.received_at &gt;= #{recentSince} <include refid="scope"/>
+ </select>
+ <select id="hostConnectionCounts" resultType="map">SELECT g.source_address AS sourceAddress,COUNT(*) AS total FROM fire_host h JOIN fire_gateway g ON h.gateway_id=g.gateway_id JOIN fire_place p ON p.place_id=g.place_id WHERE 1=1 <include refid="scope"/> GROUP BY g.source_address</select>
+<select id="gatewayCount" resultType="long">SELECT COUNT(*) <include refid="joins"/> WHERE 1=1 <include refid="scope"/></select>
+<update id="bindRawSession">UPDATE fire_protocol_message SET gateway_id=#{gatewayId} WHERE session_id=#{session} AND gateway_id IS NULL AND parse_status='RAW_CHUNK'</update>
+<select id="sessionGateway" resultType="long">SELECT gateway_id FROM fire_protocol_message WHERE session_id=#{session} AND gateway_id IS NOT NULL ORDER BY message_id DESC LIMIT 1</select>
+</mapper>

@@ -8,7 +8,7 @@ const name = field('name', '名称'),
   place = field('placeId', '所属场所', 'places'),
   phone = field('phone', '联系电话'),
   status = field('status', '状态', 'select', ['在线', '离线'])
-export const categories = ['重点企业', '高层建筑', '综合商业体', '养老院']
+export const categories = ['重点企业', '高层建筑', '综合商业体', '养老院', '机关单位']
 export const catalog = {
   places: {
     title: '重点场所',

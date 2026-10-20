@@ -392,7 +392,7 @@ const shownDevices = computed(() =>
   ),
 )
 // Active fire markers are never hidden by ordinary resource/category filters.
-const alarmPoints = computed(() => fireAlarmPoints(alarms.value, places.value, devices.value))
+const alarmPoints = computed(() => fireAlarmPoints(alarms.value, useDatabasePlaces ? databasePlaces.value : places.value, devices.value))
 const toggle = (l) => {
   layers.value = layers.value.includes(l)
     ? layers.value.filter((x) => x !== l)
@@ -448,6 +448,9 @@ async function load() {
     cameras.value = []
     devices.value = []
     alarms.value = []
+    try {
+      if (canFire('alarms')) alarms.value = (await fire.list('alarms', { pageSize: 1000 })).rows
+    } catch(e) { error.value = e.message || '真实设备事件加载失败' }
     await databaseRequest
     return
   }

@@ -1,0 +1,10 @@
+{
+  "isolated_mysql": true,
+  "business_database_accessed": false,
+  "sql_repeat_safe": true,
+  "places": 102,
+  "gateways": 1,
+  "capture_frames": 8,
+  "verification": "FIRE_ACCESS_INTEGRATION_OK",
+  "output": "FIRE_ACCESS_INTEGRATION_OK checks=646"
+}

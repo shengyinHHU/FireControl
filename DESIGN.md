@@ -29,3 +29,8 @@ The user requires database records to replace conflicting or overlapping demo re
 ## Verification
 
 Use tests/fire/place-layers.test.mjs for classification, coordinate handling, real-data precedence and marker lifecycle. Browser verification uses tests/fire/map-layers.browser.cjs with a real AMap SDK and explicitly mocked backend HTTP responses; it is not a live database/authentication integration test.
+## Device integration
+
+Database-owned resources now include places, gateways, hosts, alarms and protocolMessages. DeviceAccessView is the shared list owner, AlarmDetail the shared event-detail owner, and Shell the source-provenance owner. Keep existing navy/cyan fire.scss tokens and Element Plus controls; add no independent visual theme. Separate transport connectivity, reported fault/fire bits, device clock and server receipt time. Event records are read-only evidence, not an invented disposition workflow. Government unit 大厂街道 is readable but excluded from the four enterprise map layers. Runtime scope/permissions remain server-owned.
+
+Verification: tools/device-capture/verify_project.py and tests/fire/device-access.browser.cjs. Browser HTTP fixtures are explicitly not a live business database. Actual device fire samples and production deployment remain external acceptance steps.

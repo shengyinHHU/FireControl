@@ -1,4 +1,4 @@
-<template><ResourcePage resource="hosts" /></template>
+<template><DeviceAccessView /></template>
 <script setup>
-import ResourcePage from '@/components/Fire/ResourcePage.vue'
+import DeviceAccessView from '@/components/Fire/DeviceAccessView.vue'
 </script>

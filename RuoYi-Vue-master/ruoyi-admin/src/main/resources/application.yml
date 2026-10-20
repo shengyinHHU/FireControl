@@ -145,3 +145,14 @@ xss:
   excludes: /system/notice
   # 匹配链接
   urlPatterns: /system/*,/monitor/*,/tool/*
+
+# 消防设备 TCP 接入。运行后端时自动启动；首次运行前先执行 SQL/fire_device_access.sql。
+fire:
+  device:
+    enabled: true
+    bind-address: 10.5.90.50
+    port: 2000
+    max-connections: 32
+    # 当前为可配置的调试值，并非协议规定的心跳周期；根据实测调整。
+    idle-seconds: 600
+    online-seconds: 600

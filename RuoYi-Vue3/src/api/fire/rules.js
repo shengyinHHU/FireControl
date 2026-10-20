@@ -32,7 +32,7 @@ export function hostAlarmSummary(alarms) {
 }
 
 // Alarm classification is independent of the reporting source.
-export const isActiveFire = a => a.alarmType === 'FIRE' && ['待处理', '处理中'].includes(a.status)
+export const isActiveFire = a => a.alarmType === 'FIRE' && (a.dataSource === 'database' ? a.status === '待核验' : ['待处理', '处理中'].includes(a.status))
 export function fireAlarmPoints(alarms, places, devices = []) {
   const valid = p => p && [p.lng, p.lat].every(v => v !== null && v !== undefined && v !== '' && Number.isFinite(Number(v))) && Math.abs(Number(p.lng)) <= 180 && Math.abs(Number(p.lat)) <= 90
   return alarms.filter(isActiveFire).flatMap(a => {

@@ -24,8 +24,8 @@
                p.coordinate_system, p.location_status, p.matched_address
         FROM fire_place p
         WHERE p.del_flag = '0' AND p.status = '0'
-          AND p.place_type IN ('industry', 'highrise', 'commercial', 'elderly')
         <if test="mapOnly">
+          AND p.place_type IN ('industry', 'highrise', 'commercial', 'elderly')
           AND p.coordinate_system = 'GCJ02'
           AND p.longitude IS NOT NULL AND p.latitude IS NOT NULL
           AND p.longitude BETWEEN -180 AND 180 AND p.latitude BETWEEN -90 AND 90

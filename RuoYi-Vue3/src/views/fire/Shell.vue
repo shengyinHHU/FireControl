@@ -17,7 +17,7 @@
       </nav>
       <div class="sidebar-foot">
         <span class="online-dot"></span
-        >{{ isFireMock ? '演示环境 · 演示数据' : '消防监管业务'
+        >{{ databasePage ? '真实数据库记录' : isFireMock ? '演示环境 · 演示数据' : '消防监管业务'
         }}<small>DA CHANG · FIRE SAFETY</small>
       </div>
     </aside>
@@ -47,8 +47,9 @@
         </div>
       </header>
       <div v-if="isFireMock && !screen" class="fire-demo-bar">
-        演示数据环境 · 操作保存在当前浏览器，未连接真实消防设备
-        <el-button link @click="reset">恢复示例数据</el-button>
+        <span v-if="databasePage">当前页面使用真实数据库记录；设备通信状态以后台接收结果为准</span>
+        <span v-else>当前业务使用演示数据，操作保存在当前浏览器</span>
+        <el-button v-if="!databasePage" link @click="reset">恢复示例数据</el-button>
       </div>
       <router-view :key="route.path" />
     </main>
@@ -66,6 +67,7 @@ import { attempt } from './useFire'
 import '@/assets/styles/fire.scss'
 const route = useRoute(),
   router = useRouter()
+const databasePage = computed(() => ['/fire/places', '/fire/hosts', '/fire/alarms'].includes(route.path))
 const screen = computed(() => route.path === '/fire/dashboard')
 const menus = computed(() =>
   navigation.filter((n) => canFire(n[0] === 'video' ? 'cameras' : n[0])),

@@ -22,7 +22,7 @@
     <div class="command-subbar">
       <span
         ><i class="online-dot"></i
-        >{{ isFireMock ? '真实场所 · 其他业务为演示数据' : '街道消防安全运行态势' }}</span
+        >{{ isFireMock ? '真实场所、主机及事件 · 其他业务为演示数据' : '街道消防安全运行态势' }}</span
       >
       <div>
         <span
@@ -176,7 +176,7 @@
               >处置中心 ›</router-link
             ></template
           >
-          <div class="fire-priority-note">🔥 待处置火警 <b>{{ activeFires.length }}</b> <span>请立即核查处置</span></div>
+          <div class="fire-priority-note">🔥 待核验火警上报 <b>{{ activeFires.length }}</b> <span>请立即核查处置</span></div>
           <div v-show="!selectedAlarm" class="source-tabs">
             <button
               v-for="(s, i) in sources"
@@ -199,10 +199,10 @@
             </button>
           </div>
           <div v-if="selectedAlarm" class="selected-fire">
-            <div class="selected-fire-head"><strong>当前火警</strong><button @click="alarmId = ''">返回列表 ›</button></div>
+            <div class="selected-fire-head"><strong>火警上报（待核验）</strong><button @click="alarmId = ''">返回列表 ›</button></div>
             <h3>{{ selectedAlarm.placeName }}</h3><p>{{ selectedAlarm.name }}</p>
             <dl><dt>发生时间</dt><dd>{{ selectedAlarm.occurredAt }}</dd><dt>接入来源</dt><dd>{{ selectedAlarm.source }}</dd><dt>处置状态</dt><dd><StatusTag :value="selectedAlarm.status" /></dd></dl>
-            <div class="selected-fire-actions"><el-button type="danger" @click="alarmOpen = true">查看与处置</el-button><el-button @click="showPlace(selectedAlarm.placeId)">场所档案</el-button></div>
+            <div class="selected-fire-actions"><el-button type="danger" @click="alarmOpen = true">查看事件</el-button><el-button @click="showPlace(selectedAlarm.placeId)">场所档案</el-button></div>
           </div>
           <div v-show="!selectedAlarm" class="screen-scroll alarm-list">
             <button
@@ -241,7 +241,7 @@
                 </div>
               </div>
             </button>
-            <p v-if="!filteredAlarms.length" class="fire-empty">暂无待处置火警</p>
+            <p v-if="!filteredAlarms.length" class="fire-empty">暂无待核验火警上报</p>
           </div></Panel
         >
         <Panel title="消控主机" class="hosts-panel"
@@ -257,7 +257,7 @@
             >
           </div>
           <div class="history-head">
-            <strong>全部报警（近24h）</strong
+            <strong>设备上报（近24h）</strong
             ><el-input
               v-model="hostSearch"
               size="small"
@@ -275,7 +275,7 @@
               <p>{{ a.name }}</p>
               <small>设备：{{ a.deviceId }} · {{ a.source }}</small>
             </button>
-            <p v-if="!history.length" class="fire-empty">近24小时无匹配预警</p>
+            <p v-if="!history.length" class="fire-empty">近24小时无匹配设备事件</p>
           </div></Panel
         >
       </div>
@@ -396,43 +396,14 @@ const history = computed(() =>
   ),
 )
 const hostStats = computed(() => [
-  {
-    name: '主机总量',
-    value: stats.value.hosts || 0,
-    color: '#4ed9ee',
-    to: '/fire/hosts',
-  },
-  {
-    name: '在线量',
-    value: stats.value.online || 0,
-    color: '#45d6aa',
-    to: '/fire/hosts',
-  },
-  {
-    name: '离线量',
-    value: (stats.value.hosts || 0) - (stats.value.online || 0),
-    color: '#ed7e93',
-    to: '/fire/hosts',
-  },
-  {
-    name: '预警总数',
-    value: hostAlarmData.value.total,
-    color: '#edbd5f',
-    to: '/fire/alarms',
-  },
-  {
-    name: '办理总数',
-    value: hostAlarmData.value.closed,
-    color: '#42cea1',
-    to: '/fire/alarms?status=已办结',
-  },
-  {
-    name: '未办理总数',
-    value: hostAlarmData.value.pending,
-    color: '#edbd5f',
-    to: '/fire/alarms',
-  },
+  { name: '装置总量', value: stats.value.gateways ?? '—', color: '#4ed9ee', to: '/fire/hosts' },
+  { name: '主机总量', value: stats.value.hosts ?? '—', color: '#4ed9ee', to: '/fire/hosts?tab=hosts' },
+  { name: '在线主机', value: stats.value.online ?? '—', color: '#45d6aa', to: '/fire/hosts?tab=hosts' },
+  { name: '事件（24h）', value: stats.value.eventTotal ?? '—', color: '#edbd5f', to: '/fire/alarms' },
+  { name: '火警（24h）', value: stats.value.fireEvents ?? '—', color: '#ed7e93', to: '/fire/alarms?kind=fire' },
+  { name: '故障（24h）', value: stats.value.faultEvents ?? '—', color: '#edbd5f', to: '/fire/alarms?kind=fault' },
 ])
+
 let polling,
   ticking,
   audioContext,
@@ -447,7 +418,7 @@ async function refresh() {
     const [s, p, a, i, c] = await Promise.all([
       fire.dashboard(),
       ...['places', 'alarms', 'inspections', 'cameras'].map((r) =>
-        fire.list(r, { pageSize: 1000 }),
+        r === 'alarms' && !canFire('alarms') ? Promise.resolve({rows: [], total: 0}) : fire.list(r, { pageSize: 1000 }),
       ),
     ])
     if (disposed) return
@@ -457,6 +428,7 @@ async function refresh() {
     }
     places.value = p.rows
     alarms.value = a.rows
+    if (a.total > a.rows.length) error.value = '设备事件仅展示最近1000条，完整记录请打开设备事件页面'
     inspections.value = i.rows
     cameras.value = c.rows
     const fresh = a.rows.filter((x) => isActiveFire(x) && !seen.has(x.id))
@@ -467,7 +439,7 @@ async function refresh() {
     seen = new Set(a.rows.filter(isActiveFire).map((x) => x.id))
     initialized = true
     updated.value = new Date().toLocaleTimeString('zh-CN')
-    error.value = ''
+    if (a.total <= a.rows.length) error.value = ''
     map.value?.refresh()
   } catch (e) {
     if (!disposed) error.value = e.message

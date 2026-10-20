@@ -14,7 +14,7 @@ import com.ruoyi.system.service.IFirePlaceService;
 @Service
 public class FirePlaceServiceImpl implements IFirePlaceService
 {
-    private static final Set<String> PLACE_TYPES = Set.of("industry", "highrise", "commercial", "elderly");
+    private static final Set<String> PLACE_TYPES = Set.of("industry", "highrise", "commercial", "elderly", "government");
 
     @Autowired
     private FirePlaceMapper placeMapper;

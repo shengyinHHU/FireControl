@@ -15,17 +15,17 @@ export function hasMapCoordinates(lng, lat) {
 
 export function normalizePlaceRecord(row) {
   const layer = placeLayer(row.placeType)
-  if (!layer || row.placeId == null) return null
+  if ((!layer && row.placeType !== 'government') || row.placeId == null) return null
   return {
     ...row, id: String(row.placeId), gridId: row.gridId == null ? '' : String(row.gridId),
-    category: layer.label, lng: row.longitude == null ? null : Number(row.longitude),
+    category: layer?.label || '机关单位', lng: row.longitude == null ? null : Number(row.longitude),
     lat: row.latitude == null ? null : Number(row.latitude),
     crs: row.coordinateSystem, risk: row.riskLevel, source: 'database',
   }
 }
 
 export function normalizeMapPlace(row) {
-  if (!hasMapCoordinates(row.longitude, row.latitude)) return null
+  if (!placeLayer(row.placeType) || !hasMapCoordinates(row.longitude, row.latitude)) return null
   return normalizePlaceRecord(row)
 }
 

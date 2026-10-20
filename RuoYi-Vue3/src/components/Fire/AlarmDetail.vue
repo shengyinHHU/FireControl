@@ -1,7 +1,7 @@
 <template>
   <el-dialog
     v-model="open"
-    title="警情详情与处置"
+    :title="alarm?.dataSource === 'database' ? '设备事件详情' : '警情详情与处置'"
     width="850px"
     class="fire-dialog"
     append-to-body
@@ -9,7 +9,22 @@
       <div v-if="error" class="fire-error">
         {{ error }}<el-button @click="load">重试</el-button>
       </div>
-      <template v-if="alarm"
+      <template v-if="alarm?.dataSource === 'database'">
+        <h2>{{ alarm.name }}</h2>
+        <p class="muted">设备事件记录；不代表现场仍有火情，也不代表已完成处置。</p>
+        <el-descriptions :column="1" border>
+          <el-descriptions-item label="所属单位">{{ alarm.placeName }}</el-descriptions-item>
+          <el-descriptions-item label="传输装置">{{ alarm.gatewayName }}</el-descriptions-item>
+          <el-descriptions-item label="协议对象">{{ alarm.deviceId }}</el-descriptions-item>
+          <el-descriptions-item label="服务器接收时间">{{ alarm.occurredAt }}</el-descriptions-item>
+          <el-descriptions-item label="设备事件时间">{{ alarm.deviceTime || '未提供' }}</el-descriptions-item>
+          <el-descriptions-item label="时间核验">{{ alarm.clockWarning ? '设备时间异常或未提供，请核验' : '未发现明显偏差' }}</el-descriptions-item>
+          <el-descriptions-item label="状态">{{ alarm.status }}</el-descriptions-item>
+        </el-descriptions>
+        <h3>协议解析结果</h3><pre style="white-space:pre-wrap;overflow-wrap:anywhere;max-height:320px;overflow:auto">{{ alarm.details }}</pre>
+        <el-button @click="placeOpen = true">单位档案</el-button>
+      </template>
+      <template v-else-if="alarm"
         ><div class="alarm-heading">
           <div>
             <small class="muted">{{ alarm.code }}</small>
@@ -112,7 +127,7 @@ async function load() {
     async () => {
       const a = (await fire.get('alarms', id)).data
       let d = null
-      if (a.deviceId && canFire('devices')) {
+      if (a.dataSource !== 'database' && a.deviceId && canFire('devices')) {
         try {
           d = (await fire.get('devices', a.deviceId)).data
         } catch {

@@ -39,9 +39,10 @@ async function bundled(entry, plugins = []) {
 
 test('even in mock mode real place reads and failures never fall back to the demo repository', async () => {
   const plugin = { name: 'transport-fixture', setup(build) {
-    build.onResolve({ filter: /^(?:@\/utils\/request|@\/utils\/auth|@\/mock\/fire\/repository|\.\/config)$/ }, args => ({ path: args.path, namespace: 'fixture' }))
+    build.onResolve({ filter: /^(?:@\/utils\/request|@\/utils\/auth|@\/plugins\/auth|@\/mock\/fire\/repository|\.\/config)$/ }, args => ({ path: args.path, namespace: 'fixture' }))
     build.onLoad({ filter: /.*/, namespace: 'fixture' }, args => ({ contents:
       args.path === './config' ? 'export const isFireMock = true' :
+      args.path === '@/plugins/auth' ? 'export default { hasPermi: () => true }' :
       args.path === '@/utils/auth' ? 'export const getToken = () => "test-token"' :
       args.path === '@/mock/fire/repository' ? 'export function createRepository(){ throw Error("Demo access forbidden") }' :
       'export default async function request(config) { if(globalThis.__placeTransportError) throw Error("backend unavailable"); return config.url.endsWith("/list") ? {rows:[{placeId:"777",placeType:"industry",name:"数据库机构",longitude:null,latitude:null}],total:1} : {data:{placeId:"777",placeType:"industry",name:"数据库机构"}} }'

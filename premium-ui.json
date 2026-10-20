@@ -1,0 +1,24 @@
+{
+  "profile": "product-admin",
+  "locale": "zh-CN",
+  "sourceRoots": [
+    "RuoYi-Vue3/src/components/Fire",
+    "RuoYi-Vue3/src/views/fire",
+    "RuoYi-Vue3/src/api/fire"
+  ],
+  "canonicalMap": "UX-CONTRACT.md",
+  "requiredCapabilities": [
+    "Select/Listbox",
+    "Form",
+    "Scrollbar",
+    "Toast",
+    "CRUD"
+  ],
+  "ownership": {
+    "Select/Listbox": "authored"
+  },
+  "evidence": {
+    "crudFullFlow": "RuoYi-Vue3/tests/fire/device-access.browser.cjs",
+    "failurePaths": "RuoYi-Vue3/tests/fire/device-access.browser.cjs"
+  }
+}
