@@ -1,3 +1,4 @@
+import { clusterPlaces, placeIcon } from './mapPresentation'
 import { hasMapCoordinates, placeLayer } from './placeLayers'
 import dachangBoundary from '@/assets/geo/dachang-boundary.json'
 // AMap JS API 2.0. Browser key is public; configure serviceHost to keep the security code on the server.
@@ -46,7 +47,7 @@ export async function mountMap(container, { onSelect, onPoint, showBoundary = tr
     map.add(outside)
     for (const path of boundaryPieces) {
       const polygon = new AMap.Polygon({ path, fillColor: '#20a7ce', fillOpacity: 0.07,
-        strokeColor: '#72e4ff', strokeOpacity: 0.9, strokeWeight: 2, zIndex: 45, bubble: true })
+        strokeColor: '#72e4ff', strokeOpacity: 0.45, strokeWeight: 1, zIndex: 45, bubble: true })
       boundaryOverlays.push(polygon)
     }
     map.add(boundaryOverlays)
@@ -54,7 +55,7 @@ export async function mountMap(container, { onSelect, onPoint, showBoundary = tr
     for (const region of dachangBoundary.regions) {
       const ring = region.geometry.coordinates[0]
       const polygon = new AMap.Polygon({ path: ring, fillOpacity: 0, strokeColor: '#a8d1ed',
-        strokeOpacity: 0.3, strokeWeight: 1, zIndex: 46 })
+        strokeOpacity: 0.18, strokeWeight: 1, zIndex: 46 })
       polygon.on('click', e => {
         const content = document.createElement('div')
         content.textContent = `大厂街道 · ${region.properties.name === '白色部分' ? '产业区域（资料白色部分）' : region.properties.name}`
@@ -65,11 +66,11 @@ export async function mountMap(container, { onSelect, onPoint, showBoundary = tr
       const position = region.properties.labelPoint
       if (position) boundaryLabels.push(new AMap.Text({ position,
         text: region.properties.name === '白色部分' ? '产业区域' : region.properties.name,
-        zIndex: 60, style: { color: '#d2f4ff', background:'transparent', border:'none',
+        zIndex: 60, style: { color: '#a5bbc9', background:'transparent', border:'none',
           fontSize:'12px', textShadow:'0 1px 3px #000, 0 0 4px #000', padding:'0' } }))
     }
     const updateLabels = () => {
-      if (map.getZoom() >= 14) map.add(boundaryLabels)
+      if (map.getZoom() >= 15) map.add(boundaryLabels)
       else map.remove(boundaryLabels)
     }
     map.on('zoomend', updateLabels)
@@ -77,10 +78,12 @@ export async function mountMap(container, { onSelect, onPoint, showBoundary = tr
     fitBoundary()
   }
   const traffic = new AMap.TileLayer.Traffic({ autoRefresh: true, interval: 180 })
-  let overlays = [], draft
+  let overlays = [], draft, features, selectedPlace
+  const clusterInfo = new AMap.InfoWindow({ offset: new AMap.Pixel(0, -20) })
+  const redraw = () => { if (features) renderFeatures(features) }
+  map.on('zoomend', redraw)
   map.on('click', e => onPoint([e.lnglat.getLng(), e.lnglat.getLat()]))
-  return {
-    setFeatures({ places, grids, cameras, devices, alarms, layers }) {
+  function renderFeatures({ places, grids, cameras, devices, alarms, layers }) {
       map.remove(overlays); overlays = []
       const marker = (row, type, color) => {
         if (!hasMapCoordinates(row.lng, row.lat)) return
@@ -90,32 +93,44 @@ export async function mountMap(container, { onSelect, onPoint, showBoundary = tr
         if (type === 'place') {
           const layer = placeLayer(row.placeType)
           const icon = document.createElement('span')
-          icon.textContent = layer?.glyph || '场'
+          icon.innerHTML = placeIcon(row.placeType)
           icon.setAttribute('aria-hidden', 'true')
-          icon.style.cssText = `display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;margin-right:0;border-radius:3px;background:${color};color:#071728;font-size:14px;font-weight:700`
           const label = document.createElement('span')
+          label.className = 'fire-map-place-name'
           label.textContent = row.name
-          label.hidden = true
-          label.style.cssText = 'display:inline-block;max-width:190px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:middle'
-          // Keep dense map labels readable: show the name on pointer or keyboard focus.
-          const showLabel = () => { label.hidden = false; label.style.display = 'inline-block' }
-          const hideLabel = () => { label.hidden = true; label.style.display = 'none' }
-          hideLabel()
-          element.onmouseenter = showLabel
-          element.onmouseleave = hideLabel
-          element.onfocus = showLabel
-          element.onblur = hideLabel
           element.replaceChildren(icon, label)
           element.className = 'fire-map-place-marker'
-          element.title = `${layer?.label || row.category || '场所'}：${row.name}`
+          element.title = `${layer?.label || '场所'}：${row.name}`
           element.setAttribute('aria-label', element.title)
-          element.style.padding = '3px 7px 3px 3px'
+          element.removeAttribute('style')
+          if (selectedPlace === row.id) element.classList.add('is-selected')
         }
         if (type === 'alarm') { element.style.cssText += ';font-size:16px;background:#542638dd;border-color:#ff7966;box-shadow:0 0 20px #ff513c99'; element.setAttribute('aria-label', `火警：${row.placeName || ''} ${row.name}`) }
-        element.onclick = e => { e.stopPropagation(); onSelect(type, row.id) }
-        overlays.push(new AMap.Marker({ position: [Number(row.lng), Number(row.lat)], content: element, anchor: 'bottom-center' }))
+        element.onclick = e => { e.stopPropagation(); if (type === 'place') { selectedPlace = row.id; redraw() }; onSelect(type, row.id) }
+        overlays.push(new AMap.Marker({ position: [Number(row.lng), Number(row.lat)], content: element, anchor: type === 'place' ? 'center' : 'bottom-center', zIndex: type === 'alarm' ? 220 : 120 }))
       }
-      places.forEach(p => marker(p, 'place', placeLayer(p.placeType)?.color || '#e2a7ad'))
+      clusterPlaces(places, map.getZoom()).forEach(group => {
+        if (group.rows.length === 1) { marker(group.rows[0], 'place', '#64cfe8'); return }
+        const button = document.createElement('button')
+        button.type = 'button'
+        button.className = 'fire-map-cluster'
+        button.textContent = group.rows.length
+        button.setAttribute('aria-label', `${group.rows.length}个场所，点击展开`)
+        button.onclick = e => {
+          e.stopPropagation()
+          if (map.getZoom() < 18) { map.setZoomAndCenter(Math.min(18, map.getZoom() + 2), group.position); return }
+          const list = document.createElement('div')
+          list.className = 'fire-map-cluster-list'
+          for (const row of group.rows) {
+            const item = document.createElement('button')
+            item.type = 'button'; item.textContent = `${placeLayer(row.placeType)?.label || '场所'} · ${row.name}`
+            item.onclick = () => { selectedPlace = row.id; clusterInfo.close(); onSelect('place', row.id) }
+            list.appendChild(item)
+          }
+          clusterInfo.setContent(list); clusterInfo.open(map, group.position)
+        }
+        overlays.push(new AMap.Marker({position: group.position, content: button, anchor: 'center', zIndex: 130}))
+      })
       if (layers.includes('摄像头')) cameras.forEach(p => marker(p, 'camera', '#73dcc3'))
       if (layers.includes('告警设备')) devices.forEach(p => marker(p, 'device', '#e7bd70'))
       alarms.forEach(p => marker(p, 'alarm', '#fc788b'))
@@ -127,7 +142,9 @@ export async function mountMap(container, { onSelect, onPoint, showBoundary = tr
       map.add(overlays)
       if (layers.includes('实时路况')) map.add(traffic); else map.remove(traffic)
       map.setFeatures(layers.includes('地图POI') ? ['bg', 'road', 'building', 'point'] : ['bg', 'road', 'building'])
-    },
+    }
+  return {
+    setFeatures(value) { features = value; clusterInfo.close(); redraw() },
     setDraft(path) { if (draft) map.remove(draft); draft = new AMap.Polyline({ path, strokeColor: '#66e6ef', strokeWeight: 3 }); map.add(draft) },
     focus(position) { map.setZoomAndCenter(16, position) },
     zoom(delta) { map.setZoom(map.getZoom() + delta) },

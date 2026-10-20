@@ -9,10 +9,8 @@
       <el-descriptions-item label="场所类别">{{ mapRecord.category }}</el-descriptions-item>
       <el-descriptions-item label="场所地址">{{ mapRecord.address || '未填写' }}</el-descriptions-item>
       <el-descriptions-item label="行业类别">{{ mapRecord.industryCategory || '未填写' }}</el-descriptions-item>
-      <el-descriptions-item label="管理单位">{{ mapRecord.managementCompany || '未填写' }}</el-descriptions-item>
       <el-descriptions-item label="主要风险源">{{ mapRecord.mainRiskSources || '未填写' }}</el-descriptions-item>
       <el-descriptions-item label="坐标">{{ mapRecord.lng == null || mapRecord.lat == null ? '未定位' : `${mapRecord.lng}, ${mapRecord.lat}（GCJ-02）` }}</el-descriptions-item>
-      <el-descriptions-item label="定位状态">{{ ({ pending: '待定位', review: '待核验', confirmed: '已核验', failed: '定位失败' })[mapRecord.locationStatus] || '未定位' }}</el-descriptions-item>
     </el-descriptions><div v-else v-loading="loading">
       <div v-if="error" class="fire-error">
         {{ error }}<el-button link @click="load">重试</el-button>
