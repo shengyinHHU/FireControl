@@ -22,7 +22,7 @@
     <div class="command-subbar">
       <span
         ><i class="online-dot"></i
-        >{{ isFireMock ? '演示数据' : '街道消防安全运行态势' }}</span
+        >{{ isFireMock ? '真实场所 · 其他业务为演示数据' : '街道消防安全运行态势' }}</span
       >
       <div>
         <span
@@ -64,7 +64,7 @@
             ><span class="tiny">{{ filteredPlaces.length }} 处</span></template
           ><el-input
             v-model="search"
-            placeholder="搜索场所 / 人员手机号"
+            placeholder="搜索场所名称 / 地址"
             size="small"
             clearable
             ><template #prefix
@@ -78,7 +78,7 @@
             >
               <span
                 >{{ p.name }}
-                <small>（{{ p.onDuty?.length || 0 }}人）</small></span
+                <small v-if="Array.isArray(p.onDuty)">（{{ p.onDuty.length }}人）</small></span
               ><b>详情 ›</b>
             </button>
             <p v-if="!filteredPlaces.length" class="fire-empty">暂无匹配场所</p>
@@ -284,7 +284,7 @@
       <span>街道消防安全监管中心</span
       ><span>网格联动 · 资源共享 · 闭环管理</span
       ><span>{{
-        isFireMock ? 'DEMONSTRATION / 演示环境' : 'FIRE SAFETY OPERATIONS'
+        isFireMock ? '真实场所 / 其他业务演示' : 'FIRE SAFETY OPERATIONS'
       }}</span>
     </footer>
     <PlaceDetail
@@ -327,6 +327,7 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { ElMessage } from 'element-plus'
 import { fire } from '@/api/fire'
+import { PLACE_LAYERS } from '@/api/fire/placeLayers'
 import { canFire } from '@/api/fire/access'
 import { hostAlarmSummary, isActiveFire } from '@/api/fire/rules'
 import { isFireMock } from '@/api/fire/config'
@@ -373,7 +374,7 @@ const filteredPlaces = computed(() =>
       (!category.value || p.category === category.value) &&
       (!grid.value || p.gridId === grid.value) &&
       (!search.value ||
-        `${p.name}${p.phone}${p.owner}${(p.onDuty || []).map((u) => u.phone).join('')}`.includes(
+        `${p.name || ''}${p.address || ''}`.includes(
           search.value,
         )),
   ),
@@ -450,7 +451,10 @@ async function refresh() {
       ),
     ])
     if (disposed) return
-    stats.value = s.data
+    // Authoritative database places replace the demo place list and its category counts.
+    stats.value = { ...s.data, total: p.total,
+      categories: PLACE_LAYERS.map(layer => ({ name: layer.label, count: p.rows.filter(row => row.placeType === layer.type).length })),
+    }
     places.value = p.rows
     alarms.value = a.rows
     inspections.value = i.rows

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.FirePlaceMapper">
+    <resultMap id="FirePlaceMap" type="com.ruoyi.system.domain.FirePlace">
+        <id property="placeId" column="place_id" />
+        <result property="name" column="name" />
+        <result property="placeType" column="place_type" />
+        <result property="industryCategory" column="industry_category" />
+        <result property="managementCompany" column="management_company" />
+        <result property="address" column="address" />
+        <result property="gridId" column="grid_id" />
+        <result property="riskLevel" column="risk_level" />
+        <result property="mainRiskSources" column="main_risk_sources" />
+        <result property="longitude" column="longitude" />
+        <result property="latitude" column="latitude" />
+        <result property="coordinateSystem" column="coordinate_system" />
+        <result property="locationStatus" column="location_status" />
+        <result property="matchedAddress" column="matched_address" />
+    </resultMap>
+    <select id="selectMapPlaces" parameterType="com.ruoyi.system.domain.FirePlace" resultMap="FirePlaceMap">
+        SELECT p.place_id, p.name, p.place_type, p.industry_category,
+               p.management_company, p.address, p.grid_id, p.risk_level,
+               p.main_risk_sources, p.longitude, p.latitude,
+               p.coordinate_system, p.location_status, p.matched_address
+        FROM fire_place p
+        WHERE p.del_flag = '0' AND p.status = '0'
+          AND p.place_type IN ('industry', 'highrise', 'commercial', 'elderly')
+        <if test="mapOnly">
+          AND p.coordinate_system = 'GCJ02'
+          AND p.longitude IS NOT NULL AND p.latitude IS NOT NULL
+          AND p.longitude BETWEEN -180 AND 180 AND p.latitude BETWEEN -90 AND 90
+          AND NOT (p.longitude = 0 AND p.latitude = 0)
+        </if>
+        <if test="placeId != null">AND p.place_id = #{placeId}</if>
+        <if test="name != null and name != ''">AND p.name LIKE CONCAT('%', #{name}, '%')</if>
+        <!-- Coordinates imported as review are intentionally visible; this query does not confirm them. -->
+        <if test="placeType != null and placeType != ''">
+          AND p.place_type = #{placeType}
+        </if>
+        <!-- DataScopeAspect clears client input before injecting this server-generated fragment. -->
+        ${params.dataScope}
+        ORDER BY p.place_type, p.place_id
+        <if test="mapOnly">LIMIT 5001</if>
+    </select>
+</mapper>

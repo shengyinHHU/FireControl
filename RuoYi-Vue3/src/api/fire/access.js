@@ -1,7 +1,9 @@
 import { isFireMock } from './config'
 import auth from '@/plugins/auth'
+import { canWriteResource } from './sourcePolicy'
 export const canFire = (resource, action = 'list') =>
-  isFireMock || auth.hasPermi(`fire:${resource}:${action}`)
+  (!['add', 'edit', 'remove'].includes(action) || canWriteResource(resource)) &&
+  (isFireMock || auth.hasPermi(`fire:${resource}:${action}`))
 
 export function filterFireMenus(routes) {
   return routes.flatMap((route) => {

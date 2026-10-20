@@ -82,8 +82,8 @@
           role="button"
           tabindex="0"
           :aria-label="p.name"
-          @click.stop="emit('place', p.id)"
-          @keydown.enter="emit('place', p.id)"
+          @click.stop="selectPlace(p.id)"
+          @keydown.enter="selectPlace(p.id)"
         >
           <circle
             :cx="xy(p)[0]"
@@ -212,10 +212,26 @@
         v-for="l in layerNames"
         :key="l"
         :class="{ active: layers.includes(l) }"
+        :aria-pressed="layers.includes(l)"
+        :aria-label="l"
+        type="button"
         @click="toggle(l)"
       >
         {{ l }}
       </button>
+      <div v-if="useDatabasePlaces" class="map-place-state" role="status" aria-live="polite">
+        <span v-if="databaseLoading">正在加载场所…</span>
+        <template v-else-if="databaseError">
+          <span>{{ databaseError }}</span>
+          <el-button v-if="databaseNeedsLogin" link @click="loginForPlaces">登录</el-button>
+          <el-button v-else link @click="loadDatabasePlaces">重试</el-button>
+        </template>
+        <template v-else>
+          <span v-if="!layers.some(l => PLACE_LAYERS.some(layer => layer.label === l))">选择类别显示场所</span>
+          <span v-else>已显示 {{ shownPlaces.length }} 个场所</span>
+          <span v-if="databaseTruncated">点位超过上限，仅显示前 5000 个</span>
+        </template>
+      </div>
     </div>
     <div class="map-grid-info" v-if="selectedGrid && !editing">
       <strong>{{ grids.find((g) => g.id === selectedGrid)?.name }}</strong
@@ -262,6 +278,8 @@
             : '待配置GIS · 当前为示意底图'
       }}<span>GCJ-02</span>
     </div>
+    <PlaceDetail v-if="selectedMapPlace" v-model="databasePlaceOpen"
+      :place-id="selectedMapPlace.id" :map-place="selectedMapPlace" />
     <div class="map-zoom">
       <button aria-label="放大地图" @click="changeZoom(1)">＋</button
       ><button aria-label="缩小地图" @click="changeZoom(-1)">－</button>
@@ -272,6 +290,11 @@
 import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue'
 import { ElMessage } from 'element-plus'
 import MapBackdrop from './MapBackdrop.vue'
+import PlaceDetail from './PlaceDetail.vue'
+import { useRouter } from 'vue-router'
+import { getToken } from '@/utils/auth'
+import { listMapPlaces } from '@/api/fire/places'
+import { PLACE_LAYERS, filterMapPlaces, normalizeMapPlace } from '@/api/fire/placeLayers'
 import { fireAlarmPoints } from '@/api/fire/rules'
 import { mountMap } from '@/api/fire/mapAdapter'
 import { fire } from '@/api/fire'
@@ -287,6 +310,12 @@ const props = defineProps({
   emit = defineEmits(['place', 'camera', 'device', 'alarm', 'grid', 'pick'])
 const useRealMap = import.meta.env.VITE_FIRE_MAP_PROVIDER === 'amap',
   sdkContainer = ref()
+const router = useRouter()
+const useDatabasePlaces = useRealMap && !props.editable
+const databasePlaces = ref([]), databaseLoading = ref(false), databaseError = ref(''),
+  databaseNeedsLogin = ref(false), databaseTruncated = ref(false),
+  databasePlaceOpen = ref(false), selectedMapPlace = ref(null)
+let databaseLoadVersion = 0
 let adapter,
   disposed = false
 const svg = ref(),
@@ -315,7 +344,7 @@ const layerNames = [
     '告警设备',
     '实时路况',
   ],
-  layers = ref(layerNames.filter((l) => !['实时路况', '摄像头', '告警设备'].includes(l)))
+  layers = ref(layerNames.filter((l) => !['实时路况', '摄像头', '告警设备', ...PLACE_LAYERS.map(layer => layer.label)].includes(l)))
 const coord = ([lng, lat]) => [
     ((lng - 118.715) / 0.08) * 1000,
     800 - ((lat - 32.2) / 0.06) * 800,
@@ -348,14 +377,10 @@ const center = (g) => {
 const shownGrids = computed(() =>
   grids.value.filter((g) => !props.focusGrid || g.id === props.focusGrid),
 )
-const shownPlaces = computed(() =>
-  places.value.filter(
-    (p) =>
-      (!selectedGrid.value || p.gridId === selectedGrid.value) &&
-      layers.value.includes(p.category) &&
-      (!keyword.value || `${p.name}${p.address}`.includes(keyword.value)),
-  ),
-)
+const shownPlaces = computed(() => filterMapPlaces(
+  useDatabasePlaces ? databasePlaces.value : places.value,
+  layers.value, keyword.value, selectedGrid.value,
+))
 const shownCameras = computed(() =>
   cameras.value.filter((c) =>
     shownPlaces.value.some((p) => p.id === c.placeId),
@@ -378,8 +403,44 @@ function selectGrid(id) {
   selectedGrid.value = id
   emit('grid', id)
 }
+function loginForPlaces() {
+  router.push({ path: '/login', query: { redirect: router.currentRoute.value.fullPath } })
+}
+function selectPlace(id) {
+  const row = useDatabasePlaces && databasePlaces.value.find(place => place.id === String(id))
+  if (row) {
+    selectedMapPlace.value = row
+    databasePlaceOpen.value = true
+  } else emit('place', id)
+}
+async function loadDatabasePlaces() {
+  const version = ++databaseLoadVersion
+  databaseError.value = ''
+  databaseNeedsLogin.value = !getToken()
+  if (databaseNeedsLogin.value) {
+    databasePlaces.value = []
+    databaseLoading.value = false
+    databaseError.value = '请登录后加载场所'
+    return
+  }
+  databaseLoading.value = true
+  try {
+    const response = await listMapPlaces()
+    if (disposed || version !== databaseLoadVersion) return
+    if (!Array.isArray(response.data)) throw Error('场所数据格式异常')
+    databasePlaces.value = response.data.map(normalizeMapPlace).filter(Boolean)
+    databaseTruncated.value = Boolean(response.truncated)
+  } catch (e) {
+    if (disposed || version !== databaseLoadVersion) return
+    databasePlaces.value = []
+    databaseError.value = e?.message || '场所加载失败，请重试'
+  } finally {
+    if (!disposed && version === databaseLoadVersion) databaseLoading.value = false
+  }
+}
 async function load() {
   error.value = ''
+  const databaseRequest = useDatabasePlaces ? loadDatabasePlaces() : Promise.resolve()
   // Keep demo business records off display maps; real API data remains enabled.
   if (isFireMock && !props.editable) {
     places.value = []
@@ -387,12 +448,13 @@ async function load() {
     cameras.value = []
     devices.value = []
     alarms.value = []
+    await databaseRequest
     return
   }
   try {
     const [p, g, c, d, a] = await Promise.all(
       ['places', 'grids', 'cameras', 'devices', 'alarms'].map((r) =>
-        canFire(r)
+        canFire(r) && !(useDatabasePlaces && r === 'places')
           ? fire.list(r, { pageSize: 10000 })
           : Promise.resolve({ rows: [] }),
       ),
@@ -404,6 +466,8 @@ async function load() {
     alarms.value = a.rows
   } catch (e) {
     error.value = e.message
+  } finally {
+    await databaseRequest
   }
 }
 let drag = null
@@ -514,7 +578,7 @@ async function retryMap() {
       const instance = await mountMap(sdkContainer.value, {
         showBoundary: !props.editable && !props.pickPoint,
         onSelect: (type, id) =>
-          type === 'grid' ? selectGrid(id) : emit(type, id),
+          type === 'grid' ? selectGrid(id) : type === 'place' ? selectPlace(id) : emit(type, id),
         onPoint: (point) => {
           if (props.pickPoint) emit('pick', point)
           else if (editing.value) draft.value.push(point)
@@ -534,6 +598,7 @@ async function retryMap() {
 onMounted(retryMap)
 onBeforeUnmount(() => {
   disposed = true
+  databaseLoadVersion++
   adapter?.destroy()
 })
 function focusAlarm(id) {
@@ -698,4 +763,8 @@ defineExpose({ refresh: load, focusAlarm })
 .map-layer-buttons { top:110px; bottom:auto; z-index:4; background:#0a1733f5; padding:10px; border:1px solid #315c84; border-radius:4px; display:grid; grid-template-columns:repeat(2,1fr); max-width:260px; }
 .map-point circle { fill:#49b7d8; stroke:#b1e7ef; }
 @media(max-width:1100px) { .map-layer-buttons { left:14px; right:auto; bottom:auto; top:110px; } }
+.map-place-state { grid-column:1 / -1; min-height:28px; display:flex; flex-wrap:wrap; align-items:center; gap:6px; color:#b8d7e8; font-size:12px; line-height:1.5; }
+.map-place-state .el-button { color:#75d9f0; }
+.map-layer-buttons > button[aria-pressed="true"]::before { content:'✓ '; }
+.map-layer-buttons > button:focus-visible, .map-layer-toggle:focus-visible, .map-zoom button:focus-visible { outline:2px solid #a9e7ee; outline-offset:2px; }
 </style>

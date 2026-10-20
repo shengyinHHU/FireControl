@@ -1,11 +1,19 @@
 <template>
   <el-dialog
     v-model="open"
-    :title="place?.name || '场所档案'"
-    width="1000px"
+    :title="mapRecord?.name || place?.name || '场所档案'"
+    :width="mapRecord ? '620px' : '1000px'"
     class="fire-dialog"
     append-to-body
-    ><div v-loading="loading">
+    ><el-descriptions v-if="mapRecord" :column="1" border>
+      <el-descriptions-item label="场所类别">{{ mapRecord.category }}</el-descriptions-item>
+      <el-descriptions-item label="场所地址">{{ mapRecord.address || '未填写' }}</el-descriptions-item>
+      <el-descriptions-item label="行业类别">{{ mapRecord.industryCategory || '未填写' }}</el-descriptions-item>
+      <el-descriptions-item label="管理单位">{{ mapRecord.managementCompany || '未填写' }}</el-descriptions-item>
+      <el-descriptions-item label="主要风险源">{{ mapRecord.mainRiskSources || '未填写' }}</el-descriptions-item>
+      <el-descriptions-item label="坐标">{{ mapRecord.lng == null || mapRecord.lat == null ? '未定位' : `${mapRecord.lng}, ${mapRecord.lat}（GCJ-02）` }}</el-descriptions-item>
+      <el-descriptions-item label="定位状态">{{ ({ pending: '待定位', review: '待核验', confirmed: '已核验', failed: '定位失败' })[mapRecord.locationStatus] || '未定位' }}</el-descriptions-item>
+    </el-descriptions><div v-else v-loading="loading">
       <div v-if="error" class="fire-error">
         {{ error }}<el-button link @click="load">重试</el-button>
       </div>
@@ -184,7 +192,7 @@ import { canFire } from '@/api/fire/access'
 import { attempt } from '@/views/fire/useFire'
 import StatusTag from './StatusTag.vue'
 import VideoDialog from './VideoDialog.vue'
-const props = defineProps({ modelValue: Boolean, placeId: String }),
+const props = defineProps({ modelValue: Boolean, placeId: String, mapPlace: { type: Object, default: null } }),
   emit = defineEmits(['update:modelValue', 'changed'])
 const open = computed({
   get: () => props.modelValue,
@@ -206,8 +214,15 @@ const place = ref(null),
   cameraSelect = ref(false),
   videoOpen = ref(false),
   cameraId = ref('')
+const mapRecord = computed(() => props.mapPlace || (place.value?.source === 'database' ? place.value : null))
 let loadVersion = 0
 async function load() {
+  if (props.mapPlace) {
+    loadVersion++
+    loading.value = false
+    error.value = ''
+    return
+  }
   if (!props.placeId) return
   const version = ++loadVersion
   loading.value = true
@@ -215,6 +230,11 @@ async function load() {
   place.value = null
   try {
     const p = await fire.get('places', props.placeId)
+    if (version !== loadVersion) return
+    if (p.data?.source === 'database') {
+      place.value = p.data
+      return
+    }
     const [u, m, h, c] = await Promise.all(
       ['personnel', 'materials', 'hazards', 'cameras'].map(async (r) => {
         if (!canFire(r)) return { rows: [] }
@@ -267,7 +287,7 @@ async function call() {
   if (res) ElMessageBox.alert(res.data.message || '呼叫请求已提交', '视频呼叫')
 }
 watch(
-  () => [props.modelValue, props.placeId],
+  () => [props.modelValue, props.placeId, props.mapPlace],
   () => {
     if (props.modelValue) load()
     else loadVersion++

@@ -1,0 +1,12 @@
+{
+  "records": 101,
+  "sql_candidates": 101,
+  "unresolved": 0,
+  "network_requests": 0,
+  "review_mode": false,
+  "stopped_reason": "",
+  "api": "cached AMap JS API",
+  "selection_policy": "User authorizes one reasonable representative point per institution; no confirmed status assigned",
+  "existing_candidates_preserved": 70,
+  "additional_representative_selections": 31
+}

@@ -1,0 +1,17 @@
+{
+  "engine": "MySQL 8.0.27",
+  "isolated_instance": true,
+  "project_database_accessed": false,
+  "first_import_counts": {
+    "places": 101,
+    "contacts": 202,
+    "source_rows": 101,
+    "new_dict_types": 3,
+    "new_dict_values": 11
+  },
+  "raw_cells_roundtrip": "101/101 exact",
+  "repeat_execution": "passed; no duplicates; manual edits preserved",
+  "alternate_sql_mode": "STRICT_TRANS_TABLES,NO_BACKSLASH_ESCAPES passed",
+  "coordinate_and_relation_checks": "passed",
+  "sql_sha256": "206dae0bfe8b09366d2c3e9aa183fe9b4b13cdd16d45c01dd92a9c96c48607cf"
+}

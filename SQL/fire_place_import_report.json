@@ -1,0 +1,35 @@
+{
+  "files": [
+    {
+      "file": "2608大厂养老院重点监管企业底数清单.xlsx",
+      "sha256": "6e3d6d5735c8036fb18865d58930449ae89235f83fcec125ff0ee2bffe34a1d4",
+      "place_type": "elderly",
+      "records": 11
+    },
+    {
+      "file": "高层住宅重点监管单位汇总清单.xls",
+      "sha256": "2b427a30f8849737c9fe442165dd57676d781edcf096ce37586ee5f810d905d5",
+      "place_type": "highrise",
+      "records": 31
+    },
+    {
+      "file": "工贸企业重点监管单位汇总清单(3).xls",
+      "sha256": "35b57273cb14a48b656dc0db4da52750477e0713da05de6c4784d5202bb3ff57",
+      "place_type": "industry",
+      "records": 52
+    },
+    {
+      "file": "商业综合体重点企业汇总清单.xls",
+      "sha256": "112e3f84523fdbdcba1ffe066e0cc40984906ee69e8399c1c3908759c2499032",
+      "place_type": "commercial",
+      "records": 7
+    }
+  ],
+  "place_count": 101,
+  "contact_count": 202,
+  "source_row_count": 101,
+  "csv_files_found": [],
+  "normalization_issues": [],
+  "coordinates": "all NULL / pending; source files do not contain coordinates",
+  "names_shared_across_rows": []
+}

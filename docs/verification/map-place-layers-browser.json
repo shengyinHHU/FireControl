@@ -1,0 +1,83 @@
+{
+  "browser": "Edge + real AMap SDK",
+  "backend": "fixture responses; no business DB connection",
+  "records": 101,
+  "checks": [
+    {
+      "label": "重点企业",
+      "expected": 52
+    },
+    {
+      "label": "高层建筑",
+      "expected": 83
+    },
+    {
+      "label": "重点企业",
+      "expected": 31
+    },
+    {
+      "label": "高层建筑",
+      "expected": 0
+    },
+    {
+      "label": "综合商业体",
+      "expected": 7
+    },
+    {
+      "label": "养老院",
+      "expected": 18
+    },
+    {
+      "label": "综合商业体",
+      "expected": 11
+    },
+    {
+      "label": "养老院",
+      "expected": 0
+    },
+    {
+      "label": "重点企业",
+      "expected": 52
+    },
+    {
+      "label": "重点企业",
+      "expected": 0
+    },
+    {
+      "label": "重点企业",
+      "expected": 52
+    },
+    {
+      "label": "重点企业",
+      "expected": 0
+    },
+    {
+      "label": "重点企业",
+      "expected": 52
+    },
+    {
+      "label": "重点企业",
+      "expected": 0
+    },
+    {
+      "label": "重点企业",
+      "expected": 52
+    },
+    {
+      "label": "高层建筑",
+      "expected": 83
+    },
+    {
+      "label": "综合商业体",
+      "expected": 90
+    },
+    {
+      "label": "养老院",
+      "expected": 101
+    }
+  ],
+  "guest": "login required, no fallback markers",
+  "placeDetail": "database record, pending verification shown",
+  "errors": [],
+  "screenshot": "docs/verification/map-place-layers.png"
+}

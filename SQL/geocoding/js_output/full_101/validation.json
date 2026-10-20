@@ -1,0 +1,16 @@
+{
+  "engine": "MySQL 8.0.27",
+  "isolated_instance": true,
+  "business_database_accessed": false,
+  "source_records": 101,
+  "sql_candidates": 101,
+  "additional_sql_candidates": 31,
+  "additional_first_run_updates": 31,
+  "actual_updates_in_protection_test": 100,
+  "existing_confirmed_coordinate_preserved": true,
+  "repeat_execution_updates": 0,
+  "unresolved_left_null": 0,
+  "source_key_resolves_actual_ids_starting_at": 5001,
+  "coordinate_values_match_cached_results": true,
+  "sql_sha256": "7190eeea91a46c12b14a9c556d100494ed825a18ad1fde4e585878a3de812ab5"
+}

@@ -24,7 +24,7 @@ router.beforeEach(async (to, from) => {
   if (isFireMock && ['/', '/index'].includes(to.path)) {
     return { path: '/fire/dashboard', replace: true }
   }
-  if (isFireMock && (to.path === "/fire" || to.path.startsWith("/fire/"))) return true
+  // 消防模块包含真实数据库接口；演示模式也必须走若依登录和权限初始化。
   if (getToken()) {
     to.meta.title && useSettingsStore().setTitle(to.meta.title)
     const isLock = useLockStore().isLock

@@ -1,0 +1,12 @@
+{
+  "records": 101,
+  "sql_candidates": 70,
+  "unresolved": 31,
+  "network_requests": 156,
+  "stopped_reason": "",
+  "review_mode": false,
+  "coordinate_status": "review",
+  "api": "AMap JS API",
+  "source": "All 101 institutions; 156 cached queries; offline disambiguation only",
+  "selected_before_refinement": 66
+}

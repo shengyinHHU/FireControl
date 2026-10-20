@@ -1,6 +1,8 @@
 import request from '@/utils/request'
 import { validateDutyInput } from './rules'
 import { isFireMock } from './config'
+import { usesDatabase } from './sourcePolicy'
+import { listDatabasePlaces, getDatabasePlace } from './places'
 let repository
 async function mock() {
   if (!repository) repository = import('@/mock/fire/repository').then(({ createRepository }) => createRepository({ storage: window.localStorage }))
@@ -9,13 +11,13 @@ async function mock() {
 const resources = ['places', 'grids', 'personnel', 'materials', 'hazards', 'cameras', 'devices', 'hosts', 'tasks', 'inspections', 'alarms', 'duty', 'messages', 'smsRules', 'sms', 'shares', 'demo']
 const path = resource => { if (!resources.includes(resource)) throw Error('未知业务资源'); return `/fire/${resource}` }
 export const fire = {
-  async list(resource, query = {}) { return isFireMock ? (await mock()).list(resource, query) : request({ url: `${path(resource)}/list`, params: query }) },
-  async get(resource, id) { return isFireMock ? (await mock()).get(resource, id) : request({ url: `${path(resource)}/${encodeURIComponent(id)}` }) },
-  async create(resource, data) { return isFireMock ? (await mock()).create(resource, data) : request({ url: path(resource), method: 'post', data }) },
-  async update(resource, id, data) { return isFireMock ? (await mock()).update(resource, id, data) : request({ url: path(resource), method: 'put', data: { ...data, id } }) },
-  async remove(resource, id) { return isFireMock ? (await mock()).remove(resource, id) : request({ url: `${path(resource)}/${encodeURIComponent(id)}`, method: 'delete' }) },
+  async list(resource, query = {}) { if (resource === 'places') return listDatabasePlaces(query); return isFireMock ? (await mock()).list(resource, query) : request({ url: `${path(resource)}/list`, params: query }) },
+  async get(resource, id) { if (resource === 'places') return getDatabasePlace(id); return isFireMock ? (await mock()).get(resource, id) : request({ url: `${path(resource)}/${encodeURIComponent(id)}` }) },
+  async create(resource, data) { if (usesDatabase(resource)) throw Error('场所已使用真实数据库，请通过已接入的管理接口维护'); return isFireMock ? (await mock()).create(resource, data) : request({ url: path(resource), method: 'post', data }) },
+  async update(resource, id, data) { if (usesDatabase(resource)) throw Error('场所已使用真实数据库，请通过已接入的管理接口维护'); return isFireMock ? (await mock()).update(resource, id, data) : request({ url: path(resource), method: 'put', data: { ...data, id } }) },
+  async remove(resource, id) { if (usesDatabase(resource)) throw Error('场所已使用真实数据库，请通过已接入的管理接口维护'); return isFireMock ? (await mock()).remove(resource, id) : request({ url: `${path(resource)}/${encodeURIComponent(id)}`, method: 'delete' }) },
   async dashboard() { return isFireMock ? (await mock()).dashboard() : request({ url: '/fire/dashboard' }) },
-  async action(resource, id, action, data = {}) { return isFireMock ? (await mock()).action(resource, id, action, data) : request({ url: `${path(resource)}/${encodeURIComponent(id || '_')}/${action}`, method: 'post', data }) }
+  async action(resource, id, action, data = {}) { if (usesDatabase(resource)) throw Error('场所已使用真实数据库，请通过已接入的管理接口维护'); return isFireMock ? (await mock()).action(resource, id, action, data) : request({ url: `${path(resource)}/${encodeURIComponent(id || '_')}/${action}`, method: 'post', data }) }
 }
 export const transitionAlarm = (id, data) => fire.action('alarms', id, 'transition', data)
 export const bindCamera = (id, cameraId) => fire.action('devices', id, 'bind-camera', { cameraId })

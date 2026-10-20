@@ -1,3 +1,4 @@
+import { hasMapCoordinates, placeLayer } from './placeLayers'
 import dachangBoundary from '@/assets/geo/dachang-boundary.json'
 // AMap JS API 2.0. Browser key is public; configure serviceHost to keep the security code on the server.
 let sdkPromise
@@ -82,15 +83,39 @@ export async function mountMap(container, { onSelect, onPoint, showBoundary = tr
     setFeatures({ places, grids, cameras, devices, alarms, layers }) {
       map.remove(overlays); overlays = []
       const marker = (row, type, color) => {
-        if (!Number.isFinite(Number(row.lng)) || !Number.isFinite(Number(row.lat))) return
+        if (!hasMapCoordinates(row.lng, row.lat)) return
         const element = document.createElement('button')
         element.type = 'button'; element.textContent = `${type === 'camera' ? '▣' : type === 'alarm' ? '🔥' : '●'} ${row.name}`
         element.style.cssText = `background:#082539;color:${color};border:1px solid ${color};padding:5px 7px;border-radius:3px;white-space:nowrap;cursor:pointer;font-size:11px`
+        if (type === 'place') {
+          const layer = placeLayer(row.placeType)
+          const icon = document.createElement('span')
+          icon.textContent = layer?.glyph || '场'
+          icon.setAttribute('aria-hidden', 'true')
+          icon.style.cssText = `display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;margin-right:0;border-radius:3px;background:${color};color:#071728;font-size:14px;font-weight:700`
+          const label = document.createElement('span')
+          label.textContent = row.name
+          label.hidden = true
+          label.style.cssText = 'display:inline-block;max-width:190px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:middle'
+          // Keep dense map labels readable: show the name on pointer or keyboard focus.
+          const showLabel = () => { label.hidden = false; label.style.display = 'inline-block' }
+          const hideLabel = () => { label.hidden = true; label.style.display = 'none' }
+          hideLabel()
+          element.onmouseenter = showLabel
+          element.onmouseleave = hideLabel
+          element.onfocus = showLabel
+          element.onblur = hideLabel
+          element.replaceChildren(icon, label)
+          element.className = 'fire-map-place-marker'
+          element.title = `${layer?.label || row.category || '场所'}：${row.name}`
+          element.setAttribute('aria-label', element.title)
+          element.style.padding = '3px 7px 3px 3px'
+        }
         if (type === 'alarm') { element.style.cssText += ';font-size:16px;background:#542638dd;border-color:#ff7966;box-shadow:0 0 20px #ff513c99'; element.setAttribute('aria-label', `火警：${row.placeName || ''} ${row.name}`) }
         element.onclick = e => { e.stopPropagation(); onSelect(type, row.id) }
         overlays.push(new AMap.Marker({ position: [Number(row.lng), Number(row.lat)], content: element, anchor: 'bottom-center' }))
       }
-      places.forEach(p => marker(p, 'place', '#e2a7ad'))
+      places.forEach(p => marker(p, 'place', placeLayer(p.placeType)?.color || '#e2a7ad'))
       if (layers.includes('摄像头')) cameras.forEach(p => marker(p, 'camera', '#73dcc3'))
       if (layers.includes('告警设备')) devices.forEach(p => marker(p, 'device', '#e7bd70'))
       alarms.forEach(p => marker(p, 'alarm', '#fc788b'))

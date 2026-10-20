@@ -1,0 +1,608 @@
+[
+  {
+    "source_key": "34429ebb6ee6030177525d25757606a3b3d35190d72148ccbbf19c52bfe65caa",
+    "name": "南京市幸福友邻养老院",
+    "address": "南钢九龙路23号",
+    "place_type": "elderly"
+  },
+  {
+    "source_key": "f2a95149cf39347c23066dfd50b09fe91bd9d313ef07d450a1eedd8d1669d3ef",
+    "name": "南京市江北新区宝润老年公寓",
+    "address": "大厂街道宝润花园1幢102-104室",
+    "place_type": "elderly"
+  },
+  {
+    "source_key": "07cc74a082a98fb83e37e2af59e424f8d326871c2e1b07c79ca196d5a2b07d0d",
+    "name": "南京市江北新区念家老年公寓",
+    "address": "南京市江北新区旭东路535号",
+    "place_type": "elderly"
+  },
+  {
+    "source_key": "42fd61691eb357f36e01557c4651c67dfcfbe08672e545e88753712e0cc9e2e9",
+    "name": "南京市江北新区安平养老护理院",
+    "address": "南京市江北新区大厂毕洼路166号",
+    "place_type": "elderly"
+  },
+  {
+    "source_key": "45070cbc7063dc1143986a472733f842213e26adc51d6789b8d9a7268ad41083",
+    "name": "南京市安发养老有限公司",
+    "address": "南京市江北新区大厂毕洼路166号8号楼、10号楼",
+    "place_type": "elderly"
+  },
+  {
+    "source_key": "47a7c24ad1a9c8652c457a047b22b2ac3843018af2b1fb8e038a93726e48283a",
+    "name": "南京市江北新区周洼老年公寓",
+    "address": "南京市江北新区大厂街道周洼新村27幢付二楼",
+    "place_type": "elderly"
+  },
+  {
+    "source_key": "b154007f62db45eb0ee155d1d44cabc47b8dbf16e1ca1b4c860259ac8b8e639c",
+    "name": "南京市大厂柏杨树老年公寓",
+    "address": "南京市江北新区大厂街道宋家庄178号",
+    "place_type": "elderly"
+  },
+  {
+    "source_key": "85d6d37921ae8dd8bb72f5513b571e1f1e3b3afda10e12ee0ce5b1d974fd6905",
+    "name": "南京市江北新区润源养老院",
+    "address": "南京市江北新区大厂街道凤凰南路158号",
+    "place_type": "elderly"
+  },
+  {
+    "source_key": "cc8b1a47d94e638b1283a691aede0d8e5825a76e6b5082311995ff0f4ca95ad7",
+    "name": "南京市江北新区和煦夕阳护养院",
+    "address": "南京市江北新区大厂街道育英路299号",
+    "place_type": "elderly"
+  },
+  {
+    "source_key": "c08edfcc724015c45ea7ed97a961982a4e8e53b498323127458d9a7862c4c342",
+    "name": "南京市江北新区扬子养老院",
+    "address": "南京市江北新区大厂街道太子山路59号",
+    "place_type": "elderly"
+  },
+  {
+    "source_key": "bd08766b58e934683caf282beae294c568d38742d2e48957c6564a7cfecd8e3b",
+    "name": "南京市聚福源养老服务有限公司",
+    "address": "南京市江北新区大厂街道凤凰南路19号",
+    "place_type": "elderly"
+  },
+  {
+    "source_key": "90c668a736ff7570947545be82bce607dd1a204e27f7069483b6f8406a56a5ed",
+    "name": "凤滨嘉园",
+    "address": "大厂凤滨路18号",
+    "place_type": "highrise"
+  },
+  {
+    "source_key": "58f75850263b739ef3bd36b1eeb17d707364116f49ff19227cb063b4c23b5fc2",
+    "name": "桂馨园",
+    "address": "大厂新华西路326号",
+    "place_type": "highrise"
+  },
+  {
+    "source_key": "a71261eba7ba05692804fc122d14102bdc1a5695d61e249db20f6451bb996ee9",
+    "name": "三丰公寓",
+    "address": "大厂新华路129号",
+    "place_type": "highrise"
+  },
+  {
+    "source_key": "1b42cf91e5844deb384c8e23e5c7663b1d9be50de41088263561f699d9ee7f9c",
+    "name": "滕泰雅苑",
+    "address": "大厂草芳路118号",
+    "place_type": "highrise"
+  },
+  {
+    "source_key": "a59b2eae2cd180e0b2ab53b7c2cf1ca86ccda85649fdbb9fc562a37010fbe0cd",
+    "name": "恒丰世家",
+    "address": "大厂毕洼西路299号",
+    "place_type": "highrise"
+  },
+  {
+    "source_key": "c675fa36d73f9b0eccb0a36d2a074e14e22b68957f3abb89d797df3cef99772d",
+    "name": "荣盛水景城",
+    "address": "大厂草芳路213号",
+    "place_type": "highrise"
+  },
+  {
+    "source_key": "0fa21fff04b19bf3f80b08a41147a8346b3c3aec53b31316a6f938e4b59c0ff2",
+    "name": "兰亭苑",
+    "address": "大厂草芳路600号",
+    "place_type": "highrise"
+  },
+  {
+    "source_key": "6a3d90e31beddebdf8dd43baa7221504de24c5937287d6f67753568a8fd0f6c0",
+    "name": "水榭花苑",
+    "address": "大厂杨村路199号",
+    "place_type": "highrise"
+  },
+  {
+    "source_key": "2d77a35d0581229c435242582871a3c4afea5014f7ca0c3647762caede96389a",
+    "name": "欣城峰景",
+    "address": "大厂欣乐路19号",
+    "place_type": "highrise"
+  },
+  {
+    "source_key": "2eae3c3010d6fbe6fe2b1b6ae9c799887d5a56795498f664e283430a503eeb37",
+    "name": "新天地四季花街",
+    "address": "大厂街道十村新天地8号",
+    "place_type": "highrise"
+  },
+  {
+    "source_key": "e1f18f45afb240c5ecac61316eaaffed1a19ce399131a91e87b503d990b46a4d",
+    "name": "元茂大厦",
+    "address": "大厂葛关路380号",
+    "place_type": "highrise"
+  },
+  {
+    "source_key": "e3573599c8880e51f31489d3c112587c0dd14a47d3aee8aed5e8cb27cb6329c1",
+    "name": "绣景雅苑",
+    "address": "大厂葛关路703号",
+    "place_type": "highrise"
+  },
+  {
+    "source_key": "70b975451846864ef3d450ad2ff5dc051c8334a8f6280f5c213136976b505bbb",
+    "name": "银江花园",
+    "address": "南京市六合区大厂团结路8号",
+    "place_type": "highrise"
+  },
+  {
+    "source_key": "774076076bb8d00a8fe4a5a5a1ea4f2a6913f70cb736df115d00ede0c585933b",
+    "name": "碧景山庄",
+    "address": "六合区丁家山路36号",
+    "place_type": "highrise"
+  },
+  {
+    "source_key": "c7c934d9218f6572ccebc20590913d76787a5362baab2fe01866dc3f20b97f8f",
+    "name": "旭东新城",
+    "address": "大厂健民路400号",
+    "place_type": "highrise"
+  },
+  {
+    "source_key": "85f2c51c6231087b7bf066cb6febc1d4a0eeed6c0ed57a8514e8fbd9b9d8ac4e",
+    "name": "钻石星城",
+    "address": "大厂街道新华路468号",
+    "place_type": "highrise"
+  },
+  {
+    "source_key": "0fa0f6338d7d291ac39ec1ceeb4945312fe8cd5d4cc3450f38fa778d59a705dc",
+    "name": "山潘新苑",
+    "address": "大厂毕洼西路99号",
+    "place_type": "highrise"
+  },
+  {
+    "source_key": "fcbb342fcc573afe067ea6ebfd4694119bd4b2876719008fc4e535f41fa1d2f6",
+    "name": "化建新一村53-55",
+    "address": "大厂旭东路",
+    "place_type": "highrise"
+  },
+  {
+    "source_key": "f7a335809e124c65434f101d81c48987d3f1cd4bad844428a6a25dbd814aba43",
+    "name": "扬子1村",
+    "address": "大厂杨村路",
+    "place_type": "highrise"
+  },
+  {
+    "source_key": "36eaf895e917ccb0f57634e69a41258966a1d7a804dfe6498e392e71c8046742",
+    "name": "扬子6村",
+    "address": "大厂杨村路",
+    "place_type": "highrise"
+  },
+  {
+    "source_key": "c793b860342f4d217bebd4b2e74d6ddc7f998dd494a030d4bd033ddcd9794364",
+    "name": "扬子19村",
+    "address": "大厂杨村路",
+    "place_type": "highrise"
+  },
+  {
+    "source_key": "096e222215cde9afa9714784c010e09689286ff0425af30f471c11d1ff5eab90",
+    "name": "扬子14村（10-11）",
+    "address": "大厂杨村路",
+    "place_type": "highrise"
+  },
+  {
+    "source_key": "28718a5812bfdd571a2cb5c2f47a88b76d586cc1406c13a82fe3da44d7162319",
+    "name": "扬子20村",
+    "address": "大厂杨村路",
+    "place_type": "highrise"
+  },
+  {
+    "source_key": "f54e171376817a04154de455ef330d0699e8abbd3393197869ab797bae17a73e",
+    "name": "扬子14村",
+    "address": "大厂杨村路",
+    "place_type": "highrise"
+  },
+  {
+    "source_key": "8564ef160db75a687daef6c8a76067c13642bc02902281413632a777ca00f28c",
+    "name": "扬子21村",
+    "address": "大厂杨村路",
+    "place_type": "highrise"
+  },
+  {
+    "source_key": "10505089fcd2c90cb49e1043270d5ba5c74890c235497ce8a9fe178c99b6dcd4",
+    "name": "山居花园",
+    "address": "大厂新华西路",
+    "place_type": "highrise"
+  },
+  {
+    "source_key": "3e1239460a165de47c6e2255e42d32fa833ad12bdabf8449a73df22fcb5fef2b",
+    "name": "铭望府",
+    "address": "南京市六合区大厂街道山潘东街3号",
+    "place_type": "highrise"
+  },
+  {
+    "source_key": "12b531d6172fd8f12f4dc91b6d995a01409dbb5dbad392d34c895fa1160718d0",
+    "name": "时代芳华",
+    "address": "南京市六合区山潘东街2号",
+    "place_type": "highrise"
+  },
+  {
+    "source_key": "eec0a53c149d60cedfa2b1ec927c3662cf12a6f3dc96e858063f8b21c170ed08",
+    "name": "芳华名邸",
+    "address": "南京市六合区山潘东街4号",
+    "place_type": "highrise"
+  },
+  {
+    "source_key": "fc67275e11352b351fee3cfbbcb9baac5d75fbf739e7d577a54a6e955dbc1431",
+    "name": "云玥美著苑",
+    "address": "南京市江北新区大厂街道新华路、园东路交叉",
+    "place_type": "highrise"
+  },
+  {
+    "source_key": "54ddd5941afd5e9df8f1ffc5468ad67620371477bac8b6115f668b96109a43b3",
+    "name": "暄玥府",
+    "address": "南京市江北新区大厂街道山潘三路",
+    "place_type": "highrise"
+  },
+  {
+    "source_key": "435e58294e69878d4c8f11629e44c11d92401888cb2a502e2a765e19e074b9c3",
+    "name": "中石化南京化工机械有限公司",
+    "address": "南京市江北新区大厂街道姜桥1号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "fbd2891454ef509ca8150bd2350017dadd1310ad26519b1d54d8f3ea19ed3e3f",
+    "name": "南京凯联服饰有限公司",
+    "address": "南京市江北新区大厂街道太子山路49号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "acbfe00db0777c27ffec8c2308da5afadcc85798dfa862445b642b942e121518",
+    "name": "南京格采电力设备有限公司",
+    "address": "南京市江北新区丁家山路202号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "432f212941369a9deeab19ed57be1fcf2a3ec887ff5b1dbec063555de8f3284d",
+    "name": "南京大化机工程有限公司",
+    "address": "南京市江北新区新华路598号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "477b5c9f3e099a5ea359c3dccd814249a0f5cb606d3866568bb34fbda73a7414",
+    "name": "南京博大重型锻造有限公司",
+    "address": "南京市六合区姜桥500号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "e3f221edb7d592c2690e9cffc84445c31c2d378dae7eea4e40aa5a2a92544033",
+    "name": "南京钢铁集团建设有限公司",
+    "address": "南京市六合区卸甲甸幸福路1号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "7e7ab20e9a87b571c1831744dc6c9011819a72d2288b92e3badab50a58d59e20",
+    "name": "南京禾诚石化装备工程有限公司",
+    "address": "南京市江北新区大厂街道毕洼路123号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "f613e31e1e7ebae05c4971dd73227c68d6a456aff03775f1b9786181ef7a74b5",
+    "name": "南京钢铁集团盛达实业有限公司",
+    "address": "南京市江北新区宁钢路69号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "394a93c1b2ff2a65388eaee2ed9026c4744cf5e7fd9ecaf0e0b92dbfac4aaafe",
+    "name": "中交三航局第三工程有限公司建筑工业分公司",
+    "address": "南京市江北新区湛水路700号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "71350587d52607d9b15fa7d89598723818d859db4fa4277988c126ece7d54c5a",
+    "name": "江苏南钢钢材加工配送有限公司",
+    "address": "南京市江北新区幸福路1号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "c7d07417aa8c30b074a7a62ec4514249127ad86ac0148f2fe96aefd07265882a",
+    "name": "南京钢铁集团江苏冶金机械有限公司",
+    "address": "南京市六合区卸甲甸",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "a7c95719c6d24f93596d41ffbc658249a123b68701fdaf8d269f6d1d9fe75436",
+    "name": "南京康明服饰有限责任公司水洗分公司",
+    "address": "南京市沿江工业开发区湛水路668号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "4e637abf51e8e1a9bec6bec2f122a8d1180f1d9bf8065ec7d5dc8cd4aa0826aa",
+    "name": "南京涂瑞新材料有限公司",
+    "address": "大厂街道杨新路38号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "7a6a2c57b679b10a8d689f5ff0b4bf8253a2f5e0235c4699c246cfc6bb6fb4b4",
+    "name": "南京酷众机械制造有限公司",
+    "address": "丁家山路222号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "de5294fa427eae27091a8192ac1673cd399c62ebd43cb1c74e722f8a11ec5913",
+    "name": "南京金荣春洗涤有限公司",
+    "address": "凤凰南路233号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "352105fde18309ddb8891f2e2585829f3b0bf72f32ce5bd120d8150822a023b9",
+    "name": "南京科尔生物技术有限公司",
+    "address": "南京市丁家山路191号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "585b7351323f2d648b860ebd85ad0d7b51f89883c324977f6aae686e44d76a0a",
+    "name": "南京顺旺机电科技有限公司",
+    "address": "南京市丁家山路191号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "f7d97285c327ba9001ceafa9360aa7b94656dda25523fcc2b6dc0bb0e53035d6",
+    "name": "南京扬恩商贸有限公司",
+    "address": "南京市江北新区大厂街道丁家山路10号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "5720d044c0411d9c1927fbdfd2bdf45fbd8920c1d2f1fe57f089c456f9624385",
+    "name": "南京卓泽化工设备有限公司",
+    "address": "南京市江北新区大厂街道丁家山路168号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "4da18cbd03e9860a31f0289cb5d7e6358e2e5d670c9f944ff6cb52820fd18dfb",
+    "name": "南京双润金属加工有限公司",
+    "address": "南京市江北新区大厂街道丁家山路188号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "71be42d89321fb98c2cade485e275554cf527658e6d0239d0fd39a6d3a95910d",
+    "name": "南京紫燕科技有限公司",
+    "address": "南京市江北新区大厂街道丁家山路192号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "31202bec5cb76f07739f40d01ae5c12364e51f1ec3a33a3548f0dcb303c59eb7",
+    "name": "南京诚安石化装备工程有限公司",
+    "address": "南京市江北新区大厂街道丁家山路222号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "1215cbce75322625800cfd145a20b3c3723e02f36f3cffedf0cf50ab95eb0366",
+    "name": "南京畅达机械厂",
+    "address": "南京市江北新区大厂街道葛关路42号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "878ac0a687527c41ffbfb2ff49e80434098141ab7b4cafcacac67d3773c7bf39",
+    "name": "南京淼焱消防设备制造有限公司",
+    "address": "南京市江北新区大厂街道和平社区周洼组257号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "d96eaa3d9ae73494b0d9aabe1ed7b1272abdcbdd64f263d57fc5799525c2bb91",
+    "name": "南京凯曼仪器仪表有限责任公司",
+    "address": "南京市江北新区大厂街道姜桥1号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "026cef589d8a122fc0d3d89adec386459363c0bc9f33c5d5969a6852514214a1",
+    "name": "南京嘉华混凝土有限公司",
+    "address": "南京市江北新区大厂街道马汊河大纬桥南面",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "7032de9f4b4c7a32c983fd1e2fde5adc0e8b1a4703ab6998a1e0ea2ae293d958",
+    "name": "南京圣凰制衣有限公司",
+    "address": "南京市江北新区大厂街道太子山路44号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "e69f4f723ccb86fcefce976f3c08e1c7ab2ff1a74a31093ed57ea3b3058dd316",
+    "name": "南京飞涛食品有限公司",
+    "address": "南京市江北新区大厂街道太子山路49号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "41fbd026681e7a1fa18e732597c4e44b2d038a6acbd4f69b6095931a74492eae",
+    "name": "南京嘉思特塑业有限公司",
+    "address": "南京市江北新区大厂街道新华东路103号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "1e546ed6f97627c55874d779dbad76925deda809fdace63ecb6bf27e991580c5",
+    "name": "南京科晋橡塑科技有限公司",
+    "address": "南京市江北新区大厂街道新华东路246-1号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "aaff555373222e868edfeb91c47fd337c2b4be9a2e50d783edfa1288ac0363f0",
+    "name": "南京桑普力遮阳设备制造有限公司",
+    "address": "南京市江北新区大厂街道兴达路88号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "0046db10496b93a31cf616f4ec4794e0051bf5dc93b65f537e8e08fc509593ca",
+    "name": "南京好味来食品有限责任公司",
+    "address": "南京市江北新区大厂太子山路47号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "f2dbf2b5f6e2d1d938f99f7f23fb9156bde30889db0a4ce0e8822cb090c1a1a5",
+    "name": "南京锦润制衣有限公司",
+    "address": "南京市江北新区大厂兴达路88号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "18c5aece40412d324969b214197479026cd84ae57b856e24af97579f6ed6710d",
+    "name": "南京南傲电机有限公司",
+    "address": "南京市江北新区丁家山路202号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "6cc91dbc8f36856bcf65dbf6a938c85c855ed785d98f3de754caede60f85a215",
+    "name": "新疆大成鑫源金属科技有限公司南京分公司",
+    "address": "南京市江北新区丁家山路169号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "d554d5dca625328dd4ac99ebcd3a1c74776259a52b0fc0c4598e887d1302f9bc",
+    "name": "南京铁宏轨道车辆装备制造有限公司",
+    "address": "南京市江北新区丁家山路179号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "70bd6f6da3a346ed15b2bfc73f646522a42c96ec12f8d01c311a726bd7b4f686",
+    "name": "南京宁华塑料制品有限公司",
+    "address": "南京市江北新区丁家山路179号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "fbacefe3674788beeaebfcb5e8a9315192b0839ffe780500a6ffa6f172a07dd7",
+    "name": "南京科淼机电有限公司",
+    "address": "南京市江北新区丁家山路188号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "0b49a182f342b01c7631e3f33e2cfc18a04e91c753cd5c786adf877bf6ba7c57",
+    "name": "南京雀和机电设备有限公司",
+    "address": "南京市江北新区丁家山路188号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "f7e1aa086e6d10bc5c215e857fa12198317a866aace7d8a80db7d1d6144a877a",
+    "name": "江苏福得工程技术有限公司",
+    "address": "南京市江北新区丁家山路202号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "99ad69503c881e6a9893f8dd35b911b035248b087d8cb4b04529384c0b94dccd",
+    "name": "南京金晖机电检修有限责任公司",
+    "address": "南京市江北新区区大厂街道杨新路252号-3",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "4d8e238325f38124217be520e6e02192602afbb1de06475e577898e9f65b7bea",
+    "name": "南京众悦机械设备有限责任公司",
+    "address": "南京市江北新区唐国寺组246-8号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "1c48e40005f51944e3ccbdf2ee5bf7a341fb16cd582cb6efb31d125b9f27500b",
+    "name": "南京苏凌机械有限责任公司",
+    "address": "南京市江北新区新华东路139号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "56af06b61bd518fd3d7322a440de30b942533233cb78253b28fba74c5d9885df",
+    "name": "南京玖聚复合材料有限公司",
+    "address": "南京市江北新区沿江工业开发区丁家山路202号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "11603c9561365f1b20c1d6d217c9b4929a4bf0874c0ee4221a4878de839ebbac",
+    "name": "南京新启源探测装备有限责任公司",
+    "address": "南京市江北新区杨新路340号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "f347c8b1b185a665d68b66212599bc8926575c2bbe0f0505e7f76cda2d833a3b",
+    "name": "南京乙氏环保智能科技有限公司",
+    "address": "南京市江北新区杨新路38号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "0f47295d3bf878131c21d134a236f38ca3311597f8c0a2459a80f192c43fd3e5",
+    "name": "南京官唐机电制造有限公司",
+    "address": "南京市六合区大厂凤凰南路43号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "c8b633b37087738d7905f78a9a68c45415de4bbf89883fad1d1b6245b7cbf148",
+    "name": "南京驰纳包装材料有限公司",
+    "address": "南京市六合区大厂街道和平社区丁家山192号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "89022909c481ac03dd5659ecdd0ed5310ace95aa2b3c638726198c5cc348ae78",
+    "name": "南京全意包装材料有限公司",
+    "address": "南京市六合区大厂街道新华东路246号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "a07b56c1ee64aa623c434615b6eeeb1d2fd507c477943f81bab4cff0a6ac0922",
+    "name": "南京吉港大件起重吊装有限公司",
+    "address": "南京市六合区丁家山路188号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "802e0b10805ca2c90346eb6e09fd42ab8387f08e8b329d62af4571043cdb7793",
+    "name": "南京润友冶金机械有限公司",
+    "address": "南京市沿江工业开发区卸甲甸",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "90ad71a23d9183705c2359c207c25b4368118dd8e3eb82a1f5cbb349c278d906",
+    "name": "南京共创金属制品有限公司",
+    "address": "园东路149号",
+    "place_type": "industry"
+  },
+  {
+    "source_key": "f701373145de81ad94ba442f2619cbe694d57fdbb1d7c05c649f22951cd78309",
+    "name": "南京永利购物中心有限公司",
+    "address": "大厂葛关路298号",
+    "place_type": "commercial"
+  },
+  {
+    "source_key": "2c727e36d453f2a4c2a78d574b3a3ff57e66033f681aff25c59f48643f79235a",
+    "name": "金宝商业广场",
+    "address": "欣乐路181号",
+    "place_type": "commercial"
+  },
+  {
+    "source_key": "238813b30cbc614197e4a0a700344ea34d1856841eecae928c5f9071e37ef3fb",
+    "name": "南京力普商业管理有限公司（永腾广场）",
+    "address": "江北新区大厂杨新路178号",
+    "place_type": "commercial"
+  },
+  {
+    "source_key": "a127fbf8c281f1ef8f42a481d5e663332aa83a0fb3802487c5276e7f68550aa6",
+    "name": "南京淳乐商业管理有限公司江北分公司（鑫乐生活广场）",
+    "address": "新华路138号",
+    "place_type": "commercial"
+  },
+  {
+    "source_key": "b764e80060fa2536ad7ee0b395840934e1b288e63949b1c5b59c133ac2ca017e",
+    "name": "大厂苏宁易购",
+    "address": "长冲街88号",
+    "place_type": "commercial"
+  },
+  {
+    "source_key": "8d881f3266836d6d043fddb7fd0071a43b3ef3553c71ffdab105bc71856561ba",
+    "name": "京东五星大厂店",
+    "address": "永利购物中心1-3楼",
+    "place_type": "commercial"
+  },
+  {
+    "source_key": "ee030d1aca47715981ceae469d1f6fdbcde32330faf55de284175af00a708edd",
+    "name": "南京金年华广场有限公司",
+    "address": "大厂新华路528号",
+    "place_type": "commercial"
+  }
+]
