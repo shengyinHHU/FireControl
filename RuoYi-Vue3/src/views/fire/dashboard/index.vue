@@ -495,7 +495,8 @@ async function showDevice(id) {
 async function fullscreen() {
   try {
     if (document.fullscreenElement) await document.exitFullscreen()
-    else await screen.value.requestFullscreen()
+    // Include dialogs and messages teleported to body in the fullscreen subtree.
+    else await document.documentElement.requestFullscreen()
   } catch {
     ElMessage.info('浏览器未允许全屏，请使用 F11')
   }
