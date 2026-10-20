@@ -69,15 +69,15 @@ test('map adapter removes stale markers, does not duplicate after repeated toggl
     constructor() { FakeMap.latest = this; this.overlays = new Set() }
     add(items) { for (const item of Array.isArray(items) ? items : [items]) this.overlays.add(item) }
     remove(items) { for (const item of Array.isArray(items) ? items : [items]) this.overlays.delete(item) }
-    on() {} setFeatures() {} destroy() { this.overlays.clear() }
+    getZoom() { return 14 } on() {} setFeatures() {} destroy() { this.overlays.clear() }
   }
   class Element {
     constructor() { this.style = {}; this.attributes = {}; this.children = [] }
-    setAttribute(k, v) { this.attributes[k] = v }
+    setAttribute(k, v) { this.attributes[k] = v } removeAttribute(k) { delete this.attributes[k] }
     replaceChildren(...children) { this.children = children }
   }
   const beforeWindow = globalThis.window, beforeDocument = globalThis.document
-  globalThis.window = { AMap: { Map: FakeMap, Marker, TileLayer: { Traffic: class {} } } }
+  globalThis.window = { AMap: { Map: FakeMap, Marker, Pixel: class {}, InfoWindow: class { close() {} }, TileLayer: { Traffic: class {} } } }
   globalThis.document = { createElement: () => new Element() }
   try {
     const adapter = await mountMap({}, { showBoundary: false, onSelect() {}, onPoint() {} })
@@ -86,8 +86,8 @@ test('map adapter removes stale markers, does not duplicate after repeated toggl
     const markers = () => [...FakeMap.latest.overlays].filter(x => x instanceof Marker)
     render(['重点企业']); assert.equal(markers().length, 1)
     assert.deepEqual(markers()[0].options.position, [118.75, 32.23])
-    assert.equal(markers()[0].options.content.children[0].textContent, '企')
-    render(['重点企业', '养老院']); assert.equal(markers().length, 2)
+    assert.match(markers()[0].options.content.children[0].innerHTML, /<svg/)
+    render(['重点企业', '养老院']); assert.equal(markers().length, 1); assert.equal(markers()[0].options.content.textContent, 2)
     render(['养老院']); assert.equal(markers().length, 1)
     render([]); assert.equal(markers().length, 0)
     for (let i = 0; i < 10; i++) { render(['重点企业']); render([]) }

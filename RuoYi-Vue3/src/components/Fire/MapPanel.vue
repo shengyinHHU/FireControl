@@ -287,6 +287,7 @@
   </div>
 </template>
 <script setup>
+import '@/api/fire/mapPresentation.css'
 import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue'
 import { ElMessage } from 'element-plus'
 import MapBackdrop from './MapBackdrop.vue'
@@ -344,7 +345,7 @@ const layerNames = [
     '告警设备',
     '实时路况',
   ],
-  layers = ref(layerNames.filter((l) => !['实时路况', '摄像头', '告警设备', ...PLACE_LAYERS.map(layer => layer.label)].includes(l)))
+  layers = ref(layerNames.filter((l) => !['地图POI', '实时路况', '摄像头', '告警设备', ...PLACE_LAYERS.map(layer => layer.label)].includes(l)))
 const coord = ([lng, lat]) => [
     ((lng - 118.715) / 0.08) * 1000,
     800 - ((lat - 32.2) / 0.06) * 800,
