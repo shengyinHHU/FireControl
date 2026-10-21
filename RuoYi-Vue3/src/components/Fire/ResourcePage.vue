@@ -490,11 +490,10 @@ async function details(row) {
 async function read(row) {
   if (await attempt(() => markMessageRead(row.id), '已标记为已读')) load()
 }
-async function callGrid(row) {
-  const res = await attempt(() => fire.action('grids', row.id, 'call'))
-  if (res)
-    await ElMessageBox.alert(res.data.message || '呼叫请求已提交', '视频呼叫')
+function callGrid() {
+  window.location.assign('https://www.jnrhtx.top/meeting/index?from=Dc')
 }
+
 function showPlace(id) {
   gridPlaceId.value = id
   gridPlaceOpen.value = true

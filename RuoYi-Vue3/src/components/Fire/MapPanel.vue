@@ -171,7 +171,7 @@
         </g>
         <g class="fire-alert-layer">
           <g
-            v-for="a in alarmPoints"
+            v-for="a in visibleAlarmPoints"
             :key="a.id"
             @click.stop="emit('alarm', a.id)"
             role="button"
@@ -268,7 +268,7 @@
         >重新绘制网格边界</el-button
       >
     </div>
-    <div v-if="!isFireMock" class="map-fire-legend">警情点位 {{ alarmPoints.length }} <span>点击标记查看详情</span></div>
+    <div v-if="!isFireMock" class="map-fire-legend">警情点位 {{ visibleAlarmPoints.length }} <span>点击标记查看详情</span></div>
     <div class="map-caption">
       <span class="online-dot"></span
       >{{
@@ -289,6 +289,7 @@
 </template>
 <script setup>
 import '@/api/fire/mapPresentation.css'
+import { INCIDENT_LAYERS, filterIncidents, incidentSource } from '@/api/fire/incidentPresentation'
 import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue'
 import { ElMessage } from 'element-plus'
 import MapBackdrop from './MapBackdrop.vue'
@@ -345,8 +346,10 @@ const layerNames = [
     '摄像头',
     '告警设备',
     '实时路况',
+    ...INCIDENT_LAYERS,
+    '显示警情名称',
   ],
-  layers = ref(layerNames.filter((l) => !['地图POI', '实时路况', '摄像头', '告警设备', ...PLACE_LAYERS.map(layer => layer.label)].includes(l)))
+  layers = ref(layerNames.filter((l) => !['显示警情名称', '地图POI', '实时路况', '摄像头', '告警设备', ...PLACE_LAYERS.map(layer => layer.label)].includes(l)))
 const coord = ([lng, lat]) => [
     ((lng - 118.715) / 0.08) * 1000,
     800 - ((lat - 32.2) / 0.06) * 800,
@@ -395,6 +398,7 @@ const shownDevices = computed(() =>
 )
 // Active fire markers are never hidden by ordinary resource/category filters.
 const alarmPoints = computed(() => fireAlarmPoints(alarms.value, useDatabasePlaces ? databasePlaces.value : places.value, devices.value))
+const visibleAlarmPoints = computed(() => filterIncidents(alarmPoints.value, layers.value))
 const toggle = (l) => {
   layers.value = layers.value.includes(l)
     ? layers.value.filter((x) => x !== l)
@@ -560,12 +564,13 @@ function renderMap() {
     )),
     cameras: shownCameras.value,
     devices: shownDevices.value,
-    alarms: alarmPoints.value,
+    alarms: visibleAlarmPoints.value,
+    showAlarmNames: layers.value.includes('显示警情名称'),
     layers: layers.value,
   })
 }
 watch(
-  [shownPlaces, shownGrids, shownCameras, shownDevices, alarmPoints, layers],
+  [shownPlaces, shownGrids, shownCameras, shownDevices, visibleAlarmPoints, layers],
   renderMap,
   { deep: true },
 )
@@ -609,6 +614,8 @@ onBeforeUnmount(() => {
 function focusAlarm(id) {
   const point = alarmPoints.value.find(a => a.id === id)
   if (!point) return
+  const source = incidentSource(point)
+  if (!layers.value.includes(source)) layers.value = [...layers.value, source]
   if (adapter) adapter.focus([point.lng, point.lat])
   else {
     const [x,y] = xy(point)
@@ -765,7 +772,7 @@ defineExpose({ refresh: load, focusAlarm })
 @media(prefers-reduced-motion:reduce) { .fire-pulse { animation:none; } }
 .map-layer-toggle { position:absolute; left:14px; top:65px; z-index:3; padding:10px 14px; color:#d1e7f3; background:#102348ee; border:1px solid #35618a; cursor:pointer; border-radius:4px; font-size:14px; }
 .map-layer-toggle span { color:#7da8bc; font-size:12px; margin-left:14px; }
-.map-layer-buttons { top:110px; bottom:auto; z-index:4; background:#0a1733f5; padding:10px; border:1px solid #315c84; border-radius:4px; display:grid; grid-template-columns:repeat(2,1fr); max-width:260px; }
+.map-layer-buttons { top:110px; bottom:auto; z-index:4; background:#0a1733f5; padding:10px; border:1px solid #315c84; border-radius:4px; display:grid; grid-template-columns:repeat(2,1fr); max-width:260px; max-height:calc(100% - 180px); overflow-y:auto; }
 .map-point circle { fill:#49b7d8; stroke:#b1e7ef; }
 @media(max-width:1100px) { .map-layer-buttons { left:14px; right:auto; bottom:auto; top:110px; } }
 .map-place-state { grid-column:1 / -1; min-height:28px; display:flex; flex-wrap:wrap; align-items:center; gap:6px; color:#b8d7e8; font-size:12px; line-height:1.5; }

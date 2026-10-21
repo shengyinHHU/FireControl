@@ -150,7 +150,7 @@ xss:
 fire:
   device:
     enabled: true
-    bind-address: 10.5.90.50
+    bind-address: 127.0.0.1
     port: 2000
     max-connections: 32
     # 当前为可配置的调试值，并非协议规定的心跳周期；根据实测调整。

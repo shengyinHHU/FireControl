@@ -1,3 +1,4 @@
+import { incidentKind, incidentIcon, incidentSummary, incidentUrgent } from './incidentPresentation'
 import { clusterPlaces, placeIcon } from './mapPresentation'
 import { hasMapCoordinates, placeLayer } from './placeLayers'
 import dachangBoundary from '@/assets/geo/dachang-boundary.json'
@@ -65,25 +66,28 @@ export async function mountMap(container, { onSelect, onPoint, showBoundary = tr
       map.add(polygon)
       const position = region.properties.labelPoint
       if (position) boundaryLabels.push(new AMap.Text({ position,
-        text: region.properties.name === '白色部分' ? '产业区域' : region.properties.name,
-        zIndex: 60, style: { color: '#a5bbc9', background:'transparent', border:'none',
-          fontSize:'12px', textShadow:'0 1px 3px #000, 0 0 4px #000', padding:'0' } }))
+        text: `◆ ${region.properties.name === '白色部分' ? '产业区域' : region.properties.name}`,
+        zIndex: 60, style: { color: '#e0f6ff', background:'#081c30e8', border:'1px solid #46768b',
+          borderRadius:'4px', fontWeight:'600', whiteSpace:'nowrap',
+          fontSize:'12px', textShadow:'0 1px 2px #000', padding:'3px 6px',
+          boxShadow:'0 2px 6px #0008' } }))
     }
     const updateLabels = () => {
-      if (map.getZoom() >= 15) map.add(boundaryLabels)
-      else map.remove(boundaryLabels)
+      // Region names remain visible in the street overview.
+      map.add(boundaryLabels)
     }
     map.on('zoomend', updateLabels)
     map.on('complete', () => { fitBoundary(); updateLabels() })
     fitBoundary()
+    updateLabels()
   }
   const traffic = new AMap.TileLayer.Traffic({ autoRefresh: true, interval: 180 })
-  let overlays = [], draft, features, selectedPlace
+  let overlays = [], draft, features, selectedPlace, selectedAlarm
   const clusterInfo = new AMap.InfoWindow({ offset: new AMap.Pixel(0, -20) })
   const redraw = () => { if (features) renderFeatures(features) }
   map.on('zoomend', redraw)
-  map.on('click', e => onPoint([e.lnglat.getLng(), e.lnglat.getLat()]))
-  function renderFeatures({ places, grids, cameras, devices, alarms, layers }) {
+  map.on('click', e => { selectedAlarm = null; clusterInfo.close(); redraw(); onPoint([e.lnglat.getLng(), e.lnglat.getLat()]) })
+  function renderFeatures({ places, grids, cameras, devices, alarms, layers, showAlarmNames = false }) {
       map.remove(overlays); overlays = []
       const marker = (row, type, color) => {
         if (!hasMapCoordinates(row.lng, row.lat)) return
@@ -100,14 +104,23 @@ export async function mountMap(container, { onSelect, onPoint, showBoundary = tr
           label.textContent = row.name
           element.replaceChildren(icon, label)
           element.className = 'fire-map-place-marker'
+          element.setAttribute('data-place-type', row.placeType || 'unknown')
           element.title = `${layer?.label || '场所'}：${row.name}`
           element.setAttribute('aria-label', element.title)
           element.removeAttribute('style')
           if (selectedPlace === row.id) element.classList.add('is-selected')
         }
-        if (type === 'alarm') { element.style.cssText += ';font-size:16px;background:#542638dd;border-color:#ff7966;box-shadow:0 0 20px #ff513c99'; element.setAttribute('aria-label', `${row.sourceCode === '119' ? '119警情' : '火警上报'}：${row.placeName || ''} ${row.name}`) }
-        element.onclick = e => { e.stopPropagation(); if (type === 'place') { selectedPlace = row.id; redraw() }; onSelect(type, row.id) }
-        overlays.push(new AMap.Marker({ position: [Number(row.lng), Number(row.lat)], content: element, anchor: type === 'place' ? 'center' : 'bottom-center', zIndex: type === 'alarm' ? 220 : 120 }))
+        if (type === 'alarm') {
+          const kind = incidentKind(row)
+          element.removeAttribute('style')
+          element.className = `fire-incident-marker kind-${kind}${incidentUrgent(row) ? ' is-urgent' : ''}${selectedAlarm === row.id ? ' is-selected' : ''}${showAlarmNames ? ' show-name' : ''}`
+          const icon = document.createElement('span'); icon.innerHTML = incidentIcon(kind)
+          const label = document.createElement('span'); label.className = 'fire-incident-name'; label.textContent = incidentSummary(row)
+          element.replaceChildren(icon, label)
+          element.setAttribute('aria-label', `${incidentSummary(row)}，点击查看完整详情`)
+        }
+        element.onclick = e => { e.stopPropagation(); if (type === 'place') { selectedPlace = row.id; redraw() }; if (type === 'alarm') { selectedAlarm = row.id; redraw() }; onSelect(type, row.id) }
+        overlays.push(new AMap.Marker({ position: [Number(row.lng), Number(row.lat)], content: element, anchor: ['place', 'alarm'].includes(type) ? 'center' : 'bottom-center', zIndex: type === 'alarm' ? 220 : 120 }))
       }
       clusterPlaces(places, map.getZoom()).forEach(group => {
         if (group.rows.length === 1) { marker(group.rows[0], 'place', '#64cfe8'); return }
@@ -133,7 +146,29 @@ export async function mountMap(container, { onSelect, onPoint, showBoundary = tr
       })
       if (layers.includes('摄像头')) cameras.forEach(p => marker(p, 'camera', '#73dcc3'))
       if (layers.includes('告警设备')) devices.forEach(p => marker(p, 'device', '#e7bd70'))
-      alarms.forEach(p => marker(p, 'alarm', '#fc788b'))
+      clusterPlaces(alarms, map.getZoom()).forEach(group => {
+        if (group.rows.length === 1) { marker(group.rows[0], 'alarm', '#fc788b'); return }
+        const button = document.createElement('button')
+        button.type = 'button'; button.className = 'fire-incident-cluster'
+        const icon = document.createElement('span'); icon.innerHTML = incidentIcon('unknown')
+        const count = document.createElement('span'); count.textContent = group.rows.length
+        button.replaceChildren(icon, count)
+        button.setAttribute('aria-label', `${group.rows.length}起警情，点击展开`)
+        if (group.rows.some(incidentUrgent)) button.className += ' has-fire'
+        button.onclick = e => {
+          e.stopPropagation()
+          if (map.getZoom() < 18) { map.setZoomAndCenter(Math.min(18, map.getZoom() + 2), group.position); return }
+          const list = document.createElement('div'); list.className = 'fire-map-cluster-list fire-incident-list'
+          for (const row of group.rows) {
+            const item = document.createElement('button'); item.type = 'button'
+            item.textContent = `${incidentSummary(row)} · ${row.status || '状态未提供'}`
+            item.onclick = () => { selectedAlarm = row.id; clusterInfo.close(); redraw(); onSelect('alarm', row.id) }
+            list.appendChild(item)
+          }
+          clusterInfo.setContent(list); clusterInfo.open(map, group.position)
+        }
+        overlays.push(new AMap.Marker({ position:group.position, content:button, anchor:'center', zIndex:220 }))
+      })
       if (layers.includes('网格')) grids.forEach((g, i) => {
         if (!g.polygon?.length) return
         const polygon = new AMap.Polygon({ path: g.polygon, strokeColor: ['#ceb45f', '#3cba9d', '#49a4cc'][i % 3], fillColor: ['#ceb45f', '#3cba9d', '#49a4cc'][i % 3], fillOpacity: .18, strokeWeight: 2 })
