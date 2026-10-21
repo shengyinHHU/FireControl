@@ -156,3 +156,28 @@ fire:
     # 当前为可配置的调试值，并非协议规定的心跳周期；根据实测调整。
     idle-seconds: 600
     online-seconds: 600
+
+  # 119警情：先执行 SQL/fire_119_incident.sql；启动后10秒首轮，此后每60秒触发。
+  incident119:
+    enabled: true
+    base-url: https://wdsjs.jiangning.gov.cn:9091/zhjn-order/api/api/open
+    source-system: jiangning_119
+    order-source: DIANXIN
+    account: DIANXIN
+    password: DIANXIN@123
+    public-key: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAg0Ub6OQqQHo51Ur8wtEu49TJThCjynZdkr3bqFhejJsnr7HHdkOGnLHv+FTHB+/xKpuOFyxqN/gwl3CO7UBxqhflgIgxynTcZZI4RGhKHwxez0NUjr98s5IWgG9pUYcEP07Z8rXJXyKzj8T+fDoqignmwhgtwCDjOkWiKxAS6zpH7gHbHuM/1DVHZfV6dwNl7vphyuylOKiGmiOUqxJ4sGCJtmjLeYx4dKwKqr3pbSKhsb1TqfeUgeVfV1H+iyEDgL7+T0kmd2MKirgCH8hO0St36p+E+xlF1z/1yURd0/KwAeP6cHxzhh+k12ADusB8zzCG4kZk2Lb8hAguIXbC5QIDAQAB
+    region-code: '320116'
+    interval-seconds: 60
+    initial-delay-seconds: 10
+    page-size: 20
+    max-pages: 500
+    request-timeout-seconds: 15
+    max-run-seconds: 240
+    token-lifetime-seconds: 600
+    # 用户确认119源坐标与上传边界均为高德GCJ-02。
+    source-coordinate-system: GCJ02
+    # pending / verified / raw-unverified；只按上传文档25个原多边形判断，不按地址猜测。
+    boundary-coordinate-mode: verified
+    # 数据权限归属，按实际若依部门/人员填写；留空时普通部门角色不可见，管理员可见。
+    dept-id:
+    supervisor-user-id:

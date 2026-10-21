@@ -20,3 +20,7 @@ Verification owners: tests/fire/place-layers.test.mjs; tests/fire/map-layers.bro
 | Table Selection | Not applicable | domain API | no batch actions | device-access.browser.cjs |
 
 DeviceAccessView owns the repeated gateway/host/event/message table, URL committed query state, 5-second refresh, loading/error/empty states and stale-request protection. Event details reuse AlarmDetail's explicit database read-only variant. No database record may load demo cameras, personnel or disposition timelines. Real page provenance belongs to Shell; hide demo-reset controls on database-owned pages. Raw protocol strings are plain text; Vue interpolation must remain escaped. Tables own horizontal overflow; shared page/ancestor scrolling is unchanged. Tokens remain in assets/styles/fire.scss; this feature adds no new palette or typography system.
+
+## 119 source variant
+
+DeviceAccessView event-only mode is 消防警情记录, with source and case filters committed to the URL; host mode keeps device-only event filtering. All status, empty, loading, error/retry and keyboard contracts reuse the shared owner. Read-only 119 details show source case fields, region, coordinate status and last synchronization without simulated disposition controls. Source filters default to all; 119 source defaults to all case types. Synchronization status remains a persistent inline message, not only a toast. Source metadata, host/device statistics and history remain separated. Canonical verification: tests/fire/incident119.browser.cjs.

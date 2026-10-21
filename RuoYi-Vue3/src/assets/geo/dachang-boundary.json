@@ -1,6 +1,6 @@
 {
   "source": "用户提供的大厂街道.doc，25个区域坐标；参考附图大厂街道网格平面图",
-  "coordinateSystem": "GCJ-02 assumed; source document does not declare CRS",
+  "coordinateSystem": "GCJ02",
   "bounds": [
     118.727429,
     32.191704,
@@ -3298,5 +3298,6 @@
         ]
       ]
     ]
-  }
+  },
+  "coordinateConfirmation": "用户于2026-10-21确认文档边界与119接口坐标均为高德GCJ-02"
 }

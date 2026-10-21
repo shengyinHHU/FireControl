@@ -1,7 +1,7 @@
 <template>
   <el-dialog
     v-model="open"
-    :title="alarm?.dataSource === 'database' ? '设备事件详情' : '警情详情与处置'"
+    :title="alarm?.sourceCode === '119' ? '119警情详情' : alarm?.dataSource === 'database' ? '设备事件详情' : '警情详情与处置'"
     width="850px"
     class="fire-dialog"
     append-to-body
@@ -9,7 +9,25 @@
       <div v-if="error" class="fire-error">
         {{ error }}<el-button @click="load">重试</el-button>
       </div>
-      <template v-if="alarm?.dataSource === 'database'">
+      <template v-if="alarm?.sourceCode === '119'">
+        <h2>{{ alarm.caseTypeName || '119警情' }}</h2>
+        <p class="muted">119平台案件记录，保留原始案件状态；实时同步，不在本平台模拟接单或办结。</p>
+        <el-descriptions :column="1" border>
+          <el-descriptions-item label="警情编号">{{ alarm.code }}</el-descriptions-item>
+          <el-descriptions-item label="来警时间">{{ alarm.occurredAt || '未提供' }}</el-descriptions-item>
+          <el-descriptions-item label="案件类型">{{ alarm.caseTypeName || '未提供' }}</el-descriptions-item>
+          <el-descriptions-item label="案件状态">{{ alarm.status }}</el-descriptions-item>
+          <el-descriptions-item label="案件性质">{{ alarm.caseNatureName || '未提供' }}</el-descriptions-item>
+          <el-descriptions-item label="案件等级">{{ alarm.caseLevelName || '未提供' }}</el-descriptions-item>
+          <el-descriptions-item label="合并状态">{{ alarm.mergeStatusName || '未提供' }}</el-descriptions-item>
+          <el-descriptions-item label="案发地址">{{ alarm.address || '未提供' }}</el-descriptions-item>
+          <el-descriptions-item label="警情描述">{{ alarm.description || '未提供' }}</el-descriptions-item>
+          <el-descriptions-item label="所属地区">{{ incidentRegion }}</el-descriptions-item>
+          <el-descriptions-item label="地图坐标">{{ alarm.coordinateStatus === 'valid' ? `${alarm.lng}, ${alarm.lat}（高德GCJ-02）` : '坐标待核验，暂不落点' }}</el-descriptions-item>
+          <el-descriptions-item label="最近同步">{{ alarm.lastSyncedAt || '未提供' }}</el-descriptions-item>
+        </el-descriptions>
+      </template>
+      <template v-else-if="alarm?.dataSource === 'database'">
         <h2>{{ alarm.name }}</h2>
         <p class="muted">设备事件记录；不代表现场仍有火情，也不代表已完成处置。</p>
         <el-descriptions :column="1" border>
@@ -115,6 +133,7 @@ const open = computed({
   placeOpen = ref(false),
   videoOpen = ref(false),
   shareOpen = ref(false)
+const incidentRegion = computed(() => alarm.value?.streetRegion?.split('；地区=')[1] || '大厂街道')
 const latest = createLatestRequest()
 async function load() {
   if (!props.alarmId) return

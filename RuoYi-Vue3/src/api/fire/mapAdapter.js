@@ -88,7 +88,7 @@ export async function mountMap(container, { onSelect, onPoint, showBoundary = tr
       const marker = (row, type, color) => {
         if (!hasMapCoordinates(row.lng, row.lat)) return
         const element = document.createElement('button')
-        element.type = 'button'; element.textContent = `${type === 'camera' ? '▣' : type === 'alarm' ? '🔥' : '●'} ${row.name}`
+        element.type = 'button'; element.textContent = `${type === 'camera' ? '▣' : type === 'alarm' ? (row.sourceCode === '119' ? '119' : '🔥') : '●'} ${row.name}`
         element.style.cssText = `background:#082539;color:${color};border:1px solid ${color};padding:5px 7px;border-radius:3px;white-space:nowrap;cursor:pointer;font-size:11px`
         if (type === 'place') {
           const layer = placeLayer(row.placeType)
@@ -105,7 +105,7 @@ export async function mountMap(container, { onSelect, onPoint, showBoundary = tr
           element.removeAttribute('style')
           if (selectedPlace === row.id) element.classList.add('is-selected')
         }
-        if (type === 'alarm') { element.style.cssText += ';font-size:16px;background:#542638dd;border-color:#ff7966;box-shadow:0 0 20px #ff513c99'; element.setAttribute('aria-label', `火警：${row.placeName || ''} ${row.name}`) }
+        if (type === 'alarm') { element.style.cssText += ';font-size:16px;background:#542638dd;border-color:#ff7966;box-shadow:0 0 20px #ff513c99'; element.setAttribute('aria-label', `${row.sourceCode === '119' ? '119警情' : '火警上报'}：${row.placeName || ''} ${row.name}`) }
         element.onclick = e => { e.stopPropagation(); if (type === 'place') { selectedPlace = row.id; redraw() }; onSelect(type, row.id) }
         overlays.push(new AMap.Marker({ position: [Number(row.lng), Number(row.lat)], content: element, anchor: type === 'place' ? 'center' : 'bottom-center', zIndex: type === 'alarm' ? 220 : 120 }))
       }

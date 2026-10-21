@@ -1,0 +1,9 @@
+{
+  "isolated_mysql": true,
+  "fixture_http": true,
+  "business_database_accessed": false,
+  "external_api_accessed": false,
+  "sql_repeat_safe": true,
+  "verification": "FIRE_119_INTEGRATION_OK",
+  "output": "FIRE_119_INTEGRATION_OK checks=76 tokenRequests=2 pageRequests=10"
+}

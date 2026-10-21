@@ -173,10 +173,11 @@
         <Panel title="消防警情" class="alarm-panel"
           ><template #action
             ><router-link to="/fire/alarms" class="tiny"
-              >处置中心 ›</router-link
+              >警情记录 ›</router-link
             ></template
           >
-          <div class="fire-priority-note">🔥 待核验火警上报 <b>{{ activeFires.length }}</b> <span>请立即核查处置</span></div>
+          <div class="fire-priority-note">🔥 设备待核验火警上报 <b>{{ activeFires.length }}</b> <span>请立即核查处置</span></div>
+          <p v-if="source === '119警情'" class="muted" role="status">{{ incident119Note }}</p>
           <div v-show="!selectedAlarm" class="source-tabs">
             <button
               v-for="(s, i) in sources"
@@ -193,16 +194,16 @@
               ><span>{{ s }}</span
               ><b>{{
                 s === '全部'
-                  ? activeFires.length
-                  : activeFires.filter((a) => a.source === s).length
+                  ? displayAlarms.length
+                  : displayAlarms.filter((a) => a.source === s).length
               }}</b>
             </button>
           </div>
           <div v-if="selectedAlarm" class="selected-fire">
-            <div class="selected-fire-head"><strong>火警上报（待核验）</strong><button @click="alarmId = ''">返回列表 ›</button></div>
+            <div class="selected-fire-head"><strong>{{ selectedAlarm.sourceCode === '119' ? '119警情' : '火警上报（待核验）' }}</strong><button @click="alarmId = ''">返回列表 ›</button></div>
             <h3>{{ selectedAlarm.placeName }}</h3><p>{{ selectedAlarm.name }}</p>
             <dl><dt>发生时间</dt><dd>{{ selectedAlarm.occurredAt }}</dd><dt>接入来源</dt><dd>{{ selectedAlarm.source }}</dd><dt>处置状态</dt><dd><StatusTag :value="selectedAlarm.status" /></dd></dl>
-            <div class="selected-fire-actions"><el-button type="danger" @click="alarmOpen = true">查看事件</el-button><el-button @click="showPlace(selectedAlarm.placeId)">场所档案</el-button></div>
+            <div class="selected-fire-actions"><el-button type="danger" @click="alarmOpen = true">查看事件</el-button><el-button v-if="selectedAlarm.placeId" @click="showPlace(selectedAlarm.placeId)">场所档案</el-button></div>
           </div>
           <div v-show="!selectedAlarm" class="screen-scroll alarm-list">
             <button
@@ -232,7 +233,7 @@
               ></span>
               <div class="alarm-card-body">
                 <div class="alarm-code">
-                  {{ a.code }} <span>{{ a.source }}</span>
+                  {{ a.code }} <span>{{ a.source }}</span><span v-if="a.sourceCode === '119'">{{ a.caseTypeName }} · {{ a.caseNatureName }}</span>
                 </div>
                 <p>{{ a.name }}</p>
                 <div class="alarm-footer">
@@ -241,7 +242,7 @@
                 </div>
               </div>
             </button>
-            <p v-if="!filteredAlarms.length" class="fire-empty">暂无待核验火警上报</p>
+            <p v-if="!filteredAlarms.length" class="fire-empty">暂无符合范围的警情记录</p>
           </div></Panel
         >
         <Panel title="消控主机" class="hosts-panel"
@@ -329,7 +330,7 @@ import { ElMessage } from 'element-plus'
 import { fire } from '@/api/fire'
 import { PLACE_LAYERS } from '@/api/fire/placeLayers'
 import { canFire } from '@/api/fire/access'
-import { hostAlarmSummary, isActiveFire } from '@/api/fire/rules'
+import { hostAlarmSummary, isActiveFire, isDisplayAlarm } from '@/api/fire/rules'
 import { isFireMock } from '@/api/fire/config'
 import { attempt } from '../useFire'
 import Panel from '@/components/Fire/Panel.vue'
@@ -367,7 +368,7 @@ const placeOpen = ref(false),
   cameraId = ref(''),
   alarmOpen = ref(false),
   alarmId = ref('')
-const selectedAlarm = computed(() => alarms.value.find(a => a.id === alarmId.value && isActiveFire(a)))
+const selectedAlarm = computed(() => alarms.value.find(a => a.id === alarmId.value && isDisplayAlarm(a)))
 const filteredPlaces = computed(() =>
   places.value.filter(
     (p) =>
@@ -380,8 +381,9 @@ const filteredPlaces = computed(() =>
   ),
 )
 const activeFires = computed(() => alarms.value.filter(isActiveFire))
+const displayAlarms = computed(() => alarms.value.filter(isDisplayAlarm))
 const filteredAlarms = computed(() =>
-  activeFires.value.filter(
+  displayAlarms.value.filter(
     (a) => source.value === '全部' || a.source === source.value,
   ),
 )
@@ -404,6 +406,13 @@ const hostStats = computed(() => [
   { name: '故障（24h）', value: stats.value.faultEvents ?? '—', color: '#edbd5f', to: '/fire/alarms?kind=fault' },
 ])
 
+const incident119Note = computed(() => {
+  const state = stats.value.incident119
+  if (!state) return '119同步状态暂不可用'
+  if (!state.enabled) return '119同步未启用'
+  if (state.lastResult === 'failed' || state.lastResult === 'partial') return '119最近同步未完整成功，当前显示已入库记录'
+  return `大厂街道 · 全部案件类型 · 每${state.intervalSeconds || 60}秒同步 · 最近完整成功：${state.lastCompletedAt || '尚未完成首轮'}`
+})
 let polling,
   ticking,
   audioContext,
@@ -428,15 +437,15 @@ async function refresh() {
     }
     places.value = p.rows
     alarms.value = a.rows
-    if (a.total > a.rows.length) error.value = '设备事件仅展示最近1000条，完整记录请打开设备事件页面'
+    if (a.total > a.rows.length) error.value = '警情仅展示最近1000条，完整记录请打开警情记录页面'
     inspections.value = i.rows
     cameras.value = c.rows
-    const fresh = a.rows.filter((x) => isActiveFire(x) && !seen.has(x.id))
+    const fresh = a.rows.filter((x) => isDisplayAlarm(x) && !seen.has(x.id))
     if (initialized && fresh.length) {
       ElMessage.warning(`新增 ${fresh.length} 条消防警情，请及时核查`)
       if (sound.value) beep()
     }
-    seen = new Set(a.rows.filter(isActiveFire).map((x) => x.id))
+    seen = new Set(a.rows.filter(isDisplayAlarm).map((x) => x.id))
     initialized = true
     updated.value = new Date().toLocaleTimeString('zh-CN')
     if (a.total <= a.rows.length) error.value = ''

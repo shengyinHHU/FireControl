@@ -1,0 +1,153 @@
+-- 119警情接入增量建表。依据接口文档及 result.json 实际字段设计。
+-- MySQL 5.7.8+/8.0；目标库 dachang；仅建空表，不导入样例警情，不调用接口。
+-- 不修改已有 fire_place、fire_event 或若依系统表；不创建机构、账号、权限或定时任务。
+-- 不存储接口账号、密码、secretKey 或 Token。
+-- 可重复执行；IF NOT EXISTS 不会升级已存在但结构不同的同名表。
+-- DDL 隐式提交，请在遇错即停止的客户端执行；表间采用逻辑关联。
+SET NAMES utf8mb4;
+USE `dachang`;
+
+CREATE TABLE IF NOT EXISTS `fire_119_incident` (
+  `incident_id` bigint NOT NULL AUTO_INCREMENT COMMENT '本地主键，与外部警情ID分开',
+  `source_system` varchar(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL COMMENT '接入来源标识，测试与生产使用不同标识',
+  `external_id` varchar(128) COLLATE utf8mb4_bin NOT NULL COMMENT '接口id，原值保存，区分大小写',
+  `order_source` varchar(64) DEFAULT NULL COMMENT '接入来源orderSource，当前DIANXIN，非案件类型',
+  `region_code` varchar(32) DEFAULT NULL COMMENT 'xzqybh，字符串行政区划，不等同街道归属',
+  `case_type_code` varchar(32) DEFAULT NULL COMMENT 'ajlxdm，当前1火警扑救2抢险救援3社会救助，保留未知代码',
+  `case_type_name` varchar(128) DEFAULT NULL COMMENT 'ajlxmc，接口原始名称',
+  `case_status_code` varchar(32) DEFAULT NULL COMMENT 'ajztdm，保留原值，不假定状态按数字单调递增',
+  `case_status_name` varchar(128) DEFAULT NULL COMMENT 'ajztmc，接口原始名称，不能由本地字典覆盖',
+  `alarm_time` datetime(3) DEFAULT NULL COMMENT 'lasj，来警时间原墙上时间；源时区待确认',
+  `address` text COMMENT 'afdz，案发地址；不要求属于已有监管机构',
+  `description` text COMMENT 'ajms，警情描述，可能含个人信息',
+  `case_nature_code` varchar(32) DEFAULT NULL COMMENT 'ajxz，统一转字符串；0虚警1实警2测试，保留未知代码',
+  `case_nature_name` varchar(128) DEFAULT NULL COMMENT 'ajxzmc，原始名称',
+  `merge_status_code` varchar(32) DEFAULT NULL COMMENT 'hbzt，统一转字符串；0已合并1未合并，不据此猜测合并目标',
+  `merge_status_name` varchar(128) DEFAULT NULL COMMENT 'hbztmc，原始名称',
+  `case_level_code` varchar(32) DEFAULT NULL COMMENT 'temp_ajdjdm，统一转字符串，非本地排序等级',
+  `case_level_name` varchar(128) DEFAULT NULL COMMENT 'temp_ajdjdmmc，原始名称',
+  `source_longitude` decimal(12,8) DEFAULT NULL COMMENT 'jd校验后的源经度，保留8位小数；非法值留空并保留原文',
+  `source_latitude` decimal(12,8) DEFAULT NULL COMMENT 'wd校验后的源纬度，保留8位小数',
+  `source_coord_system` varchar(16) NOT NULL DEFAULT 'unknown' COMMENT 'unknown/GCJ02/WGS84/BD09，必须确认后标识',
+  `map_longitude` decimal(12,8) DEFAULT NULL COMMENT '经确认或转换后的高德GCJ02经度，未确认不得直接填源坐标',
+  `map_latitude` decimal(12,8) DEFAULT NULL COMMENT '高德GCJ02纬度',
+  `coordinate_status` varchar(16) NOT NULL DEFAULT 'pending' COMMENT 'pending待确认/valid可展示/invalid非法/missing缺失',
+  `street_name` varchar(128) DEFAULT NULL COMMENT '经核验的所属街道，不能由请求的区级编码直接赋值',
+  `street_match_status` varchar(16) NOT NULL DEFAULT 'pending' COMMENT 'pending待判定/inside大厂街道内/outside街道外',
+  `street_match_method` varchar(32) DEFAULT NULL COMMENT '归属判定方法，如official/manual/boundary，不能只靠地址关键词',
+  `street_match_basis` varchar(1000) DEFAULT NULL COMMENT '判定依据、行政边界版本或人工核验说明',
+  `street_checked_by` bigint DEFAULT NULL COMMENT '核验用户，逻辑关联sys_user',
+  `street_checked_at` datetime(3) DEFAULT NULL COMMENT '街道归属核验时间',
+  `place_id` bigint DEFAULT NULL COMMENT '可选关联fire_place，不匹配时留空，不自动新建机构',
+  `dept_id` bigint DEFAULT NULL COMMENT '本平台数据权限归属，逻辑关联sys_dept，不从区划编码猜测',
+  `supervisor_user_id` bigint DEFAULT NULL COMMENT '本平台负责人，逻辑关联sys_user',
+  `source_sjc` datetime(3) DEFAULT NULL COMMENT 'sjc原墙上时间；字段业务含义、时区及增量语义待确认',
+  `source_create_time_utc` datetime(3) DEFAULT NULL COMMENT 'create_time按显式时区解析后转UTC，不能覆盖本地create_time',
+  `source_njs_create_time_utc` datetime(3) DEFAULT NULL COMMENT 'njs_create_time按显式时区解析后转UTC',
+  `source_njs_update_time_utc` datetime(3) DEFAULT NULL COMMENT 'njs_update_time按显式时区解析后转UTC，未确认可作增量游标',
+  `source_sugon_create_time_utc` datetime(3) DEFAULT NULL COMMENT 'sugon_create_time按显式时区解析后转UTC',
+  `source_sugon_update_time_utc` datetime(3) DEFAULT NULL COMMENT 'sugon_update_time按显式时区解析后转UTC，未确认可作增量游标',
+  `source_manually_add` tinyint DEFAULT NULL COMMENT 'manually_add，JSON布尔转0/1；不据此推断本地人工操作',
+  `source_counterfeit` tinyint DEFAULT NULL COMMENT 'counterfeit原布尔标记，含义待确认，不能替代ajxz',
+  `source_flag` int DEFAULT NULL COMMENT 'flag原整数，含义待确认，不用于过滤或删除',
+  `source_manual_operate_count` bigint DEFAULT NULL COMMENT 'manual_operate_count原值，含义待确认',
+  `raw_json` json NOT NULL COMMENT '该条警情完整原始JSON，保留源类型、原始时间字符串和未知字段',
+  `payload_hash` char(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL COMMENT '源记录规范化后SHA256，不含本地时间和归属字段',
+  `revision_no` bigint unsigned NOT NULL DEFAULT 1 COMMENT '本地观察版本，源内容变化才增加',
+  `first_synced_at` datetime(3) NOT NULL COMMENT '首次成功落库时间，本地Asia/Shanghai',
+  `last_seen_at` datetime(3) NOT NULL COMMENT '最近一次接口返回该记录的时间；内容不变仍更新',
+  `last_changed_at` datetime(3) NOT NULL COMMENT '最近观察到源内容变化时间，不是外部实际变更时间',
+  `last_sync_batch_id` varchar(64) CHARACTER SET ascii COLLATE ascii_bin DEFAULT NULL COMMENT '最近获取批次，逻辑关联同步日志',
+  `create_by` varchar(64) DEFAULT '' COMMENT '创建者或同步服务标识',
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '本地创建时间，Asia/Shanghai',
+  `update_by` varchar(64) DEFAULT '' COMMENT '本地更新者',
+  `update_time` datetime(3) DEFAULT NULL COMMENT '本地更新时间，Asia/Shanghai',
+  `remark` varchar(500) DEFAULT NULL COMMENT '本地备注，源同步不覆盖',
+  PRIMARY KEY (`incident_id`),
+  UNIQUE KEY `uk_119_incident_source` (`source_system`,`external_id`),
+  KEY `idx_119_incident_street_time` (`street_match_status`,`alarm_time`,`incident_id`),
+  KEY `idx_119_incident_region_time` (`source_system`,`region_code`,`alarm_time`,`incident_id`),
+  KEY `idx_119_incident_type_time` (`case_type_code`,`alarm_time`,`incident_id`),
+  KEY `idx_119_incident_status_time` (`case_status_code`,`alarm_time`,`incident_id`),
+  KEY `idx_119_incident_dept_time` (`dept_id`,`alarm_time`,`incident_id`),
+  KEY `idx_119_incident_supervisor` (`supervisor_user_id`,`alarm_time`),
+  KEY `idx_119_incident_place` (`place_id`)
+) ENGINE=InnoDB ROW_FORMAT=DYNAMIC DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='119警情当前快照，全部案件类型，街道归属与坐标需核验';
+
+CREATE TABLE IF NOT EXISTS `fire_119_incident_history` (
+  `history_id` bigint NOT NULL AUTO_INCREMENT COMMENT '变化记录ID',
+  `incident_id` bigint NOT NULL COMMENT '逻辑关联fire_119_incident',
+  `revision_no` bigint unsigned NOT NULL COMMENT '对应主表本地版本；首次入库为1',
+  `sync_batch_id` varchar(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL COMMENT '获取批次',
+  `change_type` varchar(16) NOT NULL COMMENT 'insert首次获取/update源内容变化',
+  `observed_at` datetime(3) NOT NULL COMMENT '本地发现时间，Asia/Shanghai；不是消防状态实际发生时间',
+  `payload_hash` char(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL COMMENT '该版本规范化源内容SHA256',
+  `changed_fields` json DEFAULT NULL COMMENT '变化源字段名数组，首次插入可空',
+  `snapshot_json` json NOT NULL COMMENT '该版本完整源记录；上一版本可用于比对，避免前后快照双重复制',
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '本地入库时间',
+  PRIMARY KEY (`history_id`),
+  UNIQUE KEY `uk_119_history_revision` (`incident_id`,`revision_no`),
+  KEY `idx_119_history_observed` (`observed_at`),
+  KEY `idx_119_history_batch` (`sync_batch_id`)
+) ENGINE=InnoDB ROW_FORMAT=DYNAMIC DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='119源内容变化历史，不生成虚构的出动到场时间线';
+
+CREATE TABLE IF NOT EXISTS `fire_119_sync_state` (
+  `sync_state_id` bigint NOT NULL AUTO_INCREMENT COMMENT '同步状态ID',
+  `source_system` varchar(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL COMMENT '接入来源标识，与警情主表一致',
+  `query_region_code` varchar(32) NOT NULL COMMENT '实际接口查询区划，如已验证的320116；不等同大厂街道',
+  `last_attempt_at` datetime(3) DEFAULT NULL COMMENT '最近尝试同步时间',
+  `last_completed_at` datetime(3) DEFAULT NULL COMMENT '最近全轮完整成功时间；缺页或行失败不得更新',
+  `last_full_scan_at` datetime(3) DEFAULT NULL COMMENT '最近全量分页核对完成时间',
+  `last_batch_id` varchar(64) CHARACTER SET ascii COLLATE ascii_bin DEFAULT NULL COMMENT '最近批次',
+  `last_result` varchar(16) NOT NULL DEFAULT 'never' COMMENT 'never/running/success/partial/failed',
+  `last_reported_total` bigint unsigned DEFAULT NULL COMMENT '接口最近报告total，当前样例2265，非大厂街道数量',
+  `last_reported_pages` int unsigned DEFAULT NULL COMMENT '接口最近报告pages，当前样例114',
+  `last_page_size` int unsigned DEFAULT NULL COMMENT '请求分页大小',
+  `last_completed_page` int unsigned DEFAULT NULL COMMENT '上轮已完成页，仅诊断；分页漂移时不能当可靠续传游标',
+  `consecutive_failures` int unsigned NOT NULL DEFAULT 0 COMMENT '连续失败次数',
+  `last_error` varchar(2000) DEFAULT NULL COMMENT '脱敏后的失败原因',
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '本地创建时间',
+  `update_time` datetime(3) DEFAULT NULL COMMENT '本地更新时间',
+  PRIMARY KEY (`sync_state_id`),
+  UNIQUE KEY `uk_119_sync_scope` (`source_system`,`query_region_code`)
+) ENGINE=InnoDB ROW_FORMAT=DYNAMIC DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='119按接入来源与查询区划保存同步状态，不保存凭据或Token';
+
+CREATE TABLE IF NOT EXISTS `fire_119_sync_log` (
+  `sync_log_id` bigint NOT NULL AUTO_INCREMENT COMMENT '同步日志ID',
+  `sync_batch_id` varchar(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL COMMENT '本轮同步批次',
+  `source_system` varchar(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL COMMENT '接入来源标识',
+  `query_region_code` varchar(32) DEFAULT NULL COMMENT '查询区划',
+  `operation` varchar(16) NOT NULL COMMENT 'batch整轮/page分页/token认证摘要，token操作禁止保存响应原文',
+  `attempt_no` int unsigned NOT NULL DEFAULT 1 COMMENT '本次操作尝试次数',
+  `page_num` int unsigned DEFAULT NULL COMMENT '分页请求页码，非分页操作留空',
+  `page_size` int unsigned DEFAULT NULL COMMENT '分页大小',
+  `started_at` datetime(3) NOT NULL COMMENT '本地开始时间，Asia/Shanghai',
+  `finished_at` datetime(3) DEFAULT NULL COMMENT '本地结束时间',
+  `duration_ms` bigint unsigned DEFAULT NULL COMMENT '耗时毫秒',
+  `http_status` int DEFAULT NULL COMMENT '实际HTTP状态，与JSON中的业务code分开',
+  `business_code` varchar(32) DEFAULT NULL COMMENT '响应code，统一转字符串',
+  `business_message` varchar(2000) DEFAULT NULL COMMENT '响应msg，必要时脱敏',
+  `result_status` varchar(16) NOT NULL DEFAULT 'running' COMMENT 'running/success/partial/failed',
+  `reported_total` bigint unsigned DEFAULT NULL COMMENT '该响应total，不是本地已同步量',
+  `reported_pages` int unsigned DEFAULT NULL COMMENT '该响应pages',
+  `fetched_count` int unsigned NOT NULL DEFAULT 0 COMMENT '本次获取条数',
+  `inserted_count` int unsigned NOT NULL DEFAULT 0 COMMENT '新增主表记录数',
+  `changed_count` int unsigned NOT NULL DEFAULT 0 COMMENT '已有主表源内容更新数',
+  `unchanged_count` int unsigned NOT NULL DEFAULT 0 COMMENT '内容未变记录数',
+  `failed_count` int unsigned NOT NULL DEFAULT 0 COMMENT '校验或落库失败记录数',
+  `error_detail` text COMMENT '脱敏错误说明，可记录失败外部ID及原因',
+  `response_json` json DEFAULT NULL COMMENT '可选警情响应原文；成功分页建议留空避免重复存储；绝不存Token响应',
+  `response_excerpt` text COMMENT '可选异常HTML或非JSON响应片段，应用需截断、脱敏；认证不记录原文',
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '本地日志创建时间',
+  PRIMARY KEY (`sync_log_id`),
+  KEY `idx_119_log_batch` (`sync_batch_id`,`operation`,`page_num`),
+  KEY `idx_119_log_scope_time` (`source_system`,`query_region_code`,`started_at`),
+  KEY `idx_119_log_status_time` (`result_status`,`started_at`)
+) ENGINE=InnoDB ROW_FORMAT=DYNAMIC DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='119分页及整轮同步日志，诊断网络认证解析和入库失败';
+
+-- 导入后只读核对，预期返回以上4张表；本脚本不包含任何警情INSERT。
+SELECT TABLE_NAME, TABLE_COMMENT
+FROM information_schema.TABLES
+WHERE TABLE_SCHEMA = DATABASE()
+  AND TABLE_NAME IN ('fire_119_incident','fire_119_incident_history','fire_119_sync_state','fire_119_sync_log')
+ORDER BY TABLE_NAME;

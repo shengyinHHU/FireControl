@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.Fire119Mapper">
+ <select id="incidentForUpdate" resultType="map">
+ SELECT incident_id AS incidentId,payload_hash AS payloadHash,revision_no AS revisionNo,CAST(raw_json AS CHAR) AS rawJson
+ FROM fire_119_incident WHERE source_system=#{source} AND external_id=#{externalId} FOR UPDATE
+ </select>
+ <insert id="insertIncident" useGeneratedKeys="true" keyProperty="incident_id">
+INSERT INTO fire_119_incident (source_system,external_id,order_source,region_code,case_type_code,case_type_name,case_status_code,case_status_name,alarm_time,address,description,case_nature_code,case_nature_name,merge_status_code,merge_status_name,case_level_code,case_level_name,source_longitude,source_latitude,source_coord_system,map_longitude,map_latitude,coordinate_status,source_sjc,source_create_time_utc,source_njs_create_time_utc,source_njs_update_time_utc,source_sugon_create_time_utc,source_sugon_update_time_utc,source_manually_add,source_counterfeit,source_flag,source_manual_operate_count,raw_json,payload_hash,street_name,street_match_status,street_match_method,street_match_basis,revision_no,dept_id,supervisor_user_id,first_synced_at,last_seen_at,last_changed_at,last_sync_batch_id,create_by,create_time)
+VALUES (#{source_system},#{external_id},#{order_source},#{region_code},#{case_type_code},#{case_type_name},#{case_status_code},#{case_status_name},#{alarm_time},#{address},#{description},#{case_nature_code},#{case_nature_name},#{merge_status_code},#{merge_status_name},#{case_level_code},#{case_level_name},#{source_longitude},#{source_latitude},#{source_coord_system},#{map_longitude},#{map_latitude},#{coordinate_status},#{source_sjc},#{source_create_time_utc},#{source_njs_create_time_utc},#{source_njs_update_time_utc},#{source_sugon_create_time_utc},#{source_sugon_update_time_utc},#{source_manually_add},#{source_counterfeit},#{source_flag},#{source_manual_operate_count},#{raw_json},#{payload_hash},#{street_name},#{street_match_status},#{street_match_method},#{street_match_basis},#{revision_no},#{dept_id},#{supervisor_user_id},#{now},#{now},#{now},#{batch},'119-sync',#{now})
+ </insert>
+ <update id="updateIncident">
+UPDATE fire_119_incident SET order_source=#{order_source},
+region_code=#{region_code},
+case_type_code=#{case_type_code},
+case_type_name=#{case_type_name},
+case_status_code=#{case_status_code},
+case_status_name=#{case_status_name},
+alarm_time=#{alarm_time},
+address=#{address},
+description=#{description},
+case_nature_code=#{case_nature_code},
+case_nature_name=#{case_nature_name},
+merge_status_code=#{merge_status_code},
+merge_status_name=#{merge_status_name},
+case_level_code=#{case_level_code},
+case_level_name=#{case_level_name},
+source_longitude=#{source_longitude},
+source_latitude=#{source_latitude},
+source_coord_system=#{source_coord_system},
+map_longitude=#{map_longitude},
+map_latitude=#{map_latitude},
+coordinate_status=#{coordinate_status},
+source_sjc=#{source_sjc},
+source_create_time_utc=#{source_create_time_utc},
+source_njs_create_time_utc=#{source_njs_create_time_utc},
+source_njs_update_time_utc=#{source_njs_update_time_utc},
+source_sugon_create_time_utc=#{source_sugon_create_time_utc},
+source_sugon_update_time_utc=#{source_sugon_update_time_utc},
+source_manually_add=#{source_manually_add},
+source_counterfeit=#{source_counterfeit},
+source_flag=#{source_flag},
+source_manual_operate_count=#{source_manual_operate_count},
+raw_json=#{raw_json},
+payload_hash=#{payload_hash},
+street_name=CASE WHEN street_match_method='manual' THEN street_name ELSE #{street_name} END,
+street_match_status=CASE WHEN street_match_method='manual' THEN street_match_status ELSE #{street_match_status} END,
+street_match_basis=CASE WHEN street_match_method='manual' THEN street_match_basis ELSE #{street_match_basis} END,
+street_match_method=CASE WHEN street_match_method='manual' THEN street_match_method ELSE #{street_match_method} END,
+revision_no=#{revision_no},last_seen_at=#{now},last_changed_at=#{now},last_sync_batch_id=#{batch},update_by='119-sync',update_time=#{now} WHERE incident_id=#{incident_id}
+ </update>
+ <update id="touchIncident">UPDATE fire_119_incident SET street_name=CASE WHEN street_match_method='manual' THEN street_name ELSE #{street_name} END,
+street_match_status=CASE WHEN street_match_method='manual' THEN street_match_status ELSE #{street_match_status} END,
+street_match_basis=CASE WHEN street_match_method='manual' THEN street_match_basis ELSE #{street_match_basis} END,
+street_match_method=CASE WHEN street_match_method='manual' THEN street_match_method ELSE #{street_match_method} END,map_longitude=#{map_longitude},map_latitude=#{map_latitude},source_coord_system=#{source_coord_system},coordinate_status=#{coordinate_status},last_seen_at=#{now},last_sync_batch_id=#{batch} WHERE incident_id=#{incident_id}</update>
+ <insert id="insertHistory">
+ INSERT INTO fire_119_incident_history(incident_id,revision_no,sync_batch_id,change_type,observed_at,payload_hash,changed_fields,snapshot_json,create_time)
+ VALUES(#{incident_id},#{revision_no},#{batch},#{change_type},#{now},#{payload_hash},#{changed_fields},#{raw_json},#{now})
+ </insert>
+ <insert id="writeState">
+ INSERT INTO fire_119_sync_state(source_system,query_region_code,last_attempt_at,last_completed_at,last_full_scan_at,last_batch_id,last_result,last_reported_total,last_reported_pages,last_page_size,last_completed_page,consecutive_failures,last_error)
+ VALUES(#{source},#{region},#{started},#{completed},#{completed},#{batch},#{result},#{total},#{pages},#{pageSize},#{lastPage},#{failures},#{error})
+ ON DUPLICATE KEY UPDATE last_attempt_at=VALUES(last_attempt_at),last_completed_at=COALESCE(VALUES(last_completed_at),last_completed_at),last_full_scan_at=COALESCE(VALUES(last_full_scan_at),last_full_scan_at),last_batch_id=VALUES(last_batch_id),last_result=VALUES(last_result),last_reported_total=COALESCE(VALUES(last_reported_total),last_reported_total),last_reported_pages=COALESCE(VALUES(last_reported_pages),last_reported_pages),last_page_size=VALUES(last_page_size),last_completed_page=VALUES(last_completed_page),consecutive_failures=CASE WHEN VALUES(last_result)='success' THEN 0 WHEN VALUES(last_result)='running' THEN consecutive_failures ELSE consecutive_failures+1 END,last_error=VALUES(last_error),update_time=#{now}
+ </insert>
+ <insert id="insertLog">
+ INSERT INTO fire_119_sync_log(sync_batch_id,source_system,query_region_code,operation,page_num,page_size,started_at,finished_at,duration_ms,http_status,business_code,result_status,reported_total,reported_pages,fetched_count,inserted_count,changed_count,unchanged_count,failed_count,error_detail)
+ VALUES(#{batch},#{source},#{region},#{operation},#{page},#{pageSize},#{started},#{finished},#{duration},#{http},#{code},#{result},#{total},#{pages},#{fetched},#{inserted},#{changed},#{unchanged},#{failed},#{error})
+ </insert>
+ <select id="syncState" resultType="map">
+ SELECT last_attempt_at AS lastAttemptAt,last_completed_at AS lastCompletedAt,last_result AS lastResult,consecutive_failures AS consecutiveFailures
+ FROM fire_119_sync_state WHERE source_system=#{source} AND query_region_code=#{region}
+ </select>
+ <select id="scopeCounts" resultType="map">
+ SELECT COUNT(*) AS total,COALESCE(SUM(a.street_match_status='inside'),0) AS insideCount,COALESCE(SUM(a.street_match_status='pending'),0) AS pendingCount,
+ COALESCE(SUM(a.street_match_status='outside'),0) AS outsideCount
+ FROM fire_119_incident a WHERE a.source_system=#{params.sourceSystem} ${params.dataScope}
+ </select>
+ <sql id="unified">
+ SELECT CONVERT(e.event_id USING utf8mb4) COLLATE utf8mb4_bin AS id,
+ CONVERT(e.event_id USING utf8mb4) COLLATE utf8mb4_bin AS code,
+ CONVERT(e.name USING utf8mb4) COLLATE utf8mb4_general_ci AS name,
+ CONVERT(e.event_kind USING utf8mb4) COLLATE utf8mb4_general_ci AS kind,
+ CONVERT('device' USING utf8mb4) COLLATE utf8mb4_general_ci AS sourceCode,
+ CONVERT('消控室主机' USING utf8mb4) COLLATE utf8mb4_general_ci AS source,
+ CONVERT('设备记录' USING utf8mb4) COLLATE utf8mb4_general_ci AS status,
+ CONVERT(CAST(p.place_id AS CHAR) USING utf8mb4) COLLATE utf8mb4_general_ci AS placeId,
+ CONVERT(p.name USING utf8mb4) COLLATE utf8mb4_general_ci AS placeName,
+ CONVERT(CAST(g.gateway_id AS CHAR) USING utf8mb4) COLLATE utf8mb4_general_ci AS gatewayId,
+ CONVERT(g.name USING utf8mb4) COLLATE utf8mb4_general_ci AS gatewayName,
+ CONVERT(e.object_key USING utf8mb4) COLLATE utf8mb4_general_ci AS deviceId,
+ e.object_type AS objectType,
+ e.device_time AS deviceTime,
+ e.received_at AS occurredAt,
+ e.clock_warning AS clockWarning,
+ CONVERT(e.details_json USING utf8mb4) COLLATE utf8mb4_general_ci AS details,
+ CONVERT(CAST(e.message_id AS CHAR) USING utf8mb4) COLLATE utf8mb4_general_ci AS messageId,
+ p.dept_id,
+ p.supervisor_user_id,
+ CONVERT(NULL USING utf8mb4) COLLATE utf8mb4_general_ci AS caseTypeCode,
+ CONVERT(NULL USING utf8mb4) COLLATE utf8mb4_general_ci AS caseTypeName,
+ CONVERT(NULL USING utf8mb4) COLLATE utf8mb4_general_ci AS caseNatureName,
+ CONVERT(NULL USING utf8mb4) COLLATE utf8mb4_general_ci AS caseLevelName,
+ CONVERT(NULL USING utf8mb4) COLLATE utf8mb4_general_ci AS mergeStatusName,
+ CONVERT(NULL USING utf8mb4) COLLATE utf8mb4_general_ci AS address,
+ CONVERT(NULL USING utf8mb4) COLLATE utf8mb4_general_ci AS description,
+ CONVERT(NULL USING utf8mb4) COLLATE utf8mb4_general_ci AS streetRegion,
+ NULL AS lng,
+ NULL AS lat,
+ CONVERT(NULL USING utf8mb4) COLLATE utf8mb4_general_ci AS coordinateStatus,
+ NULL AS lastSyncedAt,
+ CONVERT(NULL USING utf8mb4) COLLATE utf8mb4_general_ci AS caseStatusCode
+ FROM fire_event e JOIN fire_gateway g ON e.gateway_id=g.gateway_id JOIN fire_place p ON p.place_id=g.place_id
+ WHERE p.del_flag='0' AND p.status='0'
+ UNION ALL
+ SELECT CONCAT('119:',i.incident_id),i.external_id,COALESCE(NULLIF(i.description,''),NULLIF(i.case_type_name,''),'119警情'),i.case_type_code,'119','119警情',
+ COALESCE(NULLIF(i.case_status_name,''),'未提供'),CAST(i.place_id AS CHAR),COALESCE(NULLIF(i.address,''),'未提供地址'),
+ NULL,NULL,NULL,NULL,NULL,i.alarm_time,0,CAST(i.raw_json AS CHAR),NULL,
+ i.dept_id,i.supervisor_user_id,i.case_type_code,i.case_type_name,i.case_nature_name,i.case_level_name,i.merge_status_name,i.address,i.description,
+ i.street_match_basis,i.map_longitude,i.map_latitude,i.coordinate_status,i.last_seen_at,i.case_status_code
+ FROM fire_119_incident i WHERE i.source_system=#{params.sourceSystem} AND i.street_match_status='inside'
+ </sql>
+ <select id="alarms" resultType="map">
+ SELECT a.* FROM (<include refid="unified"/>) a WHERE 1=1 ${params.dataScope}
+ <if test="id != null and id != ''">AND a.id=#{id}</if>
+ <if test="keyword != null and keyword != ''">AND (a.name LIKE CONCAT('%',#{keyword},'%') OR a.placeName LIKE CONCAT('%',#{keyword},'%') OR a.gatewayName LIKE CONCAT('%',#{keyword},'%'))</if>
+ <if test="kind != null and kind != ''">AND a.kind=#{kind}</if>
+ <if test="gatewayId != null and gatewayId != ''">AND a.gatewayId=#{gatewayId}</if>
+ <if test="source != null and source != ''">AND a.sourceCode=#{source}</if>
+ <if test="caseType != null and caseType != ''">AND a.sourceCode='119' AND a.caseTypeCode=#{caseType}</if>
+ ORDER BY a.occurredAt DESC,a.id DESC
+ </select>
+</mapper>

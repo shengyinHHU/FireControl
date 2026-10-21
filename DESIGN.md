@@ -34,3 +34,11 @@ Use tests/fire/place-layers.test.mjs for classification, coordinate handling, re
 Database-owned resources now include places, gateways, hosts, alarms and protocolMessages. DeviceAccessView is the shared list owner, AlarmDetail the shared event-detail owner, and Shell the source-provenance owner. Keep existing navy/cyan fire.scss tokens and Element Plus controls; add no independent visual theme. Separate transport connectivity, reported fault/fire bits, device clock and server receipt time. Event records are read-only evidence, not an invented disposition workflow. Government unit 大厂街道 is readable but excluded from the four enterprise map layers. Runtime scope/permissions remain server-owned.
 
 Verification: tools/device-capture/verify_project.py and tests/fire/device-access.browser.cjs. Browser HTTP fixtures are explicitly not a live business database. Actual device fire samples and production deployment remain external acceptance steps.
+
+## 119 incident integration
+
+Use the existing navy/cyan tokens, DeviceAccessView for the shared read-only list, AlarmDetail for source-specific details and MapPanel/mapAdapter for markers. The 119 source retains every case type, source case status/nature and alarm time; never normalize rescue or assistance to fire, or external statuses to device verification states. The minute backend synchronization is independent of browser polling. Counts and list/detail access use fire:alarms:list plus department/user scope. No fallback to demo data.
+
+Dachang membership uses the 25 exact region polygons/names from the uploaded 大厂街道.doc. User confirmed both document and incident coordinates are GCJ02 on 2026-10-21. Region union preserves gaps and includes edges. Outside or invalid-coordinate incidents are persisted for audit but excluded from the Dachang list/map. Map 119 markers use a 119 label; device fire markers retain their existing flame. A 119 incident never borrows a linked place's map coordinate.
+
+Verification owners: tools/119-secret-key/verify_project.py (isolated MySQL and loopback HTTP), tests/fire/incident119.test.mjs and tests/fire/incident119.browser.cjs. Browser fixtures do not prove live deployment.

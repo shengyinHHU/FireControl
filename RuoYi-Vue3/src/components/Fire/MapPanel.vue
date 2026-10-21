@@ -177,13 +177,14 @@
             role="button"
             tabindex="0"
             @keydown.enter="emit('alarm', a.id)"
-            :aria-label="'火警：' + a.placeName + ' · ' + a.name"
+            :aria-label="(a.sourceCode === '119' ? '119警情：' : '火警上报：') + a.placeName + ' · ' + a.name"
           >
             <g :transform="`translate(${xy(a)[0]}, ${xy(a)[1] - 24})`" class="fire-alert-marker">
               <circle r="28" fill="#ff453333" stroke="#ff695a" class="fire-pulse" />
               <ellipse cy="23" rx="25" ry="8" fill="#f5454566" stroke="#ff6b4d" />
-              <path d="M0 -23 C8 -12 15 -10 12 0 C19 -5 22 6 17 15 C10 29 -12 28 -18 14 C-25 0 -8 -6 -9 -17 C-4 -13 -3 -9 -3 -6 C4 -12 3 -18 0 -23Z" fill="#ff603b" stroke="#ffc093" stroke-width="1.5" />
-              <path d="M0 -2 C6 6 11 10 6 17 C0 24 -9 17 -7 11 C-5 6 -1 5 0 -2Z" fill="#ffe9a4" />
+              <path v-if="a.sourceCode !== '119'" d="M0 -23 C8 -12 15 -10 12 0 C19 -5 22 6 17 15 C10 29 -12 28 -18 14 C-25 0 -8 -6 -9 -17 C-4 -13 -3 -9 -3 -6 C4 -12 3 -18 0 -23Z" fill="#ff603b" stroke="#ffc093" stroke-width="1.5" />
+              <path v-if="a.sourceCode !== '119'" d="M0 -2 C6 6 11 10 6 17 C0 24 -9 17 -7 11 C-5 6 -1 5 0 -2Z" fill="#ffe9a4" />
+              <text v-if="a.sourceCode === '119'" text-anchor="middle" y="6" fill="#ffffff" font-size="18">119</text>
               <title>{{ a.placeName }} · {{ a.name }} · {{ a.status }}</title>
             </g>
           </g>
@@ -267,7 +268,7 @@
         >重新绘制网格边界</el-button
       >
     </div>
-    <div v-if="!isFireMock" class="map-fire-legend">🔥 未办结火警 {{ alarmPoints.length }} <span>点击火焰查看详情</span></div>
+    <div v-if="!isFireMock" class="map-fire-legend">警情点位 {{ alarmPoints.length }} <span>点击标记查看详情</span></div>
     <div class="map-caption">
       <span class="online-dot"></span
       >{{
