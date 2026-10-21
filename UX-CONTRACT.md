@@ -24,3 +24,7 @@ DeviceAccessView owns the repeated gateway/host/event/message table, URL committ
 ## 119 source variant
 
 DeviceAccessView event-only mode is 消防警情记录, with source and case filters committed to the URL; host mode keeps device-only event filtering. All status, empty, loading, error/retry and keyboard contracts reuse the shared owner. Read-only 119 details show source case fields, region, coordinate status and last synchronization without simulated disposition controls. Source filters default to all; 119 source defaults to all case types. Synchronization status remains a persistent inline message, not only a toast. Source metadata, host/device statistics and history remain separated. Canonical verification: tests/fire/incident119.browser.cjs.
+
+## Place contact detail variant
+
+PlaceDetail owns the database contact section for both map popups and place archives. Load active contacts only from /fire/places/{id}/contacts with existing fire:places:list and place data scope. Preserve the stored phone text, show loading/empty/error with retry, and ignore superseded place requests. Place fields and all contacts share one bordered descriptions table with a fixed 140px label column, without a separate 联系人 heading. Each contact has one Element Plus ElLink immediately after their name, with the maintained Phone icon and 拨号 label. This link opens the fixed dialing portal in a new tab with noopener/noreferrer; it does not send contact data or initiate a call. Verification: tests/fire/place-contacts.browser.cjs and tools/place-contacts/verify_project.py.

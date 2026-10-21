@@ -1,0 +1,9 @@
+{
+  "isolated_mysql": true,
+  "fixture_http": false,
+  "business_database_accessed": false,
+  "external_api_accessed": false,
+  "sql_repeat_safe": true,
+  "verification": "PLACE_CONTACTS_INTEGRATION_OK",
+  "output": "PLACE_CONTACTS_INTEGRATION_OK checks=7"
+}

@@ -51,4 +51,12 @@ public class FirePlaceController extends BaseController
         List<FirePlace> rows = placeService.selectMapPlaces(query);
         return rows.isEmpty() ? error("场所不存在或无权访问") : success(rows.get(0));
     }
+    @PreAuthorize("@ss.hasPermi('fire:places:list')")
+    @GetMapping("/{placeId}/contacts")
+    public AjaxResult contacts(@PathVariable Long placeId)
+    {
+        FirePlace query = new FirePlace();
+        query.setPlaceId(placeId);
+        return success(placeService.selectContacts(query));
+    }
 }

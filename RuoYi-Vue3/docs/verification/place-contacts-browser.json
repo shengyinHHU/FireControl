@@ -1,0 +1,13 @@
+{
+  "actualVue": true,
+  "fixtureHTTP": true,
+  "businessDatabaseAccessed": false,
+  "externalDialPageStubbed": true,
+  "checks": [
+    "database contact fields, landline preserved and exact external URL opens in a new tab",
+    "error clears stale contact values, retry and empty states",
+    "slow previous request cannot overwrite newly selected place",
+    "narrow viewport and keyboard"
+  ],
+  "errors": []
+}

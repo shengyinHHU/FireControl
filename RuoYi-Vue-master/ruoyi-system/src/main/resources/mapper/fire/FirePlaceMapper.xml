@@ -42,4 +42,15 @@
         ORDER BY p.place_type, p.place_id
         <if test="mapOnly">LIMIT 5001</if>
     </select>
+    <select id="selectContacts" parameterType="com.ruoyi.system.domain.FirePlace" resultType="map">
+        SELECT CAST(c.contact_id AS CHAR) AS contactId, c.contact_name AS contactName,
+               c.phone, c.contact_role AS contactRole
+        FROM fire_place_contact c
+        JOIN fire_place p ON p.place_id = c.place_id
+        WHERE p.place_id = #{placeId}
+          AND p.del_flag = '0' AND p.status = '0'
+          AND c.del_flag = '0' AND c.status = '0'
+          ${params.dataScope}
+        ORDER BY c.sort_order, c.contact_id
+    </select>
 </mapper>

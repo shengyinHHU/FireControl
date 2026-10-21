@@ -5,13 +5,28 @@
     :width="mapRecord ? '620px' : '1000px'"
     class="fire-dialog"
     append-to-body
-    ><el-descriptions v-if="mapRecord" :column="1" border>
+    ><template v-if="mapRecord"><el-descriptions :column="1" border class="place-record-details" :aria-busy="contactsLoading">
       <el-descriptions-item label="场所类别">{{ mapRecord.category }}</el-descriptions-item>
       <el-descriptions-item label="场所地址">{{ mapRecord.address || '未填写' }}</el-descriptions-item>
       <el-descriptions-item label="行业类别">{{ mapRecord.industryCategory || '未填写' }}</el-descriptions-item>
       <el-descriptions-item label="主要风险源">{{ mapRecord.mainRiskSources || '未填写' }}</el-descriptions-item>
       <el-descriptions-item label="坐标">{{ mapRecord.lng == null || mapRecord.lat == null ? '未定位' : `${mapRecord.lng}, ${mapRecord.lat}（GCJ-02）` }}</el-descriptions-item>
-    </el-descriptions><div v-else v-loading="loading">
+      <template v-for="(contact, index) in contacts" :key="contact.contactId || index">
+          <el-descriptions-item label="联系人姓名">
+            <div class="place-contact-name">
+              <span>{{ contact.contactName || '未填写' }}</span>
+              <el-link class="place-contact-dial" type="primary" :underline="false" href="https://www.jnrhtx.top/meeting/index?from=Dc" target="_blank" rel="noopener noreferrer" :aria-label="`${contact.contactName || '联系人'}的拨号页面（新窗口打开）`">
+                <el-icon aria-hidden="true"><Phone /></el-icon><span>拨号</span>
+              </el-link>
+            </div>
+          </el-descriptions-item>
+          <el-descriptions-item label="联系电话">{{ contact.phone || '未填写' }}</el-descriptions-item>
+      </template>
+    </el-descriptions>
+    <div v-if="contactsError" class="fire-error" role="alert">{{ contactsError }}<el-button link @click="load">重试</el-button></div>
+    <p v-else-if="contactsLoading" class="muted" role="status">正在加载联系人…</p>
+    <p v-else-if="!contacts.length" class="muted">暂无联系人信息</p>
+    </template><div v-else v-loading="loading">
       <div v-if="error" class="fire-error">
         {{ error }}<el-button link @click="load">重试</el-button>
       </div>
@@ -185,7 +200,9 @@
 <script setup>
 import { ref, watch, computed } from 'vue'
 import { ElMessageBox } from 'element-plus'
+import { Phone } from '@element-plus/icons-vue'
 import { fire, requestCall } from '@/api/fire'
+import { listDatabasePlaceContacts } from '@/api/fire/places'
 import { canFire } from '@/api/fire/access'
 import { attempt } from '@/views/fire/useFire'
 import StatusTag from './StatusTag.vue'
@@ -213,16 +230,32 @@ const place = ref(null),
   videoOpen = ref(false),
   cameraId = ref('')
 const mapRecord = computed(() => props.mapPlace || (place.value?.source === 'database' ? place.value : null))
+const contacts = ref([]), contactsLoading = ref(false), contactsError = ref('')
 let loadVersion = 0
+async function loadContacts(id, version) {
+  if (!id) { contactsError.value = '缺少场所编号，无法加载联系人'; return }
+  contactsLoading.value = true
+  try {
+    const rows = await listDatabasePlaceContacts(id)
+    if (version === loadVersion) contacts.value = rows
+  } catch (e) {
+    if (version === loadVersion) contactsError.value = e.message || '联系人加载失败，请重试'
+  } finally {
+    if (version === loadVersion) contactsLoading.value = false
+  }
+}
 async function load() {
+  const version = ++loadVersion
+  contacts.value = []
+  contactsError.value = ''
+  contactsLoading.value = false
   if (props.mapPlace) {
-    loadVersion++
     loading.value = false
     error.value = ''
+    await loadContacts(props.mapPlace.id || props.mapPlace.placeId || props.placeId, version)
     return
   }
   if (!props.placeId) return
-  const version = ++loadVersion
   loading.value = true
   error.value = ''
   place.value = null
@@ -231,6 +264,7 @@ async function load() {
     if (version !== loadVersion) return
     if (p.data?.source === 'database') {
       place.value = p.data
+      await loadContacts(props.placeId, version)
       return
     }
     const [u, m, h, c] = await Promise.all(
@@ -293,3 +327,11 @@ watch(
   { immediate: true },
 )
 </script>
+
+<style scoped>
+.place-record-details :deep(.el-descriptions__table) { table-layout: fixed; }
+.place-record-details :deep(.el-descriptions__label.el-descriptions__cell) { width: 140px; }
+.place-record-details :deep(.el-descriptions__content) { overflow-wrap: anywhere; }
+.place-contact-name { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 16px; }
+.place-contact-dial :deep(.el-link__inner) { gap: 4px; }
+</style>

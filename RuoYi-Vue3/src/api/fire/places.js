@@ -23,3 +23,10 @@ export async function getDatabasePlace(id) {
   const response = await request({ url: `/fire/places/${encodeURIComponent(id)}`, method: 'get' })
   return { ...response, data: normalizePlaceRecord(response.data) }
 }
+
+export async function listDatabasePlaceContacts(id) {
+  requireLogin()
+  const response = await request({ url: `/fire/places/${encodeURIComponent(id)}/contacts`, method: 'get' })
+  if (!Array.isArray(response.data)) throw Error('联系人返回格式异常，请重试')
+  return response.data
+}

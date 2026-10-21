@@ -29,4 +29,11 @@ public class FirePlaceServiceImpl implements IFirePlaceService
         }
         return placeMapper.selectMapPlaces(query);
     }
+    @Override
+    @DataScope(deptAlias = "p", userAlias = "p", userField = "supervisor_user_id", permission = "fire:places:list")
+    public List<java.util.Map<String, Object>> selectContacts(FirePlace query)
+    {
+        if (query.getPlaceId() == null) return java.util.Collections.emptyList();
+        return placeMapper.selectContacts(query);
+    }
 }
