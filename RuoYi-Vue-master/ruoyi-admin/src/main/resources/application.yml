@@ -34,7 +34,7 @@ server:
 # 日志配置
 logging:
   level:
-    com.ruoyi: debug
+    com.ruoyi: info
     org.springframework: warn
 
 # 用户配置
@@ -167,7 +167,12 @@ fire:
     password: DIANXIN@123
     public-key: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAg0Ub6OQqQHo51Ur8wtEu49TJThCjynZdkr3bqFhejJsnr7HHdkOGnLHv+FTHB+/xKpuOFyxqN/gwl3CO7UBxqhflgIgxynTcZZI4RGhKHwxez0NUjr98s5IWgG9pUYcEP07Z8rXJXyKzj8T+fDoqignmwhgtwCDjOkWiKxAS6zpH7gHbHuM/1DVHZfV6dwNl7vphyuylOKiGmiOUqxJ4sGCJtmjLeYx4dKwKqr3pbSKhsb1TqfeUgeVfV1H+iyEDgL7+T0kmd2MKirgCH8hO0St36p+E+xlF1z/1yURd0/KwAeP6cHxzhh+k12ADusB8zzCG4kZk2Lb8hAguIXbC5QIDAQAB
     region-code: '320116'
+    # 快速扫描每分钟前3页，旧警情状态每10分钟完整核对；不保证分钟级旧案更新。
     interval-seconds: 60
+    full-interval-seconds: 600
+    quick-pages: 3
+    retry-initial-seconds: 60
+    retry-max-seconds: 600
     initial-delay-seconds: 10
     page-size: 20
     max-pages: 500
@@ -181,3 +186,12 @@ fire:
     # 数据权限归属，按实际若依部门/人员填写；留空时普通部门角色不可见，管理员可见。
     dept-id:
     supervisor-user-id:
+
+  # 天翼视联：仅后端使用，禁止将应用密钥或运营商 Token 下发给浏览器。
+  video:
+    enabled: true
+    app-id: '792653269803'
+    app-secret: 'd2b1cd07169b405bbea32d8125c307d6'
+    enterprise-user: '18913326295'
+    # 超级管理员默认可访问；其他用户需同时具备视频权限并在此显式授权。
+    allowed-user-ids: []

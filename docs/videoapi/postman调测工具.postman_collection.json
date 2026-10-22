@@ -1,0 +1,848 @@
+{
+	"info": {
+		"_postman_id": "7e3e3f42-c6fb-41d6-99ee-9892fc7f43c5",
+		"name": "postman调测工具",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22382877"
+	},
+	"item": [
+		{
+			"name": "（1）获取访问令牌",
+			"item": [
+				{
+					"name": "无感知获取访问令牌",
+					"item": [
+						{
+							"name": "获取token（无感知）",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "apiVersion",
+										"value": "2.0",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"grantType\":\"vcp_189\" \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{domain}}/open/oauth/getAccessToken",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"open",
+										"oauth",
+										"getAccessToken"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "刷新token（无感知）",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "apiVersion",
+										"value": "2.0",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"grantType\":\"vcp_189\",\r\n    \"refreshToken\": \"****\" //参考api文档自行先获取token得到本值\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{domain}}/open/oauth/getAccessToken",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"open",
+										"oauth",
+										"getAccessToken"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "用户授权获取访问令牌",
+					"item": [
+						{
+							"name": "获取授权界面（用户授权）",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "apiVersion",
+										"value": "2.0",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"callbackUrl\":\"https://vcp.dlife.cn/\",\r\n    \"state\":\"123\",\r\n    \"loginClientType\": \"10010\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{domain}}/open/oauth/login/getAuthPageUrl",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"open",
+										"oauth",
+										"login",
+										"getAuthPageUrl"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "获取token（用户授权）",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "apiVersion",
+										"value": "2.0"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"authCode\":\"Rwl3foeoqAdTHtL6pr968fhD\",\r\n    \"grantType\":\"auth_code\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{domain}}/open/oauth/getAccessToken",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"open",
+										"oauth",
+										"getAccessToken"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "刷新token（用户授权）",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "apiVersion",
+										"value": "2.0",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"grantType\":\"auth_code\",\r\n    \"refreshToken\": \"****\" //参考api文档自行先获取token得到本值\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{domain}}/open/oauth/getAccessToken",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"open",
+										"oauth",
+										"getAccessToken"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "天翼账号登录获取访问令牌",
+					"item": [
+						{
+							"name": "获取token（天翼账号登录）",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "apiVersion",
+										"value": "2.0",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"tokenCode\":\"4Z566rCohNZ3TzEKiwAtwvJf\",\r\n    \"grantType\":\"189_code\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{domain}}/open/oauth/getAccessToken",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"open",
+										"oauth",
+										"getAccessToken"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "刷新token（天翼账号登录）",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "apiVersion",
+										"value": "2.0",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"grantType\":\"auth_code\",\r\n    \"refreshToken\": \"****\" //参考api文档自行先获取token得到本值\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{domain}}/open/oauth/getAccessToken",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"open",
+										"oauth",
+										"getAccessToken"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "（2）获取设备列表",
+			"item": [
+				{
+					"name": "2.1 查询监控目录",
+					"item": [
+						{
+							"name": "查询监控目录",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "apiVersion",
+										"value": "2.0",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"regionId\":\"**\",  //根据接口文档，首层查询本字段可不传   \r\n    \"accessToken\": \"****\", //填入第一环节获取的访问令牌\r\n    \"enterpriseUser\": \"189***2344\" // 根据访问令牌的类型（无感知类型）本参数必填\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{domain}}/open/token/device/getReginWithGroupList",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"open",
+										"token",
+										"device",
+										"getReginWithGroupList"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "查询监控目录子目录设备列表",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "apiVersion",
+										"value": "2.0",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cusRegionId\": \"\",\n    \"lastId\": \"0\",\n    \"pageSize\": \"50\", \n    \"accessToken\": \"****\", //填入第一环节获取的访问令牌\n    \"enterpriseUser\": \"189***2344\" // 根据访问令牌的类型（无感知类型）本参数必填\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{domain}}/open/token/device/getAllDeviceListNew",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"open",
+										"token",
+										"device",
+										"getAllDeviceListNew"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "2.2 我的设备",
+					"item": [
+						{
+							"name": "2.1.1 根据条件查询设备列表",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "apiVersion",
+										"value": "2.0",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"accessToken\": \"eBzmcor******wROslUFv\", //填入第一环节获取的访问令牌\r\n    \"enterpriseUser\": \"1892***671\" // 根据访问令牌的类型（无感知类型）本参数必填\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{domain}}/open/token/vcpTree/getLastRegions",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"open",
+										"token",
+										"vcpTree",
+										"getLastRegions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "2.1.2获取设备树最后一层区域列表",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "apiVersion",
+										"value": "2.0",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n   \"accessToken\": \"eBzmcor******wROslUFv\", //填入第一环节获取的访问令牌\r\n   \"enterpriseUser\": \"1892***671\" // 根据访问令牌的类型（无感知类型）本参数必填\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{domain}}/open/token/vcpTree/getLastRegions",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"open",
+										"token",
+										"vcpTree",
+										"getLastRegions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "2.1.3根据区域编码获取设备列表",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "apiVersion",
+										"value": "2.0",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"accessToken\": \"eBzmcor******wROslUFv\", //填入第一环节获取的访问令牌\r\n   \"enterpriseUser\": \"1892***671\", // 根据访问令牌的类型（无感知类型）本参数必填\r\n    \"regionCode\": \"44***00001\", //请根据2.1.2 接口所得调整参数\r\n    \"pageNo\": 1,\r\n    \"pageSize\": 10\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{domain}}/open/token/vcpTree/getDevicesByRegionCode",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"open",
+										"token",
+										"vcpTree",
+										"getDevicesByRegionCode"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "（3）视频直播",
+			"item": [
+				{
+					"name": "获取视频直播RTSP",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "apiVersion",
+								"value": "2.0"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"deviceCode\": \"3YSC***4007ZY\", //请根据获取设备列表目录中接口所得调整参数\r\n    \"accessToken\": \"eBzmcor******wROslUFv\", //填入第一环节获取的访问令牌\r\n   \"enterpriseUser\": \"1892***671\", // 根据访问令牌的类型（无感知类型）本参数必填\r\n    \"netType\": 0,\r\n    \"mediaType\": 0,\r\n    \"mute\": 0\r\n}\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}/open/token/cloud/getDeviceMediaUrlRtsp",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"open",
+								"token",
+								"cloud",
+								"getDeviceMediaUrlRtsp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取视频直播RTMP",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "apiVersion",
+								"value": "2.0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n     \"deviceCode\": \"3YSC***4007ZY\", //请根据获取设备列表目录中接口所得调整参数\r\n    \"accessToken\": \"eBzmcor******wROslUFv\", //填入第一环节获取的访问令牌\r\n   \"enterpriseUser\": \"1892***671\", // 根据访问令牌的类型（无感知类型）本参数必填\r\n    \"mute\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}/open/token/cloud/getDeviceMediaUrlRtmp",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"open",
+								"token",
+								"cloud",
+								"getDeviceMediaUrlRtmp"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "（4）视频回看",
+			"item": [
+				{
+					"name": "4.1 回看文件目录列表",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "apiVersion",
+								"value": "2.0"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"deviceCode\": \"3YSC***4007ZY\", //请根据获取设备列表目录中接口所得调整参数\r\n    \"accessToken\": \"eBzmcor******wROslUFv\", //填入第一环节获取的访问令牌\r\n   \"enterpriseUser\": \"1892***671\"// 根据访问令牌的类型（无感知类型）本参数必填\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}/open/token/cloud/getCloudFolderList",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"open",
+								"token",
+								"cloud",
+								"getCloudFolderList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4.2 云回看文件列表",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "apiVersion",
+								"value": "2.0"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n     \"deviceCode\": \"3YSC***4007ZY\", //请根据获取设备列表目录中接口所得调整参数\r\n    \"accessToken\": \"eBzmcor******wROslUFv\", //填入第一环节获取的访问令牌\r\n   \"enterpriseUser\": \"1892***671\", // 根据访问令牌的类型（无感知类型）本参数必填\r\n      \"pageNo\": 1,\r\n      \"pageSize\": 50,\r\n    \"path\": \"20240924\" //请分局4.1 所得调整参数\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}/open/token/cloud/getCloudFileList",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"open",
+								"token",
+								"cloud",
+								"getCloudFileList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4.3 回看流化RTSP",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "apiVersion",
+								"value": "2.0"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"deviceCode\": \"3YSC***4007ZY\", //请根据获取设备列表目录中接口所得调整参数\r\n    \"accessToken\": \"eBzmcor******wROslUFv\", //填入第一环节获取的访问令牌\r\n   \"enterpriseUser\": \"1892***671\", // 根据访问令牌的类型（无感知类型）本参数必填\r\n    \"fileId\":\"604287_*****0287000\" //请根据4.2所得调整参数\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}/open/token/cloud/streamUrlRtsp",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"open",
+								"token",
+								"cloud",
+								"streamUrlRtsp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4.4 回看流化HLS",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "apiVersion",
+								"value": "2.0"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"type\": \"4\",\r\n  \"deviceCode\": \"3YSC***4007ZY\", //请根据获取设备列表目录中接口所得调整参数\r\n    \"accessToken\": \"eBzmcor******wROslUFv\", //填入第一环节获取的访问令牌\r\n   \"enterpriseUser\": \"1892***671\", // 根据访问令牌的类型（无感知类型）本参数必填\r\n    \"fileId\":\"604287_*****0287000\" //请根据4.2所得调整参数\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}/open/token/cloud/streamUrlHls",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"open",
+								"token",
+								"cloud",
+								"streamUrlHls"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// 加载lib",
+					"eval(pm.globals.get('xxtea_code'))",
+					"",
+					"// 获取环境变量",
+					"var appId = pm.environment.get(\"appId\");",
+					"var appSecret = pm.environment.get(\"appSecret\");",
+					"var version = pm.environment.get(\"version\");",
+					"var clientType = pm.environment.get(\"clientType\");",
+					"",
+					"//console.log(appId)",
+					"",
+					"//生成时间戳",
+					"var timestamp =  Math.round(new Date()) ",
+					"//console.log(appId)",
+					"//业务参数加密",
+					"var params_raw = JSON.parse(pm.request.body.raw);",
+					"console.log(params_raw);",
+					"var sb = buildSignQueryString(params_raw);",
+					"console.log(sb);",
+					"var sb_utf8=eval('\\''+encodeURI(sb).replace(/%/gm,'\\\\x')+'\\'');",
+					"var encryptParams = xxtea_encrypt(sb_utf8,appSecret).toUpperCase();",
+					"console.log(encryptParams);",
+					"//console.log(xxtea_decrypt(encryptParams,appSecret))",
+					"",
+					"//生成签名",
+					"var signParams = appId + clientType + encryptParams + timestamp + version;",
+					"",
+					"var sign = CryptoJS.HmacSHA256(signParams, appSecret).toString();",
+					"",
+					"pm.request.headers.upsert({",
+					"    key: 'Content-Type',",
+					"    value: 'application/x-www-form-urlencoded'",
+					"});",
+					"pm.request.body.mode = \"urlencoded\"",
+					"pm.request.body.urlencoded = 'appId='+appId+\"&version=\"+version+\"&clientType=\"+clientType+\"&timestamp=\"+timestamp+\"&params=\"+encryptParams+\"&signature=\"+sign;",
+					"console.log(pm.request.body.urlencoded)",
+					"",
+					"// //放入环境变量",
+					"// postman.setEnvironmentVariable(\"params\", encryptParams);",
+					"// postman.setEnvironmentVariable(\"timestamp\", timestamp);",
+					"// postman.setEnvironmentVariable(\"signature\", sign);",
+					"",
+					"function buildSignQueryString(params) {",
+					"\tvar keys = Object.keys(params).sort()",
+					"  var queryString = \"\";",
+					"  keys.forEach((key,index) => {",
+					"    var val = params[key];",
+					"    if (key == undefined || key ==null || key.length == 0) {",
+					"      return",
+					"    }",
+					"    if (queryString.length > 0) {",
+					"      queryString += \"&\"",
+					"    }",
+					"    queryString += key + \"=\"",
+					"    switch(typeof(val)) {",
+					"        case \"object\": queryString += JSON.stringify(val,(k,v)=>typeof v==='undefined'?null:v);break;",
+					"        default: queryString += val;break;",
+					"    }",
+					"  })",
+					"  return queryString;",
+					"}",
+					"",
+					"function long2str(v, w) {",
+					"    var vl = v.length;",
+					"    var n = (vl - 1) << 2;",
+					"    if (w) {",
+					"        var m = v[vl - 1];",
+					"        if ((m < n - 3) || (m > n)) return null;",
+					"        n = m;",
+					"    }",
+					"    for (var i = 0; i < vl; i++) {",
+					"        v[i] = String.fromCharCode(v[i] & 0xff,",
+					"                                   v[i] >>> 8 & 0xff,",
+					"                                   v[i] >>> 16 & 0xff,",
+					"                                   v[i] >>> 24 & 0xff);",
+					"    }",
+					"    if (w) {",
+					"        return v.join('').substring(0, n);",
+					"    }",
+					"    else {",
+					"        return v.join('');",
+					"    }",
+					"}",
+					" ",
+					"function str2long(s, w) {",
+					"    var len = s.length;",
+					"    var v = [];",
+					"    for (var i = 0; i < len; i += 4) {",
+					"        v[i >> 2] = s.charCodeAt(i)",
+					"                  | s.charCodeAt(i + 1) << 8",
+					"                  | s.charCodeAt(i + 2) << 16",
+					"                  | s.charCodeAt(i + 3) << 24;",
+					"    }",
+					"    if (w) {",
+					"        v[v.length] = len;",
+					"    }",
+					"    return v;",
+					"}",
+					" ",
+					"function xxtea_encrypt(str, key) {",
+					"    if (str == \"\") {",
+					"        return \"\";",
+					"    }",
+					"    var v = str2long(str, true);",
+					"    var k = str2long(key, false);",
+					"    if (k.length < 4) {",
+					"        k.length = 4;",
+					"    }",
+					"    var n = v.length - 1;",
+					" ",
+					"    var z = v[n], y = v[0], delta = 0x9E3779B9;",
+					"    var mx, e, p, q = Math.floor(6 + 52 / (n + 1)), sum = 0;",
+					"    while (0 < q--) {",
+					"        sum = sum + delta & 0xffffffff;",
+					"        e = sum >>> 2 & 3;",
+					"        for (p = 0; p < n; p++) {",
+					"            y = v[p + 1];",
+					"            mx = (z >>> 5 ^ y << 2) + (y >>> 3 ^ z << 4) ^ (sum ^ y) + (k[p & 3 ^ e] ^ z);",
+					"            z = v[p] = v[p] + mx & 0xffffffff;",
+					"        }",
+					"        y = v[0];",
+					"        mx = (z >>> 5 ^ y << 2) + (y >>> 3 ^ z << 4) ^ (sum ^ y) + (k[p & 3 ^ e] ^ z);",
+					"        z = v[n] = v[n] + mx & 0xffffffff;",
+					"    }",
+					" ",
+					"    return long2str(v, false);",
+					"}",
+					" ",
+					"function xxtea_decrypt(str, key) {",
+					"    if (str == \"\") {",
+					"        return \"\";",
+					"    }",
+					"    var v = str2long(str, false);",
+					"    var k = str2long(key, false);",
+					"    if (k.length < 4) {",
+					"        k.length = 4;",
+					"    }",
+					"    var n = v.length - 1;",
+					" ",
+					"    var z = v[n - 1], y = v[0], delta = 0x9E3779B9;",
+					"    var mx, e, p, q = Math.floor(6 + 52 / (n + 1)), sum = q * delta & 0xffffffff;",
+					"    while (sum != 0) {",
+					"        e = sum >>> 2 & 3;",
+					"        for (p = n; p > 0; p--) {",
+					"            z = v[p - 1];",
+					"            mx = (z >>> 5 ^ y << 2) + (y >>> 3 ^ z << 4) ^ (sum ^ y) + (k[p & 3 ^ e] ^ z);",
+					"            y = v[p] = v[p] - mx & 0xffffffff;",
+					"        }",
+					"        z = v[n];",
+					"        mx = (z >>> 5 ^ y << 2) + (y >>> 3 ^ z << 4) ^ (sum ^ y) + (k[p & 3 ^ e] ^ z);",
+					"        y = v[0] = v[0] - mx & 0xffffffff;",
+					"        sum = sum - delta & 0xffffffff;",
+					"    }",
+					" ",
+					"    return long2str(v, true);",
+					"}"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

@@ -1,0 +1,10 @@
+{
+  "fixtureHttp": true,
+  "liveHls": true,
+  "checks": [
+    "device listing does not request streams; original inspection tab preserved",
+    "LIVE HLS NOT DECODED: IPCamera15\n\n设备编码：32011601021322001282\n\n视频连接失败，请重新连接；若持续失败，请检查设备、跨域配置或浏览器编码支持。\n\n播放失败\n重新连接\n全屏\n\n实时画面按需连接，关闭窗口后停止播放。",
+    "keyboard/narrow viewport and return to unchanged inspection content"
+  ],
+  "errors": []
+}

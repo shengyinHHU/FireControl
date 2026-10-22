@@ -53,6 +53,7 @@ import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { fire } from '@/api/fire'
 import { incident119Status } from '@/api/fire/deviceAccess'
+import { format119SyncStatus } from '@/api/fire/incident119Status'
 import { canFire } from '@/api/fire/access'
 import StatusTag from './StatusTag.vue'
 import AlarmDetail from './AlarmDetail.vue'
@@ -72,13 +73,8 @@ const definitions = {
  protocolMessages: [['direction','方向'],['sessionId','连接编号',220],['peerIp','设备IP'],['sequenceNo','流水号'],['commandNo','命令'],['receivedAt','记录时间',190],['parseStatus','解析结果'],['transmissionStatus','发送结果']],
 }
 const columns = computed(() => (props.eventOnly ? [['source','来源',140],['name','警情内容',280],['caseTypeName','案件类型',130],['caseNatureName','案件性质',120],['placeName','案发地址或单位',260],['occurredAt','来警或接收时间',190],['status','案件或记录状态',150]] : definitions[tab.value]).map(([key,label,width]) => ({key,label,width})))
-const syncNote = computed(() => {
- const s=syncStatus.value
- if(!s) return '119同步状态暂不可用，可刷新重试；下表为当前已入库记录'
- if(!s.enabled) return '119同步未启用，当前显示已入库记录'
- if(['failed','partial'].includes(s.lastResult)) return `119最近同步未完整成功；最近完整成功：${s.lastCompletedAt || '尚未完成'}。请检查后端同步日志。`
- return `119每${s.intervalSeconds || 60}秒同步 · 大厂街道内 ${s.insideCount ?? 0} 条 · 待判定 ${s.pendingCount ?? 0} 条 · 最近完整成功：${s.lastCompletedAt || '尚未完成首轮'}`
-})
+const syncNote = computed(() => format119SyncStatus(syncStatus.value))
+
 async function load() {
  const current = ++revision
  loading.value = true; error.value = ''

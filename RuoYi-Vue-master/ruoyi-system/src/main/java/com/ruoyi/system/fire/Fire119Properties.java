@@ -11,8 +11,13 @@ public class Fire119Properties {
  private String orderSource,account,password,publicKey,sourceSystem="jiangning_119",regionCode="320116";
  private String sourceCoordinateSystem="unknown";
  private int intervalSeconds=60,initialDelaySeconds=10,pageSize=20,maxPages=500,requestTimeoutSeconds=15,maxRunSeconds=240,tokenLifetimeSeconds=600;
+ private int fullIntervalSeconds=600,quickPages=3,retryInitialSeconds=60,retryMaxSeconds=600;
  private Long deptId,supervisorUserId;
  private String boundaryCoordinateMode="pending";
+ public int getFullIntervalSeconds(){return fullIntervalSeconds;} public void setFullIntervalSeconds(int v){fullIntervalSeconds=v;}
+ public int getQuickPages(){return quickPages;} public void setQuickPages(int v){quickPages=v;}
+ public int getRetryInitialSeconds(){return retryInitialSeconds;} public void setRetryInitialSeconds(int v){retryInitialSeconds=v;}
+ public int getRetryMaxSeconds(){return retryMaxSeconds;} public void setRetryMaxSeconds(int v){retryMaxSeconds=v;}
  public String getBoundaryCoordinateMode(){return boundaryCoordinateMode;} public void setBoundaryCoordinateMode(String v){boundaryCoordinateMode=v;}
  public boolean isEnabled(){return enabled;} public void setEnabled(boolean v){enabled=v;}
  public String getBaseUrl(){return baseUrl;} public void setBaseUrl(String v){baseUrl=v;}

@@ -4,6 +4,9 @@ import org.apache.ibatis.annotations.Param;
 import com.ruoyi.system.domain.FireAccessQuery;
 public interface Fire119Mapper {
  Map<String,Object> incidentForUpdate(@Param("source") String source,@Param("externalId") String externalId);
+ List<Map<String,Object>> incidentHashes(@Param("source") String source,@Param("ids") List<String> ids);
+ int touchIncidents(@Param("source") String source,@Param("rows") List<Map<String,Object>> rows);
+ void writeQuickState(Map<String,Object> row);
  void insertIncident(Map<String,Object> row);
  void updateIncident(Map<String,Object> row);
  void touchIncident(Map<String,Object> row);

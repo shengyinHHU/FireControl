@@ -32,8 +32,16 @@ public class Fire119IntegrationTest {
  public static void main(String[] args)throws Exception {
   var context=new org.springframework.context.annotation.AnnotationConfigApplicationContext();context.register(org.springframework.boot.jackson.autoconfigure.JacksonAutoConfiguration.class);context.refresh();json=context.getBean(ObjectMapper.class);
   String url="jdbc:mysql://127.0.0.1:"+args[0]+"/dachang?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&characterEncoding=utf8";
-  db=DriverManager.getConnection(url,"root","");var ds=new DriverManagerDataSource(url,"root","");
-  var f=new SqlSessionFactoryBean();f.setDataSource(ds);f.setMapperLocations(new FileSystemResource(args[1]+"/RuoYi-Vue-master/ruoyi-system/src/main/resources/mapper/fire/Fire119Mapper.xml"));var session=new SqlSessionTemplate(f.getObject());var mapper=session.getMapper(Fire119Mapper.class);
+  AtomicBoolean failAcquire=new AtomicBoolean();
+  db=DriverManager.getConnection(url,"root","");var ds=new DriverManagerDataSource(url,"root",""){
+   @Override public Connection getConnection() throws SQLException {if(failAcquire.get())throw new SQLException("fixture connection unavailable","08001");return super.getConnection();}
+  };
+  var f=new SqlSessionFactoryBean();f.setDataSource(ds);f.setMapperLocations(new FileSystemResource(args[1]+"/RuoYi-Vue-master/ruoyi-system/src/main/resources/mapper/fire/Fire119Mapper.xml"));var session=new SqlSessionTemplate(f.getObject());var realMapper=session.getMapper(Fire119Mapper.class);
+  AtomicInteger hashReads=new AtomicInteger(),lockReads=new AtomicInteger(),pageTouches=new AtomicInteger();
+  var mapper=(Fire119Mapper)java.lang.reflect.Proxy.newProxyInstance(Fire119Mapper.class.getClassLoader(),new Class[]{Fire119Mapper.class},(obj,method,values)->{
+   if(method.getName().equals("incidentHashes"))hashReads.incrementAndGet();if(method.getName().equals("incidentForUpdate"))lockReads.incrementAndGet();if(method.getName().equals("touchIncidents"))pageTouches.incrementAndGet();
+   try{return method.invoke(realMapper,values);}catch(java.lang.reflect.InvocationTargetException e){throw e.getCause();}
+  });
   var cfg=new Fire119Properties();cfg.setSourceSystem("fixture_119");cfg.setRegionCode("320116");cfg.setOrderSource("FIXTURE");cfg.setAccount("FIXTURE");cfg.setPassword("fixture-only");cfg.setSourceCoordinateSystem("GCJ02");cfg.setBoundaryCoordinateMode("verified");cfg.setDeptId(100L);
   var boundary=new Fire119Boundary(cfg,json);check(boundary.match(new java.math.BigDecimal("118.75163"),new java.math.BigDecimal("32.212305")).status().equals("inside"),"document region inside");
   check(boundary.match(new java.math.BigDecimal("118.9"),new java.math.BigDecimal("32.33")).status().equals("outside"),"outside document polygons");
@@ -77,8 +85,50 @@ public class Fire119IntegrationTest {
   try{
    cfg.setBaseUrl("http://127.0.0.1:"+server.getAddress().getPort());cfg.setPageSize(2);var client=new Fire119Client(cfg,json);
    client.page(1);client.page(2);check(tokens.get()==1,"token cached across pages");authFail.set(true);client.page(1);check(tokens.get()==2,"refresh token once on authentication failure");
-   var sync=new Fire119Synchronizer(cfg,client,ingest);sync.syncOnce();check("success".equals(mapper.syncState("fixture_119","320116").get("lastResult")),"complete batch success");long histories=count("fire_119_incident_history");sync.syncOnce();check(count("fire_119_incident_history")==histories,"repeat HTTP batch no duplicated history");
+   var sync=new Fire119Synchronizer(cfg,client,ingest,new Fire119PageProcessor(ingest,mapper),ds);sync.syncOnce();check("success".equals(mapper.syncState("fixture_119","320116").get("lastResult")),"complete batch success");long histories=count("fire_119_incident_history");sync.syncOnce();check(count("fire_119_incident_history")==histories,"repeat HTTP batch no duplicated history");
    Object complete=mapper.syncState("fixture_119","320116").get("lastCompletedAt");pageFail.set(true);sync.syncOnce();var state=mapper.syncState("fixture_119","320116");check("failed".equals(state.get("lastResult")),"page failure reported");check(Objects.equals(complete,state.get("lastCompletedAt")),"failed batch does not advance complete time");
+   var processor=new Fire119PageProcessor(ingest,mapper);
+   hashReads.set(0);lockReads.set(0);pageTouches.set(0);long historyBefore=count("fire_119_incident_history");
+   var repeat=processor.process(List.of(fixture("network-1","1",true),fixture("network-2","3",false)),"batch-optimized",Long.MAX_VALUE);
+   check(repeat.unchanged()==2&&hashReads.get()==1&&pageTouches.get()==1&&lockReads.get()==0,"unchanged page uses one hash select and one batch update, no row locks");
+   check(count("fire_119_incident_history")==historyBefore,"unchanged batch adds no history");
+   try(var stmt=db.createStatement()){stmt.execute("UPDATE fire_119_incident SET street_match_method='manual',street_name='人工判定',street_match_status='outside' WHERE external_id='network-2'");}
+   processor.process(List.of(fixture("network-2","3",false)),"batch-manual",Long.MAX_VALUE);
+   try(var stmt=db.createStatement();var rs=stmt.executeQuery("SELECT street_match_method,street_name FROM fire_119_incident WHERE external_id='network-2'")){rs.next();check("manual".equals(rs.getString(1))&&"人工判定".equals(rs.getString(2)),"batch metadata preserves manual boundary overrides");}
+   lockReads.set(0);
+   var changed=fixture("network-1","1",true);changed.put("ajztmc","返队");
+   var changedResult=processor.process(List.of(changed),"batch-changed",Long.MAX_VALUE);
+   check(changedResult.changed()==1&&lockReads.get()==1&&count("fire_119_incident_history")==historyBefore+1,"changed item retains transactional revision and history");
+   Map<String,Object> stale=ingest.prepare(changed,"batch-stale");
+   try(var stmt=db.createStatement();var rs=stmt.executeQuery("SELECT incident_id FROM fire_119_incident WHERE external_id='network-1'")){rs.next();stale.put("incident_id",rs.getLong(1));}
+   stale.put("payload_hash","0".repeat(64));boolean conflict=false;try{ingest.touchPage(List.of(stale));}catch(org.springframework.dao.ConcurrencyFailureException e){conflict=true;}
+   check(conflict,"stale batch hash cannot overwrite newer row metadata");
+   cfg.setQuickPages(1);int callsBefore=calls.get();sync.syncOnce(false);var quickState=mapper.syncState("fixture_119","320116");
+   check(calls.get()==callsBefore+1,"quick run requests only configured first page");
+   check("success".equals(quickState.get("lastQuickResult")),"quick completion saved independently");
+   check("failed".equals(quickState.get("lastResult"))&&Objects.equals(complete,quickState.get("lastCompletedAt")),"quick success cannot erase failed full result or advance full completion");
+   check(quickState.get("lastQuickCompletedAt")!=null&&quickState.get("lastNewIncidentAt")!=null,"quick and discovery timestamps available");
+   cfg.setQuickPages(2);Object quickComplete=quickState.get("lastQuickCompletedAt");sync.syncOnce(false);quickState=mapper.syncState("fixture_119","320116");
+   check("failed".equals(quickState.get("lastQuickResult"))&&Objects.equals(quickComplete,quickState.get("lastQuickCompletedAt")),"failed quick run preserves prior successful quick timestamp");
+   check(sync.runtimeStatus().get("nextRetryAt")!=null,"failed run exposes backoff deadline");
+   check(Fire119Synchronizer.backoffSeconds(1,60,600)==60&&Fire119Synchronizer.backoffSeconds(2,60,600)==120&&Fire119Synchronizer.backoffSeconds(31,60,600)==600,"bounded exponential backoff");
+   pageFail.set(false);sync.syncOnce(false);check(sync.runtimeStatus().get("nextRetryAt")==null,"successful recovery clears retry delay");
+   // Real worker scheduling: startup full scan, then quick scans, then another full scan.
+   cfg.setEnabled(true);cfg.setIntervalSeconds(1);cfg.setFullIntervalSeconds(3);cfg.setQuickPages(1);cfg.setInitialDelaySeconds(0);cfg.setRetryInitialSeconds(2);cfg.setRetryMaxSeconds(4);
+   var scheduled=new Fire119Synchronizer(cfg,client,ingest,processor,ds);
+   long fullBefore;try(var stmt=db.createStatement();var rs=stmt.executeQuery("SELECT COUNT(*) FROM fire_119_sync_log WHERE operation='batch'")){rs.next();fullBefore=rs.getLong(1);}
+   scheduled.start();long until=System.nanoTime()+java.util.concurrent.TimeUnit.SECONDS.toNanos(9);boolean cadence=false;
+   while(System.nanoTime()<until){try(var stmt=db.createStatement();var rs=stmt.executeQuery("SELECT SUM(operation='batch'),SUM(operation='quick-batch') FROM fire_119_sync_log")){rs.next();if(rs.getLong(1)>=fullBefore+2&&rs.getLong(2)>=3){cadence=true;break;}}Thread.sleep(100);}
+   scheduled.stop();check(cadence,"actual scheduler runs full then quick then full at separate cadences");
+   var recovering=new Fire119Synchronizer(cfg,client,ingest,processor,ds);
+   failAcquire.set(true);int beforeDbFailure=calls.get();recovering.syncOnce();
+   check(calls.get()==beforeDbFailure&&recovering.runtimeStatus().get("nextRetryAt")!=null,"database transaction acquisition failure starts backoff before external HTTP");
+   failAcquire.set(false);recovering.start();Thread.sleep(400);
+   check(calls.get()==beforeDbFailure,"scheduler does not retry during database backoff");
+   long recoveryUntil=System.nanoTime()+java.util.concurrent.TimeUnit.SECONDS.toNanos(6);
+   while(System.nanoTime()<recoveryUntil&&(calls.get()==beforeDbFailure||((Number)recovering.runtimeStatus().get("retryFailures")).intValue()!=0||Boolean.TRUE.equals(recovering.runtimeStatus().get("syncRunning"))))Thread.sleep(100);
+   recovering.stop();check(calls.get()>beforeDbFailure&&((Number)recovering.runtimeStatus().get("retryFailures")).intValue()==0,"scheduler resumes after backoff and clears it on recovery");
+   int beforeStopped=calls.get();sync.stop();sync.syncOnce();check(calls.get()==beforeStopped,"stopping prevents additional sync and shutdown transaction errors");
    check(errors.isEmpty(),"fixture handlers successful: "+errors);
    slowBody.set(true);cfg.setRequestTimeoutSeconds(1);long began=System.nanoTime();boolean timedOut=false;
    try{client.page(1);}catch(Exception expected){timedOut=true;}

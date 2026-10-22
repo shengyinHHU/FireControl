@@ -84,12 +84,18 @@
             <p v-if="!filteredPlaces.length" class="fire-empty">暂无匹配场所</p>
           </div></Panel
         >
-        <Panel title="查岗管理" class="inspections-panel"
+        <Panel :title="inspectionTab === 'inspections' ? '查岗管理' : '视频监控'" class="inspections-panel"
           ><template #action
-            ><router-link to="/fire/inspections" class="tiny"
-              >全部记录 ›</router-link
+            ><router-link :to="inspectionTab === 'video' ? '/fire/inspections?tab=video' : '/fire/inspections'" class="tiny"
+              >{{ inspectionTab === 'video' ? '全部监控 ›' : '全部记录 ›' }}</router-link
             ></template
           >
+          <el-tabs v-model="inspectionTab" class="monitor-panel-tabs">
+            <el-tab-pane label="查岗管理" name="inspections" />
+            <el-tab-pane label="视频监控" name="video" />
+          </el-tabs>
+          <VideoMonitor v-if="inspectionTab === 'video'" compact />
+          <template v-else>
           <div class="inspection-filter">
             <el-select
               popper-class="fire-dialog"
@@ -126,7 +132,8 @@
               </div>
             </button>
             <p v-if="!inspections.length" class="fire-empty">暂无查岗记录</p>
-          </div></Panel
+          </div>
+          </template></Panel
         >
       </div>
       <div class="command-map">
@@ -335,11 +342,13 @@ import { hostAlarmSummary, isActiveFire, isDisplayAlarm } from '@/api/fire/rules
 import { isFireMock } from '@/api/fire/config'
 import { attempt } from '../useFire'
 import Panel from '@/components/Fire/Panel.vue'
+import VideoMonitor from '@/components/Fire/VideoMonitor.vue'
 import StatusTag from '@/components/Fire/StatusTag.vue'
 import MapPanel from '@/components/Fire/MapPanel.vue'
 import PlaceDetail from '@/components/Fire/PlaceDetail.vue'
 import VideoDialog from '@/components/Fire/VideoDialog.vue'
 import AlarmDetail from '@/components/Fire/AlarmDetail.vue'
+const inspectionTab = ref('inspections')
 const wideMap = ref(window.innerWidth > 1100)
 const videoToolsOpen = ref(false)
 const resizeMap = () => { wideMap.value = window.innerWidth > 1100 }

@@ -5,6 +5,26 @@
  SELECT incident_id AS incidentId,payload_hash AS payloadHash,revision_no AS revisionNo,CAST(raw_json AS CHAR) AS rawJson
  FROM fire_119_incident WHERE source_system=#{source} AND external_id=#{externalId} FOR UPDATE
  </select>
+ <select id="incidentHashes" resultType="map">
+ SELECT incident_id AS incidentId,external_id AS externalId,payload_hash AS payloadHash
+ FROM fire_119_incident WHERE source_system=#{source} AND external_id IN
+ <foreach collection="ids" item="id" open="(" close=")" separator=",">#{id}</foreach>
+ </select>
+ <update id="touchIncidents">
+ UPDATE fire_119_incident SET
+street_name=CASE WHEN street_match_method='manual' THEN street_name ELSE CASE incident_id <foreach collection="rows" item="r"> WHEN #{r.incident_id} THEN #{r.street_name} </foreach> ELSE street_name END END,
+street_match_status=CASE WHEN street_match_method='manual' THEN street_match_status ELSE CASE incident_id <foreach collection="rows" item="r"> WHEN #{r.incident_id} THEN #{r.street_match_status} </foreach> ELSE street_match_status END END,
+street_match_basis=CASE WHEN street_match_method='manual' THEN street_match_basis ELSE CASE incident_id <foreach collection="rows" item="r"> WHEN #{r.incident_id} THEN #{r.street_match_basis} </foreach> ELSE street_match_basis END END,
+street_match_method=CASE WHEN street_match_method='manual' THEN street_match_method ELSE CASE incident_id <foreach collection="rows" item="r"> WHEN #{r.incident_id} THEN #{r.street_match_method} </foreach> ELSE street_match_method END END,
+map_longitude=CASE incident_id <foreach collection="rows" item="r"> WHEN #{r.incident_id} THEN #{r.map_longitude} </foreach> ELSE map_longitude END,
+map_latitude=CASE incident_id <foreach collection="rows" item="r"> WHEN #{r.incident_id} THEN #{r.map_latitude} </foreach> ELSE map_latitude END,
+source_coord_system=CASE incident_id <foreach collection="rows" item="r"> WHEN #{r.incident_id} THEN #{r.source_coord_system} </foreach> ELSE source_coord_system END,
+coordinate_status=CASE incident_id <foreach collection="rows" item="r"> WHEN #{r.incident_id} THEN #{r.coordinate_status} </foreach> ELSE coordinate_status END,
+last_seen_at=CASE incident_id <foreach collection="rows" item="r"> WHEN #{r.incident_id} THEN #{r.now} </foreach> ELSE last_seen_at END,
+last_sync_batch_id=CASE incident_id <foreach collection="rows" item="r"> WHEN #{r.incident_id} THEN #{r.batch} </foreach> ELSE last_sync_batch_id END
+ WHERE source_system=#{source} AND
+ <foreach collection="rows" item="r" open="(" close=")" separator=" OR ">(incident_id=#{r.incident_id} AND payload_hash=#{r.payload_hash})</foreach>
+ </update>
  <insert id="insertIncident" useGeneratedKeys="true" keyProperty="incident_id">
 INSERT INTO fire_119_incident (source_system,external_id,order_source,region_code,case_type_code,case_type_name,case_status_code,case_status_name,alarm_time,address,description,case_nature_code,case_nature_name,merge_status_code,merge_status_name,case_level_code,case_level_name,source_longitude,source_latitude,source_coord_system,map_longitude,map_latitude,coordinate_status,source_sjc,source_create_time_utc,source_njs_create_time_utc,source_njs_update_time_utc,source_sugon_create_time_utc,source_sugon_update_time_utc,source_manually_add,source_counterfeit,source_flag,source_manual_operate_count,raw_json,payload_hash,street_name,street_match_status,street_match_method,street_match_basis,revision_no,dept_id,supervisor_user_id,first_synced_at,last_seen_at,last_changed_at,last_sync_batch_id,create_by,create_time)
 VALUES (#{source_system},#{external_id},#{order_source},#{region_code},#{case_type_code},#{case_type_name},#{case_status_code},#{case_status_name},#{alarm_time},#{address},#{description},#{case_nature_code},#{case_nature_name},#{merge_status_code},#{merge_status_name},#{case_level_code},#{case_level_name},#{source_longitude},#{source_latitude},#{source_coord_system},#{map_longitude},#{map_latitude},#{coordinate_status},#{source_sjc},#{source_create_time_utc},#{source_njs_create_time_utc},#{source_njs_update_time_utc},#{source_sugon_create_time_utc},#{source_sugon_update_time_utc},#{source_manually_add},#{source_counterfeit},#{source_flag},#{source_manual_operate_count},#{raw_json},#{payload_hash},#{street_name},#{street_match_status},#{street_match_method},#{street_match_basis},#{revision_no},#{dept_id},#{supervisor_user_id},#{now},#{now},#{now},#{batch},'119-sync',#{now})
@@ -58,16 +78,25 @@ street_match_method=CASE WHEN street_match_method='manual' THEN street_match_met
  VALUES(#{incident_id},#{revision_no},#{batch},#{change_type},#{now},#{payload_hash},#{changed_fields},#{raw_json},#{now})
  </insert>
  <insert id="writeState">
- INSERT INTO fire_119_sync_state(source_system,query_region_code,last_attempt_at,last_completed_at,last_full_scan_at,last_batch_id,last_result,last_reported_total,last_reported_pages,last_page_size,last_completed_page,consecutive_failures,last_error)
- VALUES(#{source},#{region},#{started},#{completed},#{completed},#{batch},#{result},#{total},#{pages},#{pageSize},#{lastPage},#{failures},#{error})
- ON DUPLICATE KEY UPDATE last_attempt_at=VALUES(last_attempt_at),last_completed_at=COALESCE(VALUES(last_completed_at),last_completed_at),last_full_scan_at=COALESCE(VALUES(last_full_scan_at),last_full_scan_at),last_batch_id=VALUES(last_batch_id),last_result=VALUES(last_result),last_reported_total=COALESCE(VALUES(last_reported_total),last_reported_total),last_reported_pages=COALESCE(VALUES(last_reported_pages),last_reported_pages),last_page_size=VALUES(last_page_size),last_completed_page=VALUES(last_completed_page),consecutive_failures=CASE WHEN VALUES(last_result)='success' THEN 0 WHEN VALUES(last_result)='running' THEN consecutive_failures ELSE consecutive_failures+1 END,last_error=VALUES(last_error),update_time=#{now}
+ INSERT INTO fire_119_sync_state(source_system,query_region_code,last_attempt_at,last_completed_at,last_full_scan_at,last_batch_id,last_result,last_reported_total,last_reported_pages,last_page_size,last_completed_page,consecutive_failures,last_error,last_new_incident_at)
+ VALUES(#{source},#{region},#{started},#{completed},#{completed},#{batch},#{result},#{total},#{pages},#{pageSize},#{lastPage},#{failures},#{error},#{discovered})
+ ON DUPLICATE KEY UPDATE last_attempt_at=VALUES(last_attempt_at),last_completed_at=COALESCE(VALUES(last_completed_at),last_completed_at),last_full_scan_at=COALESCE(VALUES(last_full_scan_at),last_full_scan_at),last_batch_id=VALUES(last_batch_id),last_result=VALUES(last_result),last_reported_total=COALESCE(VALUES(last_reported_total),last_reported_total),last_reported_pages=COALESCE(VALUES(last_reported_pages),last_reported_pages),last_page_size=VALUES(last_page_size),last_completed_page=VALUES(last_completed_page),consecutive_failures=CASE WHEN VALUES(last_result)='success' THEN 0 WHEN VALUES(last_result)='running' THEN consecutive_failures ELSE consecutive_failures+1 END,last_error=VALUES(last_error),last_new_incident_at=COALESCE(VALUES(last_new_incident_at),last_new_incident_at),update_time=#{now}
+ </insert>
+ <insert id="writeQuickState">
+ INSERT INTO fire_119_sync_state(source_system,query_region_code,last_quick_attempt_at,last_quick_completed_at,last_quick_result,last_quick_error,last_quick_failures,last_new_incident_at)
+ VALUES(#{source},#{region},#{started},#{completed},#{result},#{error},#{failures},#{discovered})
+ ON DUPLICATE KEY UPDATE last_quick_attempt_at=VALUES(last_quick_attempt_at),last_quick_completed_at=COALESCE(VALUES(last_quick_completed_at),last_quick_completed_at),last_quick_result=VALUES(last_quick_result),last_quick_error=VALUES(last_quick_error),
+ last_quick_failures=CASE WHEN VALUES(last_quick_result)='success' THEN 0 WHEN VALUES(last_quick_result)='running' THEN last_quick_failures ELSE last_quick_failures+1 END,
+ last_new_incident_at=COALESCE(VALUES(last_new_incident_at),last_new_incident_at),update_time=#{now}
  </insert>
  <insert id="insertLog">
  INSERT INTO fire_119_sync_log(sync_batch_id,source_system,query_region_code,operation,page_num,page_size,started_at,finished_at,duration_ms,http_status,business_code,result_status,reported_total,reported_pages,fetched_count,inserted_count,changed_count,unchanged_count,failed_count,error_detail)
  VALUES(#{batch},#{source},#{region},#{operation},#{page},#{pageSize},#{started},#{finished},#{duration},#{http},#{code},#{result},#{total},#{pages},#{fetched},#{inserted},#{changed},#{unchanged},#{failed},#{error})
  </insert>
  <select id="syncState" resultType="map">
- SELECT last_attempt_at AS lastAttemptAt,last_completed_at AS lastCompletedAt,last_result AS lastResult,consecutive_failures AS consecutiveFailures
+ SELECT last_attempt_at AS lastAttemptAt,last_completed_at AS lastCompletedAt,last_result AS lastResult,consecutive_failures AS consecutiveFailures,
+ last_quick_attempt_at AS lastQuickAttemptAt,last_quick_completed_at AS lastQuickCompletedAt,last_quick_result AS lastQuickResult,
+ last_quick_failures AS lastQuickFailures,last_new_incident_at AS lastNewIncidentAt
  FROM fire_119_sync_state WHERE source_system=#{source} AND query_region_code=#{region}
  </select>
  <select id="scopeCounts" resultType="map">

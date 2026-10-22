@@ -34,12 +34,9 @@ public class Fire119IngestService {
  private static Long number(Object value){if(value==null)return null;try{return new BigDecimal(String.valueOf(value)).longValueExact();}catch(Exception e){return null;}}
  private static Integer bool(Object value){if(value==null)return null;if(value instanceof Boolean b)return b?1:0;return null;}
  private static BigDecimal coordinate(Object value,int bound){try{BigDecimal b=new BigDecimal(String.valueOf(value));return b.abs().compareTo(BigDecimal.valueOf(bound))<=0?b.setScale(8,RoundingMode.HALF_UP):null;}catch(Exception e){return null;}}
- @Transactional(rollbackFor=Exception.class,timeout=15)
- @SuppressWarnings("unchecked")
- public String receive(Map<String,Object> raw,String batch) throws Exception {
+ public Map<String,Object> prepare(Map<String,Object> raw,String batch) throws Exception {
   String external=text(raw.get("id"),128);if(external==null||external.isBlank())throw new IllegalArgumentException("缺少警情ID");
   String region=text(raw.get("xzqybh"),32);if(!config.getRegionCode().equals(region))throw new IllegalArgumentException("警情区划与请求不一致");
-  Map<String,Object> previous=mapper.incidentForUpdate(config.getSourceSystem(),external);
   Map<String,Object> row=new HashMap<>();row.put("source_system",config.getSourceSystem());row.put("external_id",external);row.put("order_source",config.getOrderSource());row.put("region_code",region);
   String[][] strings={{"ajlxdm","case_type_code"},{"ajlxmc","case_type_name"},{"ajztdm","case_status_code"},{"ajztmc","case_status_name"},{"afdz","address"},{"ajms","description"},{"ajxz","case_nature_code"},{"ajxzmc","case_nature_name"},{"hbzt","merge_status_code"},{"hbztmc","merge_status_name"},{"temp_ajdjdm","case_level_code"},{"temp_ajdjdmmc","case_level_name"}};
   for(String[] pair:strings)row.put(pair[1],text(raw.get(pair[0]),pair[1].endsWith("_code")?32:pair[1].endsWith("_name")?128:16000));
@@ -55,6 +52,13 @@ public class Fire119IngestService {
   row.put("coordinate_status",lng==null?(raw.get("jd")==null||raw.get("wd")==null?"missing":"invalid"):mapReady?"valid":"pending");
   var match=boundary.match(lng,lat);row.put("street_name",match.status().equals("inside")?"大厂街道":null);row.put("street_match_status",match.status());row.put("street_match_method",match.method());row.put("street_match_basis",match.basis());
   row.put("raw_json",encode(raw));row.put("payload_hash",hash(raw));row.put("batch",batch);row.put("now",now());row.put("dept_id",config.getDeptId());row.put("supervisor_user_id",config.getSupervisorUserId());
+  return row;
+ }
+ @Transactional(rollbackFor=Exception.class,timeout=15)
+ @SuppressWarnings("unchecked")
+ public String receive(Map<String,Object> raw,String batch) throws Exception {
+  Map<String,Object> row=prepare(raw,batch);
+  Map<String,Object> previous=mapper.incidentForUpdate(config.getSourceSystem(),String.valueOf(row.get("external_id")));
   String outcome;
   if(previous==null){row.put("revision_no",1L);mapper.insertIncident(row);outcome="insert";}
   else {
@@ -68,7 +72,11 @@ public class Fire119IngestService {
   mapper.insertHistory(row);return outcome;
  }
  @Transactional(rollbackFor=Exception.class,timeout=15)
- public void state(Map<String,Object> row){mapper.writeState(row);}
+ public void state(Map<String,Object> row){if("quick".equals(row.get("mode")))mapper.writeQuickState(row);else mapper.writeState(row);}
+ @Transactional(rollbackFor=Exception.class,timeout=15)
+ public void touchPage(List<Map<String,Object>> rows){
+  if(!rows.isEmpty() && mapper.touchIncidents(config.getSourceSystem(),rows)!=rows.size())throw new org.springframework.dao.ConcurrencyFailureException("119记录在批量校验后发生变化，下一轮重新核对");
+ }
  @Transactional(rollbackFor=Exception.class,timeout=15)
  public void log(Map<String,Object> row){mapper.insertLog(row);}
 }

@@ -35,6 +35,11 @@ try:
  access=(ROOT/"SQL/fire_device_access.sql").read_text("utf-8")
  sql(access)
  schema=(ROOT/"SQL/fire_119_incident.sql").read_text("utf-8-sig");sql(schema);sql(schema)
+ upgrade=(ROOT/"SQL/fire_119_sync_optimization.sql").read_text("utf-8")
+ # Upgrade both fresh schema and a simulated old schema; run twice to verify repeat safety.
+ for column in ['last_quick_attempt_at','last_quick_completed_at','last_quick_result','last_quick_error','last_quick_failures','last_new_incident_at']:
+  sql("USE dachang;ALTER TABLE fire_119_sync_state DROP COLUMN "+column+";")
+ sql("USE dachang;"+upgrade);sql("USE dachang;"+upgrade)
  assert sql("USE dachang;SELECT COUNT(*) FROM fire_119_incident;")=="0"
  # Obtain the exact compiler dependency path from the already-resolved Maven reactor.
  build=run([r"D:\env\apache-maven-3.9.9\bin\mvn.cmd","-o","-X","-pl","ruoyi-admin","-am","-DskipTests","compile"],cwd=ROOT/"RuoYi-Vue-master",timeout=60)

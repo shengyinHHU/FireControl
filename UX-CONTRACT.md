@@ -28,3 +28,11 @@ DeviceAccessView event-only mode is 消防警情记录, with source and case fil
 ## Place contact detail variant
 
 PlaceDetail owns the database contact section for both map popups and place archives. Load active contacts only from /fire/places/{id}/contacts with existing fire:places:list and place data scope. Preserve the stored phone text, show loading/empty/error with retry, and ignore superseded place requests. Place fields and all contacts share one bordered descriptions table with a fixed 140px label column, without a separate 联系人 heading. Each contact has one Element Plus ElLink immediately after their name, with the maintained Phone icon and 拨号 label. This link opens the fixed dialing portal in a new tab with noopener/noreferrer; it does not send contact data or initiate a call. Verification: tests/fire/place-contacts.browser.cjs and tools/place-contacts/verify_project.py.
+
+## Live video variant
+
+VideoMonitor + api/fire/video.js own real directory selection, nested directory navigation, cursor pagination, loading/empty/error/retry and superseded-query protection. Element Plus ElTabs/ElSelect/ElDialog remain canonical. LiveVideoDialog owns native-HLS or lazy hls.js playback, status, manual reconnect and player destruction. Separate tabs preserve original inspection behavior. No fake camera fallback, no inferred online state, no calls to vendor APIs from browser. Backend grants account access only to administrator or explicitly configured user ids with video permissions.
+
+Video media requests use authenticated user-bound 10-minute relay sessions because vendor playlist CORS is absent. H.265 support is runtime-dependent; unsupported codecs get explicit feedback and a VLC RTSP playlist download. No fabricated successful playback or automatic background transcoding.
+
+119 status presentation uses api/fire/incident119Status.js as the shared text owner: independent quick/full results and successful timestamps, new incident discovery time, plus runtime retry deadline. A successful quick scan must never hide failed full reconciliation. Existing Element Plus status/read-only page layout remains canonical.

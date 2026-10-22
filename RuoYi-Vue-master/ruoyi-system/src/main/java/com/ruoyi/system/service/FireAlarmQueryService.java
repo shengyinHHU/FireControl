@@ -11,6 +11,8 @@ import com.ruoyi.system.fire.Fire119Properties;
 
 @Service
 public class FireAlarmQueryService {
+ @org.springframework.beans.factory.annotation.Autowired(required=false)
+ private com.ruoyi.system.fire.Fire119Synchronizer synchronizer;
  private final Fire119Mapper mapper;private final Fire119Properties config;
  private static final DateTimeFormatter TIME=DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
  public FireAlarmQueryService(Fire119Mapper m,Fire119Properties p){mapper=m;config=p;}
@@ -32,6 +34,8 @@ public class FireAlarmQueryService {
   q.getParams().put("sourceSystem",config.getSourceSystem());Map<String,Object> result=mapper.scopeCounts(q);
   Map<String,Object> state=mapper.syncState(config.getSourceSystem(),config.getRegionCode());
   if(state!=null){normalize(state);result.putAll(state);}
+  result.put("fullIntervalSeconds",config.getFullIntervalSeconds());result.put("quickPages",config.getQuickPages());
+  if(synchronizer!=null)result.putAll(synchronizer.runtimeStatus());
   result.put("enabled",config.isEnabled());result.put("intervalSeconds",config.getIntervalSeconds());result.put("boundaryMode",config.getBoundaryCoordinateMode());result.put("coordinateSystem",config.getSourceCoordinateSystem());return result;
  }
 }

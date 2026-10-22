@@ -42,3 +42,11 @@ Use the existing navy/cyan tokens, DeviceAccessView for the shared read-only lis
 Dachang membership uses the 25 exact region polygons/names from the uploaded 大厂街道.doc. User confirmed both document and incident coordinates are GCJ02 on 2026-10-21. Region union preserves gaps and includes edges. Outside or invalid-coordinate incidents are persisted for audit but excluded from the Dachang list/map. Map 119 markers use a 119 label; device fire markers retain their existing flame. A 119 incident never borrows a linked place's map coordinate.
 
 Verification owners: tools/119-secret-key/verify_project.py (isolated MySQL and loopback HTTP), tests/fire/incident119.test.mjs and tests/fire/incident119.browser.cjs. Browser fixtures do not prove live deployment.
+
+## Live video integration
+
+VideoMonitor owns the real CTSeeLink directory/device browser in the dashboard's adjacent 视频监控 tab and inspections page. Existing 查岗管理 content remains intact. LiveVideoDialog owns lazy HLS playback and teardown; no simulated thumbnails, inferred locations, or invented online statuses. API credentials and vendor tokens remain backend-only under fire.video. Account scope is administrator or explicitly configured user ids, plus fire:video:list/preview permissions. Shared styling remains fire.scss and Element Plus. Closing or switching tabs destroys playback. Cursor pagination uses lastId, with no invented total. Directory labels do not imply business-place bindings.
+
+Video media requests use authenticated user-bound 10-minute relay sessions because vendor playlist CORS is absent. H.265 support is runtime-dependent; unsupported codecs get explicit feedback and a VLC RTSP playlist download. No fabricated successful playback or automatic background transcoding.
+
+119 status presentation uses api/fire/incident119Status.js as the shared text owner: independent quick/full results and successful timestamps, new incident discovery time, plus runtime retry deadline. A successful quick scan must never hide failed full reconciliation. Existing Element Plus status/read-only page layout remains canonical.

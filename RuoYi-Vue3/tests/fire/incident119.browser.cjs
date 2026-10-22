@@ -27,7 +27,7 @@ const checks=[], errors=[]
    else if(p==='/fire/hosts/list')data={code:200,rows:[],total:0}
    else if(p==='/fire/alarms/list') { const is119=u.searchParams.get('source')==='119',device=u.searchParams.get('source')==='device'; const rows=is119?(empty119?[]:[incident]):device?[event]:[incident,event]; data=is119&&fail119?{code:500,msg:'119查询测试失败'}:{code:200,rows,total:rows.length} }
    else if(decodeURIComponent(p)==='/fire/alarms/119:1')data={code:200,data:incident}
-   else if(p==='/fire/119/status')data={code:200,data:{enabled:true,intervalSeconds:60,lastResult:'success',lastCompletedAt:'2026-10-21 15:00:00',insideCount:1,pendingCount:0,coordinateSystem:'GCJ02',boundaryMode:'verified'}}
+   else if(p==='/fire/119/status')data={code:200,data:{enabled:true,intervalSeconds:60,lastQuickResult:'success',lastQuickCompletedAt:'2026-10-21 15:09:00',fullIntervalSeconds:600,quickPages:3,lastResult:'failed',lastCompletedAt:'2026-10-21 15:00:00',insideCount:1,pendingCount:0,coordinateSystem:'GCJ02',boundaryMode:'verified'}}
    else if(p==='/fire/alarms/event1')data={code:200,data:event}
    else if(p==='/fire/protocol/messages')data={code:200,rows:[{id:'1',direction:'TX',sequenceNo:10,commandNo:3,receivedAt:'2026-10-20 17:43:40',parseStatus:'REPLY',transmissionStatus:'SENT',rawHex:'40400a000102',parsed:'[]'}],total:1}
    else if(p==='/fire/hosts/stats')data={code:200,data:{gateways:1,hosts:0,online:0}}
@@ -99,7 +99,9 @@ const checks=[], errors=[]
   await page.goto(base+'/fire/alarms?source=119',{waitUntil:'domcontentloaded'})
   await page.getByRole('cell',{name:incident.name,exact:true}).waitFor()
   await page.getByRole('cell',{name:'返队',exact:true}).waitFor()
-  await page.getByText(/119每60秒同步/).waitFor()
+  await page.getByText(/119快速扫描：每60秒前3页/).waitFor()
+  await page.getByText(/完整核对：每600秒，失败/).waitFor()
+  checks.push('quick scan success does not conceal failed full reconciliation')
   const typeSelect=page.locator('.el-form-item').filter({hasText:'案件类型'}).getByRole('combobox')
   await typeSelect.focus()
   await typeSelect.press('Enter')
