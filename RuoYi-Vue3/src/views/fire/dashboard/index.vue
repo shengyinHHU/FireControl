@@ -43,7 +43,7 @@
         <Panel title="数据概览"
           ><div class="overview-grid">
             <button
-              v-for="(s, i) in stats.categories || []"
+              v-for="(s, i) in (USE_FIXED_PLACE_COUNTS ? FIXED_PLACE_COUNTS : stats.categories || [])"
               :key="s.name"
               :class="{ active: category === s.name }"
               @click="category = category === s.name ? '' : s.name"
@@ -203,7 +203,7 @@
             <div class="selected-fire-head"><strong>{{ selectedAlarm.sourceCode === '119' ? '119警情' : '火警上报（待核验）' }}</strong><button @click="alarmId = ''">返回列表 ›</button></div>
             <h3>{{ selectedAlarm.placeName }}</h3><p>{{ selectedAlarm.name }}</p>
             <dl><dt>发生时间</dt><dd>{{ selectedAlarm.occurredAt }}</dd><dt>接入来源</dt><dd>{{ selectedAlarm.source }}</dd><dt>处置状态</dt><dd><StatusTag :value="selectedAlarm.status" /></dd></dl>
-            <div class="selected-fire-actions"><el-button type="danger" @click="alarmOpen = true">查看事件</el-button><el-button v-if="selectedAlarm.placeId" @click="showPlace(selectedAlarm.placeId)">场所档案</el-button></div>
+            <div class="selected-fire-actions"><el-button type="danger" @click="alarmOpen = true">查看 / 处理</el-button><el-button v-if="selectedAlarm.placeId" @click="showPlace(selectedAlarm.placeId)">场所档案</el-button></div>
           </div>
           <div v-show="!selectedAlarm" class="screen-scroll alarm-list">
             <button
@@ -325,6 +325,7 @@
   </div>
 </template>
 <script setup>
+import { USE_FIXED_PLACE_COUNTS, FIXED_PLACE_COUNTS } from '@/api/fire/dashboardDisplay'
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { ElMessage } from 'element-plus'
 import { fire } from '@/api/fire'
@@ -433,7 +434,7 @@ async function refresh() {
     if (disposed) return
     // Authoritative database places replace the demo place list and its category counts.
     stats.value = { ...s.data, total: p.total,
-      categories: PLACE_LAYERS.map(layer => ({ name: layer.label, count: p.rows.filter(row => row.placeType === layer.type).length })),
+      categories: USE_FIXED_PLACE_COUNTS ? FIXED_PLACE_COUNTS : PLACE_LAYERS.map(layer => ({ name: layer.label, count: p.rows.filter(row => row.placeType === layer.type).length })),
     }
     places.value = p.rows
     alarms.value = a.rows

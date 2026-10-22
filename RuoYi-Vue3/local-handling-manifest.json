@@ -1,0 +1,22 @@
+[
+  {
+    "path": "src/api/fire/rules.js",
+    "sha256": "08403352dcce9931104c5bbc45eb8debfa0291911e5c30d9cc9b652f8ca584f2"
+  },
+  {
+    "path": "src/api/fire/deviceAccess.js",
+    "sha256": "beb8f6206987e60c2c13834866ef2279ae94007317746fe5a5c9603d7babfd4e"
+  },
+  {
+    "path": "src/views/fire/dashboard/index.vue",
+    "sha256": "f24fa240bdf8ce437717f72166b096eb0b8292e4f6468d0f79d962597586382c"
+  },
+  {
+    "path": "src/components/Fire/AlarmDetail.vue",
+    "sha256": "b87078958405d2e2dbed6677b3180c7594b7c9a8323f67b16e3088329cb07004"
+  },
+  {
+    "path": "src/components/Fire/DeviceAccessView.vue",
+    "sha256": "ef18eb36132f566b036c839e5fd532b935ecc785944f5880783d189b9f36bc3b"
+  }
+]

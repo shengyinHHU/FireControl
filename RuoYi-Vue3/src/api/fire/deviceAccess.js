@@ -1,3 +1,4 @@
+import { visibleLocalAlarms } from './localAlarmHandling.js'
 import request from '@/utils/request'
 import auth from '@/plugins/auth'
 const urls = { gateways: '/fire/gateways/list', hosts: '/fire/hosts/list', alarms: '/fire/alarms/list', protocolMessages: '/fire/protocol/messages' }
@@ -15,7 +16,8 @@ export async function incident119Status() {
 }
 export async function listDeviceRecords(resource, query = {}) {
   const res = await request({ url: urls[resource], params: query })
-  return { ...res, rows: res.rows.map(normalizeDeviceRow) }
+  const rows = res.rows.map(normalizeDeviceRow)
+  return { ...res, rows: resource === 'alarms' ? visibleLocalAlarms(rows) : rows }
 }
 export async function getDeviceRecord(resource, id) {
   const res = await request({ url: `/fire/${resource}/${encodeURIComponent(id)}` })

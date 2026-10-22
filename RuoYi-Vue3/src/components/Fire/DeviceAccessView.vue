@@ -31,7 +31,7 @@
       <p v-if="tab === 'hosts'" class="muted">仅显示实际报文识别的下接系统。传输装置在线不代表消防主机正常；未知字段显示“—”。</p>
       <p v-if="tab === 'alarms'" class="muted">119按来警时间、设备按接收时间统一排序。案件状态来自119平台；设备事件不代表现场火情仍在持续。</p>
       <p v-if="eventOnly" class="muted" role="status">{{ syncNote }}</p>
-      <el-table v-loading="loading" :data="rows" row-key="id" stripe empty-text="暂无符合条件的真实记录">
+      <el-table v-loading="loading" :data="tab === 'alarms' ? visibleLocalAlarms(rows) : rows" row-key="id" stripe empty-text="暂无符合条件的真实记录">
         <el-table-column v-for="column in columns" :key="column.key" :prop="column.key" :label="column.label" :min-width="column.width || 160" show-overflow-tooltip>
           <template #default="{ row }"><StatusTag v-if="column.key === 'status'" :value="row.status" /><span v-else>{{ row[column.key] ?? '—' }}</span></template>
         </el-table-column>
@@ -40,7 +40,7 @@
       </el-table>
       <el-pagination v-model:current-page="page" :page-size="20" :total="total" layout="total, prev, pager, next" @current-change="load" />
     </div>
-    <AlarmDetail v-model="eventOpen" :alarm-id="selectedId" />
+    <AlarmDetail v-model="eventOpen" :alarm-id="selectedId" @changed="load" />
     <el-dialog v-model="detailOpen" title="设备接入记录" class="fire-dialog" width="min(850px, 94vw)" append-to-body>
       <el-descriptions :column="1" border><el-descriptions-item v-for="column in columns" :key="column.key" :label="column.label">{{ selected?.[column.key] ?? '—' }}</el-descriptions-item></el-descriptions>
       <template v-if="tab === 'protocolMessages'"><h3>原始十六进制</h3><pre class="device-raw">{{ selected?.rawHex }}</pre><p>{{ selected?.error || '' }}</p><pre class="device-raw">{{ selected?.parsed || '' }}</pre></template>
@@ -48,6 +48,7 @@
   </div>
 </template>
 <script setup>
+import { visibleLocalAlarms } from '@/api/fire/localAlarmHandling'
 import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { fire } from '@/api/fire'

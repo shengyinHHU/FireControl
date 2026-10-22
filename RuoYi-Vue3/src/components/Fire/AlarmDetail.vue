@@ -11,7 +11,7 @@
       </div>
       <template v-if="alarm?.sourceCode === '119'">
         <h2>{{ alarm.caseTypeName || '119警情' }}</h2>
-        <p class="muted">119平台案件记录，保留原始案件状态；实时同步，不在本平台模拟接单或办结。</p>
+        <p class="muted">119 原始案件状态保持同步，本地处理不会修改来源系统。</p>
         <el-descriptions :column="1" border>
           <el-descriptions-item label="警情编号">{{ alarm.code }}</el-descriptions-item>
           <el-descriptions-item label="来警时间">{{ alarm.occurredAt || '未提供' }}</el-descriptions-item>
@@ -98,6 +98,12 @@
           </div></template
         ></template
       >
+      <section v-if="alarm?.dataSource === 'database' && canFire('alarms')" style="margin-top:24px">
+        <h3>处理说明</h3>
+        <el-input v-model="note" type="textarea" :rows="4" maxlength="1000" show-word-limit
+          :disabled="saving" aria-label="处理说明" placeholder="请填写核查情况及处理结果（必填）" />
+        <el-button type="primary" :loading="saving" :disabled="!note.trim()" @click="handleLocal">确认处理</el-button>
+      </section>
     </div>
     <PlaceDetail v-model="placeOpen" :place-id="alarm?.placeId" /><VideoDialog
       v-model="videoOpen"
@@ -109,6 +115,7 @@
   /></el-dialog>
 </template>
 <script setup>
+import { handleAlarmLocally } from '@/api/fire/localAlarmHandling'
 import { ref, computed, watch, onBeforeUnmount } from 'vue'
 import { fire, transitionAlarm } from '@/api/fire'
 import { createLatestRequest } from '@/api/fire/rules'
@@ -165,6 +172,15 @@ async function load() {
       loading.value = false
     },
   )
+}
+async function handleLocal() {
+  if (saving.value || !alarm.value || alarm.value.id !== props.alarmId) return
+  const target = alarm.value
+  saving.value = true
+  try {
+    const result = await attempt(async () => { handleAlarmLocally(target, note.value); return true }, '处理完成，该警情已隐藏')
+    if (result) { if (props.alarmId === target.id) { note.value = ''; open.value = false }; emit('changed') }
+  } finally { saving.value = false }
 }
 async function transition() {
   if (
