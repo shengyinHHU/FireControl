@@ -11,6 +11,8 @@ import com.ruoyi.system.fire.FireConnections;
 public class FireAccessService {
  private final FireAccessMapper mapper;private final FireConnections connections;
  public FireAccessService(FireAccessMapper m,FireConnections c){mapper=m;connections=c;}
+ @DataScope(deptAlias="p",userAlias="p",userField="supervisor_user_id",permission="fire:alarms:list")
+ public List<Long> alarmGatewayIds(FireAccessQuery q){return mapper.alarmGatewayIds(q);}
  private List<Map<String,Object>> normalize(List<Map<String,Object>> rows){
   SimpleDateFormat fmt=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");fmt.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
   for(Map<String,Object> row:rows){

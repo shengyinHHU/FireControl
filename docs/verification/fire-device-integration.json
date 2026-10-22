@@ -4,7 +4,8 @@
   "sql_repeat_safe": true,
   "places": 102,
   "gateways": 1,
+  "sse_lifecycle": "SSE_LIFECYCLE_OK checks=12",
   "capture_frames": 8,
   "verification": "FIRE_ACCESS_INTEGRATION_OK",
-  "output": "FIRE_ACCESS_INTEGRATION_OK checks=646"
+  "output": "FIRE_ACCESS_INTEGRATION_OK checks=653"
 }

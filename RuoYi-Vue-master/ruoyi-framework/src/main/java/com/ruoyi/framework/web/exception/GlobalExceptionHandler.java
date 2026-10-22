@@ -29,6 +29,14 @@ public class GlobalExceptionHandler
 {
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
+    /** A disconnected async response cannot accept an AjaxResult or any further writes. */
+    @ExceptionHandler(org.springframework.web.context.request.async.AsyncRequestNotUsableException.class)
+    public void handleAsyncResponseClosed(org.springframework.web.context.request.async.AsyncRequestNotUsableException e,
+            HttpServletRequest request, jakarta.servlet.http.HttpServletResponse response)
+    {
+        log.debug("异步响应已不可用，停止写入：{}", request.getRequestURI());
+    }
+
     /**
      * 权限校验异常
      */

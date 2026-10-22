@@ -31,3 +31,8 @@ export async function deviceStats() {
   ])
   return { ...hosts.data, ...events.data, incident119 }
 }
+
+// Lightweight device-event counters, independent from place and 119 status requests.
+export async function deviceAlarmStats() {
+  return (await request({ url: '/fire/alarms/stats' })).data
+}

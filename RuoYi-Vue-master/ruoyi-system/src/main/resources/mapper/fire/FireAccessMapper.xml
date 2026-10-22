@@ -36,6 +36,9 @@
  <if test="gatewayId != null and gatewayId != ''">AND g.gateway_id=#{gatewayId}</if>
  </sql>
  <sql id="joins">FROM fire_gateway g JOIN fire_place p ON p.place_id=g.place_id</sql>
+ <select id="alarmGatewayIds" resultType="long">
+ SELECT g.gateway_id <include refid="joins"/> WHERE 1=1 <include refid="scope"/>
+ </select>
  <select id="gateways" resultType="map">
  SELECT CAST(g.gateway_id AS CHAR) AS id,g.name,p.name AS placeName,CAST(p.place_id AS CHAR) AS placeId,g.model,
  g.source_address AS serial,g.allowed_ip AS peerIp,g.last_received_at AS lastSeen,g.status_description AS deviceStatus,

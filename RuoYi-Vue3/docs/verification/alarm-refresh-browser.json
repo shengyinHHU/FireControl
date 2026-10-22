@@ -1,0 +1,16 @@
+{
+  "actualVue": true,
+  "fixtureHTTP": true,
+  "fixtureSSE": true,
+  "checks": [
+    "SSE updates alarms before slow resource requests finish; map makes no duplicate alarm query",
+    "3-second polling updates alarms without reloading static resources",
+    "notification bursts coalesce with no overlapping alarm requests",
+    "failed refresh retains prior alarms and automatically recovers through polling",
+    "polling continues after stream disconnect",
+    "leaving dashboard stops alarm polling and stream lifecycle"
+  ],
+  "alarmCalls": 8,
+  "maxActive": 1,
+  "errors": []
+}

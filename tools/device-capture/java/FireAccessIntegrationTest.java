@@ -56,6 +56,15 @@ public class FireAccessIntegrationTest {
 
  public static void main(String[] args)throws Exception {
   codecChecks();
+  var broker=new FireAlarmUpdates();
+  var permitted=new java.util.concurrent.CopyOnWriteArrayList<String>();var forbidden=new java.util.concurrent.CopyOnWriteArrayList<String>();
+  var signal=new java.util.concurrent.CountDownLatch(1);
+  Runnable unsubscribe=broker.subscribe(1L,Set.of(1L),new FireAlarmUpdates.Sink(){public void send(String event){permitted.add(event);if(event.equals("alarm-change"))signal.countDown();}public void close(){}});
+  broker.subscribe(2L,Set.of(999L),new FireAlarmUpdates.Sink(){public void send(String event){forbidden.add(event);}public void close(){}});
+  broker.changed(1L);check(signal.await(2,java.util.concurrent.TimeUnit.SECONDS),"scoped subscriber receives coalesced signal");
+  check(!forbidden.contains("alarm-change"),"unauthorized gateway subscribers receive no change signal");
+  unsubscribe.run();int permittedBefore=permitted.size();broker.changed(1L);Thread.sleep(350);
+  check(permitted.size()==permittedBefore,"unsubscribe removes subscriber");broker.destroy();
   String url="jdbc:mysql://127.0.0.1:"+args[0]+"/dachang?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&characterEncoding=utf8";
   db=DriverManager.getConnection(url,"root","");
   var ds=new DriverManagerDataSource(url,"root","");
@@ -66,6 +75,12 @@ public class FireAccessIntegrationTest {
   // Boot 4 must create the Jackson 3 mapper used by the actual service constructor.
   var context=new org.springframework.context.annotation.AnnotationConfigApplicationContext();
   context.register(org.springframework.boot.jackson.autoconfigure.JacksonAutoConfiguration.class,FireIngestService.class);
+  java.util.concurrent.atomic.AtomicInteger committedSignals=new java.util.concurrent.atomic.AtomicInteger();
+  java.util.concurrent.atomic.AtomicLong visibleAtSignal=new java.util.concurrent.atomic.AtomicLong();
+  var updates=new FireAlarmUpdates(){@Override public void changed(Long gateway){
+   try{visibleAtSignal.set(count("fire_event"));}catch(Exception e){throw new RuntimeException(e);}committedSignals.incrementAndGet();super.changed(gateway);
+  }};
+  context.registerBean(FireAlarmUpdates.class,()->updates);
   context.registerBean(FireAccessMapper.class,()->mapper);
   context.refresh();
   check(context.getBean(tools.jackson.databind.ObjectMapper.class)!=null,"Boot Jackson 3 mapper bean");
@@ -87,16 +102,17 @@ public class FireAccessIntegrationTest {
   check(captured==8,"8 captured frames");check(count("fire_event")==5,"5 business events");check(count("fire_host")==0,"no invented hosts");
   check(count("fire_protocol_message")==16,"all RX and TX retained");
   try(var s=db.createStatement();var r=s.executeQuery("SELECT status_bits FROM fire_gateway")){r.next();check(r.getInt(1)==0x14,"latest device state");}
-  var q=new FireAccessQuery();check(mapper.gateways(q).size()==1,"gateway query");check(mapper.events(q).size()==5,"event query");
+  var q=new FireAccessQuery();check(mapper.gateways(q).size()==1,"gateway query");check(mapper.events(q).size()==5,"event query");check(mapper.alarmGatewayIds(q).size()==1,"SSE gateway scope query");
   check(mapper.messages(q).size()==16,"message query");check(mapper.gatewayCount(q)==1,"gateway count");
   q.getParams().put("dataScope"," AND p.dept_id=999999");check(mapper.gateways(q).isEmpty(),"gateway scope");
-  check(mapper.events(q).isEmpty(),"event scope");check(mapper.messages(q).isEmpty(),"raw message scope");
+  check(mapper.events(q).isEmpty(),"event scope");check(mapper.alarmGatewayIds(q).isEmpty(),"SSE scope excludes unauthorized gateway");check(mapper.messages(q).isEmpty(),"raw message scope");
   check(((Number)mapper.eventStats(q).get("eventTotal")).longValue()==0,"statistics scope");q=new FireAccessQuery();
   byte[] tag={1,0,12,20,10,26};
   byte[] status=new byte[7];status[0]=3;System.arraycopy(tag,0,status,1,6);
   byte[] fire=frame(100,21,status);
   check(Gb26875.objects(Gb26875.decode(fire)).get(0).get("kind").equals("fire"),"gateway FIRE bit");
-  ingest(service,fire,"10.5.90.49");long eventCount=count("fire_event");ingest(service,fire,"10.5.90.49");
+  int signalsBefore=committedSignals.get();ingest(service,fire,"10.5.90.49");
+  check(committedSignals.get()==signalsBefore+1&&visibleAtSignal.get()==count("fire_event"),"change notification sees committed rows on separate DB connection");long eventCount=count("fire_event");ingest(service,fire,"10.5.90.49");
   check(count("fire_event")==eventCount,"duplicate event dedup with repeated receipts");
   status[0]=1;byte[] restored=frame(101,21,status);ingest(service,restored,"10.5.90.49");
   try(var s=db.createStatement();var r=s.executeQuery("SELECT status_bits FROM fire_gateway")){r.next();check(r.getInt(1)==1,"recovery snapshot");}
@@ -121,6 +137,12 @@ public class FireAccessIntegrationTest {
   try(var s=db.createStatement()){s.execute("DROP TRIGGER fail_event");}
   check(failed,"persistence failure propagates before reply");
   check(count("fire_protocol_message")==before,"RX and TX rolled back on business failure");
+  // Register the notification, then force a later reply INSERT failure: rollback must publish nothing.
+  int beforeLateRollback=committedSignals.get();long beforeLateEvents=count("fire_event");
+  try(var s=db.createStatement()){s.execute("CREATE TRIGGER fail_reply BEFORE INSERT ON fire_protocol_message FOR EACH ROW BEGIN IF NEW.direction='TX' THEN SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT='forced reply rollback'; END IF; END");}
+  boolean lateFailed=false;try{ingest(service,frame(118,24,new byte[]{5,1,2,0,12,20,10,26}),"10.5.90.49");}catch(Exception e){lateFailed=true;}
+  try(var s=db.createStatement()){s.execute("DROP TRIGGER fail_reply");}
+  check(lateFailed&&count("fire_event")==beforeLateEvents&&committedSignals.get()==beforeLateRollback,"registered afterCommit notification is discarded on later transaction rollback");
   // Local-only, bounded lifecycle test. Actual device and port 2000 are never used.
   try(var s=db.createStatement()){s.execute("UPDATE fire_gateway SET allowed_ip='127.0.0.1'");}
   var props=new FireDeviceProperties();props.setEnabled(true);props.setBindAddress("127.0.0.1");props.setIdleSeconds(5);

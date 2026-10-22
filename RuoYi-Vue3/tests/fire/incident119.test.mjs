@@ -4,6 +4,7 @@ import { readFile } from 'node:fs/promises'
 import { isActiveFire, isDisplayAlarm, fireAlarmPoints, hostAlarmSummary } from '../../src/api/fire/rules.js'
 
 const source = (await readFile(new URL('../../src/api/fire/deviceAccess.js', import.meta.url), 'utf8'))
+ .replace("'./localAlarmHandling.js'", JSON.stringify(new URL('../../src/api/fire/localAlarmHandling.js', import.meta.url).href))
  .replace("import request from '@/utils/request'", "const request = () => { throw Error('Unexpected HTTP') }")
  .replace("import auth from '@/plugins/auth'", "const auth = {hasPermi: () => false}")
 const { normalizeDeviceRow } = await import('data:text/javascript;base64,' + Buffer.from(source).toString('base64'))

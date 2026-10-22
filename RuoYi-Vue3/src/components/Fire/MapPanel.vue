@@ -306,6 +306,7 @@ import { isFireMock } from '@/api/fire/config'
 import { attempt } from '@/views/fire/useFire'
 const props = defineProps({
     panoramic: Boolean,
+    alarmRows: { type: Array, default: undefined },
     focusGrid: String,
     editable: Boolean,
     pickPoint: Boolean,
@@ -397,7 +398,7 @@ const shownDevices = computed(() =>
   ),
 )
 // Active fire markers are never hidden by ordinary resource/category filters.
-const alarmPoints = computed(() => fireAlarmPoints(alarms.value, useDatabasePlaces ? databasePlaces.value : places.value, devices.value))
+const alarmPoints = computed(() => fireAlarmPoints(props.alarmRows === undefined ? alarms.value : props.alarmRows, useDatabasePlaces ? databasePlaces.value : places.value, devices.value))
 const visibleAlarmPoints = computed(() => filterIncidents(alarmPoints.value, layers.value))
 const toggle = (l) => {
   layers.value = layers.value.includes(l)
@@ -455,7 +456,7 @@ async function load() {
     devices.value = []
     alarms.value = []
     try {
-      if (canFire('alarms')) alarms.value = (await fire.list('alarms', { pageSize: 1000 })).rows
+      if (props.alarmRows === undefined && canFire('alarms')) alarms.value = (await fire.list('alarms', { pageSize: 1000 })).rows
     } catch(e) { error.value = e.message || '真实设备事件加载失败' }
     await databaseRequest
     return
@@ -463,7 +464,7 @@ async function load() {
   try {
     const [p, g, c, d, a] = await Promise.all(
       ['places', 'grids', 'cameras', 'devices', 'alarms'].map((r) =>
-        canFire(r) && !(useDatabasePlaces && r === 'places')
+        canFire(r) && !(r === 'alarms' && props.alarmRows !== undefined) && !(useDatabasePlaces && r === 'places')
           ? fire.list(r, { pageSize: 10000 })
           : Promise.resolve({ rows: [] }),
       ),

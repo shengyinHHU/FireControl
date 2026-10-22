@@ -98,6 +98,8 @@ public class SecurityConfig
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             // 注解标记允许匿名访问的url
             .authorizeHttpRequests((requests) -> {
+                // Only server-created completion dispatches bypass re-authentication; initial SSE GET still requires JWT + method permission.
+                requests.requestMatchers(req -> req.getDispatcherType() == jakarta.servlet.DispatcherType.ASYNC && "/fire/alarms/stream".equals(req.getServletPath())).permitAll();
                 permitAllUrl.getUrls().forEach(url -> requests.requestMatchers(url).permitAll());
                 // 对于登录login 注册register 验证码captchaImage 允许匿名访问
                 requests.requestMatchers("/login", "/register", "/captchaImage").permitAll()

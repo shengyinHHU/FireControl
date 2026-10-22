@@ -33,10 +33,10 @@
           >未读消息 <b>{{ stats.unread || 0 }}</b></span
         >
       </div>
-      <span>数据更新 {{ updated || '—' }}</span>
+      <span>警情更新 {{ updated || '—' }}</span>
     </div>
-    <div v-if="error" class="fire-error">
-      {{ error }}<el-button link @click="refresh">重试</el-button>
+    <div v-if="error || alarmError" class="fire-error">
+      {{ alarmError || error }}<el-button link @click="refresh">重试</el-button>
     </div>
     <div class="command-grid">
       <div class="command-column left-column">
@@ -139,6 +139,7 @@
       <div class="command-map">
         <MapPanel
           ref="map"
+          :alarm-rows="alarms"
           :panoramic="wideMap"
           @place="showPlace"
           @camera="showCamera"
@@ -146,32 +147,6 @@
           @device="showDevice"
           @grid="grid = $event"
         />
-        <button class="video-tools-toggle" :aria-expanded="videoToolsOpen" @click="videoToolsOpen = !videoToolsOpen">▣ 视频监控 <b v-if="!isFireMock">{{ stats.cameras || 0 }}</b> {{ videoToolsOpen ? '⌃' : '⌄' }}</button>
-        <div v-show="videoToolsOpen" class="map-video-types">
-          <button
-            v-for="type in ['街道高点', '城中村', '无人机', '布控球']"
-            :key="type"
-            @click="
-              () => {
-                videoType = type
-                videoListOpen = true
-              }
-            "
-          >
-            {{ type }}{{ type === '无人机' ? '' : '监控' }}</button
-          ><button
-            class="video-count"
-            @click="
-              () => {
-                videoType = ''
-                videoListOpen = true
-              }
-            "
-          >
-            <el-icon><VideoCamera /></el-icon> 视频监控
-            <b v-if="!isFireMock">{{ stats.cameras || 0 }}</b>
-          </button>
-        </div>
         <div v-if="isFireMock" class="map-street-label">
           大厂街道 <small>消防安全网格化监管</small>
         </div>
@@ -304,31 +279,6 @@
       :camera-id="cameraId"
       @changed="refresh"
     /><AlarmDetail v-model="alarmOpen" :alarm-id="alarmId" @changed="refresh" />
-    <el-dialog
-      v-model="videoListOpen"
-      :title="videoType ? videoType + '监控' : '视频监控资源'"
-      width="800px"
-      class="fire-dialog"
-      append-to-body
-      ><el-table
-        :data="cameras.filter((c) => !videoType || c.category === videoType)"
-        ><el-table-column
-          prop="name"
-          label="摄像头"
-          min-width="240"
-        /><el-table-column prop="category" label="分类" /><el-table-column
-          label="状态"
-          ><template #default="{ row }"
-            ><StatusTag :value="row.status" /></template></el-table-column
-        ><el-table-column label="操作"
-          ><template #default="{ row }"
-            ><el-button link type="primary" @click="showCamera(row.id)"
-              >预览</el-button
-            ></template
-          ></el-table-column
-        ></el-table
-      ></el-dialog
-    >
   </div>
 </template>
 <script setup>
@@ -336,6 +286,9 @@ import { USE_FIXED_PLACE_COUNTS, FIXED_PLACE_COUNTS } from '@/api/fire/dashboard
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { ElMessage } from 'element-plus'
 import { fire } from '@/api/fire'
+import { getToken } from '@/utils/auth'
+import { startAlarmStream } from '@/api/fire/alarmStream'
+import { deviceAlarmStats } from '@/api/fire/deviceAccess'
 import { PLACE_LAYERS } from '@/api/fire/placeLayers'
 import { canFire } from '@/api/fire/access'
 import { hostAlarmSummary, isActiveFire, isDisplayAlarm } from '@/api/fire/rules'
@@ -350,11 +303,11 @@ import VideoDialog from '@/components/Fire/VideoDialog.vue'
 import AlarmDetail from '@/components/Fire/AlarmDetail.vue'
 const inspectionTab = ref('inspections')
 const wideMap = ref(window.innerWidth > 1100)
-const videoToolsOpen = ref(false)
 const resizeMap = () => { wideMap.value = window.innerWidth > 1100 }
 const screen = ref(),
   map = ref(),
   stats = ref({}),
+  liveEventStats = ref({}),
   places = ref([]),
   alarms = ref([]),
   inspections = ref([]),
@@ -369,9 +322,8 @@ const screen = ref(),
   clock = ref(''),
   updated = ref(''),
   error = ref(''),
-  sound = ref(false),
-  videoType = ref(''),
-  videoListOpen = ref(false)
+  alarmError = ref(''),
+  sound = ref(false)
 const placeOpen = ref(false),
   placeId = ref(''),
   cameraOpen = ref(false),
@@ -411,9 +363,9 @@ const hostStats = computed(() => [
   { name: '装置总量', value: stats.value.gateways ?? '—', color: '#4ed9ee', to: '/fire/hosts' },
   { name: '主机总量', value: stats.value.hosts ?? '—', color: '#4ed9ee', to: '/fire/hosts?tab=hosts' },
   { name: '在线主机', value: stats.value.online ?? '—', color: '#45d6aa', to: '/fire/hosts?tab=hosts' },
-  { name: '事件（24h）', value: stats.value.eventTotal ?? '—', color: '#edbd5f', to: '/fire/alarms' },
-  { name: '火警（24h）', value: stats.value.fireEvents ?? '—', color: '#ed7e93', to: '/fire/alarms?kind=fire' },
-  { name: '故障（24h）', value: stats.value.faultEvents ?? '—', color: '#edbd5f', to: '/fire/alarms?kind=fault' },
+  { name: '事件（24h）', value: liveEventStats.value.eventTotal ?? stats.value.eventTotal ?? '—', color: '#edbd5f', to: '/fire/alarms' },
+  { name: '火警（24h）', value: liveEventStats.value.fireEvents ?? stats.value.fireEvents ?? '—', color: '#ed7e93', to: '/fire/alarms?kind=fire' },
+  { name: '故障（24h）', value: liveEventStats.value.faultEvents ?? stats.value.faultEvents ?? '—', color: '#edbd5f', to: '/fire/alarms?kind=fault' },
 ])
 
 const incident119Note = computed(() => {
@@ -424,48 +376,76 @@ const incident119Note = computed(() => {
   return `大厂街道 · 全部案件类型 · 每${state.intervalSeconds || 60}秒同步 · 最近完整成功：${state.lastCompletedAt || '尚未完成首轮'}`
 })
 let polling,
+  alarmPolling,
+  alarmFollowup,
+  stopAlarmStream,
+  alarmBusy = false,
+  alarmStatsBusy = false,
+  alarmQueued = false,
   ticking,
   audioContext,
   seen = new Set(),
   initialized = false,
   busy = false,
   disposed = false
-async function refresh() {
-  if (busy) return
-  busy = true
+async function refreshAlarmStats() {
+  if (alarmStatsBusy || disposed) return
+  alarmStatsBusy = true
+  try { const data = await deviceAlarmStats(); if (!disposed) liveEventStats.value = data }
+  catch { /* Retain last successful counters; the next alarm refresh retries independently. */ }
+  finally { alarmStatsBusy = false }
+}
+async function refreshAlarms() {
+  if (disposed || !canFire('alarms')) return
+  if (alarmBusy) { alarmQueued = true; return }
+  alarmBusy = true
+  refreshAlarmStats()
   try {
-    const [s, p, a, i, c] = await Promise.all([
-      fire.dashboard(),
-      ...['places', 'alarms', 'inspections', 'cameras'].map((r) =>
-        r === 'alarms' && !canFire('alarms') ? Promise.resolve({rows: [], total: 0}) : fire.list(r, { pageSize: 1000 }),
-      ),
-    ])
+    const response = await fire.list('alarms', { pageSize: 1000 })
     if (disposed) return
-    // Authoritative database places replace the demo place list and its category counts.
-    stats.value = { ...s.data, total: p.total,
-      categories: USE_FIXED_PLACE_COUNTS ? FIXED_PLACE_COUNTS : PLACE_LAYERS.map(layer => ({ name: layer.label, count: p.rows.filter(row => row.placeType === layer.type).length })),
-    }
-    places.value = p.rows
-    alarms.value = a.rows
-    if (a.total > a.rows.length) error.value = '警情仅展示最近1000条，完整记录请打开警情记录页面'
-    inspections.value = i.rows
-    cameras.value = c.rows
-    const fresh = a.rows.filter((x) => isDisplayAlarm(x) && !seen.has(x.id))
+    alarms.value = response.rows
+    const fresh = response.rows.filter(x => isDisplayAlarm(x) && !seen.has(x.id))
     if (initialized && fresh.length) {
       ElMessage.warning(`新增 ${fresh.length} 条消防警情，请及时核查`)
       if (sound.value) beep()
     }
-    seen = new Set(a.rows.filter(isDisplayAlarm).map((x) => x.id))
+    seen = new Set(response.rows.filter(isDisplayAlarm).map(x => x.id))
     initialized = true
     updated.value = new Date().toLocaleTimeString('zh-CN')
-    if (a.total <= a.rows.length) error.value = ''
-    map.value?.refresh()
+    alarmError.value = ''
   } catch (e) {
-    if (!disposed) error.value = e.message
+    if (!disposed) alarmError.value = e.message || '警情刷新失败，正在重试；当前保留上次成功数据'
   } finally {
-    busy = false
+    alarmBusy = false
+    if (alarmQueued && !disposed) {
+      alarmQueued = false
+      clearTimeout(alarmFollowup)
+      alarmFollowup = setTimeout(refreshAlarms, 100)
+    }
   }
 }
+async function refreshResources() {
+  if (busy || disposed) return
+  busy = true
+  try {
+    const [s, p, i, c] = await Promise.all([
+      fire.dashboard(),
+      ...['places', 'inspections', 'cameras'].map(r => fire.list(r, { pageSize: 1000 })),
+    ])
+    if (disposed) return
+    stats.value = { ...s.data, total: p.total,
+      categories: USE_FIXED_PLACE_COUNTS ? FIXED_PLACE_COUNTS : PLACE_LAYERS.map(layer => ({ name: layer.label, count: p.rows.filter(row => row.placeType === layer.type).length })),
+    }
+    places.value = p.rows
+    inspections.value = i.rows
+    cameras.value = c.rows
+    error.value = ''
+    map.value?.refresh()
+  } catch (e) { if (!disposed) error.value = e.message }
+  finally { busy = false }
+}
+function refresh() { refreshAlarms(); refreshResources() }
+
 function beep() {
   if (!audioContext) return
   const o = audioContext.createOscillator(),
@@ -530,13 +510,20 @@ onMounted(() => {
   tick()
   refresh()
   ticking = setInterval(tick, 1000)
-  polling = setInterval(refresh, 30000)
+  polling = setInterval(refreshResources, 30000)
+  alarmPolling = setInterval(refreshAlarms, 3000)
+  if (canFire('alarms')) stopAlarmStream = startAlarmStream({
+    url: import.meta.env.VITE_APP_BASE_API + '/fire/alarms/stream', getToken, onChange: refreshAlarms,
+  })
 })
 onBeforeUnmount(() => {
   window.removeEventListener('resize', resizeMap)
   disposed = true
   clearInterval(ticking)
   clearInterval(polling)
+  clearInterval(alarmPolling)
+  clearTimeout(alarmFollowup)
+  stopAlarmStream?.()
   audioContext?.close()
 })
 </script>
@@ -828,33 +815,6 @@ onBeforeUnmount(() => {
 .command-map :deep(.fire-map) {
   min-height: 100%;
   border: 0;
-}
-.map-video-types {
-  position: absolute;
-  top: 60px;
-  right: 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-.map-video-types button {
-  background: #0a2b3fec;
-  border: 1px solid #376573;
-  border-radius: 3px;
-  color: #acd0db;
-  font-size: 11px;
-  padding: 7px 13px;
-  cursor: pointer;
-}
-.map-video-types button.video-count {
-  background: #114337;
-  color: #91d8bc;
-  border-color: #2d7260;
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  border-radius: 24px;
-  margin-top: 3px;
 }
 .map-street-label {
   position: absolute;
@@ -1218,9 +1178,6 @@ onBeforeUnmount(() => {
 .fire-priority-note span { float:right; font-size:10px; margin-top:5px; }
 .alarm-card { background:linear-gradient(110deg,#34253eaa,#122449); border-color:#514361; }
 .host-stats > a, .overview-grid button, .history-list > button, .inspection-card, .place-rows > button { background:#10244bcc; border-color:#254576; }
-.map-video-types button { background:linear-gradient(180deg,#154b91,#0c2451); border-color:#2873b7; }
-
-
 /* Map-first command layout: floating readable panels, quiet chrome. */
 .command-screen { --left-panel:clamp(280px,23vw,370px); --right-panel:clamp(320px,26vw,420px); padding:0 14px; background:#050b18; }
 .command-header { min-height:72px; background:linear-gradient(180deg,#102954,#081427); }
@@ -1266,10 +1223,6 @@ onBeforeUnmount(() => {
 .history-list > button { padding:8px; }
 .history-list strong, .history-list p { font-size:13px; }
 .history-list small, .history-list > button > div { font-size:11px; }
-.video-tools-toggle { position:absolute; top:65px; right:14px; background:#102348ee; color:#d1e7f3; border:1px solid #35618a; border-radius:4px; padding:10px 14px; cursor:pointer; font-size:14px; z-index:4; }
-.video-tools-toggle b { color:#51d2de; margin:0 6px; }
-.map-video-types { top:111px; z-index:5; background:#0a1733f5; padding:10px; border:1px solid #315c84; border-radius:4px; }
-.map-video-types button { font-size:13px; background:#13304c; padding:10px 13px; }
 .map-street-label { display:none; }
 @media(min-width:1101px) {
   .command-grid { position:relative; display:block; }
@@ -1285,7 +1238,6 @@ onBeforeUnmount(() => {
   .hosts-panel { flex:1; }
   .command-map :deep(.map-search) { left:calc(var(--left-panel) + 32px); width:calc(100% - var(--left-panel) - var(--right-panel) - 64px); top:14px; }
   .command-map :deep(.map-layer-toggle), .command-map :deep(.map-layer-buttons) { left:calc(var(--left-panel) + 32px); }
-  .video-tools-toggle, .map-video-types { right:calc(var(--right-panel) + 32px); }
   .command-map :deep(.map-caption), .command-map :deep(.map-fire-legend) { left:calc(var(--left-panel) + 32px); }
   .command-map :deep(.map-zoom) { right:calc(var(--right-panel) + 32px); }
   .command-map :deep(.map-grid-info) { top:120px; left:calc(var(--left-panel) + 32px); }
@@ -1313,7 +1265,6 @@ onBeforeUnmount(() => {
   .command-column { min-height:0; }
   .command-column > .fire-panel:first-child { min-height:130px; }
   .right-column > .alarm-panel:first-child { min-height:430px; }
-  .map-video-types { right:14px; }
 }
 .selected-fire { overflow:auto; min-height:0; padding:4px 2px; }
 .selected-fire-head { display:flex; justify-content:space-between; align-items:center; font-size:13px; color:#ffb49c; }

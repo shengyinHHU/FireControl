@@ -11,6 +11,8 @@ import com.ruoyi.system.mapper.FireAccessMapper;
 @Service
 public class FireIngestService {
  public record Receipt(String source,Long receiveId,Long sendId,byte[] reply) {}
+ @org.springframework.beans.factory.annotation.Autowired(required=false)
+ private FireAlarmUpdates updates;
  private final FireAccessMapper mapper;private final ObjectMapper json;
  public FireIngestService(FireAccessMapper m,ObjectMapper j){mapper=m;json=j;}
  private static Long number(Object n){return n==null?null:((Number)n).longValue();}
@@ -76,6 +78,13 @@ public class FireIngestService {
    if(Integer.valueOf(21).equals(o.get("type"))) {
     event.put("bits",o.get("statusBits"));mapper.updateGatewayState(event);
    }
+  }
+  if(updates!=null && gatewayId!=null && "PARSED".equals(status) && !objects.isEmpty()
+    && org.springframework.transaction.support.TransactionSynchronizationManager.isSynchronizationActive()) {
+   Long changedGateway=gatewayId;
+   org.springframework.transaction.support.TransactionSynchronizationManager.registerSynchronization(new org.springframework.transaction.support.TransactionSynchronization(){
+    @Override public void afterCommit(){updates.changed(changedGateway);}
+   });
   }
   if(replyCommand==0)return new Receipt(allowed?source:null,rxId,null,null);
   byte[] reply=Gb26875.response(raw,replyCommand,LocalDateTime.now(ZoneId.of("Asia/Shanghai")));

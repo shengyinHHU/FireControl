@@ -13,6 +13,7 @@ public interface FireAccessMapper {
  void upsertHost(Map<String,Object> row);
  Map<String,Object> host(Map<String,Object> row);
  void insertEvent(Map<String,Object> row);
+ List<Long> alarmGatewayIds(FireAccessQuery q);
  List<Map<String,Object>> gateways(FireAccessQuery q);
  List<Map<String,Object>> hosts(FireAccessQuery q);
  List<Map<String,Object>> events(FireAccessQuery q);
