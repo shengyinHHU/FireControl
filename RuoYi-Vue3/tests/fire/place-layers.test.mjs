@@ -13,8 +13,8 @@ test('all four database codes map to the existing labels and support independent
   assert.equal(filterMapPlaces(places, []).length, 0)
   for (const layer of PLACE_LAYERS) assert.deepEqual(filterMapPlaces(places, [layer.label]).map(p => p.placeType), [layer.type])
   assert.equal(filterMapPlaces(places, PLACE_LAYERS.map(l => l.label)).length, 4)
-  assert.equal(filterMapPlaces(places, ['重点企业', '养老院']).length, 2)
-  assert.equal(filterMapPlaces(places, ['养老院']).length, 1)
+  assert.equal(filterMapPlaces(places, ['重点企业', '养老机构']).length, 2)
+  assert.equal(filterMapPlaces(places, ['养老机构']).length, 1)
   assert.equal(filterMapPlaces(places, []).length, 0)
 })
 
@@ -87,8 +87,8 @@ test('map adapter removes stale markers, does not duplicate after repeated toggl
     render(['重点企业']); assert.equal(markers().length, 1)
     assert.deepEqual(markers()[0].options.position, [118.75, 32.23])
     assert.match(markers()[0].options.content.children[0].innerHTML, /<svg/)
-    render(['重点企业', '养老院']); assert.equal(markers().length, 1); assert.equal(markers()[0].options.content.textContent, 2)
-    render(['养老院']); assert.equal(markers().length, 1)
+    render(['重点企业', '养老机构']); assert.equal(markers().length, 1); assert.equal(markers()[0].options.content.textContent, 2)
+    render(['养老机构']); assert.equal(markers().length, 1)
     render([]); assert.equal(markers().length, 0)
     for (let i = 0; i < 10; i++) { render(['重点企业']); render([]) }
     assert.equal(markers().length, 0)

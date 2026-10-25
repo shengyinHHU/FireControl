@@ -1,0 +1,26 @@
+{
+  "status": "complete",
+  "data": {
+    "info": "OK",
+    "districtList": [
+      {
+        "citycode": "025",
+        "adcode": "320116",
+        "name": "大厂街道",
+        "center": {
+          "className": "AMap.LngLat",
+          "kT": 32.183999,
+          "KL": 118.739598,
+          "lng": 118.739598,
+          "lat": 32.183999,
+          "pos": [
+            13218031.586358005,
+            3787487.662836934
+          ]
+        },
+        "level": "street",
+        "boundaries": []
+      }
+    ]
+  }
+}

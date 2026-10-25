@@ -1,0 +1,12 @@
+{
+  "total": 325,
+  "selected": 173,
+  "unresolved": 152,
+  "unresolved_reasons": {
+    "街道内有搜索结果": 86,
+    "搜索结果均在项目已确认的大厂街道边界之外": 46,
+    "街道内存在多个合理位置": 18,
+    "高德未检索到有效位置": 2
+  },
+  "verification": "PASS: original cells preserved, source unchanged, selected points inside confirmed polygon and match real candidates"
+}

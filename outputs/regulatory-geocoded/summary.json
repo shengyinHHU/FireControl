@@ -1,0 +1,12 @@
+{
+  "records": 325,
+  "sql_candidates": 0,
+  "unresolved": 325,
+  "network_requests": 462,
+  "stopped_reason": "",
+  "review_mode": false,
+  "input": "D:\\javaprogram\\FireControl\\outputs\\regulatory-geocoded\\places_input.json",
+  "coordinate_status": "review",
+  "api": "AMap JS API",
+  "cache_queries": 462
+}

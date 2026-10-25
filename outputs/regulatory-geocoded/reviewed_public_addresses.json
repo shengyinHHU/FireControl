@@ -1,0 +1,292 @@
+[
+  {
+    "name": "南京陆玖运输",
+    "full_name": "南京陆玖运输有限公司",
+    "address": "南京市六合区大厂街道和平社区湛水路668号",
+    "address_type": "企业登记地址（第三方目录）",
+    "source_url": "https://www.qiyeku.cn/tag/company71d546-8.html",
+    "note": "不等同于当前实际经营地址",
+    "query": true,
+    "checked_date": "2026-10-25"
+  },
+  {
+    "name": "南京嘉泰物流",
+    "full_name": "南京嘉泰物流有限公司",
+    "address": "南京市江北新区博富路9号",
+    "address_type": "企业登记地址（第三方目录）",
+    "source_url": "https://www.qiyeku.cn/tag/company729438-11.html",
+    "note": "公开地址可能不在大厂范围，保留范围核查",
+    "query": true,
+    "checked_date": "2026-10-25"
+  },
+  {
+    "name": "南京瑞天物流",
+    "full_name": "南京瑞天物流有限公司",
+    "address": "南京市江北新区大厂街道和平社区沿水路668号3楼",
+    "address_type": "政府公开运输联单单位地址",
+    "source_url": "https://njna.nanjing.gov.cn/njsjbxqglwyh/202403/P020240326630047526114.pdf",
+    "note": "原文为沿水路，不擅自改成湛水路；资料2024年，需确认现址",
+    "query": true,
+    "checked_date": "2026-10-25"
+  },
+  {
+    "name": "南京源发运输",
+    "full_name": "南京源发运输有限责任公司",
+    "address": "南京市江北新区大厂街道新华路148号-87",
+    "address_type": "企业登记地址（第三方目录）",
+    "source_url": "https://www.qiyeku.cn/tag/company71d546-8.html",
+    "note": "",
+    "query": true,
+    "checked_date": "2026-10-25"
+  },
+  {
+    "name": "中石化南京化工机械",
+    "full_name": "中石化南京化工机械有限公司",
+    "address": "南京市江北新区大厂街道姜桥1号",
+    "address_type": "企业登记地址（企查查）",
+    "source_url": "https://top.qcc.com/tc/d11b53b98283.html",
+    "note": "其他公开目录写姜桥路1号，保留企查查原文",
+    "query": true,
+    "checked_date": "2026-10-25"
+  },
+  {
+    "name": "诚安石化装备工程",
+    "full_name": "南京诚安石化装备工程有限公司",
+    "address": "江苏省南京市沿江开发区丁家山路222号",
+    "address_type": "中石化成交公告供应商地址",
+    "source_url": "https://ebidding.sinopec.com/TPWeb4AAA/InfoDetail/?CategoryNum=002004&InfoID=65c3e8c0-db0a-4c7c-9970-ea993cef19d3",
+    "note": "公告2022年，需确认现址；不是采购人的葛关路189号",
+    "query": true,
+    "checked_date": "2026-10-25"
+  },
+  {
+    "name": "苏凌机械有限",
+    "full_name": "南京苏凌机械有限责任公司",
+    "address": "南京市江北新区长芦街道镇利民西路14号",
+    "address_type": "企业登记地址（第三方目录）",
+    "source_url": "https://www.qiyeku.cn/tag/company402f51.html",
+    "note": "长芦街道地址，不自动视为大厂经营场所",
+    "query": true,
+    "checked_date": "2026-10-25"
+  },
+  {
+    "name": "润友冶金机械",
+    "full_name": "南京润友冶金机械有限公司",
+    "address": "南京江北新区宁钢路与建钢路交叉口西侧",
+    "address_type": "政府环评建设项目地址",
+    "source_url": "https://njna.nanjing.gov.cn/njsjbxqglwyh/202608/t20260827_5900738.html",
+    "note": "仅建设项目位置，不证明当前实际经营位置；位置无门牌，只保留线索",
+    "query": false,
+    "checked_date": "2026-10-25"
+  },
+  {
+    "name": "扬恩商贸",
+    "full_name": "南京扬恩商贸有限公司",
+    "address": "南京市浦口区汤浦经济开发区天浦路18号",
+    "address_type": "政府公开材料单位地址",
+    "source_url": "https://njna.nanjing.gov.cn/njsjbxqglwyh/202601/P020260114394583727537.pdf",
+    "note": "不在大厂的可能性较大，仅作待核地址",
+    "query": true,
+    "checked_date": "2026-10-25"
+  },
+  {
+    "name": "金强包装",
+    "full_name": "南京金强包装有限公司",
+    "address": "南京市江北新区大厂街道丁家山路190号",
+    "address_type": "企业登记地址（行业目录）",
+    "source_url": "https://qiye.888chem.com/comdetail/22681.html",
+    "note": "目录说明有时效性，需核对实际经营场所",
+    "query": true,
+    "checked_date": "2026-10-25"
+  },
+  {
+    "name": "南化建设",
+    "full_name": "南京南化建设有限公司",
+    "address": "南京市六合区大厂杨新路229号",
+    "address_type": "企业官网联系地址",
+    "source_url": "https://www.njncc.com/index.php?a=type&c=article&page=3&tid=63",
+    "note": "",
+    "query": true,
+    "checked_date": "2026-10-25"
+  },
+  {
+    "name": "华鼎空调设备",
+    "full_name": "南京华鼎空调设备有限公司",
+    "address": "江苏省南京市浦口区浦口大道11号明发新城中心1幢605室",
+    "address_type": "政府采购中标供应商地址",
+    "source_url": "https://ggzy.lyg.gov.cn/lygweb/jyxx/001004/001004002/20260806/c42e60ed-af45-4c4b-b96b-13fc203e4507.html",
+    "note": "公开搜索摘录可见，页面直接抓取失败；需复核现址",
+    "query": true,
+    "checked_date": "2026-10-25"
+  },
+  {
+    "name": "鑫巨顺钢铁物流",
+    "full_name": "江苏鑫巨顺钢铁物流有限公司",
+    "address": "南京市江北新区新华五村12-305",
+    "address_type": "中信采购公示供应商地址",
+    "source_url": "https://ebuy.citic.com/cms/default/webfile/2ywgg3/20260107/1193600657991401472.html",
+    "note": "不是采购联系人地址宁钢路77号；办公室地址不等于仓库地址",
+    "query": true,
+    "checked_date": "2026-10-25"
+  },
+  {
+    "name": "华润电力江苏检修",
+    "full_name": "华润电力能源服务（江苏）有限公司",
+    "address": "南京市六合区凤凰南路158号",
+    "address_type": "曾用名主体2024年登记地址",
+    "source_url": "https://hdj.nea.gov.cn/dtyw/tzgg/202410/P020241012439539904643.pdf",
+    "note": "2026年官方公告已由华润电力江苏检修有限公司更名，旧注册地址待确认；更名依据https://jsb.nea.gov.cn/dtyw/gg/202606/t20260630_303825.html",
+    "query": true,
+    "checked_date": "2026-10-25"
+  },
+  {
+    "name": "远厚钢结构安装",
+    "full_name": "南京远厚钢结构安装有限公司",
+    "address": "南京市六合区大厂新华村路188号1260室",
+    "address_type": "企业登记地址（第三方目录）",
+    "source_url": "https://www.qiyeku.cn/tag/company73e7ac.html",
+    "note": "",
+    "query": true,
+    "checked_date": "2026-10-25"
+  },
+  {
+    "name": "裕强复合新材料科技",
+    "full_name": "南京裕强复合新材料科技有限公司",
+    "address": "江苏省南京市江北新区中山科技园区G081号",
+    "address_type": "专利文献申请人地址",
+    "source_url": "https://www.imaibj.cn/patent/details/202120293515",
+    "note": "文献地址可能已变化，非确认经营地址",
+    "query": true,
+    "checked_date": "2026-10-25"
+  },
+  {
+    "name": "钢铁集团江苏冶金机械",
+    "full_name": "南京钢铁集团江苏冶金机械有限公司",
+    "address": "南京市六合区卸甲甸",
+    "address_type": "企业登记地址（企查查）",
+    "source_url": "https://top.qcc.com/tc/4010d94c1093.html",
+    "note": "只有片区没有道路门牌，不用卸甲甸中心代替企业位置",
+    "query": false,
+    "checked_date": "2026-10-25"
+  },
+  {
+    "name": "萨姆森控制设备（中国）",
+    "full_name": "萨姆森控制设备（中国）有限公司",
+    "address": "北京经济技术开发区永昌南路11号",
+    "address_type": "企业资料总部地址",
+    "source_url": "https://www.samson.de/document/e83560zh.pdf",
+    "note": "只能查到北京总部，不能证明清单南京场所",
+    "query": false,
+    "checked_date": "2026-10-25"
+  },
+  {
+    "name": "禾沐晟冷暖工程",
+    "full_name": "江苏禾沐晟冷暖工程有限公司",
+    "address": "江苏省南京市栖霞区八卦洲街道外沙村村委会办公室办公楼12-2号",
+    "address_type": "2021年裁判文书旧住所",
+    "source_url": "https://zh.wikisource.org/zh-hant/上海市闵行区人民法院（2021）沪0112民初43697号民事判决书",
+    "note": "旧住所且异区，仅作线索，不填现经营坐标",
+    "query": false,
+    "checked_date": "2026-10-25"
+  },
+  {
+    "name": "南京天宇运输",
+    "full_name": "南京天宇危险品运输有限公司",
+    "address": "江苏省南京大厂湛水路1号",
+    "address_type": "行业目录名称待确认",
+    "source_url": "https://www.qd56.cn/coms.html?setid=3740&sid=&word=",
+    "note": "官网为南京天宇运输有限公司，目录名称多出危险品，尚未证明同一主体；不直接填坐标",
+    "query": false,
+    "checked_date": "2026-10-25"
+  },
+  {
+    "name": "紫景园",
+    "full_name": "福基紫景园",
+    "address": "南京市六合区杨新路77号",
+    "address_type": "高德商户页中的小区地址",
+    "source_url": "https://www.amap.com/place/B0FFFX33FP",
+    "note": "页面主体是小区内商户，地址只能作小区地址线索",
+    "query": true,
+    "checked_date": "2026-10-25"
+  },
+  {
+    "name": "荣盛水景城",
+    "full_name": "荣盛水景城",
+    "address": "南京市六合区大厂草芳路213号",
+    "address_type": "房产资讯小区地址",
+    "source_url": "https://m.fang.com/news/nanjing/12188_6498410.html",
+    "note": "其他楼盘页存在芳草路/晓山路差异，仅候选待核验",
+    "query": true,
+    "checked_date": "2026-10-25"
+  },
+  {
+    "name": "银江花园",
+    "full_name": "银江花园",
+    "address": "南京市六合区大厂团结路8号",
+    "address_type": "房产网站小区地址",
+    "source_url": "https://house.leju.com/nj/52008/xinxi/",
+    "note": "原扬子一中、平顶山公园北",
+    "query": true,
+    "checked_date": "2026-10-25"
+  },
+  {
+    "name": "山潘新苑",
+    "full_name": "山潘新苑",
+    "address": "南京市六合区大厂毕洼西路99号",
+    "address_type": "房产网站小区地址",
+    "source_url": "https://mfang.58.com/nj/xinfang/xq102031043/fangjia/",
+    "note": "",
+    "query": true,
+    "checked_date": "2026-10-25"
+  },
+  {
+    "name": "新华四村",
+    "full_name": "新华四村西区",
+    "address": "南京市六合区大厂园东路",
+    "address_type": "房产网站片区地址",
+    "source_url": "https://mfang.58.com/nj/xinfang/xq100488365/",
+    "note": "道路无门牌且仅西区，不能据此定位整个小区",
+    "query": false,
+    "checked_date": "2026-10-25"
+  },
+  {
+    "name": "新华五村",
+    "full_name": "新华五村社区",
+    "address": "南京市江北新区大厂街道新华五村6幢",
+    "address_type": "政务网站社区办公地址",
+    "source_url": "https://lhdc.jszwfw.gov.cn/art/2018/6/23/art_157062_6402.html",
+    "note": "社区办公点不等于整个小区，不写场所坐标",
+    "query": false,
+    "checked_date": "2026-10-25"
+  },
+  {
+    "name": "暄玥府",
+    "full_name": "金基亚东暄玥府",
+    "address": "南京市六合区大厂毕洼路与山潘三路交汇处",
+    "address_type": "楼盘网站地址",
+    "source_url": "https://nj.jiwu.com/loupan/1460140.html",
+    "note": "另一网站写山潘二路，存在交叉口冲突，仅作线索",
+    "query": false,
+    "checked_date": "2026-10-25"
+  },
+  {
+    "name": "一九三四文化发展有限公司",
+    "full_name": "江苏一九三四文化发展有限公司",
+    "address": "南京市江北新区大厂街道凤凰南路233号1934文化产业园",
+    "address_type": "媒体招聘报道公司地址",
+    "source_url": "https://finance.sina.com.cn/jjxw/2024-03-17/doc-inanqzsm9577953.shtml",
+    "note": "园区建设方名称另有公开报道佐证",
+    "query": true,
+    "checked_date": "2026-10-25"
+  },
+  {
+    "name": "欣乐路99号",
+    "full_name": "欣乐路99号",
+    "address": "南京市六合区大厂欣乐路99号",
+    "address_type": "原对象本身为门牌，公开地点页佐证",
+    "source_url": "https://www.chahaoba.com/025-58371999",
+    "note": "原表没有场所名称，坐标仅代表该门牌，不确认企业主体",
+    "query": true,
+    "checked_date": "2026-10-25"
+  }
+]

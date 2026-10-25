@@ -11,6 +11,12 @@ public class FirePlace extends BaseEntity
     private static final long serialVersionUID = 1L;
     private Long placeId;
     private String name;
+    private String owner;
+    private String phone;
+    public String getOwner() { return owner; }
+    public void setOwner(String value) { owner = value; }
+    public String getPhone() { return phone; }
+    public void setPhone(String value) { phone = value; }
     private String placeType;
     private String industryCategory;
     private String managementCompany;

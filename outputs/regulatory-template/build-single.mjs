@@ -1,0 +1,17 @@
+import fs from 'node:fs/promises';
+import {Workbook,SpreadsheetFile} from '@oai/artifact-tool';
+const wb=Workbook.create(),s=wb.worksheets.add('监管对象');
+const h=['来源序号','行业类别','对象名称','负责人','联系电话','所属/管理单位','联系人2','联系电话2','联系人3','联系电话3','对象类型','详细地址','所属网格','风险等级','对象编码','经度','纬度','坐标系','资料日期','来源文件','备注'];
+s.showGridLines=false;s.tabColor='#167D8D';
+s.getRange('A1:U501').format.font.name='Microsoft YaHei';s.getRange('A1:U501').format.font.size=11;s.getRange('A1:U501').format.columnWidth=20;s.getRange('A1:U501').format.rowHeight=27;s.getRange('A1:U501').format.verticalAlignment='center';
+s.getRange('A1:U1').values=[h];s.getRange('A1:U1').format.fill='#174F5C';s.getRange('A1:U1').format.font.color='#FFFFFF';s.getRange('A1:U1').format.font.bold=true;s.getRange('A1:U1').format.rowHeight=36;
+s.getRange('A:A').format.columnWidth=12;s.getRange('B:B').format.columnWidth=26;s.getRange('C:C').format.columnWidth=34;s.getRange('F:F').format.columnWidth=38;s.getRange('L:L').format.columnWidth=40;s.getRange('U:U').format.columnWidth=36;
+s.getRange('A2:U501').setNumberFormat('@');s.getRange('P2:Q501').setNumberFormat('0.000000');s.getRange('S2:S501').setNumberFormat('yyyy-mm-dd');
+for(let r=2;r<32;r+=2)s.getRange(`A${r}:U${r}`).format.fill='#EFF6F7';
+s.getRange('K2:K501').dataValidation={rule:{type:'list',values:['高层住宅','工贸企业','商业综合体','养老机构','住宅小区','其他企业','其他场所','待确认']}};
+s.getRange('R2:R501').dataValidation={rule:{type:'list',values:['WGS84','GCJ02','BD09']}};
+s.freezePanes.freezeRows(1);
+const notes=[['单页填写说明','V2.0｜2026-10-25｜只填写A:U列，右侧说明不属于导入数据'],['最常用的五列','A来源序号、B行业类别、C对象名称、D负责人、E联系电话；企业原表每组五列可直接整块粘贴到A:E。'],['消防原表的小区块','原“序号”贴A；“小区名称”贴C；“物业名称”贴F；“负责人、联系电话”两列一起贴D:E。两种原表列含义不同，不能整块贴到同一位置。'],['消防原表的单位块','“序号、类别、单位、负责人、联系电话”五列可整块贴A:E。部门社区联络员不要混入监管场所。'],['粘贴方式','从第2行开始，建议选择性粘贴“值”，保留电话文本格式和下拉设置。横向几组名单依次追加到下方。'],['合并类别','先在原表副本取消合并，并只在原合并范围内补齐类别；本模板不合并单元格。'],['一行一个对象','一行一个实际场所，最多三位联系人同一行；超过三位写备注，后续单独核对，不重复新增场所。'],['名称与管理单位','小区名称放C，物业公司放F；企业名称放C。不能把物业公司当成小区名称。'],['必填与可后补','对象名称必填；负责人电话有资料就填，不编造。对象类型建议填写，不清楚选待确认；地址尽量补齐。'],['分类','B行业类别保留原表类别；K对象类型使用建议选项，新增选项仍需后续系统字典支持。普通小区不自动算高层住宅。'],['编码','O对象编码：已有对象保留系统导出值，新增留空。A来源序号仅供溯源，不能作为唯一对象编号。'],['风险等级','尚未确认系统风险字典，可留空；不要从类别中的A/B字母自行推断风险等级。'],['电话','E/H/J均为文本格式。保留座机与分机；每格一个电话，其他号码可记录备注。'],['坐标与日期','经纬度同时填写并注明坐标系；不知道留空，不填0。资料日期填实际资料更新日期。'],['更新原则','未来导入默认空白不清空旧值，疑似重复和冲突需预览确认；文件缺少的旧对象不自动删除。'],['范围','预设500条空白行，可复制末行格式继续扩展。不要修改表头，不放合计行。'],['当前状态','本文件是待对接的标准模板；本次未改程序，现有系统尚未新增此模板一键导入功能。']];
+s.getRange('W1:X17').values=notes;s.getRange('W:W').format.columnWidth=22;s.getRange('X:X').format.columnWidth=82;s.getRange('W1:X17').format.font.name='Microsoft YaHei';s.getRange('W1:X17').format.font.size=11;s.getRange('W1:X17').format.wrapText=true;s.getRange('W1:X17').format.verticalAlignment='center';s.getRange('W1:X17').format.rowHeight=60;s.getRange('W1:X1').format.fill='#174F5C';s.getRange('W1:X1').format.font.color='#FFFFFF';s.getRange('W1:X1').format.font.bold=true;for(let r=2;r<=17;r+=2)s.getRange(`W${r}:X${r}`).format.fill='#FFF3DD';
+wb.recalculate();console.log((await wb.inspect({kind:'table',range:'监管对象!A1:K3',tableMaxCols:11,tableMaxRows:3,maxChars:2000})).ndjson);
+const dir='D:/javaprogram/FireControl/outputs/regulatory-template';await(await SpreadsheetFile.exportXlsx(wb)).save(dir+'/监管对象标准导入模板_单页版_V2.xlsx');for(const [name,range]of [['单页表头','A1:F6'],['单页说明','W1:X5']]){const png=await wb.render({sheetName:'监管对象',range,scale:1.3,format:'png'});await fs.writeFile(dir+'/'+name+'.png',new Uint8Array(await png.arrayBuffer()));}console.log('SINGLE_SHEET_OK');

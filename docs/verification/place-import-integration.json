@@ -1,0 +1,9 @@
+{
+  "isolated_mysql": true,
+  "fixture_http": false,
+  "business_database_accessed": false,
+  "external_api_accessed": false,
+  "sql_repeat_safe": true,
+  "verification": "PLACE_IMPORT_INTEGRATION_OK",
+  "output": "PLACE_IMPORT_INTEGRATION_OK checks=30 actual_new=235 actual_duplicates=90 actual_map=125 actual_unlocated=110"
+}

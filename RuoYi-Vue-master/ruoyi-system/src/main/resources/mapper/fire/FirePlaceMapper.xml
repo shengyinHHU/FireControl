@@ -4,6 +4,8 @@
     <resultMap id="FirePlaceMap" type="com.ruoyi.system.domain.FirePlace">
         <id property="placeId" column="place_id" />
         <result property="name" column="name" />
+        <result property="owner" column="owner" />
+        <result property="phone" column="phone" />
         <result property="placeType" column="place_type" />
         <result property="industryCategory" column="industry_category" />
         <result property="managementCompany" column="management_company" />
@@ -21,7 +23,9 @@
         SELECT p.place_id, p.name, p.place_type, p.industry_category,
                p.management_company, p.address, p.grid_id, p.risk_level,
                p.main_risk_sources, p.longitude, p.latitude,
-               p.coordinate_system, p.location_status, p.matched_address
+               p.coordinate_system, p.location_status, p.matched_address,
+               (SELECT c.contact_name FROM fire_place_contact c WHERE c.place_id=p.place_id AND c.status='0' AND c.del_flag='0' ORDER BY CASE WHEN c.contact_role IN ('import_responsible','principal','onsite_manager') THEN 0 ELSE 1 END,c.sort_order,c.contact_id LIMIT 1) AS owner,
+               (SELECT c.phone FROM fire_place_contact c WHERE c.place_id=p.place_id AND c.status='0' AND c.del_flag='0' ORDER BY CASE WHEN c.contact_role IN ('import_responsible','principal','onsite_manager') THEN 0 ELSE 1 END,c.sort_order,c.contact_id LIMIT 1) AS phone
         FROM fire_place p
         WHERE p.del_flag = '0' AND p.status = '0'
         <if test="mapOnly">

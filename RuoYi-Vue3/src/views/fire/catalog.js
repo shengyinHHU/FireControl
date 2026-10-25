@@ -1,3 +1,4 @@
+import { PLACE_LAYERS } from '@/api/fire/placeLayers'
 const field = (key, label, type = 'text', options) => ({
   key,
   label,
@@ -8,14 +9,16 @@ const name = field('name', '名称'),
   place = field('placeId', '所属场所', 'places'),
   phone = field('phone', '联系电话'),
   status = field('status', '状态', 'select', ['在线', '离线'])
-export const categories = ['重点企业', '高层建筑', '综合商业体', '养老院', '机关单位']
+export const categories = [...PLACE_LAYERS.map(layer => layer.label), '机关单位']
 export const catalog = {
   places: {
     title: '重点场所',
+    readOnly: true,
     subtitle: '重点单位档案 · 消防资源与安全生产信息',
     fields: [
       name,
       field('category', '场所类别', 'select', categories),
+      field('mapLocation', '地图位置'),
       field('gridId', '所属网格', 'grids'),
       field('address', '详细地址'),
       field('owner', '负责人'),
@@ -25,7 +28,7 @@ export const catalog = {
       field('lat', '纬度', 'number'),
       field('description', '场所说明', 'textarea'),
     ],
-    columns: ['name', 'category', 'gridName', 'owner', 'phone', 'risk'],
+    columns: ['name', 'category', 'address', 'owner', 'phone', 'mapLocation'],
     filter: ['category'],
     defaults: { category: '重点企业', risk: '一般', crs: 'GCJ02' },
   },

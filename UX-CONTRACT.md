@@ -38,3 +38,16 @@ Video media requests use authenticated user-bound 10-minute relay sessions becau
 119 status presentation uses api/fire/incident119Status.js as the shared text owner: independent quick/full results and successful timestamps, new incident discovery time, plus runtime retry deadline. A successful quick scan must never hide failed full reconciliation. Existing Element Plus status/read-only page layout remains canonical.
 
 Dashboard alarms have one owner: dashboard refreshAlarms, 3-second polling plus authenticated commit-triggered SSE hints. MapPanel alarmRows consumes the same snapshot without a second alarm query; standalone maps retain self-loading. Static resources refresh every 30 seconds independently. Fetch streams keep JWT in headers, coalesce in-flight hints, retain last good alarms on transient errors, and stop on unmount. No visual theme or existing alarm handling semantics change.
+
+## Place import canonical UI map
+
+| Capability | Canonical owner | Contract | Verification |
+|---|---|---|---|
+| Form / Upload | ExcelImportDialog/PlaceImport.vue + Element Plus | single .xlsx; 10MB/2000 rows; preflight before confirmation | place-import.browser.cjs |
+| Select/Listbox | Element Plus radio group | all/new/duplicate/invalid, page reset on filter | place-import.browser.cjs |
+| Scrollbar / Table | existing fire theme + Element Plus | table owns horizontal/vertical scroll; responsive modal | place-import.browser.cjs |
+| Toast / Failure | request.js + persistent inline ElAlert | keep selected file on preview failure and batch on commit failure | place-import.browser.cjs |
+| CRUD | FirePlaceImportService | only new records, no overwrite; idempotent owner batch; transaction recheck | tools/place-import/verify_project.py |
+| Date | server preview clock | 2-hour preview TTL; source dates retained as text, not create_time | PlaceImportIntegrationTest.java |
+
+ResourcePage remains the shared list/detail owner; places exposes its refresh after successful import. Confirming a partial valid set skips invalid and duplicate rows, with exact counts visible before confirmation; there is no hidden selection or override. Busy confirmation cannot be dismissed or double-submitted. Success keeps the result dialog open, refreshes the list, and opening again clears prior results. Downloadable CSV prefixes formula-looking values, and all table names/reasons are escaped text. New records inherit current department/importing user, and readers without import permission see no import action. Valid review coordinates display on the corresponding enabled map layer; no-coordinate rows stay in the list. This replaces the former rule that all place writes were unavailable; arbitrary edit/delete remains unavailable.

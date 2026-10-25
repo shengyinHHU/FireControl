@@ -1,0 +1,46 @@
+import java.io.*;import java.nio.file.*;import java.sql.*;import java.util.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.jdbc.core.JdbcTemplate;import org.springframework.jdbc.datasource.*;
+import org.springframework.transaction.interceptor.TransactionProxyFactoryBean;
+import org.mybatis.spring.*;import org.springframework.core.io.FileSystemResource;
+import tools.jackson.databind.ObjectMapper;
+import com.ruoyi.system.fire.*;import com.ruoyi.system.domain.FirePlace;import com.ruoyi.system.mapper.FirePlaceMapper;
+
+public class PlaceImportIntegrationTest {
+ static int checks;static void check(boolean ok,String message){checks++;if(!ok)throw new AssertionError(message);}
+ static byte[] file(String[][] rows)throws Exception{try(var wb=new XSSFWorkbook();var bytes=new ByteArrayOutputStream()){var s=wb.createSheet("监管对象");String[] headers={"对象名称","场所类别","经度","纬度","坐标系","负责人","联系电话","联系人2","联系电话2"};var h=s.createRow(0);for(int i=0;i<headers.length;i++)h.createCell(i).setCellValue(headers[i]);for(int r=0;r<rows.length;r++){var line=s.createRow(r+1);for(int i=0;i<rows[r].length;i++)line.createCell(i).setCellValue(rows[r][i]);}wb.write(bytes);return bytes.toByteArray();}}
+ static long count(JdbcTemplate db,String table){return db.queryForObject("SELECT COUNT(*) FROM "+table,Long.class);}
+ static Map summary(Map r){return (Map)r.get("summary");}
+ static long n(Map r,String k){return ((Number)summary(r).get(k)).longValue();}
+ static void denied(Runnable action,String text){try{action.run();throw new AssertionError(text);}catch(com.ruoyi.common.exception.ServiceException expected){checks++;}}
+ public static void main(String[] args)throws Exception{
+  String root=args[1];var ds=new DriverManagerDataSource("jdbc:mysql://127.0.0.1:"+args[0]+"/dachang?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&characterEncoding=utf8","root","");var db=new JdbcTemplate(ds);
+  var target=new FirePlaceImportService(ds,new ObjectMapper());var proxy=new TransactionProxyFactoryBean();proxy.setTarget(target);proxy.setProxyTargetClass(true);proxy.setTransactionManager(new DataSourceTransactionManager(ds));var attrs=new Properties();attrs.setProperty("*","PROPAGATION_REQUIRED,-java.lang.Exception");proxy.setTransactionAttributes(attrs);proxy.afterPropertiesSet();var service=(FirePlaceImportService)proxy.getObject();
+  byte[] actual=Files.readAllBytes(Path.of(root,"outputs/regulatory-geocoded/监管对象_公开地址补查定位.xlsx"));var parsed=FirePlaceImportParser.parse(actual,"监管对象.xlsx");check(parsed.size()==325,"actual workbook all rows");check(parsed.stream().filter(x->x.coordinates()).count()==187,"only primary P:Q coords read, not outside candidates");check(parsed.stream().allMatch(x->!x.type.isBlank()),"modified 场所类别 recognized");check(parsed.stream().filter(x->x.type.equals("industry")).count()==223,"category maps to place_type");
+  check(FirePlaceImportParser.similar("南京健业物流有限公司","健业物流"),"company suffix fuzzy");check(FirePlaceImportParser.similar("南京安全消防设备科技有限公司","南京安仝消防设备科技有限公司"),"one-character typo fuzzy");check(!FirePlaceImportParser.similar("新华一村","新华二村"),"different numbered small places distinct");
+  long old=count(db,"fire_place");String before=db.queryForObject("SELECT GROUP_CONCAT(CONCAT(place_id,':',COALESCE(name,''),':',COALESCE(address,'')) ORDER BY place_id SEPARATOR '|') FROM fire_place",String.class);
+  var preview=service.preview(actual,"监管对象.xlsx",1,true);check(n(preview,"new")>0&&n(preview,"duplicate")>0&&n(preview,"invalid")==0,"actual existing and in-file duplicate checks");check(count(db,"fire_place")==old,"preview does not insert places");String batch=(String)preview.get("batchId");
+  denied(()->service.commit(batch,2,100L,"other",false),"batch owner isolation");
+  var result=service.commit(batch,1,100L,"fixture",true);check(n(result,"inserted")==n(preview,"new"),"only preflight eligible inserted");check(count(db,"fire_place")==old+n(result,"inserted"),"actual insert count");
+  String after=db.queryForObject("SELECT GROUP_CONCAT(CONCAT(place_id,':',COALESCE(name,''),':',COALESCE(address,'')) ORDER BY place_id SEPARATOR '|') FROM fire_place WHERE place_id<=?",String.class,old);check(Objects.equals(before,after),"existing names and addresses not overwritten");
+  var again=service.commit(batch,1,100L,"fixture",true);check(n(again,"inserted")==n(result,"inserted")&&count(db,"fire_place")==old+n(result,"inserted"),"retry returns original durable result");
+  var replay=service.preview(actual,"监管对象.xlsx",1,true);check(n(replay,"new")==0,"same file repeat inserts nothing");
+  var sf=new SqlSessionFactoryBean();sf.setDataSource(ds);sf.setMapperLocations(new FileSystemResource(root+"/RuoYi-Vue-master/ruoyi-system/src/main/resources/mapper/fire/FirePlaceMapper.xml"));var mapper=new SqlSessionTemplate(sf.getObject()).getMapper(FirePlaceMapper.class);var query=new FirePlace();query.getParams().put("dataScope","");query.setMapOnly(false);var all=mapper.selectMapPlaces(query);query.setMapOnly(true);var map=mapper.selectMapPlaces(query);check(all.size()>map.size(),"unlocated retained in list");check(map.stream().allMatch(x->x.getLongitude()!=null&&x.getLatitude()!=null&&"GCJ02".equals(x.getCoordinateSystem())),"map valid coords only");check(map.stream().anyMatch(x->"review".equals(x.getLocationStatus())),"review coords visible");check(all.stream().anyMatch(x->x.getOwner()!=null&&!x.getOwner().isBlank()),"contacts available in list");
+  var fixture=file(new String[][]{{"东岭消防自动化设备","重点企业","118.76","32.23","GCJ02","李负责人","025-12345678","王联系人","13800000000"},{"东岭消防自动化设各","重点企业"},{"水杉养老服务中心","养老机构"},{"坏坐标测试","重点企业","118.7","","GCJ02"},{"错误类别测试","待确认"}});
+  var invalid=service.preview(fixture,"fixture.xlsx",5,true);check(n(invalid,"new")==2&&n(invalid,"duplicate")==1&&n(invalid,"invalid")==2,"mixed validation and internal fuzzy duplicates");String fi=(String)invalid.get("batchId");
+  // Recheck concurrent name introduced after preview: it must be skipped at commit.
+  db.update("INSERT INTO fire_place(name,place_type,dept_id) VALUES('水杉养老服务中心','elderly',100)");var rr=service.commit(fi,5,100L,"fixture",true);check(n(rr,"inserted")==1&&n(rr,"duplicate")==2,"commit rechecks new DB candidates");
+  check(db.queryForObject("SELECT COUNT(*) FROM fire_place_contact c JOIN fire_place p ON p.place_id=c.place_id WHERE p.name='东岭消防自动化设备'",Long.class)==2,"two contacts transactionally saved");check(db.queryForObject("SELECT phone FROM fire_place_contact c JOIN fire_place p ON p.place_id=c.place_id WHERE p.name='东岭消防自动化设备' AND c.contact_role='import_responsible'",String.class).equals("025-12345678"),"landline text and role preserved");
+  var ex=service.preview(file(new String[][]{{"过期批次样例","重点企业"}}),"x.xlsx",1,true);db.update("UPDATE fire_place_import_batch SET expires_at=DATE_SUB(NOW(),INTERVAL 1 HOUR) WHERE batch_id=?",ex.get("batchId"));denied(()->service.commit((String)ex.get("batchId"),1,100L,"fixture",true),"expiry");
+  var rollback=service.preview(file(new String[][]{{"事务回滚场所","重点企业","","","","负责人","123"}}),"rollback.xlsx",1,true);long beforeFailure=count(db,"fire_place");
+  db.execute("CREATE TRIGGER fail_import_contact BEFORE INSERT ON fire_place_contact FOR EACH ROW SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT='fixture rollback'");
+  try{service.commit((String)rollback.get("batchId"),1,100L,"fixture",true);throw new AssertionError("expected failure");}catch(org.springframework.dao.DataAccessException expected){checks++;}
+  check(count(db,"fire_place")==beforeFailure,"failed contact rolls back place insert");check("ready".equals(db.queryForObject("SELECT state FROM fire_place_import_batch WHERE batch_id=?",String.class,rollback.get("batchId"))),"failed batch remains retryable");db.execute("DROP TRIGGER fail_import_contact");check(n(service.commit((String)rollback.get("batchId"),1,100L,"fixture",true),"inserted")==1,"retry succeeds after database recovery");
+  var raceBytes=file(new String[][]{{"并发同名验证设备企业","重点企业"}});var pa=service.preview(raceBytes,"race-a.xlsx",1,true);var pb=service.preview(raceBytes,"race-b.xlsx",8,true);var pool=java.util.concurrent.Executors.newFixedThreadPool(2);
+  try{var start=new java.util.concurrent.CountDownLatch(1);var fa=pool.submit(()->{start.await();return service.commit((String)pa.get("batchId"),1,100L,"fixture",true);});var fb=pool.submit(()->{start.await();return service.commit((String)pb.get("batchId"),8,100L,"fixture",true);});start.countDown();check(n(fa.get(20,java.util.concurrent.TimeUnit.SECONDS),"inserted")+n(fb.get(20,java.util.concurrent.TimeUnit.SECONDS),"inserted")==1,"concurrent imports create only one record");}finally{pool.shutdownNow();}
+  // Same database candidate must be masked for non-admin preview.
+  var masked=service.preview(file(new String[][]{{"东岭消防自动化设备有限公司","重点企业"}}),"scope.xlsx",8,false);var rows=(List<FirePlaceImportParser.RowData>)masked.get("rows");check(rows.get(0).matches.equals(List.of("已有相同或近似对象")),"out-of-scope duplicate identities not exposed");
+  System.out.println("PLACE_IMPORT_INTEGRATION_OK checks="+checks+" actual_new="+n(result,"inserted")+" actual_duplicates="+n(preview,"duplicate")+" actual_map="+summary(result).get("withCoordinates")+" actual_unlocated="+summary(result).get("withoutCoordinates"));
+ }
+}
+

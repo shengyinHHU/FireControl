@@ -1,0 +1,45 @@
+视频监控：https://open.ctseelink.cn/portal/login    17368121088
+先配置白名单，获取出口地址：D:\javaprogram\FireControl\docs\videoapi\用户无感知获取令牌Java\token-tool
+调试消控主机IP：10.5.90.50 子网前缀：30 ，网关10.5.90.49
+
+119接入：account:DIANXIN
+password:DIANXIN@123
+public_key:MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAg0Ub6OQqQHo51Ur8wtEu49TJThCjynZdkr3bqFhejJsnr7HHdkOGnLHv+FTHB+/xKpuOFyxqN/gwl3CO7UBxqhflgIgxynTcZZI4RGhKHwxez0NUjr98s5IWgG9pUYcEP07Z8rXJXyKzj8T+fDoqignmwhgtwCDjOkWiKxAS6zpH7gHbHuM/1DVHZfV6dwNl7vphyuylOKiGmiOUqxJ4sGCJtmjLeYx4dKwKqr3pbSKhsb1TqfeUgeVfV1H+iyEDgL7+T0kmd2MKirgCH8hO0St36p+E+xlF1z/1yURd0/KwAeP6cHxzhh+k12ADusB8zzCG4kZk2Lb8hAguIXbC5QIDAQAB
+
+融合通信：https://www.jnrhtx.top/meeting/index?from=Dc
+
+高德地图的KEY：236a15fb8a72f1e0e1fc2bc9cd695668；安全密钥：3a5cd87f48482a703c44a4514cac72b4；
+
+堡垒机开通情况:账号\密码:dx-lufan1234\Dict@2026
+政务网环境堡垒机地址：https://32.255.121.235/
+
+218.94.2.84
+18880，18881
+10.208.108.83-大厂街道-后端服务器
+10.208.108.84-大厂街道-数据库服务器
+10.208.112.151-大厂街道-应用服务器
+10.208.112.152-大厂街道-物联网数据中台
+
+
+https://yhyj.jnrhtx.top:19091/yhyj/yhyj-home/#/index
+管理员账号   15888888888
+密码   yhyj#VCvLUI2a
+
+HLWZX025202610230282
+ip：10.5.90.50
+网关：10.5.90.49
+掩码255.255.255.248
+19.5.90.48/29
+
+政务外网：
+10.214.18.130
+子网前缀：26
+网关：10.214.18.129
+DNS：223.5.5.5
+
+用传设备编号：201
+
+10.214.18.140-10.5.89.226用传
+10.214.18.141-10.5.90.146摄像头
+网关：10.5.90.146
+掩码：255.255.255.248

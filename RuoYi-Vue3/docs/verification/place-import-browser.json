@@ -1,0 +1,15 @@
+{
+  "actualVue": true,
+  "fixtureHTTP": true,
+  "businessDatabaseAccessed": false,
+  "checks": [
+    "unlocated row remains visible, explicit location status, no fake CRUD",
+    "preview failure retains selection, retry, no commit before confirmation",
+    "duplicate and validation reasons can be filtered and downloaded",
+    "commit retry uses same owner batch, result remains visible and list reloads",
+    "narrow viewport keeps modal within screen",
+    "reopen clears previous batch and result",
+    "read-only user cannot see import action"
+  ],
+  "errors": []
+}

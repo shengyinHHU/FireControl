@@ -1,0 +1,16 @@
+{
+  "total": 325,
+  "previous_coordinates": 173,
+  "additional_coordinates": 14,
+  "coordinates_total": 187,
+  "remaining": 138,
+  "searched_records": 152,
+  "reviewed_address_leads": 29,
+  "records_with_address": 31,
+  "status": "PASS",
+  "original_user_fields_and_173_coordinates_preserved": true,
+  "new_points_inside_dachang": true,
+  "evidence_cells_verified": true,
+  "unresolved_with_address_leads": 17,
+  "unresolved_without_verified_address": 121
+}

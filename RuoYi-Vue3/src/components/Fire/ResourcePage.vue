@@ -498,6 +498,7 @@ function showPlace(id) {
   gridPlaceId.value = id
   gridPlaceOpen.value = true
 }
+defineExpose({ reload: load })
 onMounted(() => {
   load()
   attempt(loadOptions)

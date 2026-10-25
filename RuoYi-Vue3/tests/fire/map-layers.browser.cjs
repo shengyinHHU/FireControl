@@ -37,9 +37,9 @@ const base='http://127.0.0.1:5175';
   await toggle('重点企业',31);
   await toggle('高层建筑',0);
   await page.waitForFunction(()=>document.querySelectorAll('.fire-map-place-marker').length===0,null,{timeout:5000});
-  await toggle('综合商业体',7);await toggle('养老院',18);await toggle('综合商业体',11);await toggle('养老院',0);
+  await toggle('综合商业体',7);await toggle('养老机构',18);await toggle('综合商业体',11);await toggle('养老机构',0);
   for(let i=0;i<3;i++){await toggle('重点企业',52);await toggle('重点企业',0);}
-  await toggle('重点企业',52);await toggle('高层建筑',83);await toggle('综合商业体',90);await toggle('养老院',101);
+  await toggle('重点企业',52);await toggle('高层建筑',83);await toggle('综合商业体',90);await toggle('养老机构',101);
   await page.locator('.fire-map-place-marker').first().click({force:true});
   await page.getByRole('dialog').filter({hasText:'场所类别'}).waitFor({timeout:5000});
   assert((await page.getByRole('dialog').filter({hasText:'场所类别'}).innerText()).includes('待核验'));

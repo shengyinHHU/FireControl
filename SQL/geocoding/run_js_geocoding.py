@@ -16,10 +16,11 @@ def main():
  ap.add_argument('--html',type=Path,default=HERE/'geocoding.html')
  ap.add_argument('--input',type=Path,default=HERE/'places_input.json')
  ap.add_argument('--offline',action='store_true')
+ ap.add_argument('--output',type=Path,default=HERE/'js_output')
  args=ap.parse_args()
  if not 10<=args.max_seconds<=600:raise ValueError('max-seconds must be 10..600')
  if not args.offline and not args.html.is_file():raise ValueError('Official example HTML missing: '+str(args.html))
- out=HERE/'js_output';out.mkdir(exist_ok=True)
+ out=args.output;out.mkdir(parents=True,exist_ok=True)
  rows=g.load_places(args.input);deadline=time.monotonic()+args.max_seconds
  cachepath=out/'cache.json';cache=json.loads(cachepath.read_text('utf-8')) if cachepath.exists() else {}
  class Handler(http.server.BaseHTTPRequestHandler):
