@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix="fire.incident119")
 public class Fire119Properties {
  private boolean enabled;
+ private boolean dachangOnly=true;
+ public boolean isDachangOnly(){return dachangOnly;} public void setDachangOnly(boolean v){dachangOnly=v;}
  private String baseUrl="https://wdsjs.jiangning.gov.cn:9091/zhjn-order/api/api/open";
  private String orderSource,account,password,publicKey,sourceSystem="jiangning_119",regionCode="320116";
  private String sourceCoordinateSystem="unknown";

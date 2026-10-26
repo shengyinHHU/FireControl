@@ -1,0 +1,6 @@
+import java.nio.file.*;import java.util.*;
+import com.ruoyi.system.fire.*;import tools.jackson.databind.ObjectMapper;import com.ruoyi.common.core.domain.model.LoginUser;import org.springframework.security.core.context.SecurityContextHolder;import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+public class VideoRtcSignalCheck {public static void main(String[] args)throws Exception{
+ var json=new ObjectMapper();Path dir=Path.of(args[0]);Map preview=json.readValue(Files.readString(dir.resolve("rtc-preview.json")),Map.class);var user=new LoginUser();user.setUserId(1L);SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(user,null,List.of()));var media=new FireVideoMedia();String path=media.openRtc((String)preview.get("url"));String key=path.substring(path.lastIndexOf('/')+1);
+ user.setUserId(2L);try{media.signalRtc(key,"offer",json);throw new AssertionError("Foreign user permitted");}catch(com.ruoyi.common.exception.ServiceException expected){if(!expected.getMessage().contains("无权"))throw expected;}user.setUserId(1L);
+ var answer=media.signalRtc(key,Files.readString(dir.resolve("rtc-offer.sdp")),json);Files.writeString(dir.resolve("rtc-answer.json"),json.writeValueAsString(answer));System.out.println("RTC_RELAY_OK: user binding enforced, actual gateway answer received");}}

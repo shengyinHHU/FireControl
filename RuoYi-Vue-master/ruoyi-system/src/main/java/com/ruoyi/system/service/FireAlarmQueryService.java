@@ -27,11 +27,12 @@ public class FireAlarmQueryService {
  }
  @DataScope(deptAlias="a",userAlias="a",userField="supervisor_user_id",permission="fire:alarms:list")
  public List<Map<String,Object>> alarms(FireAccessQuery q){
-  q.getParams().put("sourceSystem",config.getSourceSystem());List<Map<String,Object>> rows=mapper.alarms(q);rows.forEach(this::normalize);return rows;
+  q.getParams().put("sourceSystem",config.getSourceSystem());q.getParams().put("dachangOnly",config.isDachangOnly());List<Map<String,Object>> rows=mapper.alarms(q);rows.forEach(this::normalize);return rows;
  }
  @DataScope(deptAlias="a",userAlias="a",userField="supervisor_user_id",permission="fire:alarms:list")
  public Map<String,Object> status(FireAccessQuery q){
-  q.getParams().put("sourceSystem",config.getSourceSystem());Map<String,Object> result=mapper.scopeCounts(q);
+  q.getParams().put("sourceSystem",config.getSourceSystem());Map<String,Object> result=mapper.scopeCounts(q);normalize(result);
+  result.put("dachangOnly",config.isDachangOnly());result.put("visibleCount",result.get(config.isDachangOnly()?"insideCount":"total"));
   Map<String,Object> state=mapper.syncState(config.getSourceSystem(),config.getRegionCode());
   if(state!=null){normalize(state);result.putAll(state);}
   result.put("fullIntervalSeconds",config.getFullIntervalSeconds());result.put("quickPages",config.getQuickPages());

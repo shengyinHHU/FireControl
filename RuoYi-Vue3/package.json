@@ -32,6 +32,7 @@
     "js-beautify": "1.15.4",
     "js-cookie": "3.0.5",
     "jsencrypt": "3.3.2",
+    "mpegts.js": "1.8.0",
     "nprogress": "0.2.0",
     "pinia": "3.0.4",
     "qrcode": "1.5.4",

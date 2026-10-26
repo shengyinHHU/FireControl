@@ -101,7 +101,8 @@ street_match_method=CASE WHEN street_match_method='manual' THEN street_match_met
  </select>
  <select id="scopeCounts" resultType="map">
  SELECT COUNT(*) AS total,COALESCE(SUM(a.street_match_status='inside'),0) AS insideCount,COALESCE(SUM(a.street_match_status='pending'),0) AS pendingCount,
- COALESCE(SUM(a.street_match_status='outside'),0) AS outsideCount
+ COALESCE(SUM(a.street_match_status='outside'),0) AS outsideCount,
+ MAX(a.last_seen_at) AS latestReceivedAt,MAX(a.alarm_time) AS latestAlarmTime
  FROM fire_119_incident a WHERE a.source_system=#{params.sourceSystem} ${params.dataScope}
  </select>
  <sql id="unified">
@@ -146,7 +147,8 @@ street_match_method=CASE WHEN street_match_method='manual' THEN street_match_met
  NULL,NULL,NULL,NULL,NULL,i.alarm_time,0,CAST(i.raw_json AS CHAR),NULL,
  i.dept_id,i.supervisor_user_id,i.case_type_code,i.case_type_name,i.case_nature_name,i.case_level_name,i.merge_status_name,i.address,i.description,
  i.street_match_basis,i.map_longitude,i.map_latitude,i.coordinate_status,i.last_seen_at,i.case_status_code
- FROM fire_119_incident i WHERE i.source_system=#{params.sourceSystem} AND i.street_match_status='inside'
+ FROM fire_119_incident i WHERE i.source_system=#{params.sourceSystem}
+ <if test="params.dachangOnly == null or params.dachangOnly">AND i.street_match_status='inside'</if>
  </sql>
  <select id="alarms" resultType="map">
  SELECT a.* FROM (<include refid="unified"/>) a WHERE 1=1 ${params.dataScope}

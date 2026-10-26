@@ -9,7 +9,8 @@ export function format119SyncStatus(s) {
     `119快速扫描：每${s.intervalSeconds || 60}秒前${s.quickPages || 3}页，${quick}；最近成功：${s.lastQuickCompletedAt || '尚未完成'}`,
     `完整核对：每${s.fullIntervalSeconds || 600}秒，${full}；最近完整成功：${s.lastCompletedAt || '尚未完成首轮'}`,
     `最近发现新警情：${s.lastNewIncidentAt || '暂无记录'}`,
-    `大厂街道内 ${s.insideCount ?? 0} 条，待判定 ${s.pendingCount ?? 0} 条`,
+    s.dachangOnly === false ? `展示接口全部范围 ${s.total ?? 0} 条（不按大厂街道过滤）` : `大厂街道内 ${s.insideCount ?? 0} 条，待判定 ${s.pendingCount ?? 0} 条`,
+    `最新来警时间：${s.latestAlarmTime || '暂无记录'}；最近接收时间：${s.latestReceivedAt || '暂无记录'}`,
   ]
   if (s.nextRetryAt) lines.push(`故障退避中，${s.nextRetryAt} 后允许重试`)
   if (['failed', 'partial'].includes(s.lastResult) || ['failed', 'partial'].includes(s.lastQuickResult)) lines.push('请检查后端同步日志')

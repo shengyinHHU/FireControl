@@ -2,7 +2,7 @@
   <div class="fire-page fire-theme">
     <div class="fire-page-title">
       <div><div class="fire-kicker">{{ eventOnly ? 'INCIDENT RECORDS' : 'DEVICE MONITORING' }}</div><h1>{{ eventOnly ? '消防警情记录' : '消控主机与传输装置' }}</h1>
-        <p>{{ eventOnly ? '大厂街道119警情与设备上报 · 保留来源和原始状态' : '真实设备上报 · 通信、设备状态与火警分别记录' }}</p></div>
+        <p>{{ eventOnly ? '119警情与设备上报 · 保留来源和原始状态' : '真实设备上报 · 通信、设备状态与火警分别记录' }}</p></div>
       <div class="fire-toolbar"><router-link to="/fire/dashboard">指挥大屏 ↗</router-link><el-button :loading="loading" @click="load">刷新记录</el-button></div>
     </div>
     <el-tabs v-model="tab" @tab-change="changeTab">
@@ -29,8 +29,6 @@
       </el-form>
       <div v-if="error" class="fire-error" role="alert">{{ error }}<el-button link @click="load">重试</el-button></div>
       <p v-if="tab === 'hosts'" class="muted">仅显示实际报文识别的下接系统。传输装置在线不代表消防主机正常；未知字段显示“—”。</p>
-      <p v-if="tab === 'alarms'" class="muted">119按来警时间、设备按接收时间统一排序。案件状态来自119平台；设备事件不代表现场火情仍在持续。</p>
-      <p v-if="eventOnly" class="muted" role="status">{{ syncNote }}</p>
       <el-table v-loading="loading" :data="tab === 'alarms' ? visibleLocalAlarms(rows) : rows" row-key="id" stripe empty-text="暂无符合条件的真实记录">
         <el-table-column v-for="column in columns" :key="column.key" :prop="column.key" :label="column.label" :min-width="column.width || 160" show-overflow-tooltip>
           <template #default="{ row }"><StatusTag v-if="column.key === 'status'" :value="row.status" /><span v-else>{{ row[column.key] ?? '—' }}</span></template>
@@ -52,8 +50,6 @@ import { visibleLocalAlarms } from '@/api/fire/localAlarmHandling'
 import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { fire } from '@/api/fire'
-import { incident119Status } from '@/api/fire/deviceAccess'
-import { format119SyncStatus } from '@/api/fire/incident119Status'
 import { canFire } from '@/api/fire/access'
 import StatusTag from './StatusTag.vue'
 import AlarmDetail from './AlarmDetail.vue'
@@ -62,7 +58,7 @@ const route = useRoute(), router = useRouter()
 const allowed = props.eventOnly ? ['alarms'] : ['gateways', 'hosts', 'alarms', 'protocolMessages']
 const tab = ref(allowed.includes(route.query.tab) ? route.query.tab : allowed[0])
 const keyword = ref(String(route.query.keyword || '')), kind = ref(String(route.query.kind || ''))
-const source = ref(props.eventOnly ? String(route.query.source || '') : 'device'), caseType = ref(String(route.query.caseType || '')), syncStatus = ref(null)
+const source = ref(props.eventOnly ? String(route.query.source || '') : 'device'), caseType = ref(String(route.query.caseType || ''))
 const page = ref(Math.max(1, Number(route.query.page) || 1)), rows = ref([]), total = ref(0), loading = ref(false), error = ref('')
 const detailOpen = ref(false), eventOpen = ref(false), selected = ref(null), selectedId = ref('')
 let revision = 0, timer
@@ -73,15 +69,13 @@ const definitions = {
  protocolMessages: [['direction','方向'],['sessionId','连接编号',220],['peerIp','设备IP'],['sequenceNo','流水号'],['commandNo','命令'],['receivedAt','记录时间',190],['parseStatus','解析结果'],['transmissionStatus','发送结果']],
 }
 const columns = computed(() => (props.eventOnly ? [['source','来源',140],['name','警情内容',280],['caseTypeName','案件类型',130],['caseNatureName','案件性质',120],['placeName','案发地址或单位',260],['occurredAt','来警或接收时间',190],['status','案件或记录状态',150]] : definitions[tab.value]).map(([key,label,width]) => ({key,label,width})))
-const syncNote = computed(() => format119SyncStatus(syncStatus.value))
 
 async function load() {
  const current = ++revision
  loading.value = true; error.value = ''
  try {
-  const [res, state] = await Promise.all([fire.list(tab.value, { pageNum: page.value, pageSize:20, keyword:keyword.value, kind:tab.value==='alarms'?kind.value:'', source:tab.value==='alarms'?source.value:'', caseType:caseType.value }), props.eventOnly ? incident119Status().catch(() => null) : Promise.resolve(null)])
+  const res = await fire.list(tab.value, { pageNum: page.value, pageSize:20, keyword:keyword.value, kind:tab.value==='alarms'?kind.value:'', source:tab.value==='alarms'?source.value:'', caseType:caseType.value })
   if(current!==revision) return
-  syncStatus.value=state
   if(page.value>1 && (page.value-1)*20>=res.total){page.value=Math.max(1,Math.ceil(res.total/20));persist();load();return}
   rows.value=res.rows;total.value=res.total
  } catch(e) { if(current===revision) { rows.value=[];total.value=0;error.value=e.message || '设备记录加载失败' } }

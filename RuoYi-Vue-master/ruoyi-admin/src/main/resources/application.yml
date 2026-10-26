@@ -160,6 +160,8 @@ fire:
   # 119警情：先执行 SQL/fire_119_incident.sql；启动后10秒首轮，此后每60秒触发。
   incident119:
     enabled: true
+    # 临时排查：展示接口查询范围内全部已入库119警情，不按大厂边界过滤。
+    dachang-only: false
     base-url: https://wdsjs.jiangning.gov.cn:9091/zhjn-order/api/api/open
     source-system: jiangning_119
     order-source: DIANXIN

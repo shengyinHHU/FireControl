@@ -1,0 +1,86 @@
+{
+  "deviceCode": "32011601021322001599",
+  "businessDatabaseAccessed": false,
+  "liveVendorRequests": true,
+  "hlsSample": {
+    "bytes": 544824,
+    "videoStreamType": "0x24",
+    "videoCodec": "HEVC/H265",
+    "audioStreamType": "0x0f",
+    "audioCodec": "AAC"
+  },
+  "browser": {
+    "name": "Edge",
+    "version": "140.0.3485.94",
+    "webrtcH265Advertised": false
+  },
+  "rtcObserved": {
+    "videoCodec": "H264",
+    "connected": true,
+    "videoPackets": 1,
+    "videoBytes": 90,
+    "framesReceived": 0,
+    "framesDecoded": 0
+  },
+  "comparisons": [
+    "official unmodified SDK with isolated diagnostic-only CORS bypass also yielded zero frames",
+    "same-origin authenticated relay also yielded zero frames",
+    "fresh URL acquired immediately before playback",
+    "HD/SD variants yielded zero decoded frames",
+    "official default mute=1 variant yielded zero decoded frames"
+  ],
+  "conclusion": "H265 source and H264-only tested RTC negotiation are incompatible without a verified transcoding path; probable cause, requires gateway/camera-side confirmation. No claim of successful playback.",
+  "secretsIncluded": false,
+  "urlChecks": {
+    "originalStreamUrlEqual": true,
+    "authParametersEqual": true
+  },
+  "hevcGatewayProbe": {
+    "syntheticOffer": true,
+    "accepted": false,
+    "gatewayCode": 400,
+    "limitation": "A rejected synthetic offer does not by itself prove lack of HEVC support."
+  },
+  "chromeH265Test": {
+    "browser": "Chrome",
+    "version": "155.0.8059.86",
+    "h265Advertised": true,
+    "nativeSetCodecPreferences": true,
+    "offeredCodecs": [
+      "H265/90000"
+    ],
+    "originalVendorSdk": true,
+    "freshAddress": true,
+    "httpStatus": 200,
+    "gatewayBusinessCode": 400,
+    "negotiationAccepted": false,
+    "framesDecoded": 0
+  },
+  "chromeH264OnlyTest": {
+    "browser": "Chrome 155",
+    "requestedCodec": "h264",
+    "officialOriginalSdk": true,
+    "freshAddress": true,
+    "signaling": "success",
+    "connection": "connected",
+    "answeredCodecs": [
+      "a=rtpmap:111 opus/48000/2",
+      "a=rtpmap:108 H264/90000"
+    ],
+    "videoWidth": 0,
+    "videoStats": [
+      {
+        "type": "inbound-rtp",
+        "kind": "video",
+        "bytesReceived": 90,
+        "packetsReceived": 1,
+        "framesDecoded": 0,
+        "framesReceived": 0,
+        "keyFramesDecoded": 0,
+        "pliCount": 23,
+        "firCount": 0,
+        "packetsLost": 0
+      }
+    ]
+  }
+}

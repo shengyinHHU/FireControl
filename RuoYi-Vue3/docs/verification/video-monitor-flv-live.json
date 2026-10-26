@@ -1,0 +1,19 @@
+{
+  "fixtureHttp": true,
+  "providerFlvSample": false,
+  "liveFlvRelay": true,
+  "checks": [
+    "device listing does not request streams; original inspection tab preserved",
+    {
+      "result": "LIVE FLV RELAY DECODED",
+      "video": {
+        "width": 1920,
+        "height": 1080,
+        "frames": 130,
+        "currentTime": 5.033649
+      }
+    },
+    "keyboard/narrow viewport and return to unchanged inspection content"
+  ],
+  "errors": []
+}

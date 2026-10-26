@@ -14,7 +14,27 @@ public class FireVideoController extends BaseController {
  @PreAuthorize("@ss.hasPermi('fire:video:list')") @GetMapping("/devices")
  public AjaxResult devices(@RequestParam(required=false) Long regionId,@RequestParam(defaultValue="-1") long lastId,@RequestParam(defaultValue="20") int pageSize) throws Exception{return success(client.devices(regionId,lastId,pageSize));}
  @PreAuthorize("@ss.hasPermi('fire:video:preview')") @PostMapping("/devices/{code}/preview")
- public AjaxResult preview(@PathVariable String code,@RequestParam(defaultValue="hls") String protocol) throws Exception{return success(client.preview(code,protocol));}
+ public AjaxResult preview(@PathVariable String code,@RequestParam(defaultValue="flv") String protocol) throws Exception{return success(client.preview(code,protocol));}
+ @PreAuthorize("@ss.hasPermi('fire:video:preview')") @GetMapping("/flv/{session}")
+ public void flv(@PathVariable String session,jakarta.servlet.http.HttpServletResponse response)throws Exception {
+  try(var stream=media.connectFlv(session)){
+   response.setContentType("video/x-flv");response.setHeader("Cache-Control","no-store");response.setHeader("X-Accel-Buffering","no");
+   var out=response.getOutputStream();
+   try{
+    out.write(stream.prefix);out.flush();byte[] buffer=new byte[32768];int count;
+    while((count=stream.input.read(buffer))!=-1){out.write(buffer,0,count);out.flush();}
+   }catch(java.io.IOException interrupted){
+    // Client disconnect, idle upstream or cancellation: close the upstream, never append JSON to FLV.
+    if(!response.isCommitted())throw interrupted;
+   }
+  }
+ }
+ @PreAuthorize("@ss.hasPermi('fire:video:preview')") @DeleteMapping("/flv/{session}")
+ public AjaxResult closeFlv(@PathVariable String session){media.closeFlv(session);return success();}
+ @PreAuthorize("@ss.hasPermi('fire:video:preview')") @PostMapping("/rtc/{session}")
+ public AjaxResult rtc(@PathVariable String session,@RequestBody java.util.Map<String,String> body)throws Exception {
+  return success(media.signalRtc(session,body.get("sdp"),new tools.jackson.databind.ObjectMapper()));
+ }
  @PreAuthorize("@ss.hasPermi('fire:video:preview')") @GetMapping("/media/{session}/{resource}")
  public org.springframework.http.ResponseEntity<byte[]> media(@PathVariable String session,@PathVariable int resource) throws Exception {
   var payload=media.read(session,resource);

@@ -53,12 +53,18 @@ public class Fire119IntegrationTest {
   Map<String,Object> updated=fixture("one","1",true);updated.put("ajztdm","120");updated.put("ajztmc","返队");check(ingest.receive(updated,"batch-three").equals("update"),"source status update");check(count("fire_119_incident")==1 && count("fire_119_incident_history")==2,"same ID one incident, new history");
   ingest.receive(fixture("rescue","2",true),"batch-four");ingest.receive(fixture("help","3",true),"batch-four");ingest.receive(fixture("outside","1",false),"batch-four");
   var invalid=fixture("invalid","1",true);invalid.put("jd","bad");ingest.receive(invalid,"batch-four");
+  var allQuery=query();allQuery.getParams().put("dachangOnly",false);
+  var unfiltered=mapper.alarms(allQuery);check(unfiltered.size()==5,"all scope includes outside and invalid-coordinate incidents");
+  var deniedAll=query();deniedAll.getParams().put("dachangOnly",false);deniedAll.getParams().put("dataScope"," AND a.dept_id=999");check(mapper.alarms(deniedAll).isEmpty(),"unfiltered scope still enforces permission");
   var rows=mapper.alarms(query());check(rows.size()==3,"all three types inside only");check(rows.stream().allMatch(x->"119".equals(x.get("sourceCode"))),"source DTO");check(rows.stream().anyMatch(x->"返队".equals(x.get("status"))),"preserve case status");
   var scoped=query();scoped.getParams().put("dataScope"," AND a.dept_id=999");check(mapper.alarms(scoped).isEmpty(),"scope excludes unauthorized incidents");
   scoped=query();scoped.setSource("device");check(mapper.alarms(scoped).isEmpty(),"device source isolated");
   scoped=query();scoped.setCaseType("2");check(mapper.alarms(scoped).size()==1,"case type filter");
   scoped=query();scoped.setId(String.valueOf(rows.get(0).get("id")));check(mapper.alarms(scoped).size()==1,"prefixed detail ID");
-  var service=new FireAlarmQueryService(mapper,cfg);check(service.alarms(query()).stream().allMatch(x->"database".equals(x.get("dataSource"))),"query normalized");
+  cfg.setDachangOnly(false);
+  var service=new FireAlarmQueryService(mapper,cfg);
+  var malicious=query();malicious.getParams().put("dachangOnly",true);check(service.alarms(malicious).size()==5,"server config owns geographic filter");
+  var summaryStatus=service.status(query());check(Boolean.FALSE.equals(summaryStatus.get("dachangOnly")) && summaryStatus.get("latestReceivedAt")!=null && summaryStatus.get("latestAlarmTime")!=null,"status reports full scope and latest timestamps");check(service.alarms(query()).stream().allMatch(x->"database".equals(x.get("dataSource"))),"query normalized");
   try(var stmt=db.createStatement()){stmt.execute("CREATE TRIGGER fixture_fail_history BEFORE INSERT ON fire_119_incident_history FOR EACH ROW SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT='fixture rollback'");}
   long before=count("fire_119_incident");boolean failed=false;try{ingest.receive(fixture("rollback","1",true),"failed");}catch(Exception e){failed=true;}check(failed && count("fire_119_incident")==before,"history failure rolls back snapshot");try(var stmt=db.createStatement()){stmt.execute("DROP TRIGGER fixture_fail_history");}
   KeyPairGenerator gen=KeyPairGenerator.getInstance("RSA");gen.initialize(2048);KeyPair pair=gen.generateKeyPair();cfg.setPublicKey(Base64.getEncoder().encodeToString(pair.getPublic().getEncoded()));

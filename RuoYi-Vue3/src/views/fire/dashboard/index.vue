@@ -159,7 +159,6 @@
             ></template
           >
           <div class="fire-priority-note">🔥 设备待核验火警上报 <b>{{ activeFires.length }}</b> <span>请立即核查处置</span></div>
-          <p v-if="source === '119警情'" class="muted" role="status">{{ incident119Note }}</p>
           <div v-show="!selectedAlarm" class="source-tabs">
             <button
               v-for="(s, i) in sources"
@@ -214,13 +213,16 @@
                     " /></el-icon
               ></span>
               <div class="alarm-card-body">
-                <div class="alarm-code">
-                  {{ a.code }} <span>{{ a.source }}</span><span v-if="a.sourceCode === '119'">{{ a.caseTypeName }} · {{ a.caseNatureName }}</span>
+                <div class="alarm-source">
+                  <span>{{ a.source }}</span><span v-if="a.sourceCode === '119'">{{ a.caseTypeName }} · {{ a.caseNatureName }}</span>
                 </div>
-                <p>{{ a.name }}</p>
+                <p class="alarm-content">{{ a.name }}</p>
                 <div class="alarm-footer">
-                  <small>{{ a.occurredAt }} · {{ a.placeName }}</small
-                  ><StatusTag :value="a.status" />
+                  <div class="alarm-meta">
+                    <span class="alarm-address">{{ a.placeName }}</span>
+                    <time class="alarm-time">{{ a.occurredAt }}</time>
+                  </div>
+                  <StatusTag :value="a.status" />
                 </div>
               </div>
             </button>
@@ -368,13 +370,7 @@ const hostStats = computed(() => [
   { name: '故障（24h）', value: liveEventStats.value.faultEvents ?? stats.value.faultEvents ?? '—', color: '#edbd5f', to: '/fire/alarms?kind=fault' },
 ])
 
-const incident119Note = computed(() => {
-  const state = stats.value.incident119
-  if (!state) return '119同步状态暂不可用'
-  if (!state.enabled) return '119同步未启用'
-  if (state.lastResult === 'failed' || state.lastResult === 'partial') return '119最近同步未完整成功，当前显示已入库记录'
-  return `大厂街道 · 全部案件类型 · 每${state.intervalSeconds || 60}秒同步 · 最近完整成功：${state.lastCompletedAt || '尚未完成首轮'}`
-})
+
 let polling,
   alarmPolling,
   alarmFollowup,
@@ -932,33 +928,43 @@ onBeforeUnmount(() => {
   flex: 1;
   min-width: 0;
 }
-.alarm-code {
-  font-size: 10px;
-  color: #78a6c0;
+.alarm-source {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
-  gap: 5px;
-}
-.alarm-code span {
-  font-size: 9px;
+  gap: 4px 8px;
+  font-size: 10px;
   color: #c290b6;
-  white-space: nowrap;
 }
-.alarm-card p {
+.alarm-card .alarm-content {
+  color: var(--fire-text, #e5f1fa);
   font-size: 12px;
   line-height: 1.5;
   margin: 7px 0;
+  overflow-wrap: anywhere;
 }
 .alarm-footer {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 8px;
   justify-content: space-between;
 }
-.alarm-footer small {
-  font-size: 10px;
-  color: #729eb8;
+.alarm-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
   line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.alarm-address {
+  font-size: 11px;
+  color: #7dd8e8;
+}
+.alarm-time {
+  font-size: 10px;
+  color: #d9c67d;
+  font-variant-numeric: tabular-nums;
 }
 .alarm-footer :deep(.fire-status) {
   font-size: 9px;
@@ -1192,7 +1198,8 @@ onBeforeUnmount(() => {
 .command-column :deep(.panel-line) { box-shadow:none; width:7px; height:7px; }
 .tiny { font-size:12px; color:#8ab5ce; }
 .overview-grid { grid-template-columns:repeat(4,1fr); gap:5px; }
-.overview-grid button { border:0; background:transparent; font-size:12px; gap:6px; }
+.overview-grid button { min-width:0; padding-inline:2px; border:0; background:transparent; font-size:11px; gap:6px; }
+.overview-grid button > span:last-child { white-space:nowrap; }
 .overview-grid strong { font-size:28px; text-shadow:none; }
 .stat-icon { display:none; }
 .place-rows > button { padding:11px 9px; font-size:14px; border:0; border-bottom:1px solid #28415f; background:transparent; margin-bottom:3px; }

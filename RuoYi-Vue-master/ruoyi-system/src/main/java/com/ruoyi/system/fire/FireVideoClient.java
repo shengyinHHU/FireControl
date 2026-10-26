@@ -77,14 +77,20 @@ public class FireVideoClient {
  }
  @SuppressWarnings("unchecked")
  public Object preview(String code,String protocol) throws Exception {
-  if(!Set.of("hls","rtsp").contains(protocol))throw new ServiceException("不支持的播放协议");
+  if(!Set.of("hls","rtsp","webrtc","flv").contains(protocol))throw new ServiceException("不支持的播放协议");
   access();if(code==null||knownDevices.getOrDefault(code,0L)<System.currentTimeMillis())throw new ServiceException("请先刷新设备列表后再播放");
-  var b=business();b.put("deviceCode",code);b.put("mediaType",1);b.put("mute",0);b.put("supportDomain",1);
-  Object encrypted=call("/open/token/cloud/"+(protocol.equals("rtsp")?"getDeviceMediaUrlRtsp":"getDeviceMediaUrlHls"),b).get("data");
-  if(!(encrypted instanceof String text))throw new ServiceException("视频平台未返回播放地址");
-  Map<String,Object> decoded=json.readValue(XXTea.decrypt(text,"UTF-8",ByteFormat.toHex(config.getAppSecret().getBytes(StandardCharsets.UTF_8))),Map.class);
+  var b=business();b.put("deviceCode",code);b.put("mediaType",1);b.put("mute",protocol.equals("flv")?1:0);
+  if(protocol.equals("webrtc")){b.put("netType",0);b.put("channel",0);}else if(!protocol.equals("flv"))b.put("supportDomain",1);
+  String path=protocol.equals("webrtc")?"/open/token/vpaas/getDeviceMediaWebrtcUrl":"/open/token/cloud/"+(protocol.equals("rtsp")?"getDeviceMediaUrlRtsp":protocol.equals("flv")?"getDeviceMediaUrlFlv":"getDeviceMediaUrlHls");
+  Object encrypted=call(path,b).get("data");
+  Map<String,Object> decoded;
+  if(encrypted instanceof Map<?,?> data)decoded=(Map<String,Object>)data;
+  else if(encrypted instanceof String text){
+   if(protocol.equals("webrtc") && (text.startsWith("webrtc://")||text.startsWith("rtc://")))decoded=Map.of("url",text);
+   else decoded=json.readValue(XXTea.decrypt(text,"UTF-8",ByteFormat.toHex(config.getAppSecret().getBytes(StandardCharsets.UTF_8))),Map.class);
+  }else throw new ServiceException("视频平台未返回播放地址");
   Object value=decoded.get("url");
-  if(!(value instanceof String url)||!(protocol.equals("hls")?url.startsWith("https://"):url.startsWith("rtsp://")))throw new ServiceException("视频平台未返回有效播放地址");
-  Map<String,Object> out=new LinkedHashMap<>();out.put("url",protocol.equals("hls")?media.open(url):url);out.put("requiresAuth",protocol.equals("hls"));out.put("protocol",protocol);out.put("expireTime",decoded.get("expireTime"));return out;
+  if(!(value instanceof String url)||!(protocol.equals("webrtc")?(url.startsWith("webrtc://")||url.startsWith("rtc://")):(protocol.equals("hls")||protocol.equals("flv"))?url.startsWith("https://"):url.startsWith("rtsp://")))throw new ServiceException("视频平台未返回有效播放地址");
+  Map<String,Object> out=new LinkedHashMap<>();out.put("url",protocol.equals("flv")?media.openFlv(url):protocol.equals("hls")?media.open(url):url);out.put("requiresAuth",protocol.equals("hls")||protocol.equals("flv"));out.put("protocol",protocol);out.put("expireTime",decoded.get("expireTime"));if(protocol.equals("webrtc"))out.put("signalUrl",media.openRtc(url));return out;
  }
 }

@@ -1,4 +1,4 @@
-// Actual Vue UI with controlled HTTP fixtures; optional live HLS smoke via VIDEO_LIVE=1.
+// Actual Vue UI with controlled HTTP fixtures; optional captured provider FLV decode via VIDEO_LIVE=1 (not a live network test).
 const {chromium}=require(process.env.PLAYWRIGHT_PATH || 'playwright')
 const {spawn}=require('node:child_process')
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict')
@@ -6,26 +6,28 @@ const base='http://127.0.0.1:5177'
 const server=spawn(process.execPath,['node_modules/vite/bin/vite.js','--mode','firemock','--host','127.0.0.1','--port','5177','--strictPort'],{windowsHide:true,stdio:'ignore'})
 ;(async()=>{let browser;const checks=[];try{
  for(let i=0;i<100;i++){try{if((await fetch(base)).ok)break}catch{}await new Promise(r=>setTimeout(r,100))}
- browser=await chromium.launch({executablePath:'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',headless:true})
+ browser=await chromium.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true})
  const context=await browser.newContext({viewport:{width:1440,height:1000},reducedMotion:'reduce'})
  await context.addCookies([{name:'Admin-Token',value:'fixture-only',url:base}])
- let fail=false,empty=false,previewCalls=0
- const live=process.env.VIDEO_LIVE==='1'
+ let fail=false,empty=false,previewCalls=0,flvSuccess=false,mediaRequests=0,closedStreams=0
+ const live=process.env.VIDEO_LIVE==='1'||process.env.VIDEO_FLV_RELAY==='1'
+ const relay=process.env.VIDEO_FLV_RELAY==='1'
  const runtime=path.resolve('../tools/video/runtime')
  const page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.text().startsWith('Video playback diagnostic:'))console.log(m.text())});page.on('requestfailed',r=>{if(r.url().includes('ctyunxs.cn'))console.log('MEDIA NETWORK:',r.failure()?.errorText)});page.on('response',r=>{if(r.url().includes('ctyunxs.cn')&&r.status()>=400)console.log('MEDIA HTTP:',r.status(),new URL(r.url()).pathname)})
  await context.route('**/dev-api/**',async route=>{
   const u=new URL(route.request().url()),p=u.pathname.replace('/dev-api','');let body={code:200,data:[]}
-  if(live && p.startsWith('/fire/video/media/')) {
+  if(p.startsWith('/fire/video/flv/')) {
    assert.equal(route.request().headers()['authorization'],'Bearer fixture-only')
-   const id=p.split('/').pop()
-   const file=id==='0'?'manifest.m3u8':'media-'+id+'.bin'
-   await route.fulfill({body:fs.readFileSync(path.join(runtime,file)),contentType:id==='0'?'application/vnd.apple.mpegurl':'video/mp2t'});return
+   if(route.request().method()==='DELETE'){closedStreams++;if(relay){await fetch('http://127.0.0.1:5186'+p,{method:'DELETE',headers:{Authorization:'Bearer fixture-only'}})}await route.fulfill({json:{code:200}});return}
+   if(relay){await route.continue({url:'http://127.0.0.1:5186'+p});return}
+   mediaRequests++
+   await route.fulfill({body:live?fs.readFileSync(path.join(runtime,'flv-sample.flv')):Buffer.from([70,76,86,1,1,0,0,0,9,0,0,0,0]),contentType:'video/x-flv'});return
   }
   if(p==='/getInfo')body={code:200,user:{userId:1,userName:'admin',nickName:'管理员',avatar:''},roles:['admin'],permissions:['*:*:*']}
   else if(p==='/getRouters')body={code:200,data:[]}
   else if(p==='/fire/video/regions')body={code:200,data:[{id:1,name:'消控室监控',hasChildren:0}]}
-  else if(p==='/fire/video/devices')body=fail?{code:500,msg:'监控接口测试失败'}:{code:200,data:live?JSON.parse(fs.readFileSync(path.join(runtime,'devices.json'),'utf8')):{lastId:u.searchParams.get('lastId')==='22'?-1:22,list:empty?[]:u.searchParams.get('lastId')==='22'?[{deviceCode:'fixture-3',deviceName:'摄像头三'}]:[{deviceCode:'fixture-1',deviceName:'测试摄像头一'},{deviceCode:'fixture-2',deviceName:'测试摄像头二'}]}}
-  else if(p.endsWith('/preview')){previewCalls++;body=u.searchParams.get('protocol')==='rtsp'?{code:200,data:{url:'rtsp://example.invalid/fixture-only'}}:live?{code:200,data:JSON.parse(fs.readFileSync(path.join(runtime,'preview.json'),'utf8'))}:{code:500,msg:'测试播放授权失败'}}
+  else if(p==='/fire/video/devices')body=fail?{code:500,msg:'监控接口测试失败'}:{code:200,data:{lastId:u.searchParams.get('lastId')==='22'?-1:22,list:empty?[]:u.searchParams.get('lastId')==='22'?[{deviceCode:'fixture-3',deviceName:'摄像头三'}]:[{deviceCode:'fixture-1',deviceName:'测试摄像头一'},{deviceCode:'fixture-2',deviceName:'测试摄像头二'}]}}
+  else if(p.endsWith('/preview')){if(relay){const response=await fetch('http://127.0.0.1:5186/preview',{headers:{Authorization:'Bearer fixture-only'}});await route.fulfill({json:await response.json()});return}previewCalls++;const protocol=u.searchParams.get('protocol');assert.ok(['flv','rtsp'].includes(protocol));body=protocol==='rtsp'?{code:200,data:{url:'rtsp://example.invalid/fixture-only'}}:(flvSuccess||live)?{code:200,data:{url:'/fire/video/flv/fixture-'+previewCalls,protocol:'flv',requiresAuth:true}}:{code:500,msg:'测试播放授权失败'}}
   else if(p.includes('/fire/'))body={code:200,data:[],rows:[],total:0}
   await route.fulfill({json:body})
  })
@@ -43,6 +45,21 @@ const server=spawn(process.execPath,['node_modules/vite/bin/vite.js','--mode','f
   await dialog.getByRole('button',{name:'下载 VLC 播放列表',exact:true}).click()
   assert.equal((await downloaded).suggestedFilename(),'camera-live.m3u')
   await page.keyboard.press('Escape');await dialog.waitFor({state:'hidden'});checks.push('preview failure shown; VLC fallback downloads; modal closes')
+  flvSuccess=true
+  await monitor.locator('.monitor-device').first().click()
+  await page.waitForFunction(()=>!!document.querySelector('.live-stage video')?.src)
+  for(let until=Date.now()+10000;mediaRequests<1&&Date.now()<until;)await page.waitForTimeout(100)
+  assert.ok(mediaRequests>=1)
+  // Controlled UI readiness only; actual provider sample decode is tested in VIDEO_LIVE mode.
+  await dialog.locator('video').evaluate(v=>Object.defineProperty(v,'videoWidth',{configurable:true,get:()=>640}))
+  await dialog.locator('video').dispatchEvent('playing')
+  await dialog.getByRole('button',{name:'重新连接',exact:true}).click()
+  for(let until=Date.now()+10000;(mediaRequests<2||closedStreams<1)&&Date.now()<until;)await page.waitForTimeout(100)
+  assert.ok(mediaRequests>=2&&closedStreams>=1)
+  await page.keyboard.press('Escape');await dialog.waitFor({state:'hidden'})
+  await page.waitForTimeout(300)
+  assert.equal(closedStreams,2)
+  checks.push('FLV requests carry auth; reconnect and close destroy MSE and delete owned streams; no HLS/RTC fallback')
   fail=true;await monitor.getByRole('button',{name:'刷新设备',exact:true}).click()
   await monitor.getByRole('alert').waitFor();assert.equal(await monitor.locator('.monitor-device').count(),0)
   fail=false;empty=true;await monitor.getByRole('button',{name:'重试',exact:true}).click();await monitor.getByText('当前目录暂无摄像头',{exact:true}).waitFor()
@@ -50,8 +67,8 @@ const server=spawn(process.execPath,['node_modules/vite/bin/vite.js','--mode','f
   checks.push('failure clears stale rows, retry and empty states work without demo fallback')
  }else{
   await monitor.locator('.monitor-device').first().click()
-  try{await page.waitForFunction(()=>{let v=document.querySelector('.live-stage video');return v&&v.videoWidth>0&&v.readyState>=2},{},{timeout:45000});checks.push('LIVE MEDIA SAMPLE DECODED: videoWidth > 0; authenticated relay requests verified')}catch{checks.push('LIVE HLS NOT DECODED: '+await page.getByRole('dialog').innerText())}
-  await page.keyboard.press('Escape')
+  try{await page.waitForFunction(()=>{let v=document.querySelector('.live-stage video');return v&&v.videoWidth>0&&v.readyState>=2},{},{timeout:45000});if(relay)await page.waitForFunction(()=>{const v=document.querySelector('.live-stage video');return v?.currentTime>5&&v.getVideoPlaybackQuality().totalVideoFrames>50},{},{timeout:20000});checks.push({result:relay?'LIVE FLV RELAY DECODED':'PROVIDER FLV SAMPLE DECODED',video:await page.locator('.live-stage video').evaluate(v=>({width:v.videoWidth,height:v.videoHeight,frames:v.getVideoPlaybackQuality().totalVideoFrames,currentTime:v.currentTime}))});await page.screenshot({path:'docs/verification/video-flv'+(relay?'-live':'-sample')+'.png'})}catch{throw Error('FLV SAMPLE NOT DECODED: '+await page.getByRole('dialog').innerText())}
+  await page.keyboard.press('Escape');await page.getByRole('dialog').waitFor({state:'hidden'});await page.waitForTimeout(300);assert.equal(closedStreams,1)
  }
  await page.setViewportSize({width:720,height:900});await page.keyboard.press('Tab')
  fs.mkdirSync('docs/verification',{recursive:true});await page.screenshot({path:'docs/verification/video-monitor-narrow.png',fullPage:true})
@@ -70,7 +87,7 @@ const server=spawn(process.execPath,['node_modules/vite/bin/vite.js','--mode','f
   checks.push('dashboard adjacent tab shares real monitor and restores original inspection panel')
  }
  assert.deepEqual(errors,[])
- fs.writeFileSync('docs/verification/video-monitor'+(live?'-live':'')+'.json',JSON.stringify({fixtureHttp:true,liveHls:live,checks,errors},null,2))
- console.log(checks.join('\n'))
+ fs.writeFileSync('docs/verification/video-monitor'+(relay?'-flv-live':live?'-flv-sample':'')+'.json',JSON.stringify({fixtureHttp:true,providerFlvSample:live&&!relay,liveFlvRelay:relay,checks,errors},null,2))
+ console.log(JSON.stringify(checks,null,2))
  }finally{await browser?.close();server.kill()}
 })().catch(e=>{console.error(e);process.exitCode=1})

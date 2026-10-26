@@ -1,10 +1,11 @@
 {
   "fixtureHttp": true,
-  "liveHls": false,
+  "providerFlvSample": false,
   "checks": [
     "device listing does not request streams; original inspection tab preserved",
     "cursor pagination appends devices",
     "preview failure shown; VLC fallback downloads; modal closes",
+    "FLV requests carry auth; reconnect and close destroy MSE and delete owned streams; no HLS/RTC fallback",
     "failure clears stale rows, retry and empty states work without demo fallback",
     "keyboard/narrow viewport and return to unchanged inspection content",
     "dashboard adjacent tab shares real monitor and restores original inspection panel"

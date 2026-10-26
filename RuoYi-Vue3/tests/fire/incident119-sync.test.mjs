@@ -15,3 +15,11 @@ test('sync status distinguishes new discovery, never run, unavailable and disabl
  assert.match(note,/最近发现新警情：2026-10-22 21:00:00/)
  assert.match(note,/尚未完成首轮/)
 })
+
+test('unfiltered scope and receiving time stay distinct from the original alarm time', () => {
+ const note=format119SyncStatus({enabled:true,dachangOnly:false,total:2265,insideCount:5,latestAlarmTime:'2026-10-21 13:14:16',latestReceivedAt:'2026-10-26 10:00:00'})
+ assert.match(note,/展示接口全部范围 2265 条（不按大厂街道过滤）/)
+ assert.match(note,/最新来警时间：2026-10-21 13:14:16/)
+ assert.match(note,/最近接收时间：2026-10-26 10:00:00/)
+ assert.doesNotMatch(note,/大厂街道内 5 条/)
+})

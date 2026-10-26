@@ -140,7 +140,7 @@ const open = computed({
   placeOpen = ref(false),
   videoOpen = ref(false),
   shareOpen = ref(false)
-const incidentRegion = computed(() => alarm.value?.streetRegion?.split('；地区=')[1] || '大厂街道')
+const incidentRegion = computed(() => alarm.value?.streetRegion?.split('；地区=')[1] || '未匹配大厂街道内地区')
 const latest = createLatestRequest()
 async function load() {
   if (!props.alarmId) return

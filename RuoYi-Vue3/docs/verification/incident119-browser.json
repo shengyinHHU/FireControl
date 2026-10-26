@@ -11,8 +11,9 @@
     "real database provenance replaces demo reset controls",
     "narrow viewport, reduced motion and keyboard navigation",
     "dashboard uses real device statistics and event list",
+    "dashboard hides incident code and distinguishes content, address, time and status colors",
     "dashboard 119 source includes social assistance and opens source-specific read-only details",
-    "quick scan success does not conceal failed full reconciliation",
+    "incident list omits explanatory and synchronization paragraphs",
     "119 source and case filters persist in URL, full external status preserved",
     "119 error clearing, retry, empty and recovery",
     "119 narrow viewport, keyboard and detail visual check"

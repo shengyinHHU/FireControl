@@ -10,7 +10,7 @@ export const videoDevices = (regionId, lastId = -1) =>
     params: { regionId, lastId, pageSize: 20 },
     timeout: 40000,
   })
-export const videoPreview = (code, protocol = 'hls') =>
+export const videoPreview = (code, protocol = 'flv') =>
   request({
     url: `/fire/video/devices/${encodeURIComponent(code)}/preview`,
     method: 'post',
@@ -18,3 +18,6 @@ export const videoPreview = (code, protocol = 'hls') =>
     params: { protocol },
     timeout: 40000,
   })
+
+export const closeVideoStream = (url) =>
+  request({ url, method: 'delete', timeout: 5000, headers: { repeatSubmit: false } })
