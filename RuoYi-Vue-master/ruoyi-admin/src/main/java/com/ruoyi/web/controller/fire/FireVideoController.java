@@ -15,6 +15,10 @@ public class FireVideoController extends BaseController {
  public AjaxResult devices(@RequestParam(required=false) Long regionId,@RequestParam(defaultValue="-1") long lastId,@RequestParam(defaultValue="20") int pageSize) throws Exception{return success(client.devices(regionId,lastId,pageSize));}
  @PreAuthorize("@ss.hasPermi('fire:video:preview')") @PostMapping("/devices/{code}/preview")
  public AjaxResult preview(@PathVariable String code,@RequestParam(defaultValue="flv") String protocol) throws Exception{return success(client.preview(code,protocol));}
+ @PreAuthorize("@ss.hasPermi('fire:video:talk')") @PostMapping("/devices/{code}/talkback")
+ public org.springframework.http.ResponseEntity<AjaxResult> talkback(@PathVariable String code)throws Exception {
+  return org.springframework.http.ResponseEntity.ok().header("Cache-Control","no-store").body(success(client.talkback(code)));
+ }
  @PreAuthorize("@ss.hasPermi('fire:video:preview')") @GetMapping("/flv/{session}")
  public void flv(@PathVariable String session,jakarta.servlet.http.HttpServletResponse response)throws Exception {
   try(var stream=media.connectFlv(session)){

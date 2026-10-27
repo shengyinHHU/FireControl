@@ -1,0 +1,17 @@
+{
+  "deviceCode" : "32011601031322001321",
+  "audioBytesSent" : 24000,
+  "businessDatabaseAccessed" : false,
+  "ticket" : "success",
+  "gatewayHost" : "vnet-voice-gateway.ctseelink.cn",
+  "gatewayPort" : -1,
+  "webSocket" : "connected",
+  "startControlSent" : true,
+  "startAcknowledged" : true,
+  "audioFramesSent" : 75,
+  "encoding" : "G711A 8000Hz mono",
+  "testAudio" : "3s synthetic low-volume pulsed tone; no microphone used",
+  "stopControlSent" : true,
+  "gatewayMessages" : [ "{\"method\":\"10008\",\"sessionId\":\"7101777\",\"data\":{\"talkStatus\":[{\"deviceId\":\"32011601031322001321\",\"status\":\"0\",\"errorMsg\":\"success\"}]}}", "{\"sessionId\":\"7101777\",\"method\":\"10001\",\"code\":\"0\",\"msg\":\"success\"}", "{\"sessionId\":\"7101777\",\"method\":\"10007\",\"code\":\"0\",\"msg\":\"success\"}" ],
+  "closeCode" : 1006
+}

@@ -1,0 +1,17 @@
+{
+  "fixtureGateway": true,
+  "fakeMicrophone": true,
+  "realDeviceAudioSent": false,
+  "checks": [
+    "input power meter detects nonzero fake microphone signal; start acknowledgement is shown",
+    "official Recorder captures fake microphone and emits exact 320-byte A-law frames after 10000; explicit 10006 stop releases tracks and AudioContext",
+    "closing the video dialog stops the gateway and microphone",
+    "microphone denial never requests a short-lived vendor ticket",
+    "cancelled pending request retires its late ticket without recording",
+    "gateway start rejection stops capture and no audio is sent before acknowledgement",
+    "vendor unsupported-device error is shown and microphone is released",
+    "socket backpressure stops capture instead of accumulating delayed speech",
+    "view/preview permission does not grant talk permission"
+  ],
+  "errors": []
+}

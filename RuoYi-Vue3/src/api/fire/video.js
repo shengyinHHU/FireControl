@@ -21,3 +21,10 @@ export const videoPreview = (code, protocol = 'flv') =>
 
 export const closeVideoStream = (url) =>
   request({ url, method: 'delete', timeout: 5000, headers: { repeatSubmit: false } })
+
+export const videoTalkback = (code, signal) =>
+  request({
+    url: `/fire/video/devices/${encodeURIComponent(code)}/talkback`,
+    method: 'post', signal, timeout: 35000,
+    headers: { repeatSubmit: false },
+  })

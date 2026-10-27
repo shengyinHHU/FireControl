@@ -5,7 +5,7 @@
     width="920px"
     class="fire-dialog live-video-dialog"
     append-to-body
-    @closed="stop"
+    @closed="onClosed"
   >
     <p class="muted">设备编码：{{ device?.deviceCode }}</p>
     <div class="live-stage" :aria-busy="loading">
@@ -36,6 +36,8 @@
         >下载 VLC 播放列表</el-button
       >
     </div>
+    <VideoTalkback ref="talk" :open="open" :device-code="device?.deviceCode"
+      :ready="status === '播放中'" :has-audio="soundAvailable" @starting="enableListening" />
     <p class="muted">实时画面按需连接，关闭窗口后停止播放。</p>
   </el-dialog>
 </template>
@@ -46,12 +48,14 @@ import { getToken } from '@/utils/auth'
 import { Mute, Microphone } from '@element-plus/icons-vue'
 import { createG711Audio, createG711Loader } from '@/api/fire/flvG711'
 import { ElMessage } from 'element-plus'
+import VideoTalkback from './VideoTalkback.vue'
 const props = defineProps({ modelValue: Boolean, device: Object })
 const emit = defineEmits(['update:modelValue'])
 const open = computed({
   get: () => props.modelValue,
   set: (value) => emit('update:modelValue', value),
 })
+const talk = ref()
 const video = ref(),
   loading = ref(false),
   error = ref(''),
@@ -65,6 +69,7 @@ let player,
   version = 0,
   deadline
 function release() {
+  talk.value?.stop()
   clearTimeout(deadline)
   audioBridge?.close()
   audioBridge = null
@@ -86,6 +91,9 @@ function release() {
     video.value.removeAttribute('src')
     video.value.load()
   }
+}
+function onClosed() {
+  if (!open.value) stop()
 }
 function stop() {
   if (downloadUrl) {
@@ -129,6 +137,9 @@ function armTimeout(current) {
 }
 function onVolumeChange() {
   soundEnabled.value = !!video.value && !video.value.muted && video.value.volume > 0
+}
+function enableListening() {
+  if (soundAvailable.value && !soundEnabled.value) toggleSound()
 }
 async function toggleSound() {
   try {

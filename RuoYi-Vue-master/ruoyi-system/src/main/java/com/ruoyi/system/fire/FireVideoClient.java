@@ -75,6 +75,24 @@ public class FireVideoClient {
   }
   return data;
  }
+ /** The browser receives only a short-lived voice ticket, never the account token or app secret. */
+ public Map<String,Object> talkback(String code)throws Exception {
+  access();
+  if(code==null||knownDevices.getOrDefault(code,0L)<System.currentTimeMillis())throw new ServiceException("请先刷新设备列表后再对讲");
+  var b=business();b.put("deviceCode",code);b.put("domain","1");b.put("netType",0);
+  Object data=call("/open/token/vpaas/voice/talkback",b).get("data");
+  return voiceTicket(data);
+ }
+ public static Map<String,Object> voiceTicket(Object data){
+  if(!(data instanceof Map<?,?> ticket))throw new ServiceException("平台未返回语音会话");
+  Object address=ticket.get("wss"),token=ticket.get("token"),session=ticket.get("sessionId");
+  if(!(address instanceof String wss)||wss.length()>4096||!(token instanceof String auth)||auth.isBlank()||auth.length()>8192||session==null)throw new ServiceException("平台语音会话参数不完整");
+  URI uri;try{uri=URI.create(wss);}catch(IllegalArgumentException invalid){throw new ServiceException("平台语音网关地址无效");}
+  String host=uri.getHost(),id=String.valueOf(session);
+  // Address is supplied only by the authenticated vendor response, never by the browser.
+  if(!"wss".equals(uri.getScheme())||host==null||!host.contains(".")||host.matches("[0-9.]+")||host.contains(":")||uri.getUserInfo()!=null||uri.getFragment()!=null||id.isBlank()||id.length()>128)throw new ServiceException("平台未返回可用的域名WSS语音地址，请联系平台检查domain=1配置");
+  return Map.of("wss",wss,"token",auth,"sessionId",id);
+ }
  @SuppressWarnings("unchecked")
  public Object preview(String code,String protocol) throws Exception {
   if(!Set.of("hls","rtsp","webrtc","flv").contains(protocol))throw new ServiceException("不支持的播放协议");
