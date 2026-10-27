@@ -1,0 +1,10 @@
+{
+  "change": "Official FLV business parameter mute changed from 1 to 0 to retain audio; native video controls can unmute when an audio track is present",
+  "browserInitialMuted": true,
+  "backendCompile": "PASS",
+  "liveAudioVerification": "PASS: target 32011601031322001324 HEVC + G.711 A-law; actual backend relay decoded 130 video frames and scheduled nonzero audio PCM in Chrome; physical loudspeaker not assessed",
+  "providerCode": 0,
+  "providerMessage": "Latest vendor request succeeded",
+  "audioAudiblyVerified": false,
+  "browserAudioCompatibility": "api/fire/flvG711.js"
+}

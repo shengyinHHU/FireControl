@@ -11,11 +11,21 @@ public class VideoFlvCheck {
   Path root=Path.of(args[0]);String y=Files.readString(root.resolve("RuoYi-Vue-master/ruoyi-admin/src/main/resources/application.yml"));
   var p=new FireVideoProperties();p.setAppId(value(y,"app-id"));p.setAppSecret(value(y,"app-secret"));p.setEnterpriseUser(value(y,"enterprise-user"));
   var user=new LoginUser();user.setUserId(1L);SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(user,null,List.of()));
-  var json=new ObjectMapper();var media=new FireVideoMedia();var c=new FireVideoClient(p,json,media);String target="32011601021322001599";boolean found=false;long last=-1;
-  for(int i=0;i<5;i++){Map page=(Map)c.devices(null,last,100);for(Object row:(List)page.get("list"))if(target.equals(((Map)row).get("deviceCode"))){found=true;}if(found)break;Object next=page.get("lastId");if(next==null||Long.parseLong(next.toString())<0)break;last=Long.parseLong(next.toString());}
+  var json=new ObjectMapper();var media=new FireVideoMedia();var c=new FireVideoClient(p,json,media);String target=args.length>2?args[2]:"32011601021322001599";boolean found=false;long last=-1;
+  if(args.length>1&&args[1].startsWith("direct"))found=true;
+  for(int i=0;!found&&i<30;i++){Map page=(Map)c.devices(null,last,100);for(Object row:(List)page.get("list"))if(target.equals(((Map)row).get("deviceCode"))){found=true;}if(found)break;Object next=page.get("lastId");if(next==null||Long.parseLong(next.toString())<0)break;last=Long.parseLong(next.toString());}
   if(!found)throw new IllegalStateException("Target device absent from current account listing");
-  if(args.length>1&&args[1].equals("serve")){serve(c,media,json);return;}
-  Map preview=(Map)c.preview(target,"flv");
+  if(args.length>1&&args[1].endsWith("serve")){if(args[1].equals("directserve")){
+   var known=FireVideoClient.class.getDeclaredField("knownDevices");known.setAccessible(true);((Map)known.get(c)).put(target,System.currentTimeMillis()+60000);
+  }serve(c,media,json,target);return;}
+  Map preview;
+  if(args.length>1&&args[1].startsWith("direct")){
+   // Diagnostic-only direct vendor request for the user-specified code; vendor account authorization still applies.
+   var business=FireVideoClient.class.getDeclaredMethod("business");business.setAccessible(true);Map b=(Map)business.invoke(c);b.put("deviceCode",target);b.put("mediaType",1);b.put("mute",0);
+   var call=FireVideoClient.class.getDeclaredMethod("call",String.class,Map.class);call.setAccessible(true);Map response=(Map)call.invoke(c,"/open/token/cloud/getDeviceMediaUrlFlv",b);
+   Map decoded=json.readValue(com.ruoyi.system.fire.video.XXTea.decrypt((String)response.get("data"),"UTF-8",com.ruoyi.system.fire.video.ByteFormat.toHex(p.getAppSecret().getBytes(java.nio.charset.StandardCharsets.UTF_8))),Map.class);
+   preview=Map.of("url",media.openFlv((String)decoded.get("url")),"requiresAuth",true,"protocol","flv");
+  }else preview=(Map)c.preview(target,"flv");
   if(!Boolean.TRUE.equals(preview.get("requiresAuth"))||!"flv".equals(preview.get("protocol")))throw new AssertionError("FLV preview contract");
   String key=((String)preview.get("url")).substring("/fire/video/flv/".length());
   user.setUserId(999999L);
@@ -30,7 +40,7 @@ public class VideoFlvCheck {
   Files.write(root.resolve("tools/video/runtime/flv-sample.flv"),bytes.toByteArray());
   System.out.println("FLV_PASS bytes="+bytes.size()+"; foreign-user denied; single-use enforced; stream closed");
  }
- static void serve(FireVideoClient client,FireVideoMedia media,ObjectMapper json)throws Exception {
+ static void serve(FireVideoClient client,FireVideoMedia media,ObjectMapper json,String target)throws Exception {
   var server=com.sun.net.httpserver.HttpServer.create(new java.net.InetSocketAddress("127.0.0.1",5186),0);
   var pool=java.util.concurrent.Executors.newCachedThreadPool();server.setExecutor(pool);
   var keys=java.util.concurrent.ConcurrentHashMap.<String>newKeySet();
@@ -44,7 +54,7 @@ public class VideoFlvCheck {
     if(ex.getRequestMethod().equals("OPTIONS")){ex.sendResponseHeaders(204,-1);return;}
     if(!"Bearer fixture-only".equals(ex.getRequestHeaders().getFirst("Authorization"))){ex.sendResponseHeaders(403,-1);return;}
     if(ex.getRequestURI().getPath().equals("/preview")){
-     Map preview=(Map)client.preview("32011601021322001599","flv");keys.add(((String)preview.get("url")).substring("/fire/video/flv/".length()));
+     Map preview=(Map)client.preview(target,"flv");keys.add(((String)preview.get("url")).substring("/fire/video/flv/".length()));
      byte[] bytes=json.writeValueAsBytes(Map.of("code",200,"data",preview));ex.getResponseHeaders().set("Content-Type","application/json");ex.sendResponseHeaders(200,bytes.length);ex.getResponseBody().write(bytes);return;
     }
     String key=ex.getRequestURI().getPath().substring("/fire/video/flv/".length());

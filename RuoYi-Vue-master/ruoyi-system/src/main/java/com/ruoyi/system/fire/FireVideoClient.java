@@ -79,7 +79,8 @@ public class FireVideoClient {
  public Object preview(String code,String protocol) throws Exception {
   if(!Set.of("hls","rtsp","webrtc","flv").contains(protocol))throw new ServiceException("不支持的播放协议");
   access();if(code==null||knownDevices.getOrDefault(code,0L)<System.currentTimeMillis())throw new ServiceException("请先刷新设备列表后再播放");
-  var b=business();b.put("deviceCode",code);b.put("mediaType",1);b.put("mute",protocol.equals("flv")?1:0);
+  // Keep the audio track in the source; the browser controls initial autoplay muting.
+  var b=business();b.put("deviceCode",code);b.put("mediaType",1);b.put("mute",0);
   if(protocol.equals("webrtc")){b.put("netType",0);b.put("channel",0);}else if(!protocol.equals("flv"))b.put("supportDomain",1);
   String path=protocol.equals("webrtc")?"/open/token/vpaas/getDeviceMediaWebrtcUrl":"/open/token/cloud/"+(protocol.equals("rtsp")?"getDeviceMediaUrlRtsp":protocol.equals("flv")?"getDeviceMediaUrlFlv":"getDeviceMediaUrlHls");
   Object encrypted=call(path,b).get("data");

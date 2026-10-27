@@ -8,12 +8,20 @@ const server=spawn(process.execPath,['node_modules/vite/bin/vite.js','--mode','f
  for(let i=0;i<100;i++){try{if((await fetch(base)).ok)break}catch{}await new Promise(r=>setTimeout(r,100))}
  browser=await chromium.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true})
  const context=await browser.newContext({viewport:{width:1440,height:1000},reducedMotion:'reduce'})
+ await context.addInitScript(() => {
+  window.audioCheck={started:0,energy:0,state:'none'}
+  const NativeAudio=window.AudioContext
+  window.AudioContext=class extends NativeAudio {
+   constructor(...args){super(...args);this.addEventListener('statechange',()=>{window.audioCheck.state=this.state})}
+   createBufferSource(){const source=super.createBufferSource();const start=source.start.bind(source);source.start=(...args)=>{window.audioCheck.started++;if(source.buffer){const samples=source.buffer.getChannelData(0);for(const value of samples)window.audioCheck.energy+=Math.abs(value)}return start(...args)};return source}
+  }
+ })
  await context.addCookies([{name:'Admin-Token',value:'fixture-only',url:base}])
  let fail=false,empty=false,previewCalls=0,flvSuccess=false,mediaRequests=0,closedStreams=0
  const live=process.env.VIDEO_LIVE==='1'||process.env.VIDEO_FLV_RELAY==='1'
  const relay=process.env.VIDEO_FLV_RELAY==='1'
  const runtime=path.resolve('../tools/video/runtime')
- const page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.text().startsWith('Video playback diagnostic:'))console.log(m.text())});page.on('requestfailed',r=>{if(r.url().includes('ctyunxs.cn'))console.log('MEDIA NETWORK:',r.failure()?.errorText)});page.on('response',r=>{if(r.url().includes('ctyunxs.cn')&&r.status()>=400)console.log('MEDIA HTTP:',r.status(),new URL(r.url()).pathname)})
+ const page=await context.newPage();const errors=[];page.on('pageerror',e=>{errors.push(e.message);console.log(e.stack)});page.on('console',m=>{if(m.text().startsWith('Video playback diagnostic:'))console.log(m.text())});page.on('requestfailed',r=>{if(r.url().includes('ctyunxs.cn'))console.log('MEDIA NETWORK:',r.failure()?.errorText)});page.on('response',r=>{if(r.url().includes('ctyunxs.cn')&&r.status()>=400)console.log('MEDIA HTTP:',r.status(),new URL(r.url()).pathname)})
  await context.route('**/dev-api/**',async route=>{
   const u=new URL(route.request().url()),p=u.pathname.replace('/dev-api','');let body={code:200,data:[]}
   if(p.startsWith('/fire/video/flv/')) {
@@ -67,8 +75,20 @@ const server=spawn(process.execPath,['node_modules/vite/bin/vite.js','--mode','f
   checks.push('failure clears stale rows, retry and empty states work without demo fallback')
  }else{
   await monitor.locator('.monitor-device').first().click()
-  try{await page.waitForFunction(()=>{let v=document.querySelector('.live-stage video');return v&&v.videoWidth>0&&v.readyState>=2},{},{timeout:45000});if(relay)await page.waitForFunction(()=>{const v=document.querySelector('.live-stage video');return v?.currentTime>5&&v.getVideoPlaybackQuality().totalVideoFrames>50},{},{timeout:20000});checks.push({result:relay?'LIVE FLV RELAY DECODED':'PROVIDER FLV SAMPLE DECODED',video:await page.locator('.live-stage video').evaluate(v=>({width:v.videoWidth,height:v.videoHeight,frames:v.getVideoPlaybackQuality().totalVideoFrames,currentTime:v.currentTime}))});await page.screenshot({path:'docs/verification/video-flv'+(relay?'-live':'-sample')+'.png'})}catch{throw Error('FLV SAMPLE NOT DECODED: '+await page.getByRole('dialog').innerText())}
-  await page.keyboard.press('Escape');await page.getByRole('dialog').waitFor({state:'hidden'});await page.waitForTimeout(300);assert.equal(closedStreams,1)
+  try{await page.waitForFunction(()=>{let v=document.querySelector('.live-stage video');return v&&v.videoWidth>0&&v.readyState>=2},{},{timeout:45000});if(relay)await page.waitForFunction(()=>{const v=document.querySelector('.live-stage video');return v?.currentTime>5&&v.getVideoPlaybackQuality().totalVideoFrames>50},{},{timeout:20000});checks.push({result:relay?'LIVE FLV RELAY DECODED':'PROVIDER FLV SAMPLE DECODED',video:await page.locator('.live-stage video').evaluate(v=>({width:v.videoWidth,height:v.videoHeight,frames:v.getVideoPlaybackQuality().totalVideoFrames,currentTime:v.currentTime}))});if(process.env.VIDEO_G711==='1'){
+    const cdp=await context.newCDPSession(page);await cdp.send('DOM.enable');await cdp.send('CSS.enable')
+    const tree=await cdp.send('DOM.getDocument',{depth:-1,pierce:true});const nativeVolume=[]
+    async function inspect(node){
+      const attrs=node.attributes||[]
+      if(attrs.some(value=>['-webkit-media-controls-mute-button','-webkit-media-controls-volume-slider','-webkit-media-controls-volume-control-container'].includes(value))){
+        const {computedStyle}=await cdp.send('CSS.getComputedStyleForNode',{nodeId:node.nodeId});nativeVolume.push({control:attrs.find(value=>value.startsWith('-webkit-media-controls-')),display:computedStyle.find(row=>row.name==='display')?.value})
+      }
+      for(const child of [...(node.children||[]),...(node.shadowRoots||[])])await inspect(child)
+    }
+    await inspect(tree.root);assert.ok(nativeVolume.length>=2);assert.ok(nativeVolume.every(row=>row.display==='none'));checks.push({nativeVolumeHidden:nativeVolume});await cdp.detach()
+    const sound=page.getByRole('button',{name:'开启声音',exact:true});await sound.click();await page.waitForFunction(()=>window.audioCheck.started>5&&window.audioCheck.energy>0,{},{timeout:10000});assert.equal(await page.locator('.live-stage video').evaluate(v=>v.muted),false);checks.push({g711Audio:await page.evaluate(()=>window.audioCheck)});await page.getByRole('button',{name:'关闭声音',exact:true}).click();assert.equal(await page.locator('.live-stage video').evaluate(v=>v.muted),true)
+   }await page.screenshot({path:'docs/verification/video-flv'+(process.env.VIDEO_G711==='1'?'-g711':relay?'-live':'-sample')+'.png'})}catch{throw Error('FLV SAMPLE NOT DECODED: '+await page.getByRole('dialog').innerText())}
+  await page.keyboard.press('Escape');await page.getByRole('dialog').waitFor({state:'hidden'});await page.waitForTimeout(300);assert.ok(closedStreams>=1);if(process.env.VIDEO_G711==='1'){await page.waitForFunction(()=>window.audioCheck.state==='closed');checks.push('G.711 AudioContext closes with dialog')}
  }
  await page.setViewportSize({width:720,height:900});await page.keyboard.press('Tab')
  fs.mkdirSync('docs/verification',{recursive:true});await page.screenshot({path:'docs/verification/video-monitor-narrow.png',fullPage:true})
@@ -87,7 +107,7 @@ const server=spawn(process.execPath,['node_modules/vite/bin/vite.js','--mode','f
   checks.push('dashboard adjacent tab shares real monitor and restores original inspection panel')
  }
  assert.deepEqual(errors,[])
- fs.writeFileSync('docs/verification/video-monitor'+(relay?'-flv-live':live?'-flv-sample':'')+'.json',JSON.stringify({fixtureHttp:true,providerFlvSample:live&&!relay,liveFlvRelay:relay,checks,errors},null,2))
+ fs.writeFileSync('docs/verification/video-monitor'+(process.env.VIDEO_G711==='1'?(relay?'-flv-g711':'-flv-g711-sample'):relay?'-flv-live':live?'-flv-sample':'')+'.json',JSON.stringify({fixtureHttp:true,providerFlvSample:live&&!relay,liveFlvRelay:relay,checks,errors},null,2))
  console.log(JSON.stringify(checks,null,2))
  }finally{await browser?.close();server.kill()}
 })().catch(e=>{console.error(e);process.exitCode=1})

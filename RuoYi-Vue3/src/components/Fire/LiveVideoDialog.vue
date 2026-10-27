@@ -19,6 +19,7 @@
         aria-label="摄像头实时视频"
         @playing="onPlaying"
         @waiting="onWaiting"
+        @volumechange="onVolumeChange"
         @error="onVideoError"
       />
       <p v-if="loading" class="live-loading" role="status">{{ status }}</p>
@@ -27,7 +28,10 @@
     <div class="live-tools">
       <span role="status">{{ status }}</span
       ><el-button :loading="loading" @click="connect">重新连接</el-button
-      ><el-button @click="fullscreen">全屏</el-button>
+      ><el-button v-if="soundAvailable" :disabled="loading" @click="toggleSound">
+        <el-icon><Mute v-if="!soundEnabled" /><Microphone v-else /></el-icon>
+        {{ soundEnabled ? '关闭声音' : '开启声音' }}
+      </el-button><el-button @click="fullscreen">全屏</el-button>
       <el-button :loading="downloading" @click="downloadVlc"
         >下载 VLC 播放列表</el-button
       >
@@ -39,6 +43,8 @@
 import { computed, ref, watch, nextTick, onBeforeUnmount } from 'vue'
 import { videoPreview, closeVideoStream } from '@/api/fire/video'
 import { getToken } from '@/utils/auth'
+import { Mute, Microphone } from '@element-plus/icons-vue'
+import { createG711Audio, createG711Loader } from '@/api/fire/flvG711'
 import { ElMessage } from 'element-plus'
 const props = defineProps({ modelValue: Boolean, device: Object })
 const emit = defineEmits(['update:modelValue'])
@@ -52,12 +58,18 @@ const video = ref(),
   status = ref('等待连接')
 const downloading = ref(false)
 let downloadUrl
+const soundAvailable = ref(false), soundEnabled = ref(false)
+let audioBridge
 let streamUrl
 let player,
   version = 0,
   deadline
 function release() {
   clearTimeout(deadline)
+  audioBridge?.close()
+  audioBridge = null
+  soundAvailable.value = false
+  soundEnabled.value = false
   if (player) {
     player.unload()
     player.detachMediaElement()
@@ -115,7 +127,22 @@ function armTimeout(current) {
     if (current === version) fail('等待FLV画面超时，请重新连接或检查摄像头网络。')
   }, 40000)
 }
-async function connect() {
+function onVolumeChange() {
+  soundEnabled.value = !!video.value && !video.value.muted && video.value.volume > 0
+}
+async function toggleSound() {
+  try {
+    if (audioBridge) await audioBridge.toggle()
+    else if (video.value) {
+      if (video.value.volume === 0) video.value.volume = 1
+      video.value.muted = !video.value.muted
+    }
+    onVolumeChange()
+  }
+  catch { ElMessage.error('声音开启失败，请检查浏览器的声音权限后重试') }
+}
+async function connect(g711 = false) {
+  g711 = g711 === true
   stop()
   const current = version
   loading.value = true
@@ -139,11 +166,15 @@ async function connect() {
     await nextTick()
     if (current !== version || !open.value || !video.value) return
     status.value = '正在连接FLV视频'
+    video.value.muted = true
+    if (g711) audioBridge = createG711Audio(video.value, () => { soundAvailable.value = true })
     const sdk = mpegts.createPlayer({
       type: 'flv', isLive: true,
+      ...(g711 ? { hasAudio: false } : {}),
       url: import.meta.env.VITE_APP_BASE_API + data.url,
     }, {
       headers: { Authorization: 'Bearer ' + token },
+      ...(g711 ? { customLoader: createG711Loader(mpegts, audioBridge) } : {}),
       enableWorker: false,
       enableStashBuffer: false,
       lazyLoad: false,
@@ -155,17 +186,30 @@ async function connect() {
       liveBufferLatencyMinRemain: 1,
     })
     player = sdk
+    let switchingAudio = false
     sdk.on(mpegts.Events.ERROR, (type, detail, info) => {
       if (current !== version) return
+      const reason = typeof info === 'string' ? info : ''
+      if (!g711 && /Unsupported audio codec idx: (7|8)\b/.test(reason)) {
+        // Let the current demux stack unwind before destroying it and reconnecting.
+        if (!switchingAudio) {
+          switchingAudio = true
+          setTimeout(() => { if (current === version && open.value) connect(true) }, 0)
+        }
+        return
+      }
       const code = info?.code
       fail(type === mpegts.ErrorTypes.NETWORK_ERROR
         ? code === 401 || code === 403
           ? '视频访问授权已失效，请重新登录或检查权限。'
           : 'FLV视频连接中断，请重新连接；若持续失败，请检查设备和网络。'
-        : 'FLV视频解码失败，请检查浏览器对该视频编码的支持。')
+        : /Unsupported audio codec/.test(reason)
+          ? '这台设备的音频编码暂不受支持，请将设备音频配置为AAC或G.711。'
+          : `FLV播放失败（${String(detail).replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 48)}），请检查设备的视频编码或媒体流。`)
     })
     sdk.on(mpegts.Events.MEDIA_INFO, info => {
       if (current !== version) return
+      if (!g711) soundAvailable.value = info.hasAudio === true
       if (/hvc1|hev1|hevc|h265/i.test(info.videoCodec || '') && !features.mseH265Playback)
         fail('该摄像头为H.265编码，当前浏览器环境无法解码，请使用支持HEVC的新版Chrome。')
     })
@@ -238,6 +282,12 @@ onBeforeUnmount(stop)
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+/* One sound control for every codec: the shared toolbar button. */
+.live-stage video::-webkit-media-controls-mute-button,
+.live-stage video::-webkit-media-controls-volume-slider,
+.live-stage video::-webkit-media-controls-volume-control-container {
+  display: none !important;
 }
 .live-loading {
   position: absolute;

@@ -1,6 +1,7 @@
 {
   "fixtureHttp": true,
   "providerFlvSample": false,
+  "liveFlvRelay": false,
   "checks": [
     "device listing does not request streams; original inspection tab preserved",
     "cursor pagination appends devices",

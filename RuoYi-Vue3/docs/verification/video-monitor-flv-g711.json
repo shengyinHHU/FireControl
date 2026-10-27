@@ -1,0 +1,26 @@
+{
+  "fixtureHttp": true,
+  "providerFlvSample": false,
+  "liveFlvRelay": true,
+  "checks": [
+    "device listing does not request streams; original inspection tab preserved",
+    {
+      "result": "LIVE FLV RELAY DECODED",
+      "video": {
+        "width": 2560,
+        "height": 1440,
+        "frames": 130,
+        "currentTime": 5.026964
+      }
+    },
+    {
+      "g711Audio": {
+        "started": 6,
+        "energy": 0.99755859375,
+        "state": "running"
+      }
+    },
+    "keyboard/narrow viewport and return to unchanged inspection content"
+  ],
+  "errors": []
+}

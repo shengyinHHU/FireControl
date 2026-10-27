@@ -1,0 +1,47 @@
+{
+  "fixtureHttp": true,
+  "providerFlvSample": true,
+  "liveFlvRelay": false,
+  "checks": [
+    "device listing does not request streams; original inspection tab preserved",
+    {
+      "result": "PROVIDER FLV SAMPLE DECODED",
+      "video": {
+        "width": 2560,
+        "height": 1440,
+        "frames": 5,
+        "currentTime": 10.86316
+      }
+    },
+    {
+      "nativeVolumeHidden": [
+        {
+          "control": "-webkit-media-controls-volume-control-container",
+          "display": "none"
+        },
+        {
+          "control": "-webkit-media-controls-volume-slider",
+          "display": "none"
+        },
+        {
+          "control": "-webkit-media-controls-mute-button",
+          "display": "none"
+        },
+        {
+          "control": "-webkit-media-controls-mute-button",
+          "display": "none"
+        }
+      ]
+    },
+    {
+      "g711Audio": {
+        "started": 6,
+        "energy": 0.83203125,
+        "state": "running"
+      }
+    },
+    "G.711 AudioContext closes with dialog",
+    "keyboard/narrow viewport and return to unchanged inspection content"
+  ],
+  "errors": []
+}
