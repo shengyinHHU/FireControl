@@ -47,10 +47,11 @@ public class Fire119IngestService {
   BigDecimal lng=coordinate(raw.get("jd"),180),lat=coordinate(raw.get("wd"),90);
   if(lng==null||lat==null||(lng.signum()==0&&lat.signum()==0)){lng=null;lat=null;}
   row.put("source_longitude",lng);row.put("source_latitude",lat);row.put("source_coord_system",config.getSourceCoordinateSystem());
-  boolean mapReady=lng!=null && "GCJ02".equals(config.getSourceCoordinateSystem());
-  row.put("map_longitude",mapReady?lng:null);row.put("map_latitude",mapReady?lat:null);
-  row.put("coordinate_status",lng==null?(raw.get("jd")==null||raw.get("wd")==null?"missing":"invalid"):mapReady?"valid":"pending");
-  var match=boundary.match(lng,lat);row.put("street_name",match.status().equals("inside")?"大厂街道":null);row.put("street_match_status",match.status());row.put("street_match_method",match.method());row.put("street_match_basis",match.basis());
+  var map=Fire119Coordinates.toMap(lng,lat,config.getSourceCoordinateSystem());
+  row.put("map_longitude",map==null?null:map[0]);row.put("map_latitude",map==null?null:map[1]);
+  row.put("coordinate_status",lng==null?(raw.get("jd")==null||raw.get("wd")==null?"missing":"invalid"):map!=null?"valid":"pending");
+  var match=boundary.match(map==null?null:map[0],map==null?null:map[1]);row.put("street_name",match.status().equals("inside")?"大厂街道":null);row.put("street_match_status",match.status());row.put("street_match_method",match.method());row.put("street_match_basis",match.basis());
+  row.put("geofence_status",match.status());row.put("geofence_version",Fire119Boundary.scopeVersion(config.getSourceCoordinateSystem()));row.put("boundary_distance_m",map==null?null:boundary.distance(map[0],map[1]));
   row.put("raw_json",encode(raw));row.put("payload_hash",hash(raw));row.put("batch",batch);row.put("now",now());row.put("dept_id",config.getDeptId());row.put("supervisor_user_id",config.getSupervisorUserId());
   return row;
  }
@@ -70,6 +71,20 @@ public class Fire119IngestService {
   if(previous!=null){Map<String,Object> old=json.readValue(String.valueOf(previous.get("rawJson")),Map.class);Set<String> keys=new TreeSet<>(raw.keySet());keys.addAll(old.keySet());row.put("changed_fields",encode(keys.stream().filter(k->!Objects.equals(canonical(old.get(k)),canonical(raw.get(k))) || old.containsKey(k)!=raw.containsKey(k)).toList()));}
   else row.put("changed_fields",null);
   mapper.insertHistory(row);return outcome;
+ }
+ /** Recompute derived metadata from original payload without changing alarm/source/discovery timestamps or history. */
+ @Transactional(rollbackFor=Exception.class,timeout=15)
+ @SuppressWarnings("unchecked")
+ public int rebuildCoordinates(int limit,long deadline)throws Exception {
+  var rows=mapper.coordinateCandidates(config.getSourceSystem(),Fire119Boundary.scopeVersion(config.getSourceCoordinateSystem()),limit);
+  for(var old:rows){
+   if(Thread.currentThread().isInterrupted()||System.nanoTime()>deadline)throw new InterruptedException("119坐标重算已取消或超时");
+   Map<String,Object> next;
+   try{next=prepare(json.readValue(String.valueOf(old.get("rawJson")),Map.class),"scope-rebuild");}
+   catch(RuntimeException bad){next=new HashMap<>();next.put("source_coord_system",config.getSourceCoordinateSystem());next.put("coordinate_status","invalid");next.put("geofence_status","pending");next.put("geofence_version",Fire119Boundary.scopeVersion(config.getSourceCoordinateSystem()));next.put("street_match_status","pending");next.put("street_match_method","boundary");next.put("street_match_basis","历史源数据无法重算，待核验；"+Fire119Boundary.VERSION);}
+   next.put("incident_id",old.get("incidentId"));next.put("expected_hash",old.get("payloadHash"));mapper.rebuildCoordinates(next);
+  }
+  return rows.size();
  }
  @Transactional(rollbackFor=Exception.class,timeout=15)
  public void state(Map<String,Object> row){if("quick".equals(row.get("mode")))mapper.writeQuickState(row);else mapper.writeState(row);}

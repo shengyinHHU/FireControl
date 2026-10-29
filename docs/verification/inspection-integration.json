@@ -1,0 +1,7 @@
+{
+  "isolatedMySQL": true,
+  "businessDatabaseAccessed": false,
+  "vendorApiAccessed": false,
+  "schemaRepeatSafe": true,
+  "result": "INSPECTION_INTEGRATION_OK checks=34; actual MySQL, MyBatis, DataScopeAspect and transactions; no business DB, vendor API or live media accessed"
+}

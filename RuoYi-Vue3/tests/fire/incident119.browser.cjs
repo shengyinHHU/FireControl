@@ -11,13 +11,13 @@ const checks=[], errors=[]
  let browser
  try {
   for(let i=0;i<80;i++){try{if((await fetch(base)).ok)break}catch{}await new Promise(r=>setTimeout(r,100))}
-  browser=await chromium.launch({executablePath:'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',headless:true,timeout:8000})
+  browser=await chromium.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true,timeout:8000})
   const context=await browser.newContext({viewport:{width:1440,height:1000},reducedMotion:'reduce'})
   await context.addCookies([{name:'Admin-Token',value:'fixture-only',url:base}])
   let fail=false,empty=false, fail119=false,empty119=false
   const gateway={id:'1',name:'大厂街道用户信息传输装置',placeName:'大厂街道',model:'DH-HY-FAM-1000',serial:'c80000000000',status:'在线',deviceStatus:'装置状态：调试状态、故障、备电故障',lastSeen:'2026-10-20 17:46:02'}
   const event={id:'event1',name:'装置状态：调试状态、故障、备电故障',kind:'fault',placeName:'大厂街道',placeId:'102',gatewayName:gateway.name,deviceId:'gateway:c80000000000',occurredAt:'2026-10-20 17:43:40',deviceTime:'2017-03-09 19:20:03',clockWarning:1,details:'{"statusBits":20,"fire":false}',source:'消控室主机'}
-  const incident={id:'119:1',code:'fixture119',sourceCode:'119',source:'119警情',name:'社会救助测试记录',kind:'3',caseTypeCode:'3',caseTypeName:'社会救助',caseNatureName:'实警',caseLevelName:'一级',mergeStatusName:'未合并',address:'大厂街道测试地址',description:'社会救助测试记录',placeName:'大厂街道测试地址',occurredAt:'2026-10-21 13:14:16',lastSyncedAt:'2026-10-21 15:00:00',status:'返队',streetRegion:'文档边界；地区=吴家洼',coordinateStatus:'valid',lng:118.75163,lat:32.212305}
+  const incident={id:'119:1',code:'fixture119',sourceCode:'119',source:'119警情',name:'社会救助测试记录',kind:'3',caseTypeCode:'3',caseTypeName:'社会救助',caseNatureName:'实警',caseLevelName:'一级',mergeStatusName:'未合并',address:'大厂街道测试地址',description:'社会救助测试记录',placeName:'大厂街道测试地址',occurredAt:'2026-10-21 13:14:16',lastSyncedAt:'2026-10-21 15:00:00',status:'返队',streetRegion:'33点范围；地区=大厂街道',coordinateStatus:'valid',boundaryReview:true,boundaryDistanceM:0.3,lng:118.75163,lat:32.212305}
   await context.route('**/dev-api/**',async route=>{
    const u=new URL(route.request().url()), p=u.pathname.replace('/dev-api','')
    let data={code:200,data:[]}
@@ -98,7 +98,7 @@ const checks=[], errors=[]
   await page.getByRole('button',{name:'查看 / 处理',exact:true}).click()
   const incidentDialog=page.getByRole('dialog',{name:'119警情详情'})
   await incidentDialog.getByText('社会救助',{exact:true}).first().waitFor()
-  await incidentDialog.getByText('吴家洼',{exact:true}).waitFor()
+  await incidentDialog.getByText('大厂街道',{exact:true}).waitFor();await incidentDialog.getByText(/位置距大厂范围边界约 0.3 米/).waitFor();checks.push('converted GCJ02 coordinates and close-boundary review hint without widening the scope')
   assert.equal(await incidentDialog.getByRole('button',{name:/接单|办结|单位档案|联动视频/}).count(),0)
   await page.keyboard.press('Escape')
   checks.push('dashboard 119 source includes social assistance and opens source-specific read-only details')

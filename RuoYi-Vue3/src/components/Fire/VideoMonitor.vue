@@ -4,8 +4,19 @@
       暂无视频监控权限，请联系管理员授权。
     </p>
     <template v-else>
+      <div class="monitor-layout" :class="{ 'with-tree': directoryTree }">
+      <aside v-if="directoryTree" class="monitor-tree-panel" aria-label="监控目录">
+        <h2>监控目录</h2>
+        <el-button class="monitor-all" :type="selected ? 'default' : 'primary'" :aria-pressed="!selected" @click="goRoot">全部视频</el-button>
+        <p v-if="treeError" class="fire-error" role="alert">{{ treeError }} <el-button link @click="reloadTree">重试目录</el-button></p>
+        <el-tree :key="treeEpoch" ref="tree" node-key="id" lazy :load="loadTree" :props="treeProps"
+          :expand-on-click-node="false" highlight-current :current-node-key="selected || undefined"
+          aria-label="视频监控目录树" @node-click="selectTree" />
+      </aside>
+      <div class="monitor-content">
       <div class="monitor-toolbar">
-        <el-select
+        <strong v-if="directoryTree" class="monitor-heading">{{ selectedName || '全部视频' }}</strong>
+        <el-select v-if="!directoryTree"
           v-model="selected"
           placeholder="全部目录"
           clearable
@@ -23,11 +34,11 @@
         </el-select>
         <el-button :loading="loading" @click="refresh">刷新设备</el-button>
       </div>
-      <div v-if="trail.length" class="monitor-path">
+      <div v-if="!directoryTree && trail.length" class="monitor-path">
         <el-button link @click="goRoot">首层目录</el-button>
         <span v-for="r in trail" :key="r.id"> / {{ r.name }}</span>
       </div>
-      <div v-if="children.length" class="monitor-directories">
+      <div v-if="!directoryTree && children.length" class="monitor-directories">
         <el-button
           v-for="r in children"
           :key="r.id"
@@ -45,7 +56,8 @@
           :key="device.deviceCode"
           type="button"
           class="monitor-device"
-          :disabled="!canVideo('preview')"
+          :disabled="!canVideo(selectable ? 'list' : 'preview')"
+          :class="{ selected: selectable && selectedCodes.includes(device.deviceCode) }"
           @click="play(device)"
         >
           <el-icon class="monitor-icon"><VideoCamera /></el-icon>
@@ -58,7 +70,7 @@
                 : '平台状态：' + device.status
             }}</small></span
           >
-          <span>查看视频 ›</span>
+          <span>{{ selectable ? (selectedCodes.includes(device.deviceCode) ? '已选 ✓' : '选择摄像头') : '查看视频 ›' }}</span>
         </button>
         <p v-if="!loading && !error && !devices.length" class="fire-empty">
           当前目录暂无摄像头
@@ -73,6 +85,7 @@
           >加载更多</el-button
         >
       </div>
+      </div></div>
       <LiveVideoDialog v-model="playing" :device="activeDevice" />
     </template>
   </section>
@@ -81,7 +94,8 @@
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { canVideo, videoRegions, videoDevices } from '@/api/fire/video'
 import LiveVideoDialog from './LiveVideoDialog.vue'
-defineProps({ compact: Boolean })
+const props = defineProps({ compact: Boolean, directoryTree: Boolean, selectable: Boolean, selectedCodes: { type: Array, default: () => [] } })
+const emit = defineEmits(['select'])
 const selected = ref(''),
   regions = ref([]),
   children = ref([]),
@@ -92,8 +106,34 @@ const loading = ref(false),
   nextId = ref(null),
   playing = ref(false),
   activeDevice = ref(null)
+const tree = ref(), treeError = ref(''), treeEpoch = ref(0), selectedName = ref('')
+const treeProps = { label: 'name', isLeaf: 'isLeaf' }
+let treeVersion = 0
+async function loadTree(node, resolve, reject) {
+  const current = treeVersion
+  try {
+    const { data } = await videoRegions(node.level === 0 ? undefined : node.data.id)
+    if (current !== treeVersion) { resolve([]); return }
+    if (!Array.isArray(data)) throw Error('监控目录返回格式异常')
+    treeError.value = ''
+    resolve(data.map(row => ({ ...row, id: String(row.id), isLeaf: row.hasChildren === 0 || row.hasChildren === '0' || row.hasChildren === false })))
+  } catch (e) {
+    if (current === treeVersion) treeError.value = e.message || '监控目录加载失败'
+    reject()
+  }
+}
+function selectTree(region) {
+  selected.value = String(region.id)
+  selectedName.value = region.name
+  refresh()
+}
+function reloadTree() {
+  treeVersion++; treeEpoch.value++; treeError.value = ''
+  goRoot()
+}
 let version = 0
 function play(device) {
+  if (props.selectable) { emit('select', device); return }
   activeDevice.value = device
   playing.value = true
 }
@@ -104,6 +144,13 @@ async function refresh() {
   devices.value = []
   nextId.value = null
   try {
+    if (props.directoryTree) {
+      const { data } = await videoDevices(selected.value || undefined)
+      if (current !== version) return
+      devices.value = data?.list || []
+      nextId.value = String(data?.lastId ?? -1)
+      return
+    }
     const [root, nested, page] = await Promise.all([
       videoRegions(),
       selected.value
@@ -133,6 +180,8 @@ function enterRegion(region) {
   refresh()
 }
 function goRoot() {
+  selectedName.value = ''
+  tree.value?.setCurrentKey(undefined)
   selected.value = ''
   trail.value = []
   refresh()
@@ -165,11 +214,26 @@ onMounted(() => {
   if (canVideo()) refresh()
 })
 onBeforeUnmount(() => {
+  treeVersion++
   version++
   playing.value = false
 })
 </script>
 <style scoped>
+.monitor-layout.with-tree { display:grid; grid-template-columns:250px minmax(0,1fr); gap:20px; align-items:start; }
+.monitor-content { min-width:0; }
+.monitor-tree-panel { background:var(--fire-panel);color:var(--fire-text);border:1px solid var(--fire-border,var(--el-border-color)); border-radius:4px; padding:12px; min-width:0; }
+.monitor-tree-panel h2 { font-size:15px; margin:0 0 12px; }
+.monitor-all { width:100%; margin-bottom:12px; }
+.monitor-tree-panel :deep(.el-tree) { max-height:calc(100vh - 300px); overflow:auto; background:transparent; color:inherit; --el-tree-node-hover-bg-color:var(--fire-hover,#123950); }
+.monitor-tree-panel :deep(.el-tree-node__content) { min-height:34px; }
+.monitor-tree-panel :deep(.el-tree-node.is-current > .el-tree-node__content) { background:var(--fire-hover,#123950); color:var(--el-color-primary); }
+.monitor-heading { flex:1; align-self:center; overflow-wrap:anywhere; }
+.compact .monitor-layout,.compact .monitor-content { display:flex;flex-direction:column;flex:1;min-height:0;overflow:hidden; }
+@media(max-width:900px) { .monitor-layout.with-tree { grid-template-columns:210px minmax(0,1fr); gap:12px; }.with-tree .monitor-devices{grid-template-columns:1fr;} }
+@media(max-width:600px) { .monitor-layout.with-tree { grid-template-columns:1fr; }.monitor-tree-panel :deep(.el-tree){max-height:220px;} }
+
+.monitor-device.selected { border-color: var(--fire-accent); }
 .video-monitor {
   min-width: 0;
 }

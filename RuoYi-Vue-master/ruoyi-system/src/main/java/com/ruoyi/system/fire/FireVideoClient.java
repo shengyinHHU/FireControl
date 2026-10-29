@@ -18,6 +18,7 @@ public class FireVideoClient {
  private final HttpClient http=HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(10)).build();
  private String cachedToken; private long refreshAt;
  // Preview is restricted to devices actually returned by this configured enterprise account.
+ private final Map<String,Map<String,Object>> deviceCatalog=new java.util.concurrent.ConcurrentHashMap<>();
  private final Map<String,Long> knownDevices=new java.util.concurrent.ConcurrentHashMap<>();
  public FireVideoClient(FireVideoProperties c,ObjectMapper j,FireVideoMedia m){config=c;json=j;media=m;}
  private void access(){
@@ -71,9 +72,24 @@ public class FireVideoClient {
   Object data=call("/open/token/device/getAllDeviceListNew",b).get("data");
   if(data instanceof Map<?,?> page && page.get("list") instanceof List<?> rows){
    long now=System.currentTimeMillis();knownDevices.entrySet().removeIf(e->e.getValue()<now);
-   for(Object row:rows)if(row instanceof Map<?,?> device && device.get("deviceCode") instanceof String code)knownDevices.put(code,now+3600000);
+   for(Object row:rows)if(row instanceof Map<?,?> device && device.get("deviceCode") instanceof String code){knownDevices.put(code,now+3600000);deviceCatalog.put(code,new LinkedHashMap<>((Map<String,Object>)device));}
+   deviceCatalog.keySet().removeIf(code->!knownDevices.containsKey(code));
   }
   return data;
+ }
+ public synchronized Map<String,Object> resolveDevice(String code)throws Exception {
+  access();
+  if(code==null||!code.matches("[A-Za-z0-9_.:-]{1,128}"))throw new ServiceException("设备编码无效");
+  if(knownDevices.getOrDefault(code,0L)>System.currentTimeMillis()&&deviceCatalog.containsKey(code))return new LinkedHashMap<>(deviceCatalog.get(code));
+  long cursor=-1,until=System.currentTimeMillis()+30000;var seen=new HashSet<Long>();
+  for(int page=0;page<100&&System.currentTimeMillis()<until;page++){
+   Object value=devices(null,cursor,100);
+   if(knownDevices.getOrDefault(code,0L)>System.currentTimeMillis()&&deviceCatalog.containsKey(code))return new LinkedHashMap<>(deviceCatalog.get(code));
+   if(!(value instanceof Map<?,?> data)||data.get("lastId")==null)break;
+   long next;try{next=Long.parseLong(String.valueOf(data.get("lastId")));}catch(NumberFormatException invalid){break;}
+   if(next<0||next==cursor||!seen.add(next))break;cursor=next;
+  }
+  throw new ServiceException("未能在当前视频账号目录中核验该设备，请刷新视频目录确认后重试");
  }
  /** The browser receives only a short-lived voice ticket, never the account token or app secret. */
  public Map<String,Object> talkback(String code)throws Exception {

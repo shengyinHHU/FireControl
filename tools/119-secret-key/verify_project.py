@@ -40,6 +40,12 @@ try:
  for column in ['last_quick_attempt_at','last_quick_completed_at','last_quick_result','last_quick_error','last_quick_failures','last_new_incident_at']:
   sql("USE dachang;ALTER TABLE fire_119_sync_state DROP COLUMN "+column+";")
  sql("USE dachang;"+upgrade);sql("USE dachang;"+upgrade)
+ scope_upgrade=(ROOT/"SQL/fire_119_gcj02_scope_upgrade.sql").read_text("utf-8");sql(scope_upgrade)
+ sql("USE dachang;ALTER TABLE fire_119_incident DROP INDEX idx_119_geofence;")
+ for column in ['geofence_status','geofence_version','boundary_distance_m']:
+  sql("USE dachang;ALTER TABLE fire_119_incident DROP COLUMN "+column+";")
+ sql(scope_upgrade);sql(scope_upgrade)
+ assert sql("SELECT GROUP_CONCAT(COLUMN_NAME ORDER BY SEQ_IN_INDEX) FROM information_schema.STATISTICS WHERE TABLE_SCHEMA='dachang' AND TABLE_NAME='fire_119_incident' AND INDEX_NAME='idx_119_geofence';")=="source_system,geofence_version,geofence_status,alarm_time"
  assert sql("USE dachang;SELECT COUNT(*) FROM fire_119_incident;")=="0"
  # Obtain the exact compiler dependency path from the already-resolved Maven reactor.
  build=run([r"D:\env\apache-maven-3.9.9\bin\mvn.cmd","-o","-X","-pl","ruoyi-admin","-am","-DskipTests","compile"],cwd=ROOT/"RuoYi-Vue-master",timeout=60)

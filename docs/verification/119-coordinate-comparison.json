@@ -1,0 +1,5369 @@
+{
+  "createdAt": "2026-10-28T14:58:31.457Z",
+  "officialApi": "AMap JS API 2.0 convertFrom gps",
+  "localAlgorithm": "classic WGS84->GCJ02 approximation (a=6378245, ee=0.006693421622965823)",
+  "algorithmReference": "https://github.com/hujiulong/gcoord/blob/master/src/crs/GCJ02.ts",
+  "boundaryCoordinateSystem": "GCJ02",
+  "boundary": [
+    [
+      118.777719,
+      32.265056
+    ],
+    [
+      118.789851,
+      32.260523
+    ],
+    [
+      118.79634,
+      32.25253
+    ],
+    [
+      118.801418,
+      32.246804
+    ],
+    [
+      118.809036,
+      32.241077
+    ],
+    [
+      118.812422,
+      32.235827
+    ],
+    [
+      118.817359,
+      32.228071
+    ],
+    [
+      118.818064,
+      32.225445
+    ],
+    [
+      118.807202,
+      32.223059
+    ],
+    [
+      118.799302,
+      32.220433
+    ],
+    [
+      118.791967,
+      32.216733
+    ],
+    [
+      118.78449,
+      32.212437
+    ],
+    [
+      118.784632,
+      32.211959
+    ],
+    [
+      118.778142,
+      32.204201
+    ],
+    [
+      118.773487,
+      32.197039
+    ],
+    [
+      118.769968,
+      32.192857
+    ],
+    [
+      118.760268,
+      32.192926
+    ],
+    [
+      118.751554,
+      32.195013
+    ],
+    [
+      118.742429,
+      32.193691
+    ],
+    [
+      118.732565,
+      32.192717
+    ],
+    [
+      118.727879,
+      32.195013
+    ],
+    [
+      118.71859,
+      32.196196
+    ],
+    [
+      118.720645,
+      32.203778
+    ],
+    [
+      118.722043,
+      32.211846
+    ],
+    [
+      118.724673,
+      32.218314
+    ],
+    [
+      118.73051,
+      32.223461
+    ],
+    [
+      118.736593,
+      32.229789
+    ],
+    [
+      118.74358,
+      32.237507
+    ],
+    [
+      118.747773,
+      32.242235
+    ],
+    [
+      118.752623,
+      32.250231
+    ],
+    [
+      118.758624,
+      32.256835
+    ],
+    [
+      118.763309,
+      32.2633
+    ],
+    [
+      118.770708,
+      32.266011
+    ]
+  ],
+  "sourceFileRows": 20,
+  "sourceFileNearDachang": 2,
+  "businessDatabaseAccessed": false,
+  "applicationModified": false,
+  "credentialsSaved": false,
+  "syntheticProbeNote": "Boundary probes are constructed using local inverse and six-decimal WGS84 rounding; they are sensitivity tests, not independent ground truth or real incidents.",
+  "batches": [
+    {
+      "batch": 1,
+      "size": 40,
+      "elapsedMs": 132,
+      "status": "complete",
+      "info": "ok"
+    },
+    {
+      "batch": 2,
+      "size": 40,
+      "elapsedMs": 87,
+      "status": "complete",
+      "info": "ok"
+    },
+    {
+      "batch": 3,
+      "size": 40,
+      "elapsedMs": 88,
+      "status": "complete",
+      "info": "ok"
+    },
+    {
+      "batch": 4,
+      "size": 40,
+      "elapsedMs": 103,
+      "status": "complete",
+      "info": "ok"
+    },
+    {
+      "batch": 5,
+      "size": 40,
+      "elapsedMs": 96,
+      "status": "complete",
+      "info": "ok"
+    },
+    {
+      "batch": 6,
+      "size": 25,
+      "elapsedMs": 76,
+      "status": "complete",
+      "info": "ok"
+    }
+  ],
+  "results": [
+    {
+      "sample": 1,
+      "group": "regional-grid",
+      "source": [
+        118.713,
+        32.194
+      ],
+      "local": [
+        118.7182075783652,
+        32.191911675576236
+      ],
+      "official": [
+        118.718207,
+        32.191911
+      ],
+      "errorM": 0.0927640706816385,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 476.5244310760732
+    },
+    {
+      "sample": 2,
+      "group": "regional-grid",
+      "source": [
+        118.713,
+        32.21275
+      ],
+      "local": [
+        118.7182093171372,
+        32.2106590604086
+      ],
+      "official": [
+        118.718209,
+        32.210659
+      ],
+      "errorM": 0.030583509217419765,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 337.67693487838494
+    },
+    {
+      "sample": 3,
+      "group": "regional-grid",
+      "source": [
+        118.713,
+        32.2315
+      ],
+      "local": [
+        118.71821105718139,
+        32.22940674306024
+      ],
+      "official": [
+        118.718211,
+        32.229406
+      ],
+      "errorM": 0.08279952297763116,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 1292.4624936534262
+    },
+    {
+      "sample": 4,
+      "group": "regional-grid",
+      "source": [
+        118.713,
+        32.25025
+      ],
+      "local": [
+        118.71821279849902,
+        32.24815474402274
+      ],
+      "official": [
+        118.718213,
+        32.248155
+      ],
+      "errorM": 0.03419439512937372,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 2614.257619150005
+    },
+    {
+      "sample": 5,
+      "group": "regional-grid",
+      "source": [
+        118.713,
+        32.269
+      ],
+      "local": [
+        118.71821454109131,
+        32.26690308281663
+      ],
+      "official": [
+        118.718215,
+        32.266903
+      ],
+      "errorM": 0.04411983616030881,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 3729.8069725353475
+    },
+    {
+      "sample": 6,
+      "group": "regional-grid",
+      "source": [
+        118.73925,
+        32.194
+      ],
+      "local": [
+        118.74448518766094,
+        32.19193474472928
+      ],
+      "official": [
+        118.744485,
+        32.191934
+      ],
+      "errorM": 0.08467217212481211,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 225.21193841423784
+    },
+    {
+      "sample": 7,
+      "group": "regional-grid",
+      "source": [
+        118.73925,
+        32.21275
+      ],
+      "local": [
+        118.74448693261874,
+        32.210682129937
+      ],
+      "official": [
+        118.744487,
+        32.210682
+      ],
+      "errorM": 0.015777897504464008,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 1829.5240374958253
+    },
+    {
+      "sample": 8,
+      "group": "regional-grid",
+      "source": [
+        118.73925,
+        32.2315
+      ],
+      "local": [
+        118.74448867885422,
+        32.229429812963964
+      ],
+      "official": [
+        118.744489,
+        32.22943
+      ],
+      "errorM": 0.036674742785763235,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 613.9377798465072
+    },
+    {
+      "sample": 9,
+      "group": "regional-grid",
+      "source": [
+        118.73925,
+        32.25025
+      ],
+      "local": [
+        118.74449042636864,
+        32.24817781430177
+      ],
+      "official": [
+        118.74449,
+        32.248178
+      ],
+      "errorM": 0.045101294161645676,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 576.4239144536433
+    },
+    {
+      "sample": 10,
+      "group": "regional-grid",
+      "source": [
+        118.73925,
+        32.269
+      ],
+      "local": [
+        118.74449217516324,
+        32.26692615347095
+      ],
+      "official": [
+        118.744492,
+        32.266926
+      ],
+      "errorM": 0.02371630717895022,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 1719.7143234935866
+    },
+    {
+      "sample": 11,
+      "group": "regional-grid",
+      "source": [
+        118.7655,
+        32.194
+      ],
+      "local": [
+        118.77073390463002,
+        32.19193281829486
+      ],
+      "official": [
+        118.770734,
+        32.191933
+      ],
+      "errorM": 0.022108152835509907,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 125.49000664982671
+    },
+    {
+      "sample": 12,
+      "group": "regional-grid",
+      "source": [
+        118.7655,
+        32.21275
+      ],
+      "local": [
+        118.77073564984669,
+        32.210680203952144
+      ],
+      "official": [
+        118.770735,
+        32.21068
+      ],
+      "errorM": 0.06520914999233178,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 984.8740365680478
+    },
+    {
+      "sample": 13,
+      "group": "regional-grid",
+      "source": [
+        118.7655,
+        32.2315
+      ],
+      "local": [
+        118.770737396341,
+        32.22942788742867
+      ],
+      "official": [
+        118.770737,
+        32.229428
+      ],
+      "errorM": 0.03932597197279841,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 2289.7566762924716
+    },
+    {
+      "sample": 14,
+      "group": "regional-grid",
+      "source": [
+        118.7655,
+        32.25025
+      ],
+      "local": [
+        118.77073914411424,
+        32.248175889216036
+      ],
+      "official": [
+        118.770739,
+        32.248176
+      ],
+      "errorM": 0.018314732533373037,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 1490.2673321788204
+    },
+    {
+      "sample": 15,
+      "group": "regional-grid",
+      "source": [
+        118.7655,
+        32.269
+      ],
+      "local": [
+        118.77074089316761,
+        32.26692422883477
+      ],
+      "official": [
+        118.770741,
+        32.266924
+      ],
+      "errorM": 0.027356166453704592,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 101.56855032897674
+    },
+    {
+      "sample": 16,
+      "group": "regional-grid",
+      "source": [
+        118.79175,
+        32.194
+      ],
+      "local": [
+        118.79695440866382,
+        32.19190652041581
+      ],
+      "official": [
+        118.796954,
+        32.191906
+      ],
+      "errorM": 0.06948023781840336,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 2209.2518762975174
+    },
+    {
+      "sample": 17,
+      "group": "regional-grid",
+      "source": [
+        118.79175,
+        32.21275
+      ],
+      "local": [
+        118.79695614835181,
+        32.21065390659501
+      ],
+      "official": [
+        118.796956,
+        32.210653
+      ],
+      "errorM": 0.10177051489374897,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 821.0095781525583
+    },
+    {
+      "sample": 18,
+      "group": "regional-grid",
+      "source": [
+        118.79175,
+        32.2315
+      ],
+      "local": [
+        118.79695788931203,
+        32.229401590593476
+      ],
+      "official": [
+        118.796958,
+        32.229401
+      ],
+      "errorM": 0.06649129353079218,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 1008.7487777822187
+    },
+    {
+      "sample": 19,
+      "group": "regional-grid",
+      "source": [
+        118.79175,
+        32.25025
+      ],
+      "local": [
+        118.79695963154572,
+        32.248149592902806
+      ],
+      "official": [
+        118.796959,
+        32.248149
+      ],
+      "errorM": 0.0887351397351454,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 245.75804428531393
+    },
+    {
+      "sample": 20,
+      "group": "regional-grid",
+      "source": [
+        118.79175,
+        32.269
+      ],
+      "local": [
+        118.79696137505411,
+        32.26689793304352
+      ],
+      "official": [
+        118.796961,
+        32.266898
+      ],
+      "errorM": 0.036041199145528675,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 974.5550656985686
+    },
+    {
+      "sample": 21,
+      "group": "regional-grid",
+      "source": [
+        118.818,
+        32.194
+      ],
+      "local": [
+        118.82315506250029,
+        32.191863012236524
+      ],
+      "official": [
+        118.823155,
+        32.191863
+      ],
+      "errorM": 0.006036675716829346,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 3734.640302968401
+    },
+    {
+      "sample": 22,
+      "group": "regional-grid",
+      "source": [
+        118.818,
+        32.21275
+      ],
+      "local": [
+        118.82315679258757,
+        32.21061039898874
+      ],
+      "official": [
+        118.823156,
+        32.21061
+      ],
+      "errorM": 0.08676791497132853,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 1717.7062079903
+    },
+    {
+      "sample": 23,
+      "group": "regional-grid",
+      "source": [
+        118.818,
+        32.2315
+      ],
+      "local": [
+        118.82315852393783,
+        32.22935808356026
+      ],
+      "official": [
+        118.823158,
+        32.229358
+      ],
+      "errorM": 0.05015095017760675,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 563.9231131588258
+    },
+    {
+      "sample": 24,
+      "group": "regional-grid",
+      "source": [
+        118.818,
+        32.25025
+      ],
+      "local": [
+        118.82316025655234,
+        32.24810608644267
+      ],
+      "official": [
+        118.82316,
+        32.248106
+      ],
+      "errorM": 0.02597108091241845,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 1541.3825519059749
+    },
+    {
+      "sample": 25,
+      "group": "regional-grid",
+      "source": [
+        118.818,
+        32.269
+      ],
+      "local": [
+        118.8231619904323,
+        32.26685442715651
+      ],
+      "official": [
+        118.823162,
+        32.266854
+      ],
+      "errorM": 0.04750622026087518,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 2973.960423101608
+    },
+    {
+      "sample": 26,
+      "group": "boundary-vertex-probe",
+      "source": [
+        118.772484,
+        32.267136
+      ],
+      "edge": 1,
+      "targetOffsetM": 0,
+      "local": [
+        118.77771940496973,
+        32.26505557457455
+      ],
+      "official": [
+        118.777719,
+        32.265055
+      ],
+      "errorM": 0.07437606707359144,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 0.10171469570562042
+    },
+    {
+      "sample": 27,
+      "group": "boundary-edge-probe",
+      "source": [
+        118.778556,
+        32.264875
+      ],
+      "edge": 1,
+      "targetOffsetM": 0,
+      "local": [
+        118.78378499914776,
+        32.26278922484501
+      ],
+      "official": [
+        118.783785,
+        32.262789
+      ],
+      "errorM": 0.025001787365642777,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 0.05085734812285439
+    },
+    {
+      "sample": 28,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.778513,
+        32.264793
+      ],
+      "edge": 1,
+      "targetOffsetM": -10,
+      "local": [
+        118.78374204030101,
+        32.262707275136904
+      ],
+      "official": [
+        118.783742,
+        32.262707
+      ],
+      "errorM": 0.030827658088740575,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 10.025663369652168
+    },
+    {
+      "sample": 29,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.778547,
+        32.264859
+      ],
+      "edge": 1,
+      "targetOffsetM": -2,
+      "local": [
+        118.78377600787528,
+        32.26277323527861
+      ],
+      "official": [
+        118.783776,
+        32.262773
+      ],
+      "errorM": 0.026172300882225004,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 2.0203345434849886
+    },
+    {
+      "sample": 30,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.778565,
+        32.264892
+      ],
+      "edge": 1,
+      "targetOffsetM": 2,
+      "local": [
+        118.78379399051045,
+        32.26280621432572
+      ],
+      "official": [
+        118.783794,
+        32.262806
+      ],
+      "errorM": 0.02384866381727606,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 2.020334543485002
+    },
+    {
+      "sample": 31,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.778599,
+        32.264958
+      ],
+      "edge": 1,
+      "targetOffsetM": 10,
+      "local": [
+        118.78382795801913,
+        32.26287217441739
+      ],
+      "official": [
+        118.783828,
+        32.262872
+      ],
+      "errorM": 0.019791983744100503,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 10.025663369652133
+    },
+    {
+      "sample": 32,
+      "group": "boundary-vertex-probe",
+      "source": [
+        118.78463,
+        32.262615
+      ],
+      "edge": 2,
+      "targetOffsetM": 0,
+      "local": [
+        118.78985122626966,
+        32.26052269903394
+      ],
+      "official": [
+        118.789851,
+        32.260522
+      ],
+      "errorM": 0.08058840615339592,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 0.06294808707725236
+    },
+    {
+      "sample": 33,
+      "group": "boundary-edge-probe",
+      "source": [
+        118.787879,
+        32.258622
+      ],
+      "edge": 2,
+      "targetOffsetM": 0,
+      "local": [
+        118.79309528869587,
+        32.25652600569824
+      ],
+      "official": [
+        118.793095,
+        32.256526
+      ],
+      "errorM": 0.02715462503538377,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 0.07024304239499547
+    },
+    {
+      "sample": 34,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.787791,
+        32.258571
+      ],
+      "edge": 2,
+      "targetOffsetM": -10,
+      "local": [
+        118.79300741215896,
+        32.256475123702984
+      ],
+      "official": [
+        118.793007,
+        32.256475
+      ],
+      "errorM": 0.04112551777983273,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 10.103939209675016
+    },
+    {
+      "sample": 35,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.787862,
+        32.258612
+      ],
+      "edge": 2,
+      "targetOffsetM": -2,
+      "local": [
+        118.79307831255228,
+        32.25651602852435
+      ],
+      "official": [
+        118.793078,
+        32.256516
+      ],
+      "errorM": 0.029561199411481262,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 2.0178698606479117
+    },
+    {
+      "sample": 36,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.787897,
+        32.258633
+      ],
+      "edge": 2,
+      "targetOffsetM": 2,
+      "local": [
+        118.79311326346438,
+        32.256536981483926
+      ],
+      "official": [
+        118.793113,
+        32.256537
+      ],
+      "errorM": 0.02486001467389087,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 2.017869860647976
+    },
+    {
+      "sample": 37,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.787967,
+        32.258674
+      ],
+      "edge": 2,
+      "targetOffsetM": 10,
+      "local": [
+        118.79318316507798,
+        32.256577887392254
+      ],
+      "official": [
+        118.793183,
+        32.256577
+      ],
+      "errorM": 0.09988719295437795,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 9.963453125986875
+    },
+    {
+      "sample": 38,
+      "group": "boundary-vertex-probe",
+      "source": [
+        118.791129,
+        32.25463
+      ],
+      "edge": 3,
+      "targetOffsetM": 0,
+      "local": [
+        118.79634001255644,
+        32.252530034557665
+      ],
+      "official": [
+        118.79634,
+        32.25253
+      ],
+      "errorM": 0.004019969200013111,
+      "localInside": false,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 0
+    },
+    {
+      "sample": 39,
+      "group": "boundary-edge-probe",
+      "source": [
+        118.793672,
+        32.25177
+      ],
+      "edge": 3,
+      "targetOffsetM": 0,
+      "local": [
+        118.79887868741656,
+        32.24966672084837
+      ],
+      "official": [
+        118.798878,
+        32.249666
+      ],
+      "errorM": 0.10297485772952544,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 0.14197005186032363
+    },
+    {
+      "sample": 40,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.793587,
+        32.251716
+      ],
+      "edge": 3,
+      "targetOffsetM": -10,
+      "local": [
+        118.79879382109081,
+        32.249612848484944
+      ],
+      "official": [
+        118.798794,
+        32.249612
+      ],
+      "errorM": 0.09583578479176487,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 10.065629379546762
+    },
+    {
+      "sample": 41,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.793655,
+        32.251759
+      ],
+      "edge": 3,
+      "targetOffsetM": -2,
+      "local": [
+        118.79886171414917,
+        32.24965574640886
+      ],
+      "official": [
+        118.798861,
+        32.249655
+      ],
+      "errorM": 0.10676556200865056,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 2.1550959278171042
+    },
+    {
+      "sample": 42,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.793689,
+        32.251781
+      ],
+      "edge": 3,
+      "targetOffsetM": 2,
+      "local": [
+        118.79889566067577,
+        32.249677695280916
+      ],
+      "official": [
+        118.798895,
+        32.249677
+      ],
+      "errorM": 0.09918335833660188,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 1.871155824096434
+    },
+    {
+      "sample": 43,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.793757,
+        32.251824
+      ],
+      "edge": 3,
+      "targetOffsetM": 10,
+      "local": [
+        118.7989635535381,
+        32.249720593037786
+      ],
+      "official": [
+        118.798963,
+        32.24972
+      ],
+      "errorM": 0.08401320936917614,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 9.856931826799553
+    },
+    {
+      "sample": 44,
+      "group": "boundary-vertex-probe",
+      "source": [
+        118.796216,
+        32.248911
+      ],
+      "edge": 4,
+      "targetOffsetM": 0,
+      "local": [
+        118.8014181783411,
+        32.24680425517461
+      ],
+      "official": [
+        118.801418,
+        32.246804
+      ],
+      "errorM": 0.032960438410853984,
+      "localInside": false,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 0
+    },
+    {
+      "sample": 45,
+      "group": "boundary-edge-probe",
+      "source": [
+        118.800032,
+        32.246053
+      ],
+      "edge": 4,
+      "targetOffsetM": 0,
+      "local": [
+        118.80522723059478,
+        32.24394064942472
+      ],
+      "official": [
+        118.805227,
+        32.24394
+      ],
+      "errorM": 0.07539899771702017,
+      "localInside": false,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 0.041557813987598106
+    },
+    {
+      "sample": 46,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.799961,
+        32.245986
+      ],
+      "edge": 4,
+      "targetOffsetM": -10,
+      "local": [
+        118.80515635198338,
+        32.24387376872151
+      ],
+      "official": [
+        118.805156,
+        32.243873
+      ],
+      "errorM": 0.09166409919385803,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 10.046669818476525
+    },
+    {
+      "sample": 47,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.800018,
+        32.246039
+      ],
+      "edge": 4,
+      "targetOffsetM": -2,
+      "local": [
+        118.80521325446684,
+        32.24392667303614
+      ],
+      "official": [
+        118.805213,
+        32.243927
+      ],
+      "errorM": 0.04352641441325042,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 1.9968371614961744
+    },
+    {
+      "sample": 48,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.800046,
+        32.246066
+      ],
+      "edge": 4,
+      "targetOffsetM": 2,
+      "local": [
+        118.80524120662528,
+        32.24395362591115
+      ],
+      "official": [
+        118.805241,
+        32.243953
+      ],
+      "errorM": 0.07226020383804675,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 1.9137215320423953
+    },
+    {
+      "sample": 49,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.800103,
+        32.24612
+      ],
+      "edge": 4,
+      "targetOffsetM": 10,
+      "local": [
+        118.80529810908666,
+        32.24400753002849
+      ],
+      "official": [
+        118.805298,
+        32.244007
+      ],
+      "errorM": 0.059822828218476606,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 9.963554189613347
+    },
+    {
+      "sample": 50,
+      "group": "boundary-vertex-probe",
+      "source": [
+        118.803848,
+        32.243195
+      ],
+      "edge": 5,
+      "targetOffsetM": 0,
+      "local": [
+        118.80903593873627,
+        32.24107675193752
+      ],
+      "official": [
+        118.809036,
+        32.241077
+      ],
+      "errorM": 0.028178695919558915,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 0
+    },
+    {
+      "sample": 51,
+      "group": "boundary-edge-probe",
+      "source": [
+        118.805545,
+        32.240573
+      ],
+      "edge": 5,
+      "targetOffsetM": 0,
+      "local": [
+        118.81072947141246,
+        32.23845218857515
+      ],
+      "official": [
+        118.810729,
+        32.238452
+      ],
+      "errorM": 0.04904598612800251,
+      "localInside": false,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 3.9748543878955755e-10
+    },
+    {
+      "sample": 52,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.805451,
+        32.24053
+      ],
+      "edge": 5,
+      "targetOffsetM": -10,
+      "local": [
+        118.81063564752074,
+        32.238409351805906
+      ],
+      "official": [
+        118.810635,
+        32.238409
+      ],
+      "errorM": 0.07238266047579564,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 10.051733329797766
+    },
+    {
+      "sample": 53,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.805526,
+        32.240564
+      ],
+      "edge": 5,
+      "targetOffsetM": -2,
+      "local": [
+        118.81071050699407,
+        32.2384432216135
+      ],
+      "official": [
+        118.81071,
+        32.238443
+      ],
+      "errorM": 0.05367518630255809,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 2.0481630693972344
+    },
+    {
+      "sample": 54,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.805563,
+        32.240581
+      ],
+      "edge": 5,
+      "targetOffsetM": 2,
+      "local": [
+        118.81074743764836,
+        32.23846015732635
+      ],
+      "official": [
+        118.810747,
+        32.23846
+      ],
+      "errorM": 0.044725260004500375,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 1.9123360619301146
+    },
+    {
+      "sample": 55,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.805638,
+        32.240616
+      ],
+      "edge": 5,
+      "targetOffsetM": 10,
+      "local": [
+        118.81082229705144,
+        32.23849502688674
+      ],
+      "official": [
+        118.810822,
+        32.238495
+      ],
+      "errorM": 0.028097991807083594,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 9.969161330121667
+    },
+    {
+      "sample": 56,
+      "group": "boundary-vertex-probe",
+      "source": [
+        118.807241,
+        32.23795
+      ],
+      "edge": 6,
+      "targetOffsetM": 0,
+      "local": [
+        118.81242195035739,
+        32.235826584757156
+      ],
+      "official": [
+        118.812422,
+        32.235826
+      ],
+      "errorM": 0.06518954619630646,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 0.052717273248079864
+    },
+    {
+      "sample": 57,
+      "group": "boundary-edge-probe",
+      "source": [
+        118.809715,
+        32.234076
+      ],
+      "edge": 6,
+      "targetOffsetM": 0,
+      "local": [
+        118.81489071833107,
+        32.231948723070886
+      ],
+      "official": [
+        118.81489,
+        32.231948
+      ],
+      "errorM": 0.10502195695258078,
+      "localInside": false,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 0.09412654664303594
+    },
+    {
+      "sample": 58,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.809621,
+        32.234033
+      ],
+      "edge": 6,
+      "targetOffsetM": -10,
+      "local": [
+        118.81479690137351,
+        32.23190589263052
+      ],
+      "official": [
+        118.814797,
+        32.231906
+      ],
+      "errorM": 0.015119423561748273,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 10.010377009604802
+    },
+    {
+      "sample": 59,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.809696,
+        32.234068
+      ],
+      "edge": 6,
+      "targetOffsetM": -2,
+      "local": [
+        118.81487175540441,
+        32.23194075727539
+      ],
+      "official": [
+        118.814871,
+        32.231941
+      ],
+      "errorM": 0.07600637152255807,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 2.036699876580978
+    },
+    {
+      "sample": 60,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.809734,
+        32.234085
+      ],
+      "edge": 6,
+      "targetOffsetM": 2,
+      "local": [
+        118.81490968134453,
+        32.231957688748565
+      ],
+      "official": [
+        118.814909,
+        32.231957
+      ],
+      "errorM": 0.09986221218038115,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 1.9538813286141372
+    },
+    {
+      "sample": 61,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.809809,
+        32.234119
+      ],
+      "edge": 6,
+      "targetOffsetM": 10,
+      "local": [
+        118.81498453514759,
+        32.23199155338942
+      ],
+      "official": [
+        118.814984,
+        32.231991
+      ],
+      "errorM": 0.07949927802888529,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 9.957659736356712
+    },
+    {
+      "sample": 62,
+      "group": "boundary-vertex-probe",
+      "source": [
+        118.812189,
+        32.230202
+      ],
+      "edge": 7,
+      "targetOffsetM": 0,
+      "local": [
+        118.81735938918834,
+        32.22807078952093
+      ],
+      "official": [
+        118.817359,
+        32.22807
+      ],
+      "errorM": 0.09511786174833978,
+      "localInside": false,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 0.024625554728013435
+    },
+    {
+      "sample": 63,
+      "group": "boundary-edge-probe",
+      "source": [
+        118.812542,
+        32.22889
+      ],
+      "edge": 7,
+      "targetOffsetM": 0,
+      "local": [
+        118.8177115514167,
+        32.22675831201458
+      ],
+      "official": [
+        118.817711,
+        32.226758
+      ],
+      "errorM": 0.06240266323235988,
+      "localInside": false,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 0.04586291265115765
+    },
+    {
+      "sample": 64,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.812438,
+        32.22887
+      ],
+      "edge": 7,
+      "targetOffsetM": -10,
+      "local": [
+        118.81760776081526,
+        32.22673850040877
+      ],
+      "official": [
+        118.817607,
+        32.226738
+      ],
+      "errorM": 0.0906522584064941,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 10.077859846446017
+    },
+    {
+      "sample": 65,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.812521,
+        32.228886
+      ],
+      "edge": 7,
+      "targetOffsetM": -2,
+      "local": [
+        118.81769059371452,
+        32.22675435006159
+      ],
+      "official": [
+        118.81769,
+        32.226754
+      ],
+      "errorM": 0.06807441984190613,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 2.070607464626311
+    },
+    {
+      "sample": 66,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.812563,
+        32.228894
+      ],
+      "edge": 7,
+      "targetOffsetM": 2,
+      "local": [
+        118.81773250911294,
+        32.226762273962315
+      ],
+      "official": [
+        118.817732,
+        32.226762
+      ],
+      "errorM": 0.0567576091503543,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 1.9788816394989643
+    },
+    {
+      "sample": 67,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.812646,
+        32.22891
+      ],
+      "edge": 7,
+      "targetOffsetM": 10,
+      "local": [
+        118.8178153418716,
+        32.226778123491684
+      ],
+      "official": [
+        118.817815,
+        32.226778
+      ],
+      "errorM": 0.03496714635998744,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 9.986134020015177
+    },
+    {
+      "sample": 68,
+      "group": "boundary-vertex-probe",
+      "source": [
+        118.812895,
+        32.227577
+      ],
+      "edge": 8,
+      "targetOffsetM": 0,
+      "local": [
+        118.81806371189076,
+        32.22544483468421
+      ],
+      "official": [
+        118.818063,
+        32.225444
+      ],
+      "errorM": 0.11444869340625025,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 0.0839839936281751
+    },
+    {
+      "sample": 69,
+      "group": "boundary-edge-probe",
+      "source": [
+        118.807454,
+        32.226374
+      ],
+      "edge": 8,
+      "targetOffsetM": 0,
+      "local": [
+        118.81263346301793,
+        32.224251545189624
+      ],
+      "official": [
+        118.812633,
+        32.224251
+      ],
+      "errorM": 0.07464653809545471,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 0.10762554771573404
+    },
+    {
+      "sample": 70,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.807427,
+        32.226461
+      ],
+      "edge": 8,
+      "targetOffsetM": -10,
+      "local": [
+        118.81260652377014,
+        32.22433858119001
+      ],
+      "official": [
+        118.812606,
+        32.224338
+      ],
+      "errorM": 0.08126469731665757,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 9.89411908023267
+    },
+    {
+      "sample": 71,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.807448,
+        32.226392
+      ],
+      "edge": 8,
+      "targetOffsetM": -2,
+      "local": [
+        118.81262747639607,
+        32.224269553349814
+      ],
+      "official": [
+        118.812627,
+        32.224269
+      ],
+      "errorM": 0.0761193094956139,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 1.9714836386013952
+    },
+    {
+      "sample": 72,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.807459,
+        32.226357
+      ],
+      "edge": 8,
+      "targetOffsetM": 2,
+      "local": [
+        118.8126384516838,
+        32.22423453862888
+      ],
+      "official": [
+        118.812638,
+        32.224234
+      ],
+      "errorM": 0.07343330489108044,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 2.055467632565538
+    },
+    {
+      "sample": 73,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.80748,
+        32.226287
+      ],
+      "edge": 8,
+      "targetOffsetM": 10,
+      "local": [
+        118.81265940420532,
+        32.22416451090446
+      ],
+      "official": [
+        118.812659,
+        32.224164
+      ],
+      "errorM": 0.0683600807582182,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 10.08572862157658
+    },
+    {
+      "sample": 74,
+      "group": "boundary-vertex-probe",
+      "source": [
+        118.802012,
+        32.225172
+      ],
+      "edge": 9,
+      "targetOffsetM": 0,
+      "local": [
+        118.8072016888751,
+        32.22305879770523
+      ],
+      "official": [
+        118.807202,
+        32.223059
+      ],
+      "errorM": 0.0369127573672611,
+      "localInside": false,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 0
+    },
+    {
+      "sample": 75,
+      "group": "boundary-edge-probe",
+      "source": [
+        118.798055,
+        32.223853
+      ],
+      "edge": 9,
+      "targetOffsetM": 0,
+      "local": [
+        118.8032516783008,
+        32.22174622816736
+      ],
+      "official": [
+        118.803251,
+        32.221746
+      ],
+      "errorM": 0.06866675764881869,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 0.03440112721572415
+    },
+    {
+      "sample": 76,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.798016,
+        32.223936
+      ],
+      "edge": 9,
+      "targetOffsetM": -10,
+      "local": [
+        118.80321275420826,
+        32.22182927820421
+      ],
+      "official": [
+        118.803213,
+        32.221829
+      ],
+      "errorM": 0.03862097198255842,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 9.931445523703626
+    },
+    {
+      "sample": 77,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.798048,
+        32.22387
+      ],
+      "edge": 9,
+      "targetOffsetM": -2,
+      "local": [
+        118.80324469212303,
+        32.22176323689377
+      ],
+      "official": [
+        118.803244,
+        32.221763
+      ],
+      "errorM": 0.07023477879380241,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 2.0345659643392042
+    },
+    {
+      "sample": 78,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.798063,
+        32.223836
+      ],
+      "edge": 9,
+      "targetOffsetM": 2,
+      "local": [
+        118.8032596627277,
+        32.22172921789691
+      ],
+      "official": [
+        118.803259,
+        32.221729
+      ],
+      "errorM": 0.06688553500291311,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 2.000164836755797
+    },
+    {
+      "sample": 79,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.798094,
+        32.223769
+      ],
+      "edge": 9,
+      "targetOffsetM": 10,
+      "local": [
+        118.80329060226249,
+        32.22166217822549
+      ],
+      "official": [
+        118.80329,
+        32.221662
+      ],
+      "errorM": 0.06002101726542665,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 10.000535981813604
+    },
+    {
+      "sample": 80,
+      "group": "boundary-vertex-probe",
+      "source": [
+        118.794099,
+        32.222534
+      ],
+      "edge": 10,
+      "targetOffsetM": 0,
+      "local": [
+        118.79930227256236,
+        32.22043331712399
+      ],
+      "official": [
+        118.799302,
+        32.220433
+      ],
+      "errorM": 0.04359906855565218,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 0
+    },
+    {
+      "sample": 81,
+      "group": "boundary-edge-probe",
+      "source": [
+        118.790426,
+        32.220678
+      ],
+      "edge": 10,
+      "targetOffsetM": 0,
+      "local": [
+        118.7956349459341,
+        32.218582712036
+      ],
+      "official": [
+        118.795635,
+        32.218582
+      ],
+      "errorM": 0.07933809872938302,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 0.11959149074041163
+    },
+    {
+      "sample": 82,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.790371,
+        32.220755
+      ],
+      "edge": 10,
+      "targetOffsetM": -10,
+      "local": [
+        118.79558003758417,
+        32.218659777135464
+      ],
+      "official": [
+        118.79558,
+        32.21866
+      ],
+      "errorM": 0.02503239269863167,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 9.979346742434263
+    },
+    {
+      "sample": 83,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.790415,
+        32.220694
+      ],
+      "edge": 10,
+      "targetOffsetM": -2,
+      "local": [
+        118.79562396432718,
+        32.21859872498697
+      ],
+      "official": [
+        118.795624,
+        32.218598
+      ],
+      "errorM": 0.08068480313047734,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 1.938397727405216
+    },
+    {
+      "sample": 84,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.790436,
+        32.220663
+      ],
+      "edge": 10,
+      "targetOffsetM": 2,
+      "local": [
+        118.79564492916772,
+        32.21856770031659
+      ],
+      "official": [
+        118.795645,
+        32.218567
+      ],
+      "errorM": 0.07815633162123109,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 2.033901655503366
+    },
+    {
+      "sample": 85,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.79048,
+        32.220601
+      ],
+      "edge": 10,
+      "targetOffsetM": 10,
+      "local": [
+        118.79568885573111,
+        32.21850564822262
+      ],
+      "official": [
+        118.795688,
+        32.218505
+      ],
+      "errorM": 0.1080550780052698,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 10.026675546611056
+    },
+    {
+      "sample": 86,
+      "group": "boundary-vertex-probe",
+      "source": [
+        118.786753,
+        32.218823
+      ],
+      "edge": 11,
+      "targetOffsetM": 0,
+      "local": [
+        118.79196720950684,
+        32.216732755035046
+      ],
+      "official": [
+        118.791967,
+        32.216733
+      ],
+      "errorM": 0.03362168876701592,
+      "localInside": false,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 0
+    },
+    {
+      "sample": 87,
+      "group": "boundary-edge-probe",
+      "source": [
+        118.783009,
+        32.21667
+      ],
+      "edge": 11,
+      "targetOffsetM": 0,
+      "local": [
+        118.78822809693659,
+        32.21458453995791
+      ],
+      "official": [
+        118.788228,
+        32.214584
+      ],
+      "errorM": 0.060729295463874726,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 0.0655583843264151
+    },
+    {
+      "sample": 88,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.78295,
+        32.216745
+      ],
+      "edge": 11,
+      "targetOffsetM": -10,
+      "local": [
+        118.78816918025471,
+        32.214659598110515
+      ],
+      "official": [
+        118.788169,
+        32.214659
+      ],
+      "errorM": 0.06863485935668356,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 9.951366635399717
+    },
+    {
+      "sample": 89,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.782997,
+        32.216685
+      ],
+      "edge": 11,
+      "targetOffsetM": -2,
+      "local": [
+        118.7882161138688,
+        32.21459955182627
+      ],
+      "official": [
+        118.788216,
+        32.214599
+      ],
+      "errorM": 0.06228845642633576,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 1.9483966632135652
+    },
+    {
+      "sample": 90,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.783021,
+        32.216656
+      ],
+      "edge": 11,
+      "targetOffsetM": 2,
+      "local": [
+        118.78824008009232,
+        32.21457052795709
+      ],
+      "official": [
+        118.78824,
+        32.21457
+      ],
+      "errorM": 0.05918780283855314,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 1.9875299378508544
+    },
+    {
+      "sample": 91,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.783069,
+        32.216596
+      ],
+      "edge": 11,
+      "targetOffsetM": 10,
+      "local": [
+        118.78828801229339,
+        32.21451048042571
+      ],
+      "official": [
+        118.788288,
+        32.21451
+      ],
+      "errorM": 0.05343349320463746,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 10.043350129317746
+    },
+    {
+      "sample": 92,
+      "group": "boundary-vertex-probe",
+      "source": [
+        118.779267,
+        32.214518
+      ],
+      "edge": 12,
+      "targetOffsetM": 0,
+      "local": [
+        118.7844904946964,
+        32.21243690538211
+      ],
+      "official": [
+        118.78449,
+        32.212437
+      ],
+      "errorM": 0.0477152437048646,
+      "localInside": false,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 0
+    },
+    {
+      "sample": 93,
+      "group": "boundary-edge-probe",
+      "source": [
+        118.779338,
+        32.214279
+      ],
+      "edge": 12,
+      "targetOffsetM": 0,
+      "local": [
+        118.78456138993214,
+        32.21219786302487
+      ],
+      "official": [
+        118.784561,
+        32.212198
+      ],
+      "errorM": 0.03972096443035989,
+      "localInside": false,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 6.481942825399604e-10
+    },
+    {
+      "sample": 94,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.779234,
+        32.214257
+      ],
+      "edge": 12,
+      "targetOffsetM": -10,
+      "local": [
+        118.78445750872355,
+        32.212175973485316
+      ],
+      "official": [
+        118.784457,
+        32.212176
+      ],
+      "errorM": 0.04795139624674623,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 10.083622232046476
+    },
+    {
+      "sample": 95,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.779317,
+        32.214275
+      ],
+      "edge": 12,
+      "targetOffsetM": -2,
+      "local": [
+        118.78454041399199,
+        32.21219388529932
+      ],
+      "official": [
+        118.78454,
+        32.212194
+      ],
+      "errorM": 0.04098341713007541,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 2.0241293319418583
+    },
+    {
+      "sample": 96,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.779358,
+        32.214284
+      ],
+      "edge": 12,
+      "targetOffsetM": 2,
+      "local": [
+        118.78458136711369,
+        32.21220284164295
+      ],
+      "official": [
+        118.784581,
+        32.212203
+      ],
+      "errorM": 0.03876770279008953,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 1.9600045484337831
+    },
+    {
+      "sample": 97,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.779441,
+        32.214301
+      ],
+      "edge": 12,
+      "targetOffsetM": 10,
+      "local": [
+        118.78466427191171,
+        32.2122197532616
+      ],
+      "official": [
+        118.784664,
+        32.21222
+      ],
+      "errorM": 0.03751197697831021,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 9.992397093604408
+    },
+    {
+      "sample": 98,
+      "group": "boundary-vertex-probe",
+      "source": [
+        118.779409,
+        32.21404
+      ],
+      "edge": 13,
+      "targetOffsetM": 0,
+      "local": [
+        118.78463228498366,
+        32.21195882055654
+      ],
+      "official": [
+        118.784632,
+        32.211959
+      ],
+      "errorM": 0.03342121232216195,
+      "localInside": false,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 0
+    },
+    {
+      "sample": 99,
+      "group": "boundary-edge-probe",
+      "source": [
+        118.77616,
+        32.210157
+      ],
+      "edge": 13,
+      "targetOffsetM": 0,
+      "local": [
+        118.78138651735696,
+        32.208079538413116
+      ],
+      "official": [
+        118.781386,
+        32.208079
+      ],
+      "errorM": 0.07715924408994605,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 0.012549417116740057
+    },
+    {
+      "sample": 100,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.776074,
+        32.210209
+      ],
+      "edge": 13,
+      "targetOffsetM": -10,
+      "local": [
+        118.78130061191042,
+        32.20813161160907
+      ],
+      "official": [
+        118.7813,
+        32.208131
+      ],
+      "errorM": 0.089103885374063,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 9.955765118029321
+    },
+    {
+      "sample": 101,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.776143,
+        32.210168
+      ],
+      "edge": 13,
+      "targetOffsetM": -2,
+      "local": [
+        118.78136953613719,
+        32.20809055280475
+      ],
+      "official": [
+        118.781369,
+        32.20809
+      ],
+      "errorM": 0.07951638338557732,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 2.0243753286136235
+    },
+    {
+      "sample": 102,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.776178,
+        32.210147
+      ],
+      "edge": 13,
+      "targetOffsetM": 2,
+      "local": [
+        118.78140449761321,
+        32.20806952294417
+      ],
+      "official": [
+        118.781404,
+        32.208069
+      ],
+      "errorM": 0.07465363996825708,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 2.0118259107231284
+    },
+    {
+      "sample": 103,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.776247,
+        32.210106
+      ],
+      "edge": 13,
+      "targetOffsetM": 10,
+      "local": [
+        118.78147342156639,
+        32.20802846390554
+      ],
+      "official": [
+        118.781473,
+        32.208028
+      ],
+      "errorM": 0.06506952887617308,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 9.943215701229908
+    },
+    {
+      "sample": 104,
+      "group": "boundary-vertex-probe",
+      "source": [
+        118.772913,
+        32.206275
+      ],
+      "edge": 14,
+      "targetOffsetM": 0,
+      "local": [
+        118.77814234534006,
+        32.20420091947842
+      ],
+      "official": [
+        118.778142,
+        32.204201
+      ],
+      "errorM": 0.033703471994342586,
+      "localInside": false,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 0
+    },
+    {
+      "sample": 105,
+      "group": "boundary-edge-probe",
+      "source": [
+        118.770583,
+        32.202692
+      ],
+      "edge": 14,
+      "targetOffsetM": 0,
+      "local": [
+        118.77581404469724,
+        32.20062024394439
+      ],
+      "official": [
+        118.775814,
+        32.20062
+      ],
+      "errorM": 0.027449511415387158,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 0.04121241173173948
+    },
+    {
+      "sample": 106,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.77049,
+        32.202735
+      ],
+      "edge": 14,
+      "targetOffsetM": -10,
+      "local": [
+        118.7757211253158,
+        32.200663306987515
+      ],
+      "official": [
+        118.775721,
+        32.200663
+      ],
+      "errorM": 0.03611460484110635,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 10.010346185021328
+    },
+    {
+      "sample": 107,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.770565,
+        32.2027
+      ],
+      "edge": 14,
+      "targetOffsetM": -2,
+      "local": [
+        118.77579606029806,
+        32.20062825621486
+      ],
+      "official": [
+        118.775796,
+        32.200628
+      ],
+      "errorM": 0.02904926473379782,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 1.953440664016796
+    },
+    {
+      "sample": 108,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.770602,
+        32.202683
+      ],
+      "edge": 14,
+      "targetOffsetM": 2,
+      "local": [
+        118.77583302816386,
+        32.20061123105784
+      ],
+      "official": [
+        118.775833,
+        32.200611
+      ],
+      "errorM": 0.02582879685364356,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 2.0070133452889753
+    },
+    {
+      "sample": 109,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.770677,
+        32.202648
+      ],
+      "edge": 14,
+      "targetOffsetM": 10,
+      "local": [
+        118.77590796280734,
+        32.20057617999402
+      ],
+      "official": [
+        118.775908,
+        32.200576
+      ],
+      "errorM": 0.020318093293808626,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 10.063918866674147
+    },
+    {
+      "sample": 110,
+      "group": "boundary-vertex-probe",
+      "source": [
+        118.768254,
+        32.199109
+      ],
+      "edge": 15,
+      "targetOffsetM": 0,
+      "local": [
+        118.77348652427796,
+        32.19703938912722
+      ],
+      "official": [
+        118.773486,
+        32.197039
+      ],
+      "errorM": 0.06561919558495131,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 0.07663075614971984
+    },
+    {
+      "sample": 111,
+      "group": "boundary-edge-probe",
+      "source": [
+        118.766494,
+        32.197016
+      ],
+      "edge": 15,
+      "targetOffsetM": 0,
+      "local": [
+        118.77172755183254,
+        32.194947800504
+      ],
+      "official": [
+        118.771727,
+        32.194947
+      ],
+      "errorM": 0.10305088565861009,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 0.02616659911634866
+    },
+    {
+      "sample": 112,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.766407,
+        32.197068
+      ],
+      "edge": 15,
+      "targetOffsetM": -10,
+      "local": [
+        118.77164061375923,
+        32.19499984500033
+      ],
+      "official": [
+        118.77164,
+        32.194999
+      ],
+      "errorM": 0.11029009656287718,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 9.993772053205054
+    },
+    {
+      "sample": 113,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.766477,
+        32.197027
+      ],
+      "edge": 15,
+      "targetOffsetM": -2,
+      "local": [
+        118.77171056403601,
+        32.19495880909859
+      ],
+      "official": [
+        118.77171,
+        32.194958
+      ],
+      "errorM": 0.10445623651334414,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 1.9858580156211092
+    },
+    {
+      "sample": 114,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.766511,
+        32.197006
+      ],
+      "edge": 15,
+      "targetOffsetM": 2,
+      "local": [
+        118.7717445397101,
+        32.19493779175452
+      ],
+      "official": [
+        118.771744,
+        32.194937
+      ],
+      "errorM": 0.10163695052851113,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 1.973709235659887
+    },
+    {
+      "sample": 115,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.766581,
+        32.196964
+      ],
+      "edge": 15,
+      "targetOffsetM": 10,
+      "local": [
+        118.77181448959082,
+        32.19489575573772
+      ],
+      "official": [
+        118.771814,
+        32.194896
+      ],
+      "errorM": 0.05347988624855412,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 9.981623274332842
+    },
+    {
+      "sample": 116,
+      "group": "boundary-vertex-probe",
+      "source": [
+        118.764734,
+        32.194924
+      ],
+      "edge": 16,
+      "targetOffsetM": 0,
+      "local": [
+        118.76996845050229,
+        32.192857103879014
+      ],
+      "official": [
+        118.769968,
+        32.192857
+      ],
+      "errorM": 0.04393770860627183,
+      "localInside": false,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 0
+    },
+    {
+      "sample": 117,
+      "group": "boundary-edge-probe",
+      "source": [
+        118.759881,
+        32.194956
+      ],
+      "edge": 16,
+      "targetOffsetM": 0,
+      "local": [
+        118.76511778879362,
+        32.19289126748249
+      ],
+      "official": [
+        118.765117,
+        32.192891
+      ],
+      "errorM": 0.07996272033794544,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 0.05638652128388485
+    },
+    {
+      "sample": 118,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.759882,
+        32.195046
+      ],
+      "edge": 16,
+      "targetOffsetM": -10,
+      "local": [
+        118.76511879679282,
+        32.19298125396619
+      ],
+      "official": [
+        118.765119,
+        32.192981
+      ],
+      "errorM": 0.03410464885102385,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 9.952398778576491
+    },
+    {
+      "sample": 119,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.759881,
+        32.194974
+      ],
+      "edge": 16,
+      "targetOffsetM": -2,
+      "local": [
+        118.7651177904689,
+        32.19290926485014
+      ],
+      "official": [
+        118.765117,
+        32.192909
+      ],
+      "errorM": 0.08000084864704156,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 1.9450541594336803
+    },
+    {
+      "sample": 120,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.759881,
+        32.194938
+      ],
+      "edge": 16,
+      "targetOffsetM": 2,
+      "local": [
+        118.76511778711831,
+        32.1928732701151
+      ],
+      "official": [
+        118.765117,
+        32.192873
+      ],
+      "errorM": 0.0799259666524843,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 2.0578272027915108
+    },
+    {
+      "sample": 121,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.75988,
+        32.194866
+      ],
+      "edge": 16,
+      "targetOffsetM": 10,
+      "local": [
+        118.7651167807944,
+        32.192801281005146
+      ],
+      "official": [
+        118.765116,
+        32.192801
+      ],
+      "errorM": 0.07984095280448687,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 10.064380873798045
+    },
+    {
+      "sample": 122,
+      "group": "boundary-vertex-probe",
+      "source": [
+        118.75503,
+        32.194989
+      ],
+      "edge": 17,
+      "targetOffsetM": 0,
+      "local": [
+        118.76026811182092,
+        32.192925554105315
+      ],
+      "official": [
+        118.760268,
+        32.192925
+      ],
+      "errorM": 0.06250582292841053,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 0.11119114866539954
+    },
+    {
+      "sample": 123,
+      "group": "boundary-edge-probe",
+      "source": [
+        118.750672,
+        32.196033
+      ],
+      "edge": 17,
+      "targetOffsetM": 0,
+      "local": [
+        118.75591051776657,
+        32.193969804651246
+      ],
+      "official": [
+        118.75591,
+        32.19397
+      ],
+      "errorM": 0.053344087175729554,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 0.027870826129794593
+    },
+    {
+      "sample": 124,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.750701,
+        32.196119
+      ],
+      "edge": 17,
+      "targetOffsetM": -10,
+      "local": [
+        118.7559395264739,
+        32.19405579185011
+      ],
+      "official": [
+        118.755939,
+        32.194056
+      ],
+      "errorM": 0.05468054943325052,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 9.972071113575394
+    },
+    {
+      "sample": 125,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.750678,
+        32.19605
+      ],
+      "edge": 17,
+      "targetOffsetM": -2,
+      "local": [
+        118.75591651949729,
+        32.193986802120186
+      ],
+      "official": [
+        118.755916,
+        32.193987
+      ],
+      "errorM": 0.05360776712888724,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 2.000437758818213
+    },
+    {
+      "sample": 126,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.750667,
+        32.196015
+      ],
+      "edge": 17,
+      "targetOffsetM": 2,
+      "local": [
+        118.75590551596629,
+        32.19395180731704
+      ],
+      "official": [
+        118.755905,
+        32.193952
+      ],
+      "errorM": 0.053069052713059214,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 2.0260617298019516
+    },
+    {
+      "sample": 127,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.750644,
+        32.195946
+      ],
+      "edge": 17,
+      "targetOffsetM": 10,
+      "local": [
+        118.75588250895532,
+        32.19388281756312
+      ],
+      "official": [
+        118.755882,
+        32.193883
+      ],
+      "errorM": 0.05201133606136259,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 9.99769508455915
+    },
+    {
+      "sample": 128,
+      "group": "boundary-vertex-probe",
+      "source": [
+        118.746316,
+        32.197077
+      ],
+      "edge": 18,
+      "targetOffsetM": 0,
+      "local": [
+        118.75155408979883,
+        32.19501333566883
+      ],
+      "official": [
+        118.751554,
+        32.195013
+      ],
+      "errorM": 0.03826924429492517,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 0
+    },
+    {
+      "sample": 129,
+      "group": "boundary-edge-probe",
+      "source": [
+        118.741755,
+        32.196417
+      ],
+      "edge": 18,
+      "targetOffsetM": 0,
+      "local": [
+        118.74699158790457,
+        32.19435232914477
+      ],
+      "official": [
+        118.746991,
+        32.194352
+      ],
+      "errorM": 0.06633177401559957,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 0.007939193439033435
+    },
+    {
+      "sample": 130,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.741737,
+        32.196505
+      ],
+      "edge": 18,
+      "targetOffsetM": -10,
+      "local": [
+        118.74697358861461,
+        32.194440310478186
+      ],
+      "official": [
+        118.746973,
+        32.19444
+      ],
+      "errorM": 0.06526614758270231,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 9.938488817838351
+    },
+    {
+      "sample": 131,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.741751,
+        32.196434
+      ],
+      "edge": 18,
+      "targetOffsetM": -2,
+      "local": [
+        118.74698758782576,
+        32.19436932536796
+      ],
+      "official": [
+        118.746987,
+        32.194369
+      ],
+      "errorM": 0.06609476648777039,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 1.9346408910534574
+    },
+    {
+      "sample": 132,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.741759,
+        32.196399
+      ],
+      "edge": 18,
+      "targetOffsetM": 2,
+      "local": [
+        118.74699558788964,
+        32.194334333066344
+      ],
+      "official": [
+        118.746995,
+        32.194334
+      ],
+      "errorM": 0.06657220952788077,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 2.0283618079052324
+    },
+    {
+      "sample": 133,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.741773,
+        32.196328
+      ],
+      "edge": 18,
+      "targetOffsetM": 10,
+      "local": [
+        118.74700958708745,
+        32.194263347950546
+      ],
+      "official": [
+        118.747009,
+        32.194263
+      ],
+      "errorM": 0.06744514593898994,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 10.032209734690136
+    },
+    {
+      "sample": 134,
+      "group": "boundary-vertex-probe",
+      "source": [
+        118.737195,
+        32.195757
+      ],
+      "edge": 19,
+      "targetOffsetM": 0,
+      "local": [
+        118.74242918573164,
+        32.193690544616565
+      ],
+      "official": [
+        118.742429,
+        32.19369
+      ],
+      "errorM": 0.06303019537928228,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 0.11044517927879427
+    },
+    {
+      "sample": 135,
+      "group": "boundary-edge-probe",
+      "source": [
+        118.732266,
+        32.195273
+      ],
+      "edge": 19,
+      "targetOffsetM": 0,
+      "local": [
+        118.73749661843661,
+        32.193203724296794
+      ],
+      "official": [
+        118.737496,
+        32.193203
+      ],
+      "errorM": 0.09936307229530002,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 0.09953950160062397
+    },
+    {
+      "sample": 136,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.732254,
+        32.195363
+      ],
+      "edge": 19,
+      "targetOffsetM": -10,
+      "local": [
+        118.73748461699493,
+        32.19329370305148
+      ],
+      "official": [
+        118.737485,
+        32.193293
+      ],
+      "errorM": 0.08608361373909651,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 9.960489041737146
+    },
+    {
+      "sample": 137,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.732264,
+        32.195291
+      ],
+      "edge": 19,
+      "targetOffsetM": -2,
+      "local": [
+        118.73749461847568,
+        32.193221720317794
+      ],
+      "official": [
+        118.737495,
+        32.193221
+      ],
+      "errorM": 0.08777378101432513,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 1.8993793943859798
+    },
+    {
+      "sample": 138,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.732269,
+        32.195255
+      ],
+      "edge": 19,
+      "targetOffsetM": 2,
+      "local": [
+        118.7374996192145,
+        32.19318572895116
+      ],
+      "official": [
+        118.737499,
+        32.193186
+      ],
+      "errorM": 0.06560118479881571,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 2.0098245736647664
+    },
+    {
+      "sample": 139,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.732279,
+        32.195184
+      ],
+      "edge": 19,
+      "targetOffsetM": 10,
+      "local": [
+        118.73750962078206,
+        32.19311474607217
+      ],
+      "official": [
+        118.737509,
+        32.193115
+      ],
+      "errorM": 0.0648814296994786,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 9.96048904267689
+    },
+    {
+      "sample": 140,
+      "group": "boundary-vertex-probe",
+      "source": [
+        118.727339,
+        32.19479
+      ],
+      "edge": 20,
+      "targetOffsetM": 0,
+      "local": [
+        118.73256505409853,
+        32.19271704056342
+      ],
+      "official": [
+        118.732565,
+        32.192717
+      ],
+      "errorM": 0.006801408291191684,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 0
+    },
+    {
+      "sample": 141,
+      "group": "boundary-edge-probe",
+      "source": [
+        118.724998,
+        32.19594
+      ],
+      "edge": 20,
+      "targetOffsetM": 0,
+      "local": [
+        118.7302216754272,
+        32.193864795836596
+      ],
+      "official": [
+        118.730221,
+        32.193865
+      ],
+      "errorM": 0.06748972286667769,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 0.04714481673312389
+    },
+    {
+      "sample": 142,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.725052,
+        32.196018
+      ],
+      "edge": 20,
+      "targetOffsetM": -10,
+      "local": [
+        118.73027574240369,
+        32.193942834475834
+      ],
+      "official": [
+        118.730276,
+        32.193943
+      ],
+      "errorM": 0.030435418945788644,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 10.050962844099464
+    },
+    {
+      "sample": 143,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.725009,
+        32.195956
+      ],
+      "edge": 20,
+      "targetOffsetM": -2,
+      "local": [
+        118.73023268908997,
+        32.19388080369889
+      ],
+      "official": [
+        118.730232,
+        32.193881
+      ],
+      "errorM": 0.06841789364343058,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 2.0109646265207357
+    },
+    {
+      "sample": 144,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.724988,
+        32.195925
+      ],
+      "edge": 20,
+      "targetOffsetM": 2,
+      "local": [
+        118.73021166296023,
+        32.19384978875187
+      ],
+      "official": [
+        118.730211,
+        32.19385
+      ],
+      "errorM": 0.06665964761569054,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 1.9618896655355553
+    },
+    {
+      "sample": 145,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.724945,
+        32.195862
+      ],
+      "edge": 20,
+      "targetOffsetM": 10,
+      "local": [
+        118.73016860944787,
+        32.19378675803321
+      ],
+      "official": [
+        118.730168,
+        32.193787
+      ],
+      "errorM": 0.06334623681290527,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 10.050962844113165
+    },
+    {
+      "sample": 146,
+      "group": "boundary-vertex-probe",
+      "source": [
+        118.722658,
+        32.197091
+      ],
+      "edge": 21,
+      "targetOffsetM": 0,
+      "local": [
+        118.72787908713471,
+        32.19501337013943
+      ],
+      "official": [
+        118.727879,
+        32.195013
+      ],
+      "errorM": 0.041966430843422727,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 0
+    },
+    {
+      "sample": 147,
+      "group": "boundary-edge-probe",
+      "source": [
+        118.718019,
+        32.197687
+      ],
+      "edge": 21,
+      "targetOffsetM": 0,
+      "local": [
+        118.7232341992669,
+        32.19560428530099
+      ],
+      "official": [
+        118.723234,
+        32.195604
+      ],
+      "errorM": 0.03685098309563765,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 0.06197967448432457
+    },
+    {
+      "sample": 148,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.718035,
+        32.197776
+      ],
+      "edge": 21,
+      "targetOffsetM": -10,
+      "local": [
+        118.72325022935303,
+        32.19569329087337
+      ],
+      "official": [
+        118.72325,
+        32.195693
+      ],
+      "errorM": 0.038882799502509474,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 9.948152081988596
+    },
+    {
+      "sample": 149,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.718022,
+        32.197705
+      ],
+      "edge": 21,
+      "targetOffsetM": -2,
+      "local": [
+        118.72323720503053,
+        32.19562228615679
+      ],
+      "official": [
+        118.723237,
+        32.195622
+      ],
+      "errorM": 0.03721120909885958,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 1.9592371747168866
+    },
+    {
+      "sample": 150,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.718016,
+        32.197669
+      ],
+      "edge": 21,
+      "targetOffsetM": 2,
+      "local": [
+        118.72323119350297,
+        32.19558628444516
+      ],
+      "official": [
+        118.723231,
+        32.195586
+      ],
+      "errorM": 0.0364954944829693,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 2.0831965246657975
+    },
+    {
+      "sample": 151,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.718004,
+        32.197598
+      ],
+      "edge": 21,
+      "targetOffsetM": 10,
+      "local": [
+        118.72321917053686,
+        32.19551528087754
+      ],
+      "official": [
+        118.723219,
+        32.195515
+      ],
+      "errorM": 0.03511349627694958,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 10.058108002809401
+    },
+    {
+      "sample": 152,
+      "group": "boundary-vertex-probe",
+      "source": [
+        118.713381,
+        32.198284
+      ],
+      "edge": 22,
+      "targetOffsetM": 0,
+      "local": [
+        118.71858955754638,
+        32.19619554514174
+      ],
+      "official": [
+        118.718589,
+        32.196195
+      ],
+      "errorM": 0.0801673935581561,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 0.14564308387284097
+    },
+    {
+      "sample": 153,
+      "group": "boundary-edge-probe",
+      "source": [
+        118.714407,
+        32.202075
+      ],
+      "edge": 22,
+      "targetOffsetM": 0,
+      "local": [
+        118.71961745292532,
+        32.19998731139372
+      ],
+      "official": [
+        118.719617,
+        32.199987
+      ],
+      "errorM": 0.054910117712698395,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 0.04584131363359426
+    },
+    {
+      "sample": 154,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.714511,
+        32.202054
+      ],
+      "edge": 22,
+      "targetOffsetM": -10,
+      "local": [
+        118.71972160553308,
+        32.19996644494287
+      ],
+      "official": [
+        118.719721,
+        32.199966
+      ],
+      "errorM": 0.07545927963370945,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 10.01098823093405
+    },
+    {
+      "sample": 155,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.714428,
+        32.202071
+      ],
+      "edge": 22,
+      "targetOffsetM": -2,
+      "local": [
+        118.71963848379153,
+        32.1999833383517
+      ],
+      "official": [
+        118.719638,
+        32.199983
+      ],
+      "errorM": 0.05905650194419728,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 1.9788912500123412
+    },
+    {
+      "sample": 156,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.714386,
+        32.202079
+      ],
+      "edge": 22,
+      "targetOffsetM": 2,
+      "local": [
+        118.71959642204452,
+        32.199991284423035
+      ],
+      "official": [
+        118.719596,
+        32.199991
+      ],
+      "errorM": 0.050766269022698776,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 2.070573877279502
+    },
+    {
+      "sample": 157,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.714304,
+        32.202095
+      ],
+      "edge": 22,
+      "targetOffsetM": 10,
+      "local": [
+        118.71951430135788,
+        32.20000717893385
+      ],
+      "official": [
+        118.719514,
+        32.200007
+      ],
+      "errorM": 0.034639698200824735,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 9.986138877682034
+    },
+    {
+      "sample": 158,
+      "group": "boundary-vertex-probe",
+      "source": [
+        118.715433,
+        32.205865
+      ],
+      "edge": 23,
+      "targetOffsetM": 0,
+      "local": [
+        118.72064531354388,
+        32.20377805912207
+      ],
+      "official": [
+        118.720645,
+        32.203778
+      ],
+      "errorM": 0.030224528562409415,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 0
+    },
+    {
+      "sample": 159,
+      "group": "boundary-edge-probe",
+      "source": [
+        118.71613,
+        32.209899
+      ],
+      "edge": 23,
+      "targetOffsetM": 0,
+      "local": [
+        118.72134369287429,
+        32.20781235963982
+      ],
+      "official": [
+        118.721344,
+        32.207812
+      ],
+      "errorM": 0.04933739724737224,
+      "localInside": false,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 5.729964825215262e-11
+    },
+    {
+      "sample": 160,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.716235,
+        32.209885
+      ],
+      "edge": 23,
+      "targetOffsetM": -10,
+      "local": [
+        118.72144884154307,
+        32.20779848807234
+      ],
+      "official": [
+        118.721449,
+        32.207798
+      ],
+      "errorM": 0.05628166945211861,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 9.99780658712392
+    },
+    {
+      "sample": 161,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.716151,
+        32.209896
+      ],
+      "edge": 23,
+      "targetOffsetM": -2,
+      "local": [
+        118.72136472261957,
+        32.20780938537932
+      ],
+      "official": [
+        118.721365,
+        32.207809
+      ],
+      "errorM": 0.05017351168496629,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 2.0027865952373993
+    },
+    {
+      "sample": 162,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.716109,
+        32.209901
+      ],
+      "edge": 23,
+      "targetOffsetM": 2,
+      "local": [
+        118.72132266302113,
+        32.207814334021364
+      ],
+      "official": [
+        118.721322,
+        32.207814
+      ],
+      "errorM": 0.07259995763430531,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 2.0797272279562864
+    },
+    {
+      "sample": 163,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.716025,
+        32.209912
+      ],
+      "edge": 23,
+      "targetOffsetM": 10,
+      "local": [
+        118.72123854373669,
+        32.207825231014496
+      ],
+      "official": [
+        118.721238,
+        32.207825
+      ],
+      "errorM": 0.05724430958278528,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 10.074747219842815
+    },
+    {
+      "sample": 164,
+      "group": "boundary-vertex-probe",
+      "source": [
+        118.716828,
+        32.213932
+      ],
+      "edge": 24,
+      "targetOffsetM": 0,
+      "local": [
+        118.72204305710535,
+        32.21184566070716
+      ],
+      "official": [
+        118.722043,
+        32.211845
+      ],
+      "errorM": 0.07366356263097573,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 0.01612638762594986
+    },
+    {
+      "sample": 165,
+      "group": "boundary-edge-probe",
+      "source": [
+        118.718141,
+        32.217165
+      ],
+      "edge": 24,
+      "targetOffsetM": 0,
+      "local": [
+        118.72335817373164,
+        32.2150797737986
+      ],
+      "official": [
+        118.723358,
+        32.21508
+      ],
+      "errorM": 0.02999630323799084,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 6.320099987618623e-10
+    },
+    {
+      "sample": 166,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.718241,
+        32.217136
+      ],
+      "edge": 24,
+      "targetOffsetM": -10,
+      "local": [
+        118.72345830691113,
+        32.215050891980965
+      ],
+      "official": [
+        118.723458,
+        32.215051
+      ],
+      "errorM": 0.031271934494157994,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 9.94353714466851
+    },
+    {
+      "sample": 167,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.718161,
+        32.217159
+      ],
+      "edge": 24,
+      "targetOffsetM": -2,
+      "local": [
+        118.72337820037714,
+        32.21507379748509
+      ],
+      "official": [
+        118.723378,
+        32.215074
+      ],
+      "errorM": 0.029367418381506756,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 1.9959408925334878
+    },
+    {
+      "sample": 168,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.718121,
+        32.217171
+      ],
+      "edge": 24,
+      "targetOffsetM": 2,
+      "local": [
+        118.72333814707204,
+        32.215085750099895
+      ],
+      "official": [
+        118.723338,
+        32.215086
+      ],
+      "errorM": 0.031041768322069636,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 1.9959408925335114
+    },
+    {
+      "sample": 169,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.71804,
+        32.217195
+      ],
+      "edge": 24,
+      "targetOffsetM": 10,
+      "local": [
+        118.7232570389289,
+        32.21510965403377
+      ],
+      "official": [
+        118.723257,
+        32.215109
+      ],
+      "errorM": 0.07281749256499055,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 10.032483993648622
+    },
+    {
+      "sample": 170,
+      "group": "boundary-vertex-probe",
+      "source": [
+        118.719454,
+        32.220398
+      ],
+      "edge": 25,
+      "targetOffsetM": 0,
+      "local": [
+        118.72467322985264,
+        32.2183138431583
+      ],
+      "official": [
+        118.724673,
+        32.218314
+      ],
+      "errorM": 0.027779690270551643,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 0
+    },
+    {
+      "sample": 171,
+      "group": "boundary-edge-probe",
+      "source": [
+        118.722368,
+        32.222969
+      ],
+      "edge": 25,
+      "targetOffsetM": 0,
+      "local": [
+        118.72759114302637,
+        32.220887612211556
+      ],
+      "official": [
+        118.727591,
+        32.220887
+      ],
+      "errorM": 0.06939179086220747,
+      "localInside": false,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 0.004549814357974735
+    },
+    {
+      "sample": 172,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.722445,
+        32.222907
+      ],
+      "edge": 25,
+      "targetOffsetM": -10,
+      "local": [
+        118.7276682301088,
+        32.22082569774309
+      ],
+      "official": [
+        118.727668,
+        32.220825
+      ],
+      "errorM": 0.08054873498469826,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 10.003760913599267
+    },
+    {
+      "sample": 173,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.722384,
+        32.222956
+      ],
+      "edge": 25,
+      "targetOffsetM": -2,
+      "local": [
+        118.72760716112879,
+        32.22087463001424
+      ],
+      "official": [
+        118.727607,
+        32.220874
+      ],
+      "errorM": 0.07167552896719966,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 2.091305343254149
+    },
+    {
+      "sample": 174,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.722353,
+        32.222981
+      ],
+      "edge": 25,
+      "targetOffsetM": 2,
+      "local": [
+        118.72757612602925,
+        32.22089959553718
+      ],
+      "official": [
+        118.727576,
+        32.2209
+      ],
+      "errorM": 0.04651067299216154,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 2.0143277712866126
+    },
+    {
+      "sample": 175,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.722292,
+        32.223031
+      ],
+      "edge": 25,
+      "targetOffsetM": 10,
+      "local": [
+        118.72751505693265,
+        32.22094952750695
+      ],
+      "official": [
+        118.727515,
+        32.220949
+      ],
+      "errorM": 0.05890017651584725,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 9.926783342049442
+    },
+    {
+      "sample": 176,
+      "group": "boundary-vertex-probe",
+      "source": [
+        118.725283,
+        32.22554
+      ],
+      "edge": 26,
+      "targetOffsetM": 0,
+      "local": [
+        118.73050974077813,
+        32.22346111312956
+      ],
+      "official": [
+        118.73051,
+        32.223461
+      ],
+      "errorM": 0.02743808783445132,
+      "localInside": false,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 0
+    },
+    {
+      "sample": 177,
+      "group": "boundary-edge-probe",
+      "source": [
+        118.728321,
+        32.228702
+      ],
+      "edge": 26,
+      "targetOffsetM": 0,
+      "local": [
+        118.7335511862495,
+        32.22662536612054
+      ],
+      "official": [
+        118.733551,
+        32.226625
+      ],
+      "errorM": 0.04432047161622132,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 0.03648937291220654
+    },
+    {
+      "sample": 178,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.728404,
+        32.228645
+      ],
+      "edge": 26,
+      "targetOffsetM": -10,
+      "local": [
+        118.73363426193356,
+        32.22656844026044
+      ],
+      "official": [
+        118.733634,
+        32.226568
+      ],
+      "errorM": 0.05480549151960995,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 10.019481451148403
+    },
+    {
+      "sample": 179,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.728338,
+        32.22869
+      ],
+      "edge": 26,
+      "targetOffsetM": -2,
+      "local": [
+        118.73356820174314,
+        32.226613381363265
+      ],
+      "official": [
+        118.733568,
+        32.226613
+      ],
+      "errorM": 0.04645826276355661,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 2.0459882362210196
+    },
+    {
+      "sample": 180,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.728305,
+        32.228713
+      ],
+      "edge": 26,
+      "targetOffsetM": 2,
+      "local": [
+        118.73353517162937,
+        32.226636351800096
+      ],
+      "official": [
+        118.733535,
+        32.226636
+      ],
+      "errorM": 0.042318921051852997,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 1.9758349929020969
+    },
+    {
+      "sample": 181,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.728239,
+        32.228758
+      ],
+      "edge": 26,
+      "targetOffsetM": 10,
+      "local": [
+        118.73346911117864,
+        32.226681292680226
+      ],
+      "official": [
+        118.733469,
+        32.226681
+      ],
+      "errorM": 0.034183636765715675,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 9.949328208866575
+    },
+    {
+      "sample": 182,
+      "group": "boundary-vertex-probe",
+      "source": [
+        118.73136,
+        32.231864
+      ],
+      "edge": 27,
+      "targetOffsetM": 0,
+      "local": [
+        118.73659326537246,
+        32.229789310481856
+      ],
+      "official": [
+        118.736593,
+        32.229789
+      ],
+      "errorM": 0.0426025949662997,
+      "localInside": false,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 0
+    },
+    {
+      "sample": 183,
+      "group": "boundary-edge-probe",
+      "source": [
+        118.73485,
+        32.235721
+      ],
+      "edge": 27,
+      "targetOffsetM": 0,
+      "local": [
+        118.74008635650377,
+        32.23364812582768
+      ],
+      "official": [
+        118.740086,
+        32.233648
+      ],
+      "errorM": 0.036333865525542484,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 0.03733961428127385
+    },
+    {
+      "sample": 184,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.734934,
+        32.235666
+      ],
+      "edge": 27,
+      "targetOffsetM": -10,
+      "local": [
+        118.74017041089157,
+        32.23359318075371
+      ],
+      "official": [
+        118.74017,
+        32.233593
+      ],
+      "errorM": 0.043561439771934066,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 9.954050405518277
+    },
+    {
+      "sample": 185,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.734867,
+        32.23571
+      ],
+      "edge": 27,
+      "targetOffsetM": -2,
+      "local": [
+        118.74010336754691,
+        32.233637136949504
+      ],
+      "official": [
+        118.740103,
+        32.233637
+      ],
+      "errorM": 0.03777596122474636,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 1.9758742355073318
+    },
+    {
+      "sample": 186,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.734833,
+        32.235732
+      ],
+      "edge": 27,
+      "targetOffsetM": 2,
+      "local": [
+        118.74006934544852,
+        32.233659114695485
+      ],
+      "official": [
+        118.740069,
+        32.233659
+      ],
+      "errorM": 0.03490543690076,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 2.0505534640699037
+    },
+    {
+      "sample": 187,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.734766,
+        32.235776
+      ],
+      "edge": 27,
+      "targetOffsetM": 10,
+      "local": [
+        118.74000230182008,
+        32.23370307064854
+      ],
+      "official": [
+        118.740002,
+        32.233703
+      ],
+      "errorM": 0.029455377748215376,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 10.028729633600463
+    },
+    {
+      "sample": 188,
+      "group": "boundary-vertex-probe",
+      "source": [
+        118.738341,
+        32.239578
+      ],
+      "edge": 28,
+      "targetOffsetM": 0,
+      "local": [
+        118.74357993804915,
+        32.237506513775955
+      ],
+      "official": [
+        118.74358,
+        32.237506
+      ],
+      "errorM": 0.057425726573076645,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 0.0676060862949982
+    },
+    {
+      "sample": 189,
+      "group": "boundary-edge-probe",
+      "source": [
+        118.740436,
+        32.241942
+      ],
+      "edge": 28,
+      "targetOffsetM": 0,
+      "local": [
+        118.74567624247456,
+        32.23987113240842
+      ],
+      "official": [
+        118.745676,
+        32.239871
+      ],
+      "errorM": 0.02714482124260215,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 0.037621086242472714
+    },
+    {
+      "sample": 190,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.740521,
+        32.241888
+      ],
+      "edge": 28,
+      "targetOffsetM": -10,
+      "local": [
+        118.74576127743997,
+        32.23981717000684
+      ],
+      "official": [
+        118.745761,
+        32.239817
+      ],
+      "errorM": 0.03222163850064636,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 9.961280827227245
+    },
+    {
+      "sample": 191,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.740453,
+        32.241931
+      ],
+      "edge": 28,
+      "targetOffsetM": -2,
+      "local": [
+        118.74569324947394,
+        32.23986013997057
+      ],
+      "official": [
+        118.745693,
+        32.23986
+      ],
+      "errorM": 0.028156130654119833,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 1.9755049155696922
+    },
+    {
+      "sample": 192,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.740419,
+        32.241953
+      ],
+      "edge": 28,
+      "targetOffsetM": 2,
+      "local": [
+        118.7456592354627,
+        32.2398821248356
+      ],
+      "official": [
+        118.745659,
+        32.239882
+      ],
+      "errorM": 0.02613639068965297,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 2.050747088054626
+    },
+    {
+      "sample": 193,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.740351,
+        32.241996
+      ],
+      "edge": 28,
+      "targetOffsetM": 10,
+      "local": [
+        118.74559120719735,
+        32.2399250945433
+      ],
+      "official": [
+        118.745591,
+        32.239925
+      ],
+      "errorM": 0.022141980995969222,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 10.036522999712203
+    },
+    {
+      "sample": 194,
+      "group": "boundary-vertex-probe",
+      "source": [
+        118.742532,
+        32.244305
+      ],
+      "edge": 29,
+      "targetOffsetM": 0,
+      "local": [
+        118.74777335791293,
+        32.242234593043605
+      ],
+      "official": [
+        118.747773,
+        32.242234
+      ],
+      "errorM": 0.0740380411614218,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 0.06672809511692923
+    },
+    {
+      "sample": 195,
+      "group": "boundary-edge-probe",
+      "source": [
+        118.744955,
+        32.248303
+      ],
+      "edge": 29,
+      "targetOffsetM": 0,
+      "local": [
+        118.75019752752692,
+        32.246232799565526
+      ],
+      "official": [
+        118.750197,
+        32.246233
+      ],
+      "errorM": 0.05438736921076814,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 0.08368832147083945
+    },
+    {
+      "sample": 196,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.74505,
+        32.248262
+      ],
+      "edge": 29,
+      "targetOffsetM": -10,
+      "local": [
+        118.75029254972269,
+        32.246191823150255
+      ],
+      "official": [
+        118.750292,
+        32.246192
+      ],
+      "errorM": 0.05531221893847957,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 9.947920714925846
+    },
+    {
+      "sample": 197,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.744974,
+        32.248295
+      ],
+      "edge": 29,
+      "targetOffsetM": -2,
+      "local": [
+        118.75021653201631,
+        32.246224804289696
+      ],
+      "official": [
+        118.750216,
+        32.246225
+      ],
+      "errorM": 0.054561133599298844,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 1.9124811999014844
+    },
+    {
+      "sample": 198,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.744937,
+        32.248311
+      ],
+      "edge": 29,
+      "targetOffsetM": 2,
+      "local": [
+        118.7501795232985,
+        32.246240795035526
+      ],
+      "official": [
+        118.750179,
+        32.246241
+      ],
+      "errorM": 0.054234614848150856,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 1.9961695215526463
+    },
+    {
+      "sample": 199,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.744861,
+        32.248344
+      ],
+      "edge": 29,
+      "targetOffsetM": 10,
+      "local": [
+        118.75010350521643,
+        32.246273775852025
+      ],
+      "official": [
+        118.750103,
+        32.246274
+      ],
+      "errorM": 0.05365340989290043,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 10.031609036577033
+    },
+    {
+      "sample": 200,
+      "group": "boundary-vertex-probe",
+      "source": [
+        118.74738,
+        32.252301
+      ],
+      "edge": 30,
+      "targetOffsetM": 0,
+      "local": [
+        118.75262344083674,
+        32.25023079982886
+      ],
+      "official": [
+        118.752623,
+        32.250231
+      ],
+      "errorM": 0.04705384007173224,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 0
+    },
+    {
+      "sample": 201,
+      "group": "boundary-edge-probe",
+      "source": [
+        118.750379,
+        32.255603
+      ],
+      "edge": 30,
+      "targetOffsetM": 0,
+      "local": [
+        118.75562306005457,
+        32.25353266385436
+      ],
+      "official": [
+        118.755623,
+        32.253532
+      ],
+      "errorM": 0.07403304764427597,
+      "localInside": false,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 0.030478350566281842
+    },
+    {
+      "sample": 202,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.750464,
+        32.255549
+      ],
+      "edge": 30,
+      "targetOffsetM": -10,
+      "local": [
+        118.75570805807165,
+        32.25347866883682
+      ],
+      "official": [
+        118.755708,
+        32.253478
+      ],
+      "errorM": 0.0745715837412307,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 10.028754962565088
+    },
+    {
+      "sample": 203,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.750396,
+        32.255592
+      ],
+      "edge": 30,
+      "targetOffsetM": -2,
+      "local": [
+        118.75564005966476,
+        32.25352166489108
+      ],
+      "official": [
+        118.75564,
+        32.253522
+      ],
+      "errorM": 0.03768250394841396,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 1.9759208296970134
+    },
+    {
+      "sample": 204,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.750363,
+        32.255614
+      ],
+      "edge": 30,
+      "targetOffsetM": 2,
+      "local": [
+        118.75560706047023,
+        32.25354366280881
+      ],
+      "official": [
+        118.755607,
+        32.253544
+      ],
+      "errorM": 0.03792276083998199,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 1.9759208292154817
+    },
+    {
+      "sample": 205,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.750295,
+        32.255658
+      ],
+      "edge": 30,
+      "targetOffsetM": 10,
+      "local": [
+        118.7555390618545,
+        32.253587658512494
+      ],
+      "official": [
+        118.755539,
+        32.253587
+      ],
+      "errorM": 0.07345401210870042,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 9.9609889083584
+    },
+    {
+      "sample": 206,
+      "group": "boundary-vertex-probe",
+      "source": [
+        118.75338,
+        32.258906
+      ],
+      "edge": 31,
+      "targetOffsetM": 0,
+      "local": [
+        118.75862428372812,
+        32.25683519680535
+      ],
+      "official": [
+        118.758624,
+        32.256835
+      ],
+      "errorM": 0.03450685009552965,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 0
+    },
+    {
+      "sample": 207,
+      "group": "boundary-edge-probe",
+      "source": [
+        118.755722,
+        32.262139
+      ],
+      "edge": 31,
+      "targetOffsetM": 0,
+      "local": [
+        118.76096624479403,
+        32.260067546088365
+      ],
+      "official": [
+        118.760966,
+        32.260067
+      ],
+      "errorM": 0.0649386940563501,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 0.01103973557941943
+    },
+    {
+      "sample": 208,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.755813,
+        32.262092
+      ],
+      "edge": 31,
+      "targetOffsetM": -10,
+      "local": [
+        118.76105722232471,
+        32.26002053168878
+      ],
+      "official": [
+        118.761057,
+        32.26002
+      ],
+      "errorM": 0.06270840713728972,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 10.01787750273332
+    },
+    {
+      "sample": 209,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.75574,
+        32.26213
+      ],
+      "edge": 31,
+      "targetOffsetM": -2,
+      "local": [
+        118.76098424040596,
+        32.26005854323916
+      ],
+      "official": [
+        118.760984,
+        32.260058
+      ],
+      "errorM": 0.06449677390201958,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 1.9554596201960646
+    },
+    {
+      "sample": 210,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.755704,
+        32.262148
+      ],
+      "edge": 31,
+      "targetOffsetM": 2,
+      "local": [
+        118.76094824916794,
+        32.26007654892544
+      ],
+      "official": [
+        118.760948,
+        32.260076
+      ],
+      "errorM": 0.0653800297652697,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 1.9775390913549387
+    },
+    {
+      "sample": 211,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.755632,
+        32.262186
+      ],
+      "edge": 31,
+      "targetOffsetM": 10,
+      "local": [
+        118.76087626670856,
+        32.26011455998013
+      ],
+      "official": [
+        118.760876,
+        32.260114
+      ],
+      "errorM": 0.06712767084818058,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 9.959763841114087
+    },
+    {
+      "sample": 212,
+      "group": "boundary-vertex-probe",
+      "source": [
+        118.758065,
+        32.265372
+      ],
+      "edge": 32,
+      "targetOffsetM": 0,
+      "local": [
+        118.76330896581803,
+        32.26329969859294
+      ],
+      "official": [
+        118.763309,
+        32.263299
+      ],
+      "errorM": 0.07774655951505188,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 0.05811366234590853
+    },
+    {
+      "sample": 213,
+      "group": "boundary-edge-probe",
+      "source": [
+        118.761766,
+        32.266729
+      ],
+      "edge": 32,
+      "targetOffsetM": 0,
+      "local": [
+        118.76700869011862,
+        32.26465526135923
+      ],
+      "official": [
+        118.767008,
+        32.264655
+      ],
+      "errorM": 0.07109957556347976,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 0.03232457885378273
+    },
+    {
+      "sample": 214,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.761808,
+        32.266647
+      ],
+      "edge": 32,
+      "targetOffsetM": -10,
+      "local": [
+        118.76705066316828,
+        32.26457325008304
+      ],
+      "official": [
+        118.767051,
+        32.264573
+      ],
+      "errorM": 0.04214648964251178,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 10.00676005646781
+    },
+    {
+      "sample": 215,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.761774,
+        32.266713
+      ],
+      "edge": 32,
+      "targetOffsetM": -2,
+      "local": [
+        118.76701668495548,
+        32.26463925924695
+      ],
+      "official": [
+        118.767016,
+        32.264639
+      ],
+      "errorM": 0.07056052304866657,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 1.963966374148642
+    },
+    {
+      "sample": 216,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.761757,
+        32.266746
+      ],
+      "edge": 32,
+      "targetOffsetM": 2,
+      "local": [
+        118.76699969583055,
+        32.26467226381453
+      ],
+      "official": [
+        118.767,
+        32.264672
+      ],
+      "errorM": 0.040969236572747196,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 2.0013520113223193
+    },
+    {
+      "sample": 217,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.761724,
+        32.266812
+      ],
+      "edge": 32,
+      "targetOffsetM": 10,
+      "local": [
+        118.76696671708682,
+        32.264738272495606
+      ],
+      "official": [
+        118.766966,
+        32.264738
+      ],
+      "errorM": 0.07391993679573255,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 10.006760056999092
+    },
+    {
+      "sample": 218,
+      "group": "boundary-vertex-probe",
+      "source": [
+        118.765467,
+        32.268087
+      ],
+      "edge": 33,
+      "targetOffsetM": 0,
+      "local": [
+        118.77070782830494,
+        32.2660113201532
+      ],
+      "official": [
+        118.770707,
+        32.266011
+      ],
+      "errorM": 0.08563133112833048,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 0.03738563664245646
+    },
+    {
+      "sample": 219,
+      "group": "boundary-edge-probe",
+      "source": [
+        118.768975,
+        32.267611
+      ],
+      "edge": 33,
+      "targetOffsetM": 0,
+      "local": [
+        118.77421336865311,
+        32.26553316483358
+      ],
+      "official": [
+        118.774213,
+        32.265533
+      ],
+      "errorM": 0.039210061725244404,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 0.062367330004142914
+    },
+    {
+      "sample": 220,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.768958,
+        32.267523
+      ],
+      "edge": 33,
+      "targetOffsetM": -10,
+      "local": [
+        118.77419637337282,
+        32.26544518361856
+      ],
+      "official": [
+        118.774196,
+        32.265445
+      ],
+      "errorM": 0.04061188788425524,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 9.977300875703943
+    },
+    {
+      "sample": 221,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.768972,
+        32.267594
+      ],
+      "edge": 33,
+      "targetOffsetM": -2,
+      "local": [
+        118.77421036934967,
+        32.265516168267325
+      ],
+      "official": [
+        118.77421,
+        32.265516
+      ],
+      "errorM": 0.03944763965800126,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 1.9735039942155996
+    },
+    {
+      "sample": 222,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.768979,
+        32.267629
+      ],
+      "edge": 33,
+      "targetOffsetM": 2,
+      "local": [
+        118.77421736728844,
+        32.26555116063131
+      ],
+      "official": [
+        118.774217,
+        32.265551
+      ],
+      "errorM": 0.038879803886292766,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 1.9735039940031054
+    },
+    {
+      "sample": 223,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.768992,
+        32.2677
+      ],
+      "edge": 33,
+      "targetOffsetM": 10,
+      "local": [
+        118.77423036401487,
+        32.265622145965686
+      ],
+      "official": [
+        118.77423,
+        32.265622
+      ],
+      "errorM": 0.03787977681772923,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 9.962347122306678
+    },
+    {
+      "sample": 224,
+      "group": "119-file-coordinate",
+      "source": [
+        118.789818,
+        32.283033
+      ],
+      "local": [
+        118.7950336732761,
+        32.28093256647207
+      ],
+      "official": [
+        118.795033,
+        32.280932
+      ],
+      "errorM": 0.0892956382109225,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 2272.8354394689936
+    },
+    {
+      "sample": 225,
+      "group": "119-file-coordinate",
+      "source": [
+        118.783021,
+        32.298167
+      ],
+      "local": [
+        118.78824766939552,
+        32.29607419400967
+      ],
+      "official": [
+        118.788247,
+        32.296074
+      ],
+      "errorM": 0.06651413440802842,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 3588.3968557107823
+    }
+  ],
+  "sdk": {
+    "ok": true,
+    "version": "2.0"
+  },
+  "success": true,
+  "overall": {
+    "count": 225,
+    "meanM": 0.05609589549470694,
+    "medianM": 0.05468054943325052,
+    "p95M": 0.09986221218038115,
+    "maxM": 0.11444869340625025,
+    "classificationDisagreements": 19
+  },
+  "groups": {
+    "regional-grid": {
+      "count": 25,
+      "meanM": 0.04966676595489607,
+      "medianM": 0.04411983616030881,
+      "p95M": 0.0927640706816385,
+      "maxM": 0.10177051489374897,
+      "classificationDisagreements": 0
+    },
+    "boundary-vertex-probe": {
+      "count": 33,
+      "meanM": 0.051644282821698494,
+      "medianM": 0.04393770860627183,
+      "p95M": 0.09511786174833978,
+      "maxM": 0.11444869340625025,
+      "classificationDisagreements": 11
+    },
+    "boundary-edge-probe": {
+      "count": 33,
+      "meanM": 0.06049115288254523,
+      "medianM": 0.06240266323235988,
+      "p95M": 0.10305088565861009,
+      "maxM": 0.10502195695258078,
+      "classificationDisagreements": 8
+    },
+    "boundary-offset-probe": {
+      "count": 132,
+      "meanM": 0.0569971832316489,
+      "medianM": 0.05628166945211861,
+      "p95M": 0.09986221218038115,
+      "maxM": 0.11029009656287718,
+      "classificationDisagreements": 0
+    },
+    "119-file-coordinate": {
+      "count": 2,
+      "meanM": 0.07790488630947545,
+      "medianM": 0.0892956382109225,
+      "p95M": 0.0892956382109225,
+      "maxM": 0.0892956382109225,
+      "classificationDisagreements": 0
+    }
+  },
+  "worst": [
+    {
+      "sample": 68,
+      "group": "boundary-vertex-probe",
+      "source": [
+        118.812895,
+        32.227577
+      ],
+      "edge": 8,
+      "targetOffsetM": 0,
+      "local": [
+        118.81806371189076,
+        32.22544483468421
+      ],
+      "official": [
+        118.818063,
+        32.225444
+      ],
+      "errorM": 0.11444869340625025,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 0.0839839936281751
+    },
+    {
+      "sample": 112,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.766407,
+        32.197068
+      ],
+      "edge": 15,
+      "targetOffsetM": -10,
+      "local": [
+        118.77164061375923,
+        32.19499984500033
+      ],
+      "official": [
+        118.77164,
+        32.194999
+      ],
+      "errorM": 0.11029009656287718,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 9.993772053205054
+    },
+    {
+      "sample": 85,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.79048,
+        32.220601
+      ],
+      "edge": 10,
+      "targetOffsetM": 10,
+      "local": [
+        118.79568885573111,
+        32.21850564822262
+      ],
+      "official": [
+        118.795688,
+        32.218505
+      ],
+      "errorM": 0.1080550780052698,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 10.026675546611056
+    },
+    {
+      "sample": 41,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.793655,
+        32.251759
+      ],
+      "edge": 3,
+      "targetOffsetM": -2,
+      "local": [
+        118.79886171414917,
+        32.24965574640886
+      ],
+      "official": [
+        118.798861,
+        32.249655
+      ],
+      "errorM": 0.10676556200865056,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 2.1550959278171042
+    },
+    {
+      "sample": 57,
+      "group": "boundary-edge-probe",
+      "source": [
+        118.809715,
+        32.234076
+      ],
+      "edge": 6,
+      "targetOffsetM": 0,
+      "local": [
+        118.81489071833107,
+        32.231948723070886
+      ],
+      "official": [
+        118.81489,
+        32.231948
+      ],
+      "errorM": 0.10502195695258078,
+      "localInside": false,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 0.09412654664303594
+    },
+    {
+      "sample": 113,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.766477,
+        32.197027
+      ],
+      "edge": 15,
+      "targetOffsetM": -2,
+      "local": [
+        118.77171056403601,
+        32.19495880909859
+      ],
+      "official": [
+        118.77171,
+        32.194958
+      ],
+      "errorM": 0.10445623651334414,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 1.9858580156211092
+    },
+    {
+      "sample": 111,
+      "group": "boundary-edge-probe",
+      "source": [
+        118.766494,
+        32.197016
+      ],
+      "edge": 15,
+      "targetOffsetM": 0,
+      "local": [
+        118.77172755183254,
+        32.194947800504
+      ],
+      "official": [
+        118.771727,
+        32.194947
+      ],
+      "errorM": 0.10305088565861009,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 0.02616659911634866
+    },
+    {
+      "sample": 39,
+      "group": "boundary-edge-probe",
+      "source": [
+        118.793672,
+        32.25177
+      ],
+      "edge": 3,
+      "targetOffsetM": 0,
+      "local": [
+        118.79887868741656,
+        32.24966672084837
+      ],
+      "official": [
+        118.798878,
+        32.249666
+      ],
+      "errorM": 0.10297485772952544,
+      "localInside": true,
+      "officialInside": true,
+      "officialDistanceToBoundaryM": 0.14197005186032363
+    },
+    {
+      "sample": 17,
+      "group": "regional-grid",
+      "source": [
+        118.79175,
+        32.21275
+      ],
+      "local": [
+        118.79695614835181,
+        32.21065390659501
+      ],
+      "official": [
+        118.796956,
+        32.210653
+      ],
+      "errorM": 0.10177051489374897,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 821.0095781525583
+    },
+    {
+      "sample": 114,
+      "group": "boundary-offset-probe",
+      "source": [
+        118.766511,
+        32.197006
+      ],
+      "edge": 15,
+      "targetOffsetM": 2,
+      "local": [
+        118.7717445397101,
+        32.19493779175452
+      ],
+      "official": [
+        118.771744,
+        32.194937
+      ],
+      "errorM": 0.10163695052851113,
+      "localInside": false,
+      "officialInside": false,
+      "officialDistanceToBoundaryM": 1.973709235659887
+    }
+  ],
+  "analysis": {
+    "sixDecimalTruncationMatches": 149,
+    "sixDecimalRoundingMatches": 106,
+    "note": "Observed precision comparison only; do not infer unpublished official implementation or global equality."
+  }
+}

@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.Fire119Mapper">
+ <select id="coordinateCandidates" resultType="map">
+ SELECT incident_id AS incidentId,payload_hash AS payloadHash,CAST(raw_json AS CHAR) AS rawJson
+ FROM fire_119_incident WHERE source_system=#{source} AND (geofence_version IS NULL OR geofence_version &lt;&gt; #{version}) ORDER BY incident_id LIMIT #{limit}
+ </select>
+ <update id="rebuildCoordinates">
+ UPDATE fire_119_incident SET source_coord_system=#{source_coord_system},map_longitude=#{map_longitude},map_latitude=#{map_latitude},coordinate_status=#{coordinate_status},
+ geofence_status=#{geofence_status},geofence_version=#{geofence_version},boundary_distance_m=#{boundary_distance_m},
+ street_name=CASE WHEN street_match_method='manual' THEN street_name ELSE #{street_name} END,
+ street_match_status=CASE WHEN street_match_method='manual' THEN street_match_status ELSE #{street_match_status} END,
+ street_match_basis=CASE WHEN street_match_method='manual' THEN street_match_basis ELSE #{street_match_basis} END,
+ street_match_method=CASE WHEN street_match_method='manual' THEN street_match_method ELSE #{street_match_method} END
+ WHERE incident_id=#{incident_id} AND payload_hash=#{expected_hash}
+ </update>
  <select id="incidentForUpdate" resultType="map">
  SELECT incident_id AS incidentId,payload_hash AS payloadHash,revision_no AS revisionNo,CAST(raw_json AS CHAR) AS rawJson
  FROM fire_119_incident WHERE source_system=#{source} AND external_id=#{externalId} FOR UPDATE
@@ -16,6 +29,9 @@ street_name=CASE WHEN street_match_method='manual' THEN street_name ELSE CASE in
 street_match_status=CASE WHEN street_match_method='manual' THEN street_match_status ELSE CASE incident_id <foreach collection="rows" item="r"> WHEN #{r.incident_id} THEN #{r.street_match_status} </foreach> ELSE street_match_status END END,
 street_match_basis=CASE WHEN street_match_method='manual' THEN street_match_basis ELSE CASE incident_id <foreach collection="rows" item="r"> WHEN #{r.incident_id} THEN #{r.street_match_basis} </foreach> ELSE street_match_basis END END,
 street_match_method=CASE WHEN street_match_method='manual' THEN street_match_method ELSE CASE incident_id <foreach collection="rows" item="r"> WHEN #{r.incident_id} THEN #{r.street_match_method} </foreach> ELSE street_match_method END END,
+geofence_status=CASE incident_id <foreach collection="rows" item="r"> WHEN #{r.incident_id} THEN #{r.geofence_status} </foreach> ELSE geofence_status END,
+geofence_version=CASE incident_id <foreach collection="rows" item="r"> WHEN #{r.incident_id} THEN #{r.geofence_version} </foreach> ELSE geofence_version END,
+boundary_distance_m=CASE incident_id <foreach collection="rows" item="r"> WHEN #{r.incident_id} THEN #{r.boundary_distance_m} </foreach> ELSE boundary_distance_m END,
 map_longitude=CASE incident_id <foreach collection="rows" item="r"> WHEN #{r.incident_id} THEN #{r.map_longitude} </foreach> ELSE map_longitude END,
 map_latitude=CASE incident_id <foreach collection="rows" item="r"> WHEN #{r.incident_id} THEN #{r.map_latitude} </foreach> ELSE map_latitude END,
 source_coord_system=CASE incident_id <foreach collection="rows" item="r"> WHEN #{r.incident_id} THEN #{r.source_coord_system} </foreach> ELSE source_coord_system END,
@@ -26,8 +42,8 @@ last_sync_batch_id=CASE incident_id <foreach collection="rows" item="r"> WHEN #{
  <foreach collection="rows" item="r" open="(" close=")" separator=" OR ">(incident_id=#{r.incident_id} AND payload_hash=#{r.payload_hash})</foreach>
  </update>
  <insert id="insertIncident" useGeneratedKeys="true" keyProperty="incident_id">
-INSERT INTO fire_119_incident (source_system,external_id,order_source,region_code,case_type_code,case_type_name,case_status_code,case_status_name,alarm_time,address,description,case_nature_code,case_nature_name,merge_status_code,merge_status_name,case_level_code,case_level_name,source_longitude,source_latitude,source_coord_system,map_longitude,map_latitude,coordinate_status,source_sjc,source_create_time_utc,source_njs_create_time_utc,source_njs_update_time_utc,source_sugon_create_time_utc,source_sugon_update_time_utc,source_manually_add,source_counterfeit,source_flag,source_manual_operate_count,raw_json,payload_hash,street_name,street_match_status,street_match_method,street_match_basis,revision_no,dept_id,supervisor_user_id,first_synced_at,last_seen_at,last_changed_at,last_sync_batch_id,create_by,create_time)
-VALUES (#{source_system},#{external_id},#{order_source},#{region_code},#{case_type_code},#{case_type_name},#{case_status_code},#{case_status_name},#{alarm_time},#{address},#{description},#{case_nature_code},#{case_nature_name},#{merge_status_code},#{merge_status_name},#{case_level_code},#{case_level_name},#{source_longitude},#{source_latitude},#{source_coord_system},#{map_longitude},#{map_latitude},#{coordinate_status},#{source_sjc},#{source_create_time_utc},#{source_njs_create_time_utc},#{source_njs_update_time_utc},#{source_sugon_create_time_utc},#{source_sugon_update_time_utc},#{source_manually_add},#{source_counterfeit},#{source_flag},#{source_manual_operate_count},#{raw_json},#{payload_hash},#{street_name},#{street_match_status},#{street_match_method},#{street_match_basis},#{revision_no},#{dept_id},#{supervisor_user_id},#{now},#{now},#{now},#{batch},'119-sync',#{now})
+INSERT INTO fire_119_incident (source_system,external_id,order_source,region_code,case_type_code,case_type_name,case_status_code,case_status_name,alarm_time,address,description,case_nature_code,case_nature_name,merge_status_code,merge_status_name,case_level_code,case_level_name,source_longitude,source_latitude,source_coord_system,map_longitude,map_latitude,coordinate_status,source_sjc,source_create_time_utc,source_njs_create_time_utc,source_njs_update_time_utc,source_sugon_create_time_utc,source_sugon_update_time_utc,source_manually_add,source_counterfeit,source_flag,source_manual_operate_count,raw_json,payload_hash,street_name,street_match_status,street_match_method,street_match_basis,revision_no,dept_id,supervisor_user_id,first_synced_at,last_seen_at,last_changed_at,last_sync_batch_id,create_by,create_time,geofence_status,geofence_version,boundary_distance_m)
+VALUES (#{source_system},#{external_id},#{order_source},#{region_code},#{case_type_code},#{case_type_name},#{case_status_code},#{case_status_name},#{alarm_time},#{address},#{description},#{case_nature_code},#{case_nature_name},#{merge_status_code},#{merge_status_name},#{case_level_code},#{case_level_name},#{source_longitude},#{source_latitude},#{source_coord_system},#{map_longitude},#{map_latitude},#{coordinate_status},#{source_sjc},#{source_create_time_utc},#{source_njs_create_time_utc},#{source_njs_update_time_utc},#{source_sugon_create_time_utc},#{source_sugon_update_time_utc},#{source_manually_add},#{source_counterfeit},#{source_flag},#{source_manual_operate_count},#{raw_json},#{payload_hash},#{street_name},#{street_match_status},#{street_match_method},#{street_match_basis},#{revision_no},#{dept_id},#{supervisor_user_id},#{now},#{now},#{now},#{batch},'119-sync',#{now},#{geofence_status},#{geofence_version},#{boundary_distance_m})
  </insert>
  <update id="updateIncident">
 UPDATE fire_119_incident SET order_source=#{order_source},
@@ -50,7 +66,7 @@ source_latitude=#{source_latitude},
 source_coord_system=#{source_coord_system},
 map_longitude=#{map_longitude},
 map_latitude=#{map_latitude},
-coordinate_status=#{coordinate_status},
+coordinate_status=#{coordinate_status},geofence_status=#{geofence_status},geofence_version=#{geofence_version},boundary_distance_m=#{boundary_distance_m},
 source_sjc=#{source_sjc},
 source_create_time_utc=#{source_create_time_utc},
 source_njs_create_time_utc=#{source_njs_create_time_utc},
@@ -72,7 +88,7 @@ revision_no=#{revision_no},last_seen_at=#{now},last_changed_at=#{now},last_sync_
  <update id="touchIncident">UPDATE fire_119_incident SET street_name=CASE WHEN street_match_method='manual' THEN street_name ELSE #{street_name} END,
 street_match_status=CASE WHEN street_match_method='manual' THEN street_match_status ELSE #{street_match_status} END,
 street_match_basis=CASE WHEN street_match_method='manual' THEN street_match_basis ELSE #{street_match_basis} END,
-street_match_method=CASE WHEN street_match_method='manual' THEN street_match_method ELSE #{street_match_method} END,map_longitude=#{map_longitude},map_latitude=#{map_latitude},source_coord_system=#{source_coord_system},coordinate_status=#{coordinate_status},last_seen_at=#{now},last_sync_batch_id=#{batch} WHERE incident_id=#{incident_id}</update>
+street_match_method=CASE WHEN street_match_method='manual' THEN street_match_method ELSE #{street_match_method} END,map_longitude=#{map_longitude},map_latitude=#{map_latitude},source_coord_system=#{source_coord_system},coordinate_status=#{coordinate_status},geofence_status=#{geofence_status},geofence_version=#{geofence_version},boundary_distance_m=#{boundary_distance_m},last_seen_at=#{now},last_sync_batch_id=#{batch} WHERE incident_id=#{incident_id}</update>
  <insert id="insertHistory">
  INSERT INTO fire_119_incident_history(incident_id,revision_no,sync_batch_id,change_type,observed_at,payload_hash,changed_fields,snapshot_json,create_time)
  VALUES(#{incident_id},#{revision_no},#{batch},#{change_type},#{now},#{payload_hash},#{changed_fields},#{raw_json},#{now})
@@ -99,10 +115,18 @@ street_match_method=CASE WHEN street_match_method='manual' THEN street_match_met
  last_quick_failures AS lastQuickFailures,last_new_incident_at AS lastNewIncidentAt
  FROM fire_119_sync_state WHERE source_system=#{source} AND query_region_code=#{region}
  </select>
+ <!-- scopeAlias is a fixed mapper include property (a/i), never request input. -->
+ <sql id="dachangIncluded">
+ (( ${scopeAlias}.geofence_version=#{params.geofenceVersion} AND ${scopeAlias}.geofence_status='inside')
+ OR COALESCE(${scopeAlias}.address,'') LIKE '%大厂%' OR COALESCE(${scopeAlias}.description,'') LIKE '%大厂%')
+ </sql>
  <select id="scopeCounts" resultType="map">
- SELECT COUNT(*) AS total,COALESCE(SUM(a.street_match_status='inside'),0) AS insideCount,COALESCE(SUM(a.street_match_status='pending'),0) AS pendingCount,
- COALESCE(SUM(a.street_match_status='outside'),0) AS outsideCount,
- MAX(a.last_seen_at) AS latestReceivedAt,MAX(a.alarm_time) AS latestAlarmTime
+ SELECT COUNT(*) AS total,COALESCE(SUM(<include refid="dachangIncluded"><property name="scopeAlias" value="a" /></include>),0) AS insideCount,
+ COALESCE(SUM(NOT <include refid="dachangIncluded"><property name="scopeAlias" value="a" /></include> AND (a.geofence_version IS NULL OR a.geofence_version &lt;&gt; #{params.geofenceVersion} OR a.geofence_status='pending')),0) AS pendingCount,
+ COALESCE(SUM(NOT <include refid="dachangIncluded"><property name="scopeAlias" value="a" /></include> AND a.geofence_version=#{params.geofenceVersion} AND a.geofence_status='outside'),0) AS outsideCount,
+ COALESCE(SUM((COALESCE(a.address,'') LIKE '%大厂%' OR COALESCE(a.description,'') LIKE '%大厂%')),0) AS keywordCount,
+ MAX(CASE WHEN #{params.dachangOnly}=0 OR <include refid="dachangIncluded"><property name="scopeAlias" value="a" /></include> THEN a.last_seen_at END) AS latestReceivedAt,
+ MAX(CASE WHEN #{params.dachangOnly}=0 OR <include refid="dachangIncluded"><property name="scopeAlias" value="a" /></include> THEN a.alarm_time END) AS latestAlarmTime
  FROM fire_119_incident a WHERE a.source_system=#{params.sourceSystem} ${params.dataScope}
  </select>
  <sql id="unified">
@@ -138,7 +162,8 @@ street_match_method=CASE WHEN street_match_method='manual' THEN street_match_met
  NULL AS lat,
  CONVERT(NULL USING utf8mb4) COLLATE utf8mb4_general_ci AS coordinateStatus,
  NULL AS lastSyncedAt,
- CONVERT(NULL USING utf8mb4) COLLATE utf8mb4_general_ci AS caseStatusCode
+ CONVERT(NULL USING utf8mb4) COLLATE utf8mb4_general_ci AS caseStatusCode,
+ NULL AS boundaryDistanceM
  FROM fire_event e JOIN fire_gateway g ON e.gateway_id=g.gateway_id JOIN fire_place p ON p.place_id=g.place_id
  WHERE p.del_flag='0' AND p.status='0'
  UNION ALL
@@ -146,9 +171,9 @@ street_match_method=CASE WHEN street_match_method='manual' THEN street_match_met
  COALESCE(NULLIF(i.case_status_name,''),'未提供'),CAST(i.place_id AS CHAR),COALESCE(NULLIF(i.address,''),'未提供地址'),
  NULL,NULL,NULL,NULL,NULL,i.alarm_time,0,CAST(i.raw_json AS CHAR),NULL,
  i.dept_id,i.supervisor_user_id,i.case_type_code,i.case_type_name,i.case_nature_name,i.case_level_name,i.merge_status_name,i.address,i.description,
- i.street_match_basis,i.map_longitude,i.map_latitude,i.coordinate_status,i.last_seen_at,i.case_status_code
+ CONCAT('用户33点范围 ',i.geofence_version,'；地区=',CASE WHEN <include refid="dachangIncluded"><property name="scopeAlias" value="i" /></include> THEN '大厂街道' WHEN i.geofence_version=#{params.geofenceVersion} AND i.geofence_status='outside' THEN '范围外' ELSE '待核验' END),CASE WHEN i.geofence_version=#{params.geofenceVersion} THEN i.map_longitude END,CASE WHEN i.geofence_version=#{params.geofenceVersion} THEN i.map_latitude END,CASE WHEN i.geofence_version=#{params.geofenceVersion} THEN i.coordinate_status ELSE 'pending' END,i.last_seen_at,i.case_status_code,CASE WHEN i.geofence_version=#{params.geofenceVersion} THEN i.boundary_distance_m END
  FROM fire_119_incident i WHERE i.source_system=#{params.sourceSystem}
- <if test="params.dachangOnly == null or params.dachangOnly">AND i.street_match_status='inside'</if>
+ <if test="params.dachangOnly == null or params.dachangOnly">AND <include refid="dachangIncluded"><property name="scopeAlias" value="i" /></include></if>
  </sql>
  <select id="alarms" resultType="map">
  SELECT a.* FROM (<include refid="unified"/>) a WHERE 1=1 ${params.dataScope}

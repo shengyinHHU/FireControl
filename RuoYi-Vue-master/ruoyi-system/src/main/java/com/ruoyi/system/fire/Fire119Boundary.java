@@ -9,29 +9,31 @@ import tools.jackson.databind.ObjectMapper;
 @Component
 public class Fire119Boundary {
  public record Match(String status,String method,String basis,String region) {}
- private record Region(String name,List<double[]> ring) {}
- private final List<Region> regions=new ArrayList<>();private final Fire119Properties config;private final String version;
+ public static final String VERSION="dc33-0ad25c5e734b";
+ private final List<double[]> ring=new ArrayList<>();private final Fire119Properties config;
+ public static String scopeVersion(String source){return source+"|"+Fire119Coordinates.VERSION+"|"+VERSION;}
  @SuppressWarnings("unchecked")
  public Fire119Boundary(Fire119Properties p,ObjectMapper json) throws Exception {
   config=p;Map<String,Object> root;
-  try(var input=new ClassPathResource("fire/dachang-119-boundary.json").getInputStream()){root=json.readValue(input,Map.class);}
-  version=String.valueOf(root.get("documentSha256"));
-  for(Object obj:(List<?>)root.get("features")){
-   var feature=(Map<String,Object>)obj;var props=(Map<String,Object>)feature.get("properties");var geometry=(Map<String,Object>)feature.get("geometry");
-   List<double[]> ring=new ArrayList<>();
-   for(Object point:(List<?>)((List<?>)geometry.get("coordinates")).get(0)){List<?> xy=(List<?>)point;ring.add(new double[]{((Number)xy.get(0)).doubleValue(),((Number)xy.get(1)).doubleValue()});}
-   if(ring.size()<4)throw new IllegalArgumentException("街道边界点不足");regions.add(new Region(String.valueOf(props.get("name")),ring));
-  }
-  if(regions.size()!=25)throw new IllegalArgumentException("街道资料应包含25个区域");
+  try(var input=new ClassPathResource("fire/dachang-119-scope.json").getInputStream()){root=json.readValue(input,Map.class);}
+  if(!VERSION.equals(root.get("version"))||!"GCJ02".equals(root.get("coordinateSystem")))throw new IllegalArgumentException("119边界版本或坐标系无效");
+  for(Object point:(List<?>)root.get("ring")){List<?> xy=(List<?>)point;ring.add(new double[]{((Number)xy.get(0)).doubleValue(),((Number)xy.get(1)).doubleValue()});}
+  if(ring.size()!=34||!Arrays.equals(ring.get(0),ring.get(ring.size()-1)))throw new IllegalArgumentException("119边界应为33点闭合多边形");
  }
  public Match match(BigDecimal longitude,BigDecimal latitude){
-  String mode=config.getBoundaryCoordinateMode();
-  if(longitude==null||latitude==null)return new Match("pending","boundary","大厂街道.doc；缺少有效坐标",null);
-  if(!Set.of("verified","raw-unverified").contains(mode))return new Match("pending","boundary","大厂街道.doc；源坐标与边界坐标系兼容性待确认",null);
-  List<String> names=new ArrayList<>();
-  for(Region region:regions)if(covers(region.ring,longitude.doubleValue(),latitude.doubleValue()))names.add(region.name);
-  String basis="大厂街道.doc sha256="+version+"；"+(mode.equals("verified")?"坐标兼容已确认":"按原坐标比较，坐标系待核验")+"；地区="+String.join("、",names);
-  return new Match(names.isEmpty()?"outside":"inside","boundary",basis,names.isEmpty()?null:String.join("、",names));
+  String basis="用户33点范围 "+VERSION+"；GCJ-02；转换="+Fire119Coordinates.VERSION;
+  if(longitude==null||latitude==null)return new Match("pending","boundary",basis+"；缺少可用高德坐标",null);
+  if(!"verified".equals(config.getBoundaryCoordinateMode()))return new Match("pending","boundary",basis+"；边界核验未启用",null);
+  boolean inside=covers(ring,longitude.doubleValue(),latitude.doubleValue());
+  return new Match(inside?"inside":"outside","boundary",basis+"；地区="+(inside?"大厂街道":"范围外"),inside?"大厂街道":null);
+ }
+ /** Local metric projection around Dachang; diagnostic proximity only, never expands inclusion. */
+ public BigDecimal distance(BigDecimal longitude,BigDecimal latitude){
+  if(longitude==null||latitude==null)return null;
+  double sx=6371008.8*Math.PI/180*Math.cos(Math.toRadians(32.23)),sy=6371008.8*Math.PI/180,min=Double.POSITIVE_INFINITY;
+  for(int i=1;i<ring.size();i++){double[] a=ring.get(i-1),b=ring.get(i);double x=(longitude.doubleValue()-a[0])*sx,y=(latitude.doubleValue()-a[1])*sy,dx=(b[0]-a[0])*sx,dy=(b[1]-a[1])*sy;
+   double t=Math.max(0,Math.min(1,(x*dx+y*dy)/(dx*dx+dy*dy)));min=Math.min(min,Math.hypot(x-t*dx,y-t*dy));}
+  return BigDecimal.valueOf(min).setScale(3,java.math.RoundingMode.HALF_UP);
  }
  // A point is covered if any original region covers it. Preserve gaps and separate pieces.
  // Boundary points are included; no convex hull, bounding-box approximation or address guessing.

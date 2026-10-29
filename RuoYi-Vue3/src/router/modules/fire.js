@@ -26,8 +26,8 @@ const definitions = [
     path: 'video',
     name: 'FireVideo',
     component: () => import('@/views/fire/video/index.vue'),
-    meta: { title: '视频监控', icon: 'monitor', fireResource: 'cameras' },
-    beforeEnter: () => canFire('cameras') || '/401',
+    meta: { title: '视频监控', icon: 'monitor', fireResource: 'video' },
+    beforeEnter: () => canFire('video') || '/401',
   },
   {
     path: 'inspections',

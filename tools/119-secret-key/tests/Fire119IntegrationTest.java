@@ -27,7 +27,7 @@ public class Fire119IntegrationTest {
  static Map<String,Object> fixture(String id,String type,boolean inside){
   Map<String,Object> m=new LinkedHashMap<>();m.put("id",id);m.put("xzqybh","320116");m.put("ajlxdm",type);m.put("ajlxmc",type.equals("1")?"火警扑救":type.equals("2")?"抢险救援":"社会救助");m.put("ajztdm","30");m.put("ajztmc","出动");m.put("ajxz",1);m.put("ajxzmc","实警");m.put("hbzt",1);m.put("hbztmc","未合并");m.put("temp_ajdjdm",1);m.put("temp_ajdjdmmc","一级");m.put("afdz","隔离测试地址");m.put("ajms","隔离测试描述");m.put("jd",inside?"118.75163000":"118.90000000");m.put("wd",inside?"32.21230500":"32.33000000");m.put("lasj","2026-10-21 13:14:16");m.put("sjc","2026-10-21 13:36:09");m.put("create_time","2026-10-21T05:14:21.000+0000");m.put("njs_update_time","2026-10-21T05:25:31.000+0000");m.put("manually_add",false);m.put("counterfeit",false);m.put("flag",0);m.put("manual_operate_count",0);return m;
  }
- static FireAccessQuery query(){FireAccessQuery q=new FireAccessQuery();q.getParams().put("dataScope","");q.getParams().put("sourceSystem","fixture_119");return q;}
+ static FireAccessQuery query(){FireAccessQuery q=new FireAccessQuery();q.getParams().put("dataScope","");q.getParams().put("sourceSystem","fixture_119");q.getParams().put("geofenceVersion",Fire119Boundary.scopeVersion("WGS84"));q.getParams().put("dachangOnly",true);return q;}
  static void reply(com.sun.net.httpserver.HttpExchange e,Object body)throws IOException{byte[] data=json.writeValueAsString(body).getBytes(StandardCharsets.UTF_8);e.getResponseHeaders().set("Content-Type","application/json");e.sendResponseHeaders(200,data.length);try(var out=e.getResponseBody()){out.write(data);}}
  public static void main(String[] args)throws Exception {
   var context=new org.springframework.context.annotation.AnnotationConfigApplicationContext();context.register(org.springframework.boot.jackson.autoconfigure.JacksonAutoConfiguration.class);context.refresh();json=context.getBean(ObjectMapper.class);
@@ -42,12 +42,24 @@ public class Fire119IntegrationTest {
    if(method.getName().equals("incidentHashes"))hashReads.incrementAndGet();if(method.getName().equals("incidentForUpdate"))lockReads.incrementAndGet();if(method.getName().equals("touchIncidents"))pageTouches.incrementAndGet();
    try{return method.invoke(realMapper,values);}catch(java.lang.reflect.InvocationTargetException e){throw e.getCause();}
   });
-  var cfg=new Fire119Properties();cfg.setSourceSystem("fixture_119");cfg.setRegionCode("320116");cfg.setOrderSource("FIXTURE");cfg.setAccount("FIXTURE");cfg.setPassword("fixture-only");cfg.setSourceCoordinateSystem("GCJ02");cfg.setBoundaryCoordinateMode("verified");cfg.setDeptId(100L);
-  var boundary=new Fire119Boundary(cfg,json);check(boundary.match(new java.math.BigDecimal("118.75163"),new java.math.BigDecimal("32.212305")).status().equals("inside"),"document region inside");
-  check(boundary.match(new java.math.BigDecimal("118.9"),new java.math.BigDecimal("32.33")).status().equals("outside"),"outside document polygons");
+  var cfg=new Fire119Properties();cfg.setSourceSystem("fixture_119");cfg.setRegionCode("320116");cfg.setOrderSource("FIXTURE");cfg.setAccount("FIXTURE");cfg.setPassword("fixture-only");cfg.setSourceCoordinateSystem("WGS84");cfg.setBoundaryCoordinateMode("verified");cfg.setDeptId(100L);
+  var boundary=new Fire119Boundary(cfg,json);check(boundary.match(new java.math.BigDecimal("118.75163"),new java.math.BigDecimal("32.212305")).status().equals("inside"),"new 33-point region inside");
+  check(boundary.match(new java.math.BigDecimal("118.9"),new java.math.BigDecimal("32.33")).status().equals("outside"),"outside new 33-point polygon");
   var tri=List.of(new double[]{0,0},new double[]{2,0},new double[]{0,2},new double[]{0,0});check(Fire119Boundary.covers(tri,1,0),"boundary included");check(!Fire119Boundary.covers(tri,1.8,1.8),"no bbox false positive");
   check(Fire119IngestService.utc("2026-10-21T05:25:31.000+0000").equals(LocalDateTime.of(2026,10,21,5,25,31)),"explicit UTC source timestamp");
+  check(boundary.match(new java.math.BigDecimal("118.777719"),new java.math.BigDecimal("32.265056")).status().equals("inside"),"new polygon vertex included");
+  var comparison=json.readValue(Files.readString(Path.of(args[1],"docs/verification/119-coordinate-comparison.json")),Map.class);
+  double maxFormulaError=0;
+  for(Object value:(List<?>)comparison.get("results")){var sample=(Map<?,?>)value;var source=(List<?>)sample.get("source");var expected=(List<?>)sample.get("local");var actual=Fire119Coordinates.toMap(new java.math.BigDecimal(source.get(0).toString()),new java.math.BigDecimal(source.get(1).toString()),"WGS84");for(int axis=0;axis<2;axis++)maxFormulaError=Math.max(maxFormulaError,Math.abs(actual[axis].doubleValue()-((Number)expected.get(axis)).doubleValue()));}
+  check(maxFormulaError<0.00000001,"Java formula matches all 225 local results from live official comparison");
+  var identity=Fire119Coordinates.toMap(new java.math.BigDecimal("118.75"),new java.math.BigDecimal("32.22"),"GCJ02");check(identity[0].toString().equals("118.75"),"GCJ02 input is never converted twice");
   var proxy=new TransactionProxyFactoryBean();proxy.setTarget(new Fire119IngestService(mapper,json,cfg,boundary));proxy.setTransactionManager(new DataSourceTransactionManager(ds));proxy.setProxyTargetClass(true);Properties tx=new Properties();tx.setProperty("*","PROPAGATION_REQUIRED,-java.lang.Exception");proxy.setTransactionAttributes(tx);proxy.afterPropertiesSet();var ingest=(Fire119IngestService)proxy.getObject();
+  var converted=ingest.prepare(fixture("coordinate-only","1",true),"check");check(!converted.get("source_longitude").equals(converted.get("map_longitude"))&&"WGS84".equals(converted.get("source_coord_system")),"original WGS84 is separate from GCJ02 map point");
+  var missing=fixture("missing-check","1",true);missing.remove("wd");check(ingest.prepare(missing,"check").get("geofence_status").equals("pending"),"missing coordinate stays pending");
+  var invalidNumber=fixture("invalid-check","1",true);invalidNumber.put("jd","NaN");check(ingest.prepare(invalidNumber,"check").get("coordinate_status").equals("invalid"),"nonfinite coordinate rejected");
+  boolean rawDifferenceTested=false;
+  for(Object value:(List<?>)comparison.get("results")){var sample=(Map<?,?>)value;var source=(List<?>)sample.get("source");var rawPoint=fixture("crossing","1",true);rawPoint.put("jd",source.get(0));rawPoint.put("wd",source.get(1));var prepared=ingest.prepare(rawPoint,"check");String rawStatus=boundary.match(new java.math.BigDecimal(source.get(0).toString()),new java.math.BigDecimal(source.get(1).toString())).status();if(!rawStatus.equals(prepared.get("geofence_status"))){rawDifferenceTested=true;check(boundary.match((java.math.BigDecimal)prepared.get("map_longitude"),(java.math.BigDecimal)prepared.get("map_latitude")).status().equals(prepared.get("geofence_status")),"polygon check uses converted point, not raw WGS84");break;}}
+  check(rawDifferenceTested,"conversion is material to range membership");
   check(ingest.receive(fixture("one","1",true),"batch-one").equals("insert"),"first insert");check(count("fire_119_incident")==1 && count("fire_119_incident_history")==1,"initial snapshot and history");
   Map<String,Object> reordered=new TreeMap<>(fixture("one","1",true));check(ingest.receive(reordered,"batch-two").equals("unchanged"),"JSON order does not create history");check(count("fire_119_incident_history")==1,"repeat not duplicated");
   Map<String,Object> updated=fixture("one","1",true);updated.put("ajztdm","120");updated.put("ajztmc","返队");check(ingest.receive(updated,"batch-three").equals("update"),"source status update");check(count("fire_119_incident")==1 && count("fire_119_incident_history")==2,"same ID one incident, new history");
@@ -56,7 +68,7 @@ public class Fire119IntegrationTest {
   var allQuery=query();allQuery.getParams().put("dachangOnly",false);
   var unfiltered=mapper.alarms(allQuery);check(unfiltered.size()==5,"all scope includes outside and invalid-coordinate incidents");
   var deniedAll=query();deniedAll.getParams().put("dachangOnly",false);deniedAll.getParams().put("dataScope"," AND a.dept_id=999");check(mapper.alarms(deniedAll).isEmpty(),"unfiltered scope still enforces permission");
-  var rows=mapper.alarms(query());check(rows.size()==3,"all three types inside only");check(rows.stream().allMatch(x->"119".equals(x.get("sourceCode"))),"source DTO");check(rows.stream().anyMatch(x->"返队".equals(x.get("status"))),"preserve case status");
+  var rows=mapper.alarms(query());check(rows.size()==3,"all three types inside only");check(rows.stream().allMatch(x->String.valueOf(x.get("streetRegion")).contains("33点范围")&&String.valueOf(x.get("streetRegion")).endsWith("地区=大厂街道")),"DTO region describes current geometric scope rather than old attribution");check(rows.stream().allMatch(x->"119".equals(x.get("sourceCode"))),"source DTO");check(rows.stream().anyMatch(x->"返队".equals(x.get("status"))),"preserve case status");
   var scoped=query();scoped.getParams().put("dataScope"," AND a.dept_id=999");check(mapper.alarms(scoped).isEmpty(),"scope excludes unauthorized incidents");
   scoped=query();scoped.setSource("device");check(mapper.alarms(scoped).isEmpty(),"device source isolated");
   scoped=query();scoped.setCaseType("2");check(mapper.alarms(scoped).size()==1,"case type filter");
@@ -65,6 +77,28 @@ public class Fire119IntegrationTest {
   var service=new FireAlarmQueryService(mapper,cfg);
   var malicious=query();malicious.getParams().put("dachangOnly",true);check(service.alarms(malicious).size()==5,"server config owns geographic filter");
   var summaryStatus=service.status(query());check(Boolean.FALSE.equals(summaryStatus.get("dachangOnly")) && summaryStatus.get("latestReceivedAt")!=null && summaryStatus.get("latestAlarmTime")!=null,"status reports full scope and latest timestamps");check(service.alarms(query()).stream().allMatch(x->"database".equals(x.get("dataSource"))),"query normalized");
+  // Rebuild historical rows even when they no longer occur in upstream pages, without replaying alarms.
+  cfg.setDachangOnly(true);long historyBeforeRebuild=count("fire_119_incident_history");
+  try(var stmt=db.createStatement()){stmt.execute("UPDATE fire_119_incident SET geofence_version='old',source_coord_system='GCJ02',map_longitude=source_longitude,map_latitude=source_latitude,last_seen_at='2020-01-01 00:00:00',last_changed_at='2020-01-01 00:00:00'");stmt.execute("UPDATE fire_119_incident SET street_match_method='manual',street_name='人工归属保留',street_match_status='inside' WHERE external_id='outside'");}
+  check(service.alarms(query()).isEmpty(),"unrebuilt old-version rows cannot leak through strict filter");
+  check(((Number)service.status(query()).get("pendingCount")).intValue()==5,"old versions counted as pending rather than inside");
+  check(ingest.rebuildCoordinates(2,Long.MAX_VALUE)==2,"bounded historical batch");
+  while(ingest.rebuildCoordinates(2,Long.MAX_VALUE)>0){}
+  check(service.alarms(query()).size()==3,"rebuild restores only converted in-scope incidents");
+  var bypass=query();bypass.getParams().put("dachangOnly",false);bypass.getParams().put("geofenceVersion","old");check(service.alarms(bypass).size()==3,"client cannot disable geometric filtering or select an old rule version");
+  var outsideDetail=query();outsideDetail.setId(String.valueOf(unfiltered.stream().filter(x->"outside".equals(x.get("code"))).findFirst().orElseThrow().get("id")));check(service.alarms(outsideDetail).isEmpty(),"outside incident cannot bypass filtering through detail id");
+
+  check(ingest.rebuildCoordinates(2,Long.MAX_VALUE)==0,"repeat rebuild has no work");
+  var staleGeometry=ingest.prepare(fixture("one","1",true),"scope-race");try(var stmt=db.createStatement();var rs=stmt.executeQuery("SELECT incident_id FROM fire_119_incident WHERE external_id='one'")){rs.next();staleGeometry.put("incident_id",rs.getLong(1));}staleGeometry.put("expected_hash","0".repeat(64));check(mapper.rebuildCoordinates(staleGeometry)==0,"stale historical payload cannot overwrite concurrent source update");
+
+  check(count("fire_119_incident_history")==historyBeforeRebuild,"rebuild creates no new event or revision history");
+  try(var stmt=db.createStatement();var rs=stmt.executeQuery("SELECT COUNT(*) FROM fire_119_incident WHERE last_seen_at='2020-01-01 00:00:00' AND last_changed_at='2020-01-01 00:00:00'")){rs.next();check(rs.getInt(1)==5,"rebuild never changes receipt/change times");}
+  try(var stmt=db.createStatement();var rs=stmt.executeQuery("SELECT street_match_method,street_name,geofence_status FROM fire_119_incident WHERE external_id='outside'")){rs.next();check(rs.getString(1).equals("manual")&&rs.getString(2).equals("人工归属保留")&&rs.getString(3).equals("outside"),"manual attribution preserved but cannot override geometric scope");}
+  try(var stmt=db.createStatement()){stmt.execute("UPDATE fire_119_incident SET geofence_version='rollback-test'");stmt.execute("CREATE TRIGGER fixture_fail_rebuild BEFORE UPDATE ON fire_119_incident FOR EACH ROW BEGIN IF OLD.external_id='rescue' THEN SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT='fixture rebuild rollback'; END IF; END");}
+  boolean rebuildFailed=false;try{ingest.rebuildCoordinates(2,Long.MAX_VALUE);}catch(Exception expected){rebuildFailed=true;}check(rebuildFailed,"rebuild database failure surfaced");
+  try(var stmt=db.createStatement();var rs=stmt.executeQuery("SELECT COUNT(*) FROM fire_119_incident WHERE geofence_version='rollback-test'")){rs.next();check(rs.getInt(1)==5,"historical batch rolls back atomically");}
+  try(var stmt=db.createStatement()){stmt.execute("DROP TRIGGER fixture_fail_rebuild");}
+  while(ingest.rebuildCoordinates(200,Long.MAX_VALUE)>0){}
   try(var stmt=db.createStatement()){stmt.execute("CREATE TRIGGER fixture_fail_history BEFORE INSERT ON fire_119_incident_history FOR EACH ROW SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT='fixture rollback'");}
   long before=count("fire_119_incident");boolean failed=false;try{ingest.receive(fixture("rollback","1",true),"failed");}catch(Exception e){failed=true;}check(failed && count("fire_119_incident")==before,"history failure rolls back snapshot");try(var stmt=db.createStatement()){stmt.execute("DROP TRIGGER fixture_fail_history");}
   KeyPairGenerator gen=KeyPairGenerator.getInstance("RSA");gen.initialize(2048);KeyPair pair=gen.generateKeyPair();cfg.setPublicKey(Base64.getEncoder().encodeToString(pair.getPublic().getEncoded()));
@@ -135,6 +169,23 @@ public class Fire119IntegrationTest {
    while(System.nanoTime()<recoveryUntil&&(calls.get()==beforeDbFailure||((Number)recovering.runtimeStatus().get("retryFailures")).intValue()!=0||Boolean.TRUE.equals(recovering.runtimeStatus().get("syncRunning"))))Thread.sleep(100);
    recovering.stop();check(calls.get()>beforeDbFailure&&((Number)recovering.runtimeStatus().get("retryFailures")).intValue()==0,"scheduler resumes after backoff and clears it on recovery");
    int beforeStopped=calls.get();sync.stop();sync.syncOnce();check(calls.get()==beforeStopped,"stopping prevents additional sync and shutdown transaction errors");
+   // Keyword inclusion is an independent OR rule and works for existing/outside/unlocated rows.
+   cfg.setDachangOnly(true);int baseVisible=service.alarms(query()).size();
+   var keywordAddress=fixture("keyword-address","1",false);keywordAddress.put("afdz","大厂街道测试地址");ingest.receive(keywordAddress,"keyword-test");
+   var keywordDescription=fixture("keyword-description","2",false);keywordDescription.put("ajms","大厂附近救助");ingest.receive(keywordDescription,"keyword-test");
+   var keywordMissing=fixture("keyword-missing","3",false);keywordMissing.put("jd",null);keywordMissing.put("wd",null);keywordMissing.put("afdz",null);keywordMissing.put("ajms","大厂无坐标记录");ingest.receive(keywordMissing,"keyword-test");
+   var keywordBoth=fixture("keyword-both","1",true);keywordBoth.put("afdz","大厂");ingest.receive(keywordBoth,"keyword-test");
+   var noKeyword=fixture("keyword-negative","1",false);noKeyword.put("afdz",null);noKeyword.put("ajms",null);ingest.receive(noKeyword,"keyword-test");
+   try(var stmt=db.createStatement()){stmt.execute("UPDATE fire_119_incident SET geofence_version='old' WHERE external_id='keyword-address'");}
+   var included=service.alarms(query());check(included.size()==baseVisible+4,"geometry OR address/description keyword includes outside and missing coordinates");
+   check(included.stream().filter(x->"keyword-both".equals(x.get("code"))).count()==1,"coordinate and keyword double match is not duplicated");
+   check(included.stream().noneMatch(x->"keyword-negative".equals(x.get("code"))),"outside row with null text does not match");
+   var keywordRow=included.stream().filter(x->"keyword-address".equals(x.get("code"))).findFirst().orElseThrow();var keywordDetail=query();keywordDetail.setId(String.valueOf(keywordRow.get("id")));check(service.alarms(keywordDetail).size()==1,"keyword rule also applies to detail and old geometry versions");
+   check(String.valueOf(keywordRow.get("streetRegion")).endsWith("地区=大厂街道"),"keyword-included row displays Dachang attribution");check(keywordRow.get("lng")==null&&keywordRow.get("lat")==null&&"pending".equals(keywordRow.get("coordinateStatus")),"keyword row with stale coordinate version cannot display an unverified map point");
+   check(included.stream().filter(x->"keyword-missing".equals(x.get("code"))).allMatch(x->x.get("lng")==null&&x.get("lat")==null),"unlocated keyword row is visible without fabricated map coordinates");
+   var keywordStatus=service.status(query());check(((Number)keywordStatus.get("visibleCount")).intValue()==included.size(),"keyword count and visible list agree");
+   check(((Number)keywordStatus.get("insideCount")).intValue()+((Number)keywordStatus.get("outsideCount")).intValue()+((Number)keywordStatus.get("pendingCount")).intValue()==((Number)keywordStatus.get("total")).intValue(),"effective scope counts partition all rows without double counting");
+   var keywordDenied=query();keywordDenied.getParams().put("dataScope"," AND a.dept_id=999");check(service.alarms(keywordDenied).isEmpty(),"keyword cannot bypass department scope");
    check(errors.isEmpty(),"fixture handlers successful: "+errors);
    slowBody.set(true);cfg.setRequestTimeoutSeconds(1);long began=System.nanoTime();boolean timedOut=false;
    try{client.page(1);}catch(Exception expected){timedOut=true;}

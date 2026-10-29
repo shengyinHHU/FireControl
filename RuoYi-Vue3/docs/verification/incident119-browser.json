@@ -12,6 +12,7 @@
     "narrow viewport, reduced motion and keyboard navigation",
     "dashboard uses real device statistics and event list",
     "dashboard hides incident code and distinguishes content, address, time and status colors",
+    "converted GCJ02 coordinates and close-boundary review hint without widening the scope",
     "dashboard 119 source includes social assistance and opens source-specific read-only details",
     "incident list omits explanatory and synchronization paragraphs",
     "119 source and case filters persist in URL, full external status preserved",

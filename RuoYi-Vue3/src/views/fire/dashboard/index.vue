@@ -22,7 +22,7 @@
     <div class="command-subbar">
       <span
         ><i class="online-dot"></i
-        >{{ isFireMock ? '真实场所、主机及事件 · 其他业务为演示数据' : '街道消防安全运行态势' }}</span
+        >{{ isFireMock ? '真实场所、主机、警情与查岗 · 其余业务为演示数据' : '街道消防安全运行态势' }}</span
       >
       <div>
         <span
@@ -86,8 +86,8 @@
         >
         <Panel :title="inspectionTab === 'inspections' ? '查岗管理' : '视频监控'" class="inspections-panel"
           ><template #action
-            ><router-link :to="inspectionTab === 'video' ? '/fire/inspections?tab=video' : '/fire/inspections'" class="tiny"
-              >{{ inspectionTab === 'video' ? '全部监控 ›' : '全部记录 ›' }}</router-link
+            ><router-link :to="inspectionTab === 'video' ? '/fire/video' : '/fire/inspections'" class="tiny"
+              >{{ inspectionTab === 'video' ? '全部监控 ›' : '查岗管理 ›' }}</router-link
             ></template
           >
           <el-tabs v-model="inspectionTab" class="monitor-panel-tabs">
@@ -95,45 +95,8 @@
             <el-tab-pane label="视频监控" name="video" />
           </el-tabs>
           <VideoMonitor v-if="inspectionTab === 'video'" compact />
-          <template v-else>
-          <div class="inspection-filter">
-            <el-select
-              popper-class="fire-dialog"
-              v-model="inspector"
-              size="small"
-              clearable
-              placeholder="全部查岗人员"
-              ><el-option
-                v-for="n in [...new Set(inspections.map((i) => i.name))]"
-                :key="n"
-                :value="n" /></el-select
-            ><span>{{ clock.slice(0, 10) }}</span>
-          </div>
-          <div class="screen-scroll">
-            <button
-              class="inspection-card"
-              v-for="r in inspections.filter(
-                (i) => !inspector || i.name === inspector,
-              )"
-              :key="r.id"
-              @click="showCamera(r.cameraId)"
-            >
-              <div>
-                <p>
-                  查岗人员 <strong>{{ r.name }}</strong>
-                </p>
-                <p>查岗时间 {{ r.time }}</p>
-                <p>查岗单位 {{ r.placeName }}</p>
-                <p>查岗结果 <StatusTag :value="r.result" /></p>
-              </div>
-              <div class="mini-camera">
-                <span>● {{ r.evidence ? '抓拍' : 'DEMO' }}</span
-                ><el-icon><VideoCamera /></el-icon><small>视频查岗</small>
-              </div>
-            </button>
-            <p v-if="!inspections.length" class="fire-empty">暂无查岗记录</p>
-          </div>
-          </template></Panel
+          <InspectionManager v-else compact />
+          </Panel
         >
       </div>
       <div class="command-map">
@@ -269,7 +232,7 @@
       <span>街道消防安全监管中心</span
       ><span>网格联动 · 资源共享 · 闭环管理</span
       ><span>{{
-        isFireMock ? '真实场所 / 其他业务演示' : 'FIRE SAFETY OPERATIONS'
+        isFireMock ? '真实场所与查岗 / 其余业务演示' : 'FIRE SAFETY OPERATIONS'
       }}</span>
     </footer>
     <PlaceDetail
@@ -298,6 +261,7 @@ import { isFireMock } from '@/api/fire/config'
 import { attempt } from '../useFire'
 import Panel from '@/components/Fire/Panel.vue'
 import VideoMonitor from '@/components/Fire/VideoMonitor.vue'
+import InspectionManager from '@/components/Fire/InspectionManager.vue'
 import StatusTag from '@/components/Fire/StatusTag.vue'
 import MapPanel from '@/components/Fire/MapPanel.vue'
 import PlaceDetail from '@/components/Fire/PlaceDetail.vue'
@@ -312,13 +276,11 @@ const screen = ref(),
   liveEventStats = ref({}),
   places = ref([]),
   alarms = ref([]),
-  inspections = ref([]),
   cameras = ref([]),
   search = ref(''),
   category = ref(''),
   source = ref('全部'),
   sources = ['全部', '119警情', '消控室主机', 'AI监测预警'],
-  inspector = ref(''),
   hostSearch = ref(''),
   grid = ref(''),
   clock = ref(''),
@@ -424,16 +386,15 @@ async function refreshResources() {
   if (busy || disposed) return
   busy = true
   try {
-    const [s, p, i, c] = await Promise.all([
+    const [s, p, c] = await Promise.all([
       fire.dashboard(),
-      ...['places', 'inspections', 'cameras'].map(r => fire.list(r, { pageSize: 1000 })),
+      ...['places', 'cameras'].map(r => fire.list(r, { pageSize: 1000 })),
     ])
     if (disposed) return
     stats.value = { ...s.data, total: p.total,
       categories: USE_FIXED_PLACE_COUNTS ? FIXED_PLACE_COUNTS : PLACE_LAYERS.map(layer => ({ name: layer.label, count: p.rows.filter(row => row.placeType === layer.type).length })),
     }
     places.value = p.rows
-    inspections.value = i.rows
     cameras.value = c.rows
     error.value = ''
     map.value?.refresh()

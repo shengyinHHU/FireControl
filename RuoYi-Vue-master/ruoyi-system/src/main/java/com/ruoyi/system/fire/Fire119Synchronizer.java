@@ -23,7 +23,7 @@ public class Fire119Synchronizer implements SmartLifecycle {
   if(config.getIntervalSeconds()<1||config.getFullIntervalSeconds()<config.getIntervalSeconds()||config.getQuickPages()<1||config.getQuickPages()>config.getMaxPages()||config.getRetryInitialSeconds()<1||config.getRetryMaxSeconds()<config.getRetryInitialSeconds()||config.getPageSize()<1||config.getPageSize()>1000||config.getMaxPages()<1||config.getRequestTimeoutSeconds()<1||config.getMaxRunSeconds()<1||config.getTokenLifetimeSeconds()<61||config.getInitialDelaySeconds()<0)throw new IllegalArgumentException("119同步配置范围无效");
   for(String value:new String[]{config.getAccount(),config.getPassword(),config.getPublicKey(),config.getOrderSource(),config.getSourceSystem(),config.getRegionCode()})if(value==null||value.isBlank())throw new IllegalArgumentException("119同步配置缺少必要参数");
   if(!Set.of("unknown","GCJ02","WGS84","BD09").contains(config.getSourceCoordinateSystem())||!Set.of("pending","verified","raw-unverified").contains(config.getBoundaryCoordinateMode()))throw new IllegalArgumentException("119坐标配置无效");
-  if("verified".equals(config.getBoundaryCoordinateMode())&&!"GCJ02".equals(config.getSourceCoordinateSystem()))throw new IllegalArgumentException("已确认边界为GCJ02，源坐标系必须一致才能启用verified判断");
+  if("verified".equals(config.getBoundaryCoordinateMode())&&!Set.of("GCJ02","WGS84").contains(config.getSourceCoordinateSystem()))throw new IllegalArgumentException("已确认边界为GCJ02，源坐标必须为GCJ02或可转换的WGS84");
   stopping=false;running=true;nextFullAt=nextQuickAt=System.currentTimeMillis()+config.getInitialDelaySeconds()*1000L;
   worker=Executors.newSingleThreadExecutor(r->{Thread t=new Thread(r,"fire-119-sync");t.setDaemon(true);return t;});
   timer=Executors.newSingleThreadScheduledExecutor(r->{Thread t=new Thread(r,"fire-119-trigger");t.setDaemon(true);return t;});
@@ -60,6 +60,9 @@ public class Fire119Synchronizer implements SmartLifecycle {
   long deadline=System.nanoTime()+TimeUnit.SECONDS.toNanos(config.getMaxRunSeconds());int lastPage=0;boolean ended=false,cancelled=false;
   try{
    ingest.state(summary);
+   int rebuilt=0;
+   for(int pass=0;pass<(full?20:1);pass++){check(deadline);int n=ingest.rebuildCoordinates(200,deadline);rebuilt+=n;if(n<200)break;}
+   if(rebuilt>0)log.info("119历史坐标重算：处理{}条，规则={}；未新增警情或改写来警/接收时间",rebuilt,Fire119Boundary.scopeVersion(config.getSourceCoordinateSystem()));
    int limit=full?config.getMaxPages():config.getQuickPages();
    for(int page=1;page<=limit;page++){
     check(deadline);Map<String,Object> pageLog=record(batch,Fire119IngestService.now(),full);pageLog.put("operation",full?"page":"quick-page");pageLog.put("page",page);

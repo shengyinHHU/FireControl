@@ -15,9 +15,7 @@
           <el-descriptions-item label="联系人姓名">
             <div class="place-contact-name">
               <span>{{ contact.contactName || '未填写' }}</span>
-              <el-link class="place-contact-dial" type="primary" :underline="false" href="https://www.jnrhtx.top/meeting/index?from=Dc" target="_blank" rel="noopener noreferrer" :aria-label="`${contact.contactName || '联系人'}的拨号页面（新窗口打开）`">
-                <el-icon aria-hidden="true"><Phone /></el-icon><span>拨号</span>
-              </el-link>
+              <ContactDialLink class="place-contact-dial" :name="contact.contactName" />
             </div>
           </el-descriptions-item>
           <el-descriptions-item label="联系电话">{{ contact.phone || '未填写' }}</el-descriptions-item>
@@ -200,7 +198,7 @@
 <script setup>
 import { ref, watch, computed } from 'vue'
 import { ElMessageBox } from 'element-plus'
-import { Phone } from '@element-plus/icons-vue'
+import ContactDialLink from './ContactDialLink.vue'
 import { fire, requestCall } from '@/api/fire'
 import { listDatabasePlaceContacts } from '@/api/fire/places'
 import { canFire } from '@/api/fire/access'

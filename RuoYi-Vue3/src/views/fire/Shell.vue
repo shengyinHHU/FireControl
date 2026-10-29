@@ -48,6 +48,7 @@
       </header>
       <div v-if="isFireMock && !screen" class="fire-demo-bar">
         <span v-if="liveVideoPage">当前视频监控来自天翼视联真实接口；播放按需连接，不使用演示摄像头</span>
+        <span v-else-if="inspectionPage">当前查岗岗位、记录与抓拍来自真实数据库；视频复用天翼视联监控</span>
         <span v-else-if="databasePage">当前页面使用真实数据库记录；119警情状态来自平台，设备通信状态来自后台接收</span>
         <span v-else>当前业务使用演示数据，操作保存在当前浏览器</span>
         <el-button v-if="!databasePage && !liveVideoPage" link @click="reset">恢复示例数据</el-button>
@@ -68,11 +69,12 @@ import { attempt } from './useFire'
 import '@/assets/styles/fire.scss'
 const route = useRoute(),
   router = useRouter()
-const liveVideoPage = computed(() => route.path === '/fire/inspections' && route.query.tab === 'video')
-const databasePage = computed(() => ['/fire/places', '/fire/hosts', '/fire/alarms'].includes(route.path))
+const liveVideoPage = computed(() => route.path === '/fire/video')
+const inspectionPage = computed(() => route.path === '/fire/inspections')
+const databasePage = computed(() => ['/fire/places', '/fire/hosts', '/fire/alarms', '/fire/inspections'].includes(route.path))
 const screen = computed(() => route.path === '/fire/dashboard')
 const menus = computed(() =>
-  navigation.filter((n) => canFire(n[0] === 'video' ? 'cameras' : n[0])),
+  navigation.filter((n) => canFire(n[0])),
 )
 const date = new Intl.DateTimeFormat('zh-CN', {
   dateStyle: 'full',

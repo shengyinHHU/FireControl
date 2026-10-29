@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.FireInspectionMapper">
+<select id="posts" resultType="map">
+ SELECT CAST(p.post_id AS CHAR) postId,p.post_name postName,CAST(p.place_id AS CHAR) placeId,
+ p.contact_name contactName,p.contact_phone contactPhone,
+ COALESCE(f.name,'') placeName,p.status,p.sort_order sortOrder,p.revision,p.remark,
+ (SELECT COUNT(*) FROM fire_inspection_post_camera c WHERE c.post_id=p.post_id AND c.status='0') cameraCount,
+ (SELECT DATE_FORMAT(r.inspect_time,'%Y-%m-%d %H:%i:%s') FROM fire_inspection_record r WHERE r.post_id=p.post_id ORDER BY r.inspect_time DESC,r.record_id DESC LIMIT 1) lastTime,
+ (SELECT r.result FROM fire_inspection_record r WHERE r.post_id=p.post_id ORDER BY r.inspect_time DESC,r.record_id DESC LIMIT 1) lastResult
+ FROM fire_inspection_post p LEFT JOIN fire_place f ON f.place_id=p.place_id
+ WHERE 1=1
+ <if test="id != null">AND p.post_id=#{id}</if>
+ <if test="status != null and status != ''">AND p.status=#{status}</if>
+ <if test="keyword != null and keyword != ''">AND (p.post_name LIKE CONCAT('%',#{keyword},'%') OR f.name LIKE CONCAT('%',#{keyword},'%'))</if>
+ ${params.dataScope}
+ ORDER BY p.sort_order,p.post_id
+</select>
+<select id="records" resultType="map">
+ SELECT CAST(p.record_id AS CHAR) recordId,CAST(p.post_id AS CHAR) postId,CAST(p.binding_id AS CHAR) bindingId,
+ CAST(p.place_id AS CHAR) placeId,p.post_name postName,p.place_name placeName,p.device_code deviceCode,p.device_name deviceName,
+ p.inspector_name inspectorName,DATE_FORMAT(p.inspect_time,'%Y-%m-%d %H:%i:%s') inspectTime,
+ p.result,p.note,(p.evidence_file IS NOT NULL) hasEvidence
+ FROM fire_inspection_record p WHERE 1=1
+ <if test="id != null">AND p.record_id=#{id}</if>
+ <if test="postId != null">AND p.post_id=#{postId}</if>
+ <if test="keyword != null and keyword != ''">AND (p.post_name LIKE CONCAT('%',#{keyword},'%') OR p.place_name LIKE CONCAT('%',#{keyword},'%') OR p.inspector_name LIKE CONCAT('%',#{keyword},'%'))</if>
+ <if test="result != null and result != ''">AND p.result=#{result}</if>
+ <if test="beginTime != null and beginTime != ''">AND p.inspect_time &gt;= #{beginTime}</if>
+ <if test="endTime != null and endTime != ''">AND p.inspect_time &lt; DATE_ADD(#{endTime},INTERVAL 1 DAY)</if>
+ ${params.dataScope}
+ ORDER BY p.inspect_time DESC,p.record_id DESC
+</select>
+</mapper>

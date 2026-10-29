@@ -43,56 +43,13 @@
           @click="talk"
           >{{ talking ? '结束喊话' : '人工喊话' }}</el-button
         ><el-button
-          v-if="canFire('inspections', 'add')"
-          :disabled="!session"
-          @click="capture"
-          >抓拍取证</el-button
-        ><el-button
           v-if="canFire('cameras', 'share')"
           :disabled="!session"
           @click="shareOpen = true"
           >视频二维码</el-button
         >
       </div>
-      <div
-        v-if="session && canFire('inspections', 'add')"
-        class="inspection-form"
-      >
-        <h3 class="fire-section-title">视频查岗</h3>
-        <div class="fire-form-grid">
-          <el-input v-model="inspector" placeholder="查岗人员姓名" /><el-select
-            popper-class="fire-dialog"
-            v-model="result"
-            placeholder="选择查岗结论"
-            ><el-option label="在岗" value="在岗" /><el-option
-              label="脱岗"
-              value="脱岗"
-          /></el-select>
-        </div>
-        <el-input
-          v-model="note"
-          type="textarea"
-          :rows="2"
-          placeholder="查岗说明 / 脱岗情况"
-          style="margin: 12px 0"
-        />
-        <div class="video-tools">
-          <span class="muted">{{
-            evidence
-              ? '已抓拍取证，可提交保存'
-              : '尚未抓拍，可先抓拍再保存查岗记录'
-          }}</span
-          ><el-button type="primary" :loading="saving" @click="save"
-            >保存查岗记录</el-button
-          >
-        </div>
-        <img
-          v-if="evidence"
-          :src="evidence"
-          class="evidence-preview"
-          alt="待保存的抓拍证据"
-        />
-      </div>
+      <p class="muted">真实查岗请从“查岗管理”的岗位入口操作。</p>
     </div>
     <ShareCode v-model="shareOpen" kind="video" :resource-id="cameraId"
   /></el-dialog>
@@ -100,13 +57,13 @@
 <script setup>
 import { ref, computed, watch, nextTick, onBeforeUnmount } from 'vue'
 import { ElMessage } from 'element-plus'
-import { fire, requestVideo, requestTalk, createInspection } from '@/api/fire'
+import { fire, requestVideo, requestTalk } from '@/api/fire'
 import { canFire } from '@/api/fire/access'
 import { attempt } from '@/views/fire/useFire'
 import StatusTag from './StatusTag.vue'
 import ShareCode from './ShareCode.vue'
 const props = defineProps({ modelValue: Boolean, cameraId: String }),
-  emit = defineEmits(['update:modelValue', 'changed'])
+  emit = defineEmits(['update:modelValue'])
 const open = computed({
   get: () => props.modelValue,
   set: (v) => emit('update:modelValue', v),
@@ -117,11 +74,6 @@ const camera = ref(null),
   video = ref(),
   loading = ref(false),
   error = ref(''),
-  inspector = ref(''),
-  result = ref('在岗'),
-  note = ref(''),
-  evidence = ref(''),
-  saving = ref(false),
   talking = ref(false),
   shareOpen = ref(false)
 let timer,
@@ -196,7 +148,6 @@ async function connect() {
   session.value = null
   camera.value = null
   error.value = ''
-  evidence.value = ''
   loading.value = true
   try {
     const c = await fire.get('cameras', props.cameraId),
@@ -237,42 +188,6 @@ function cleanupTalk() {
   stream?.getTracks().forEach((t) => t.stop())
   stream = null
   talking.value = false
-}
-function capture() {
-  try {
-    const source = session.value?.mock ? canvas.value : video.value
-    if (!source) throw Error('尚无可抓拍画面')
-    const c = document.createElement('canvas')
-    c.width = 960
-    c.height = 480
-    c.getContext('2d').drawImage(source, 0, 0, 960, 480)
-    evidence.value = c.toDataURL('image/jpeg', 0.65)
-    ElMessage.success('已抓拍，保存查岗记录后留存证据')
-  } catch {
-    ElMessage.error('抓拍失败：视频尚未就绪或未允许跨域抓拍')
-  }
-}
-async function save() {
-  saving.value = true
-  if (
-    await attempt(
-      () =>
-        createInspection({
-          name: inspector.value,
-          placeId: camera.value.placeId,
-          cameraId: props.cameraId,
-          result: result.value,
-          note: note.value,
-          evidence: evidence.value,
-        }),
-      '查岗记录已保存',
-    )
-  ) {
-    emit('changed')
-    evidence.value = ''
-    note.value = ''
-  }
-  saving.value = false
 }
 watch(
   () => [props.modelValue, props.cameraId],
@@ -318,9 +233,5 @@ onBeforeUnmount(cleanup)
   flex: 1;
   font-size: 12px;
 }
-.evidence-preview {
-  width: 180px;
-  margin-top: 15px;
-  border: 1px solid #386378;
-}
+
 </style>

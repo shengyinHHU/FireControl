@@ -1,0 +1,17 @@
+{
+  "fixtureHttp": true,
+  "realCameraAccessed": false,
+  "businessDatabaseAccessed": false,
+  "checks": [
+    "inspection starts from empty real DB response without demo rows or unsolicited camera streams",
+    "post contact name and landline/extension survive creation and editing",
+    "post editor reuses VideoMonitor directory selection; multiple bindings and exactly one default are saved",
+    "post contacts use the shared phone icon and open the fixed dial portal in an isolated new tab without starting video",
+    "same LiveVideoDialog uses a post-scoped preview and captures real canvas pixels; multipart record uses binding, UUID and conclusion without client inspector identity",
+    "history loads authenticated evidence and snapshots without opening a current stream",
+    "disabled posts leave the active list while historic names and evidence stay unchanged",
+    "database failures show error/retry without simulated fallback",
+    "dashboard uses the same real post subset and responsive layout"
+  ],
+  "errors": []
+}

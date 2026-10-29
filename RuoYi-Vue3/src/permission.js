@@ -24,6 +24,11 @@ router.beforeEach(async (to, from) => {
   if (isFireMock && ['/', '/index'].includes(to.path)) {
     return { path: '/fire/dashboard', replace: true }
   }
+  // Preserve old bookmarks after moving live monitoring to its dedicated page.
+  if (to.path === '/fire/inspections' && to.query.tab === 'video') {
+    const { tab, ...query } = to.query
+    return { path: '/fire/video', query, hash: to.hash, replace: true }
+  }
   // 消防模块包含真实数据库接口；演示模式也必须走若依登录和权限初始化。
   if (getToken()) {
     to.meta.title && useSettingsStore().setTitle(to.meta.title)

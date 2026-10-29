@@ -160,8 +160,8 @@ fire:
   # 119警情：先执行 SQL/fire_119_incident.sql；启动后10秒首轮，此后每60秒触发。
   incident119:
     enabled: true
-    # 临时排查：展示接口查询范围内全部已入库119警情，不按大厂边界过滤。
-    dachang-only: false
+    # 展示坐标落在33点范围内，或案发地址/警情描述含“大厂”的119警情。
+    dachang-only: true
     base-url: https://wdsjs.jiangning.gov.cn:9091/zhjn-order/api/api/open
     source-system: jiangning_119
     order-source: DIANXIN
@@ -176,14 +176,14 @@ fire:
     retry-initial-seconds: 60
     retry-max-seconds: 600
     initial-delay-seconds: 10
-    page-size: 20
+    page-size: 50
     max-pages: 500
     request-timeout-seconds: 15
     max-run-seconds: 240
     token-lifetime-seconds: 600
-    # 用户确认119源坐标与上传边界均为高德GCJ-02。
-    source-coordinate-system: GCJ02
-    # pending / verified / raw-unverified；只按上传文档25个原多边形判断，不按地址猜测。
+    # 119接口为WGS84，后台本地转换为GCJ-02后再匹配边界。
+    source-coordinate-system: WGS84
+    # 用户33点GCJ-02多边形；边界线计入。地址/描述关键词“大厂”独立补充纳入。
     boundary-coordinate-mode: verified
     # 数据权限归属，按实际若依部门/人员填写；留空时普通部门角色不可见，管理员可见。
     dept-id:

@@ -1,10 +1,11 @@
 <template>
   <el-dialog
     v-model="open"
-    :title="device?.deviceName || '实时视频'"
+    :title="title || device?.deviceName || '实时视频'"
     width="920px"
     class="fire-dialog live-video-dialog"
     append-to-body
+    :close-on-click-modal="!busy" :close-on-press-escape="!busy" :show-close="!busy"
     @closed="onClosed"
   >
     <p class="muted">设备编码：{{ device?.deviceCode }}</p>
@@ -38,6 +39,7 @@
     </div>
     <VideoTalkback ref="talk" :open="open" :device-code="device?.deviceCode"
       :ready="status === '播放中'" :has-audio="soundAvailable" @starting="enableListening" />
+    <slot :ready="status === '播放中'" :capture="captureFrame" :error="error" />
     <p class="muted">实时画面按需连接，关闭窗口后停止播放。</p>
   </el-dialog>
 </template>
@@ -49,7 +51,7 @@ import { Mute, Microphone } from '@element-plus/icons-vue'
 import { createG711Audio, createG711Loader } from '@/api/fire/flvG711'
 import { ElMessage } from 'element-plus'
 import VideoTalkback from './VideoTalkback.vue'
-const props = defineProps({ modelValue: Boolean, device: Object })
+const props = defineProps({ modelValue: Boolean, device: Object, preview: Function, title: String, busy: Boolean })
 const emit = defineEmits(['update:modelValue'])
 const open = computed({
   get: () => props.modelValue,
@@ -160,7 +162,7 @@ async function connect(g711 = false) {
   error.value = ''
   status.value = '正在申请FLV播放地址'
   try {
-    const { data } = await videoPreview(props.device.deviceCode, 'flv')
+    const { data } = await (props.preview || videoPreview)(props.device.deviceCode, 'flv')
     if (!data?.url?.startsWith('/fire/video/flv/')) throw Error('未返回FLV播放会话，请重启最新后端')
     if (current !== version || !open.value) {
       closeVideoStream(data.url).catch(() => {})
@@ -243,7 +245,7 @@ async function connect(g711 = false) {
 async function downloadVlc() {
   downloading.value = true
   try {
-    const { data } = await videoPreview(props.device.deviceCode, 'rtsp')
+    const { data } = await (props.preview || videoPreview)(props.device.deviceCode, 'rtsp')
     if (!open.value) return
     if (!data?.url?.startsWith('rtsp://')) throw Error('未返回有效 RTSP 地址')
     if (downloadUrl) URL.revokeObjectURL(downloadUrl)
@@ -262,6 +264,14 @@ async function downloadVlc() {
   } finally {
     downloading.value = false
   }
+}
+async function captureFrame() {
+  const element = video.value
+  if (!element || element.readyState < 2 || !element.videoWidth || !element.videoHeight || status.value !== '播放中') throw Error('实时画面尚未就绪，不能抓拍')
+  const scale = Math.min(1, 1600 / element.videoWidth, 1600 / element.videoHeight)
+  const canvas = document.createElement('canvas');canvas.width = Math.round(element.videoWidth * scale);canvas.height = Math.round(element.videoHeight * scale)
+  canvas.getContext('2d').drawImage(element, 0, 0, canvas.width, canvas.height)
+  return new Promise((resolve, reject) => canvas.toBlob(blob => blob ? resolve(blob) : reject(Error('抓拍失败，请重新连接视频')), 'image/jpeg', 0.85))
 }
 async function fullscreen() {
   try {

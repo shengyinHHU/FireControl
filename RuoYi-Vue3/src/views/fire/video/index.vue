@@ -1,4 +1,9 @@
-<template><ResourcePage resource="cameras" /></template>
+<template>
+  <div class="fire-page fire-theme">
+    <h1>视频监控</h1>
+    <VideoMonitor directory-tree />
+  </div>
+</template>
 <script setup>
-import ResourcePage from '@/components/Fire/ResourcePage.vue'
+import VideoMonitor from '@/components/Fire/VideoMonitor.vue'
 </script>

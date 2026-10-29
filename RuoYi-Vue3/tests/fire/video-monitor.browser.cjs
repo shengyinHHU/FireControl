@@ -17,7 +17,7 @@ const server=spawn(process.execPath,['node_modules/vite/bin/vite.js','--mode','f
   }
  })
  await context.addCookies([{name:'Admin-Token',value:'fixture-only',url:base}])
- let fail=false,empty=false,previewCalls=0,flvSuccess=false,mediaRequests=0,closedStreams=0
+ let treeFail=false,slowDirectory=false;let permissions=['*:*:*'];let fail=false,empty=false,previewCalls=0,flvSuccess=false,mediaRequests=0,closedStreams=0
  const live=process.env.VIDEO_LIVE==='1'||process.env.VIDEO_FLV_RELAY==='1'
  const relay=process.env.VIDEO_FLV_RELAY==='1'
  const runtime=path.resolve('../tools/video/runtime')
@@ -31,20 +31,27 @@ const server=spawn(process.execPath,['node_modules/vite/bin/vite.js','--mode','f
    mediaRequests++
    await route.fulfill({body:live?fs.readFileSync(path.join(runtime,'flv-sample.flv')):Buffer.from([70,76,86,1,1,0,0,0,9,0,0,0,0]),contentType:'video/x-flv'});return
   }
-  if(p==='/getInfo')body={code:200,user:{userId:1,userName:'admin',nickName:'管理员',avatar:''},roles:['admin'],permissions:['*:*:*']}
+  if(p==='/getInfo')body={code:200,user:{userId:1,userName:'admin',nickName:'管理员',avatar:''},roles:['admin'],permissions}
   else if(p==='/getRouters')body={code:200,data:[]}
-  else if(p==='/fire/video/regions')body={code:200,data:[{id:1,name:'消控室监控',hasChildren:0}]}
+  else if(p==='/fire/video/regions')body=treeFail?{code:500,msg:'目录加载测试失败'}:{code:200,data:u.searchParams.get('regionId')==='1'?[{id:2,name:'子目录测试',hasChildren:0}]:[{id:1,name:'消控室监控',hasChildren:1}]}
+  else if(p==='/fire/video/devices' && u.searchParams.get('regionId')){if(slowDirectory&&u.searchParams.get('regionId')==='1')await new Promise(r=>setTimeout(r,500));body={code:200,data:{lastId:-1,list:[{deviceCode:'region-'+u.searchParams.get('regionId'),deviceName:'目录摄像头'+u.searchParams.get('regionId')}]}}}
   else if(p==='/fire/video/devices')body=fail?{code:500,msg:'监控接口测试失败'}:{code:200,data:{lastId:u.searchParams.get('lastId')==='22'?-1:22,list:empty?[]:u.searchParams.get('lastId')==='22'?[{deviceCode:'fixture-3',deviceName:'摄像头三'}]:[{deviceCode:'fixture-1',deviceName:'测试摄像头一'},{deviceCode:'fixture-2',deviceName:'测试摄像头二'}]}}
   else if(p.endsWith('/preview')){if(relay){const response=await fetch('http://127.0.0.1:5186/preview',{headers:{Authorization:'Bearer fixture-only'}});await route.fulfill({json:await response.json()});return}previewCalls++;const protocol=u.searchParams.get('protocol');assert.ok(['flv','rtsp'].includes(protocol));body=protocol==='rtsp'?{code:200,data:{url:'rtsp://example.invalid/fixture-only'}}:(flvSuccess||live)?{code:200,data:{url:'/fire/video/flv/fixture-'+previewCalls,protocol:'flv',requiresAuth:true}}:{code:500,msg:'测试播放授权失败'}}
   else if(p.includes('/fire/'))body={code:200,data:[],rows:[],total:0}
   await route.fulfill({json:body})
  })
- await page.goto(base+'/fire/inspections',{waitUntil:'domcontentloaded'})
- await page.getByRole('tab',{name:'视频监控',exact:true}).click()
+ await page.goto(base+'/fire/video',{waitUntil:'domcontentloaded'})
  const monitor=page.getByRole('region',{name:'真实视频监控'})
  await monitor.locator('.monitor-device').first().waitFor()
- assert.equal(previewCalls,0);checks.push('device listing does not request streams; original inspection tab preserved')
+ assert.equal(previewCalls,0);checks.push('dedicated /fire/video uses real device listing and does not request streams automatically')
  if(!live){
+  assert.equal(await monitor.getByRole('combobox',{name:'选择监控目录'}).count(),0)
+  const tree=monitor.getByRole('tree',{name:'视频监控目录树'});await tree.getByText('消控室监控',{exact:true}).waitFor();assert.equal(await tree.getByText('子目录测试',{exact:true}).count(),0)
+  treeFail=true;await tree.locator('.el-tree-node__content').filter({hasText:'消控室监控'}).locator('.el-tree-node__expand-icon').click();await monitor.getByRole('alert').filter({hasText:'目录加载测试失败'}).waitFor();treeFail=false;await monitor.getByRole('button',{name:'重试目录',exact:true}).click();await tree.getByText('消控室监控',{exact:true}).waitFor()
+  await tree.locator('.el-tree-node__content').filter({hasText:'消控室监控'}).locator('.el-tree-node__expand-icon').click();await tree.getByText('子目录测试',{exact:true}).click();await monitor.getByText('目录摄像头2',{exact:true}).waitFor();assert.equal(await monitor.locator('.monitor-device').count(),1);assert.equal(previewCalls,0)
+  const bounds=await monitor.locator('.monitor-tree-panel').boundingBox(),right=await monitor.locator('.monitor-content').boundingBox();assert.ok(bounds.x+bounds.width<=right.x);assert.equal(await monitor.locator('.monitor-tree-panel').evaluate(el=>getComputedStyle(el).backgroundColor),'rgb(11, 39, 66)');await page.locator('.el-message').filter({hasText:'目录加载测试失败'}).waitFor({state:'hidden'});await page.screenshot({path:'docs/verification/video-monitor-tree.png',fullPage:true})
+  slowDirectory=true;await tree.getByText('消控室监控',{exact:true}).click();await monitor.getByRole('button',{name:'全部视频',exact:true}).click();await monitor.getByText('测试摄像头一',{exact:true}).waitFor();await page.waitForTimeout(650);assert.equal(await monitor.getByText('目录摄像头1',{exact:true}).count(),0);slowDirectory=false
+  checks.push('left lazy directory tree expands real children, retries failures, filters right camera list, and ignores slow previous selection')
   await monitor.getByRole('button',{name:'加载更多',exact:true}).click()
   await monitor.getByText('摄像头三',{exact:true}).waitFor();checks.push('cursor pagination appends devices')
   await monitor.locator('.monitor-device').first().click()
@@ -93,19 +100,21 @@ const server=spawn(process.execPath,['node_modules/vite/bin/vite.js','--mode','f
  await page.setViewportSize({width:720,height:900});await page.keyboard.press('Tab')
  fs.mkdirSync('docs/verification',{recursive:true});await page.screenshot({path:'docs/verification/video-monitor-narrow.png',fullPage:true})
  assert.equal(await page.getByText('恢复示例数据',{exact:true}).count(),0)
- await page.getByRole('tab',{name:'查岗管理',exact:true}).click();await page.getByRole('heading',{name:'查岗管理',exact:true}).waitFor()
- checks.push('keyboard/narrow viewport and return to unchanged inspection content')
+ await page.getByRole('link',{name:'查岗管理',exact:true}).click();await page.getByRole('heading',{name:'查岗管理',exact:true}).waitFor()
+ checks.push('keyboard/narrow viewport and separate inspection management route')
  if(!live){
   await page.setViewportSize({width:1440,height:1000})
   await page.goto(base+'/fire/dashboard',{waitUntil:'domcontentloaded'})
   const panel=page.locator('.inspections-panel')
   await panel.getByRole('tab',{name:'视频监控',exact:true}).click()
-  await panel.locator('.monitor-device').first().waitFor()
+  await panel.locator('.monitor-device').first().waitFor();assert.equal(await panel.getByRole('link',{name:'全部监控 ›',exact:true}).getAttribute('href'),'/fire/video')
   await page.screenshot({path:'docs/verification/video-monitor-dashboard.png',fullPage:true})
   await panel.getByRole('tab',{name:'查岗管理',exact:true}).click()
-  await panel.locator('.inspection-filter').waitFor()
-  checks.push('dashboard adjacent tab shares real monitor and restores original inspection panel')
+  await panel.locator('.inspection-manager').waitFor()
+  checks.push('dashboard shares real monitoring and its full-monitor link points to /fire/video')
  }
+ permissions=['fire:video:list'];await page.goto(base+'/fire/inspections?tab=video',{waitUntil:'domcontentloaded'});await page.getByRole('region',{name:'真实视频监控'}).locator('.monitor-device').first().waitFor();assert.equal(new URL(page.url()).pathname,'/fire/video');assert.equal(new URL(page.url()).search,'');checks.push('legacy video link redirects to the dedicated page for users with only real video permission')
+ permissions=[];await page.goto(base+'/fire/video',{waitUntil:'domcontentloaded'});await page.waitForURL('**/401');assert.equal(await page.getByRole('region',{name:'真实视频监控'}).count(),0);checks.push('video route denies access without real video permission even in demo build mode')
  assert.deepEqual(errors,[])
  fs.writeFileSync('docs/verification/video-monitor'+(process.env.VIDEO_G711==='1'?(relay?'-flv-g711':'-flv-g711-sample'):relay?'-flv-live':live?'-flv-sample':'')+'.json',JSON.stringify({fixtureHttp:true,providerFlvSample:live&&!relay,liveFlvRelay:relay,checks,errors},null,2))
  console.log(JSON.stringify(checks,null,2))

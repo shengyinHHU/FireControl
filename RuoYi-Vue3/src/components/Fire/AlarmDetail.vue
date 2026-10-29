@@ -24,6 +24,7 @@
           <el-descriptions-item label="警情描述">{{ alarm.description || '未提供' }}</el-descriptions-item>
           <el-descriptions-item label="所属地区">{{ incidentRegion }}</el-descriptions-item>
           <el-descriptions-item label="地图坐标">{{ alarm.coordinateStatus === 'valid' ? `${alarm.lng}, ${alarm.lat}（高德GCJ-02）` : '坐标待核验，暂不落点' }}</el-descriptions-item>
+          <el-descriptions-item v-if="alarm.boundaryReview" label="边界核验">位置距大厂范围边界约 {{ alarm.boundaryDistanceM }} 米，建议人工核验。</el-descriptions-item>
           <el-descriptions-item label="最近同步">{{ alarm.lastSyncedAt || '未提供' }}</el-descriptions-item>
         </el-descriptions>
       </template>

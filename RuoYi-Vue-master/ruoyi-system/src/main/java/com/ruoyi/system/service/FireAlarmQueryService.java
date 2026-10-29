@@ -23,15 +23,16 @@ public class FireAlarmQueryService {
    else if(v instanceof LocalDateTime t)entry.setValue(t.format(TIME));
    else if(v instanceof Date t)entry.setValue(t.toInstant().atZone(ZoneId.of("Asia/Shanghai")).format(TIME));
   }
+  if("119".equals(row.get("sourceCode")) && row.get("boundaryDistanceM") instanceof Number n)row.put("boundaryReview",n.doubleValue()<=1.0);
   row.remove("dept_id");row.remove("supervisor_user_id");row.put("dataSource","database");
  }
  @DataScope(deptAlias="a",userAlias="a",userField="supervisor_user_id",permission="fire:alarms:list")
  public List<Map<String,Object>> alarms(FireAccessQuery q){
-  q.getParams().put("sourceSystem",config.getSourceSystem());q.getParams().put("dachangOnly",config.isDachangOnly());List<Map<String,Object>> rows=mapper.alarms(q);rows.forEach(this::normalize);return rows;
+  q.getParams().put("sourceSystem",config.getSourceSystem());q.getParams().put("dachangOnly",config.isDachangOnly());q.getParams().put("geofenceVersion",com.ruoyi.system.fire.Fire119Boundary.scopeVersion(config.getSourceCoordinateSystem()));List<Map<String,Object>> rows=mapper.alarms(q);rows.forEach(this::normalize);return rows;
  }
  @DataScope(deptAlias="a",userAlias="a",userField="supervisor_user_id",permission="fire:alarms:list")
  public Map<String,Object> status(FireAccessQuery q){
-  q.getParams().put("sourceSystem",config.getSourceSystem());Map<String,Object> result=mapper.scopeCounts(q);normalize(result);
+  q.getParams().put("sourceSystem",config.getSourceSystem());q.getParams().put("dachangOnly",config.isDachangOnly());q.getParams().put("geofenceVersion",com.ruoyi.system.fire.Fire119Boundary.scopeVersion(config.getSourceCoordinateSystem()));Map<String,Object> result=mapper.scopeCounts(q);normalize(result);
   result.put("dachangOnly",config.isDachangOnly());result.put("visibleCount",result.get(config.isDachangOnly()?"insideCount":"total"));
   Map<String,Object> state=mapper.syncState(config.getSourceSystem(),config.getRegionCode());
   if(state!=null){normalize(state);result.putAll(state);}
