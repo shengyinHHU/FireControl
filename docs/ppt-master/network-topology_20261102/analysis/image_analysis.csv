@@ -1,0 +1,10 @@
+No,Filename,Width,Height,AspectRatio,PixelAspectRatio,SourceDisplayRatio,RatioSource,Format,HasTransparentPixels,UsageCount,DisplayRatioVariants,AssetKind,SvgRenderable,PptxNativeSupported,SizeKB,Category
+1,camera.png,112,83,1.35,1.35,,native,PNG,False,1,,bitmap,True,True,10.6,Standard landscape
+2,fire-terminal.png,67,96,0.70,0.70,,native,PNG,False,1,,bitmap,True,True,6.4,Portrait
+3,firewall.png,98,117,0.84,0.84,,native,PNG,False,1,,bitmap,True,True,19.3,Near square
+4,nvr.png,222,54,4.11,4.11,,native,PNG,False,1,,bitmap,True,True,12.0,Ultra-wide
+5,sip-server.png,75,96,0.78,0.78,,native,PNG,False,1,,bitmap,True,True,9.4,Portrait
+6,switch.png,168,73,2.30,2.30,,native,PNG,False,1,,bitmap,True,True,17.2,Ultra-wide
+7,unified-platform-cloud.png,175,125,1.40,1.40,,native,PNG,False,1,,bitmap,True,True,13.8,Standard landscape
+8,video-platform-cloud.png,183,125,1.46,1.46,,native,PNG,False,1,,bitmap,True,True,14.8,Standard landscape
+9,项目网络.jpg,1745,1280,1.36,1.36,,native,JPEG,False,1,,bitmap,True,True,149.1,Standard landscape

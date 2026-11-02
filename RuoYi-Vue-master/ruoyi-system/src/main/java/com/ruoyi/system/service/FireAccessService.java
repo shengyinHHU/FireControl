@@ -11,7 +11,7 @@ import com.ruoyi.system.fire.FireConnections;
 public class FireAccessService {
  private final FireAccessMapper mapper;private final FireConnections connections;
  public FireAccessService(FireAccessMapper m,FireConnections c){mapper=m;connections=c;}
- @DataScope(deptAlias="p",userAlias="p",userField="supervisor_user_id",permission="fire:alarms:list")
+ @DataScope(deptAlias="g",userAlias="g",userField="supervisor_user_id",permission="fire:alarms:list")
  public List<Long> alarmGatewayIds(FireAccessQuery q){return mapper.alarmGatewayIds(q);}
  private List<Map<String,Object>> normalize(List<Map<String,Object>> rows){
   SimpleDateFormat fmt=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");fmt.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
@@ -19,24 +19,26 @@ public class FireAccessService {
    for(var item:row.entrySet())if(item.getValue() instanceof Date)item.setValue(fmt.format((Date)item.getValue()));
    row.put("dataSource","database");
    if(row.containsKey("gatewayAddress"))row.put("status",connections.online((String)row.get("gatewayAddress"))?"在线":"离线");
-   else if(row.containsKey("serial") && row.containsKey("model"))row.put("status",connections.online((String)row.get("serial"))?"在线":"离线");
+   else if(row.containsKey("enabled"))row.put("status",!"0".equals(row.get("enabled"))?"停用":row.get("serial")==null?"待配置":connections.online((String)row.get("serial"))?"在线":"离线");
   }
   return rows;
  }
- @DataScope(deptAlias="p",userAlias="p",userField="supervisor_user_id",permission="fire:hosts:list")
+ @DataScope(deptAlias="g",userAlias="g",userField="supervisor_user_id",permission="fire:hosts:list")
  public List<Map<String,Object>> gateways(FireAccessQuery q){return normalize(mapper.gateways(q));}
- @DataScope(deptAlias="p",userAlias="p",userField="supervisor_user_id",permission="fire:hosts:list")
+ @DataScope(deptAlias="g",userAlias="g",userField="supervisor_user_id",permission="fire:hosts:list")
  public List<Map<String,Object>> hosts(FireAccessQuery q){return normalize(mapper.hosts(q));}
- @DataScope(deptAlias="p",userAlias="p",userField="supervisor_user_id",permission="fire:alarms:list")
+ @DataScope(deptAlias="g",userAlias="g",userField="supervisor_user_id",permission="fire:alarms:list")
  public List<Map<String,Object>> events(FireAccessQuery q){return normalize(mapper.events(q));}
- @DataScope(deptAlias="p",userAlias="p",userField="supervisor_user_id",permission="fire:hosts:list")
+ @DataScope(deptAlias="g",userAlias="g",userField="supervisor_user_id",permission="fire:hosts:list")
  public List<Map<String,Object>> messages(FireAccessQuery q){return normalize(mapper.messages(q));}
- @DataScope(deptAlias="p",userAlias="p",userField="supervisor_user_id",permission="fire:hosts:list")
+ @DataScope(deptAlias="g",userAlias="g",userField="supervisor_user_id",permission="fire:hosts:list")
  public Map<String,Object> hostStats(FireAccessQuery q){
   Map<String,Object> stats=mapper.hostStats(q);stats.put("gateways",mapper.gatewayCount(q));long online=0;
   for(Map<String,Object> group:mapper.hostConnectionCounts(q))if(connections.online((String)group.get("sourceAddress")))online+=((Number)group.get("total")).longValue();
-  stats.put("online",online);return stats;
+  stats.put("online",online);long gatewayOnline=0,pending=0;
+  for(var g:mapper.gateways(q)){if(g.get("serial")==null||g.get("centerAddress")==null||g.get("allowedIp")==null)pending++;else if("0".equals(g.get("enabled")) && connections.online((String)g.get("serial")))gatewayOnline++;}
+  stats.put("gatewayOnline",gatewayOnline);stats.put("gatewayPending",pending);return stats;
  }
- @DataScope(deptAlias="p",userAlias="p",userField="supervisor_user_id",permission="fire:alarms:list")
+ @DataScope(deptAlias="g",userAlias="g",userField="supervisor_user_id",permission="fire:alarms:list")
  public Map<String,Object> eventStats(FireAccessQuery q){return mapper.eventStats(q);}
 }

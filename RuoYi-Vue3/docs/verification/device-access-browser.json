@@ -4,12 +4,14 @@
   "businessDatabaseAccessed": false,
   "checks": [
     "real gateway fields and separate device fault state",
-    "empty host list does not invent a downstream host",
+    "gateway create/edit/delete, required validation and failed save preserves draft",
+    "subordinate host CRUD and gateway-filtered communication detail",
     "read-only event detail, stale clock warning, no demo associations or workflow",
     "bidirectional message status and raw hex detail",
     "empty, failure, stale data clearing and retry",
     "real database provenance replaces demo reset controls",
     "narrow viewport, reduced motion and keyboard navigation",
+    "390px form layout and read-only permission actions",
     "dashboard uses real device statistics and event list"
   ],
   "errors": []

@@ -1,4 +1,4 @@
-<template><DeviceAccessView /></template>
+<template><GatewayManager /></template>
 <script setup>
-import DeviceAccessView from '@/components/Fire/DeviceAccessView.vue'
+import GatewayManager from '@/components/Fire/GatewayManager.vue'
 </script>

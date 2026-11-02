@@ -33,6 +33,7 @@ try:
  sql((ROOT/"SQL/fire_place_init.sql").read_text("utf-8"))
  access=(ROOT/"SQL/fire_device_access.sql").read_text("utf-8")
  sql(access);sql(access)
+ upgrade=(ROOT/"SQL/fire_gateway_management_upgrade.sql").read_text("utf-8");sql(upgrade);sql(upgrade)
  assert sql("USE dachang;SELECT COUNT(*) FROM fire_place;")=="102"
  assert sql("USE dachang;SELECT COUNT(*) FROM fire_gateway;")=="1"
  # Obtain the exact compiler dependency path from the already-resolved Maven reactor.
@@ -49,6 +50,21 @@ try:
  tested=run(["java","-Dfile.encoding=UTF-8","-cp",str(classes)+os.pathsep+cp,"FireAccessIntegrationTest",port,ROOT],timeout=45)
  print(tested.stdout.decode(errors="replace"))
  if tested.returncode:raise RuntimeError(tested.stderr.decode(errors="replace"))
+ asset_source=ROOT/"tools/device-capture/java/FireAssetIntegrationTest.java"
+ compiled=run(["javac","-encoding","UTF-8","-cp",str(classes)+os.pathsep+cp,"-d",classes,asset_source],timeout=30)
+ if compiled.returncode:raise RuntimeError(compiled.stderr.decode(errors="replace"))
+ asset_test=run(["java","-Dfile.encoding=UTF-8","-cp",str(classes)+os.pathsep+cp,"FireAssetIntegrationTest",port,ROOT],timeout=45)
+ print(asset_test.stdout.decode(errors="replace"))
+ if asset_test.returncode:raise RuntimeError(asset_test.stderr.decode(errors="replace"))
+ seed=(ROOT/"SQL/fire_gateway_inventory.sql").read_text("utf-8");sql(seed);sql(seed)
+ assert sql("USE dachang;SELECT COUNT(*) FROM fire_gateway WHERE device_code REGEXP '^[0-9]{3}$';")=="36"
+ assert sql("USE dachang;SELECT COUNT(*) FROM fire_gateway WHERE device_code IN ('219','220') AND unit_name='元茂大厦';")=="2"
+ assert sql("USE dachang;SELECT COUNT(*) FROM fire_gateway WHERE device_code REGEXP '^[0-9]{3}$' AND enabled='1' AND source_address IS NULL;")=="36"
+ assert sql("USE dachang;SELECT COUNT(*) FROM fire_gateway WHERE device_code REGEXP '^[0-9]{3}$' AND allowed_ip IS NOT NULL;")=="10"
+ assert sql("USE dachang;SELECT COUNT(*) FROM fire_host WHERE inventory_key LIKE 'dachang-inventory/%';")=="36"
+ sql("USE dachang;UPDATE fire_gateway SET name='人工维护名称' WHERE device_code='202';");sql(seed)
+ assert sql("USE dachang;SELECT name FROM fire_gateway WHERE device_code='202';")=="人工维护名称"
+ assert sql("USE dachang;SELECT COUNT(*) FROM fire_gateway WHERE source_address='c80000000000' AND allowed_ip='127.0.0.1';")=="1"
  lifecycle=ROOT/"tools/device-capture/java/SseLifecycleTest.java"
  compiled=run(["javac","-encoding","UTF-8","-cp",cp,"-d",classes,lifecycle],timeout=30)
  if compiled.returncode:raise RuntimeError(compiled.stderr.decode(errors="replace"))
@@ -56,7 +72,7 @@ try:
  print(lifecycle_test.stdout.decode(errors="replace"))
  if lifecycle_test.returncode:raise RuntimeError(lifecycle_test.stderr.decode(errors="replace"))
  report=dict(isolated_mysql=True,business_database_accessed=False,sql_repeat_safe=True,places=102,gateways=1,
-             sse_lifecycle=lifecycle_test.stdout.decode(errors="replace").splitlines()[-1],capture_frames=8,verification="FIRE_ACCESS_INTEGRATION_OK",output=tested.stdout.decode(errors="replace").splitlines()[-1])
+             sse_lifecycle=lifecycle_test.stdout.decode(errors="replace").splitlines()[-1],asset_management=asset_test.stdout.decode(errors="replace").splitlines()[-1],inventory=36,capture_frames=8,verification="FIRE_ACCESS_INTEGRATION_OK",output=tested.stdout.decode(errors="replace").splitlines()[-1])
  out=ROOT/"docs/verification/fire-device-integration.json";out.parent.mkdir(parents=True,exist_ok=True);out.write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
  print("Verified. Temporary database: "+str(work))
 finally:

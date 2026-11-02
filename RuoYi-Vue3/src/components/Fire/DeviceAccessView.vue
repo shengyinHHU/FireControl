@@ -1,11 +1,11 @@
 <template>
   <div class="fire-page fire-theme">
-    <div class="fire-page-title">
+    <div v-if="!embedded" class="fire-page-title">
       <div><div class="fire-kicker">{{ eventOnly ? 'INCIDENT RECORDS' : 'DEVICE MONITORING' }}</div><h1>{{ eventOnly ? '消防警情记录' : '消控主机与传输装置' }}</h1>
         <p>{{ eventOnly ? '119警情与设备上报 · 保留来源和原始状态' : '真实设备上报 · 通信、设备状态与火警分别记录' }}</p></div>
       <div class="fire-toolbar"><router-link to="/fire/dashboard">指挥大屏 ↗</router-link><el-button :loading="loading" @click="load">刷新记录</el-button></div>
     </div>
-    <el-tabs v-model="tab" @tab-change="changeTab">
+    <el-tabs v-if="!embedded" v-model="tab" @tab-change="changeTab">
       <el-tab-pane v-if="!eventOnly" label="传输装置" name="gateways" />
       <el-tab-pane v-if="!eventOnly" label="消防主机" name="hosts" />
       <el-tab-pane v-if="canFire('alarms')" :label="eventOnly ? '消防警情' : '设备事件'" name="alarms" />
@@ -28,7 +28,7 @@
         <el-form-item><el-button native-type="submit" type="primary" :loading="loading">查询</el-button></el-form-item>
       </el-form>
       <div v-if="error" class="fire-error" role="alert">{{ error }}<el-button link @click="load">重试</el-button></div>
-      <p v-if="tab === 'hosts'" class="muted">仅显示实际报文识别的下接系统。传输装置在线不代表消防主机正常；未知字段显示“—”。</p>
+      <p v-if="tab === 'hosts'" class="muted">显示台账及实际报文识别的下挂主机。请在所属装置详情中维护；传输装置在线不代表主机正常，未知字段显示“—”。</p>
       <el-table v-loading="loading" :data="tab === 'alarms' ? visibleLocalAlarms(rows) : rows" row-key="id" stripe empty-text="暂无符合条件的真实记录">
         <el-table-column v-for="column in columns" :key="column.key" :prop="column.key" :label="column.label" :min-width="column.width || 160" show-overflow-tooltip>
           <template #default="{ row }"><StatusTag v-if="column.key === 'status'" :value="row.status" /><span v-else>{{ row[column.key] ?? '—' }}</span></template>
@@ -53,9 +53,9 @@ import { fire } from '@/api/fire'
 import { canFire } from '@/api/fire/access'
 import StatusTag from './StatusTag.vue'
 import AlarmDetail from './AlarmDetail.vue'
-const props = defineProps({ eventOnly: Boolean })
+const props = defineProps({ eventOnly: Boolean, embedded: Boolean, resource: String, gatewayId: [String,Number] })
 const route = useRoute(), router = useRouter()
-const allowed = props.eventOnly ? ['alarms'] : ['gateways', 'hosts', 'alarms', 'protocolMessages']
+const allowed = props.resource ? [props.resource] : props.eventOnly ? ['alarms'] : ['gateways', 'hosts', 'alarms', 'protocolMessages']
 const tab = ref(allowed.includes(route.query.tab) ? route.query.tab : allowed[0])
 const keyword = ref(String(route.query.keyword || '')), kind = ref(String(route.query.kind || ''))
 const source = ref(props.eventOnly ? String(route.query.source || '') : 'device'), caseType = ref(String(route.query.caseType || ''))
@@ -74,20 +74,21 @@ async function load() {
  const current = ++revision
  loading.value = true; error.value = ''
  try {
-  const res = await fire.list(tab.value, { pageNum: page.value, pageSize:20, keyword:keyword.value, kind:tab.value==='alarms'?kind.value:'', source:tab.value==='alarms'?source.value:'', caseType:caseType.value })
+  const res = await fire.list(tab.value, { pageNum: page.value, pageSize:20, gatewayId:props.gatewayId, keyword:keyword.value, kind:tab.value==='alarms'?kind.value:'', source:tab.value==='alarms'?source.value:'', caseType:caseType.value })
   if(current!==revision) return
   if(page.value>1 && (page.value-1)*20>=res.total){page.value=Math.max(1,Math.ceil(res.total/20));persist();load();return}
   rows.value=res.rows;total.value=res.total
  } catch(e) { if(current===revision) { rows.value=[];total.value=0;error.value=e.message || '设备记录加载失败' } }
  finally {if(current===revision)loading.value=false}
 }
-function persist() { router.replace({ query:{...route.query,tab:tab.value,keyword:keyword.value || undefined,kind:kind.value || undefined,source:source.value || undefined,caseType:caseType.value || undefined,page:String(page.value)} }) }
+function persist() { if(props.embedded)return;router.replace({ query:{...route.query,tab:tab.value,keyword:keyword.value || undefined,kind:kind.value || undefined,source:source.value || undefined,caseType:caseType.value || undefined,page:String(page.value)} }) }
 function search() { page.value=1;persist();load() }
 function changeSource() { kind.value='';caseType.value='';search() }
 function changeTab() { detailOpen.value=false;eventOpen.value=false;rows.value=[];total.value=0;search() }
 function show(row) { if(tab.value==='alarms') {selectedId.value=row.id;eventOpen.value=true} else {selected.value=row;detailOpen.value=true} }
 watch(page, persist)
 watch(() => route.query, q => {
+ if(props.embedded)return
  const nextTab=allowed.includes(q.tab)?q.tab:allowed[0], nextPage=Math.max(1,Number(q.page)||1)
  const nextKeyword=String(q.keyword||''), nextKind=String(q.kind||''), nextSource=props.eventOnly?String(q.source||''):'device', nextCase=String(q.caseType||'')
  if(tab.value===nextTab && page.value===nextPage && keyword.value===nextKeyword && kind.value===nextKind && source.value===nextSource && caseType.value===nextCase)return

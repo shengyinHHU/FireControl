@@ -152,7 +152,7 @@ fire:
     enabled: true
     bind-address: 10.5.90.50
     port: 2000
-    max-connections: 32
+    max-connections: 64
     # 当前为可配置的调试值，并非协议规定的心跳周期；根据实测调整。
     idle-seconds: 600
     online-seconds: 600

@@ -1,0 +1,198 @@
+[
+  {
+    "id": "firewall",
+    "source_region": [
+      216,
+      360,
+      314,
+      477
+    ],
+    "source_page": "D:\\javaprogram\\FireControl\\docs\\ppt-master\\network-topology_20261102\\images\\source-pages\\page-01.png",
+    "source_sha256": "1343c8e24c0714aaca3a772ecb6ee1ae30fcbd1c349627cde60e9e57a3da4e9b",
+    "method": "exact source crop",
+    "output": "D:\\javaprogram\\FireControl\\docs\\ppt-master\\network-topology_20261102\\images\\firewall.png",
+    "output_sha256": "070b37f9d07456fcaa559b5994f31593c2299704cc39f9981bf975bc612643b6",
+    "status": "Existing",
+    "registration_group": "source-page-01"
+  },
+  {
+    "id": "switch",
+    "source_region": [
+      181,
+      594,
+      349,
+      667
+    ],
+    "source_page": "D:\\javaprogram\\FireControl\\docs\\ppt-master\\network-topology_20261102\\images\\source-pages\\page-01.png",
+    "source_sha256": "1343c8e24c0714aaca3a772ecb6ee1ae30fcbd1c349627cde60e9e57a3da4e9b",
+    "method": "exact source crop",
+    "output": "D:\\javaprogram\\FireControl\\docs\\ppt-master\\network-topology_20261102\\images\\switch.png",
+    "output_sha256": "19dce368576a4fef39c724eb713d950b82dd0309632d398495f70e79f313cb5e",
+    "status": "Existing",
+    "registration_group": "source-page-01"
+  },
+  {
+    "id": "sip-server",
+    "source_region": [
+      533,
+      498,
+      608,
+      594
+    ],
+    "source_page": "D:\\javaprogram\\FireControl\\docs\\ppt-master\\network-topology_20261102\\images\\source-pages\\page-01.png",
+    "source_sha256": "1343c8e24c0714aaca3a772ecb6ee1ae30fcbd1c349627cde60e9e57a3da4e9b",
+    "method": "exact source crop",
+    "output": "D:\\javaprogram\\FireControl\\docs\\ppt-master\\network-topology_20261102\\images\\sip-server.png",
+    "output_sha256": "34a70400c4493d7e90d4b6330d39a51e6c22c12df86dbfbb4e30a0afc7b836a7",
+    "status": "Existing",
+    "registration_group": "source-page-01"
+  },
+  {
+    "id": "nvr",
+    "source_region": [
+      459,
+      727,
+      681,
+      781
+    ],
+    "source_page": "D:\\javaprogram\\FireControl\\docs\\ppt-master\\network-topology_20261102\\images\\source-pages\\page-01.png",
+    "source_sha256": "1343c8e24c0714aaca3a772ecb6ee1ae30fcbd1c349627cde60e9e57a3da4e9b",
+    "method": "exact source crop",
+    "output": "D:\\javaprogram\\FireControl\\docs\\ppt-master\\network-topology_20261102\\images\\nvr.png",
+    "output_sha256": "eee5b2746cd960a88b139026c46db67e31e7cbdc4224097a1f36a79f5ef23cd3",
+    "status": "Existing",
+    "registration_group": "source-page-01"
+  },
+  {
+    "id": "camera",
+    "source_region": [
+      59,
+      1065,
+      171,
+      1148
+    ],
+    "source_page": "D:\\javaprogram\\FireControl\\docs\\ppt-master\\network-topology_20261102\\images\\source-pages\\page-01.png",
+    "source_sha256": "1343c8e24c0714aaca3a772ecb6ee1ae30fcbd1c349627cde60e9e57a3da4e9b",
+    "method": "exact source crop",
+    "output": "D:\\javaprogram\\FireControl\\docs\\ppt-master\\network-topology_20261102\\images\\camera.png",
+    "output_sha256": "39b104c0baa370ffae966dbd5c2445b9fc0d911ccb9e0512f61eb4127ef62d20",
+    "status": "Existing",
+    "registration_group": "source-page-01"
+  },
+  {
+    "id": "fire-terminal",
+    "source_region": [
+      381,
+      1050,
+      448,
+      1146
+    ],
+    "source_page": "D:\\javaprogram\\FireControl\\docs\\ppt-master\\network-topology_20261102\\images\\source-pages\\page-01.png",
+    "source_sha256": "1343c8e24c0714aaca3a772ecb6ee1ae30fcbd1c349627cde60e9e57a3da4e9b",
+    "method": "exact source crop",
+    "output": "D:\\javaprogram\\FireControl\\docs\\ppt-master\\network-topology_20261102\\images\\fire-terminal.png",
+    "output_sha256": "49c33fb54039b9e68bae95dca36b56a238a11d08e12276cd3ea4795881a39419",
+    "status": "Existing",
+    "registration_group": "source-page-01"
+  },
+  {
+    "id": "video-platform-cloud",
+    "source_region": [
+      1115,
+      572,
+      1298,
+      697
+    ],
+    "source_page": "D:\\javaprogram\\FireControl\\docs\\ppt-master\\network-topology_20261102\\images\\source-pages\\page-01.png",
+    "source_sha256": "1343c8e24c0714aaca3a772ecb6ee1ae30fcbd1c349627cde60e9e57a3da4e9b",
+    "method": "exact source crop",
+    "output": "D:\\javaprogram\\FireControl\\docs\\ppt-master\\network-topology_20261102\\images\\video-platform-cloud.png",
+    "output_sha256": "56c5c6edff3b50afc5c7fd36f61a8bc8499b8a81086bfb6580ed9edf24ca4d1b",
+    "status": "Existing",
+    "registration_group": "source-page-01"
+  },
+  {
+    "id": "unified-platform-cloud",
+    "source_region": [
+      1472,
+      574,
+      1647,
+      699
+    ],
+    "source_page": "D:\\javaprogram\\FireControl\\docs\\ppt-master\\network-topology_20261102\\images\\source-pages\\page-01.png",
+    "source_sha256": "1343c8e24c0714aaca3a772ecb6ee1ae30fcbd1c349627cde60e9e57a3da4e9b",
+    "method": "exact source crop",
+    "output": "D:\\javaprogram\\FireControl\\docs\\ppt-master\\network-topology_20261102\\images\\unified-platform-cloud.png",
+    "output_sha256": "7067ee24dfdb1208cf33f1c3b053617252bb55ca53f7ba881c0f225ba40025a3",
+    "status": "Existing",
+    "registration_group": "source-page-01"
+  },
+  {
+    "id": "government-cloud",
+    "source_region": [
+      181,
+      155,
+      353,
+      278
+    ],
+    "source_page": "D:\\javaprogram\\FireControl\\docs\\ppt-master\\network-topology_20261102\\images\\source-pages\\page-01.png",
+    "source_sha256": "1343c8e24c0714aaca3a772ecb6ee1ae30fcbd1c349627cde60e9e57a3da4e9b",
+    "method": "deterministic external contour traced from source color; editable vector",
+    "max_simplification_error_px": 0.65,
+    "output": "D:\\javaprogram\\FireControl\\docs\\ppt-master\\network-topology_20261102\\icons\\custom\\government-cloud.svg",
+    "output_sha256": "e045e27624a43f34e380ff697b916d72014bf46a3cc3d34b63c87744b396c54a",
+    "status": "Existing",
+    "registration_group": "source-page-01"
+  },
+  {
+    "id": "softswitch-cloud",
+    "source_region": [
+      979,
+      179,
+      1156,
+      302
+    ],
+    "source_page": "D:\\javaprogram\\FireControl\\docs\\ppt-master\\network-topology_20261102\\images\\source-pages\\page-01.png",
+    "source_sha256": "1343c8e24c0714aaca3a772ecb6ee1ae30fcbd1c349627cde60e9e57a3da4e9b",
+    "method": "deterministic external contour traced from source color; editable vector",
+    "max_simplification_error_px": 0.65,
+    "output": "D:\\javaprogram\\FireControl\\docs\\ppt-master\\network-topology_20261102\\icons\\custom\\softswitch-cloud.svg",
+    "output_sha256": "45191e97d8d450b215eca69b79597fb2a0e8521e37cb3d4f32e045d03ed20fc1",
+    "status": "Existing",
+    "registration_group": "source-page-01"
+  },
+  {
+    "id": "internet-cloud",
+    "source_region": [
+      798,
+      574,
+      970,
+      701
+    ],
+    "source_page": "D:\\javaprogram\\FireControl\\docs\\ppt-master\\network-topology_20261102\\images\\source-pages\\page-01.png",
+    "source_sha256": "1343c8e24c0714aaca3a772ecb6ee1ae30fcbd1c349627cde60e9e57a3da4e9b",
+    "method": "deterministic external contour traced from source color; editable vector",
+    "max_simplification_error_px": 0.65,
+    "output": "D:\\javaprogram\\FireControl\\docs\\ppt-master\\network-topology_20261102\\icons\\custom\\internet-cloud.svg",
+    "output_sha256": "6a2a6332c5843014a2a7c79097acc69e005c726356c467bd1263816ec4b6d3e1",
+    "status": "Existing",
+    "registration_group": "source-page-01"
+  },
+  {
+    "id": "vpn-cloud",
+    "source_region": [
+      178,
+      790,
+      354,
+      919
+    ],
+    "source_page": "D:\\javaprogram\\FireControl\\docs\\ppt-master\\network-topology_20261102\\images\\source-pages\\page-01.png",
+    "source_sha256": "1343c8e24c0714aaca3a772ecb6ee1ae30fcbd1c349627cde60e9e57a3da4e9b",
+    "method": "deterministic external contour traced from source color; editable vector",
+    "max_simplification_error_px": 0.65,
+    "output": "D:\\javaprogram\\FireControl\\docs\\ppt-master\\network-topology_20261102\\icons\\custom\\vpn-cloud.svg",
+    "output_sha256": "031aec21ea1b05e124e9ca93a20ab543d4de981aa7c86745ba575db0f2aac745",
+    "status": "Existing",
+    "registration_group": "source-page-01"
+  }
+]

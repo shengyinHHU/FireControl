@@ -1,0 +1,184 @@
+{
+  "schema": "ppt-master.svg-quality-report.v1",
+  "stage": "final",
+  "target": "D:\\javaprogram\\FireControl\\docs\\ppt-master\\network-topology_20261102",
+  "source_fingerprint": {
+    "algorithm": "sha256",
+    "digest": "4152976869f85b1a04e515bcdcff6cec2ac20bf82bd6bbf3bd3cfa668f2e1898",
+    "file_count": 1,
+    "files": [
+      {
+        "file": "01_项目网络拓扑.svg",
+        "sha256": "4c79522b4b35a15652221812c8163d477918a0103379c31c5f202f409add8deb"
+      }
+    ]
+  },
+  "summary": {
+    "total": 1,
+    "passed": 0,
+    "warnings": 1,
+    "errors": 0
+  },
+  "issue_types": {},
+  "categories": {
+    "blocking": {
+      "count": 0,
+      "issues": []
+    },
+    "introduced": {
+      "count": 1,
+      "issues": [
+        {
+          "file": "01_项目网络拓扑.svg",
+          "message": "Font stack exports non-PPT-safe typeface(s) to PPTX (latin=Segoe Print): Segoe Print"
+        }
+      ]
+    },
+    "inherited": {
+      "count": 0,
+      "issues": []
+    },
+    "source-import": {
+      "count": 0,
+      "summary": {
+        "warning_count": 0,
+        "by_code": {}
+      }
+    }
+  },
+  "drift": {
+    "colors": {},
+    "fonts": {},
+    "sizes": {}
+  },
+  "carrier_receipt": {
+    "scope": "informational-not-a-quota",
+    "pages": 1,
+    "totals": {
+      "text_elements": 17,
+      "image_placements": 8,
+      "icons": 4,
+      "svg_geometry_elements": 27,
+      "preset_shapes": 0,
+      "page_frame_elements": 3,
+      "marker_uses": 11,
+      "inline_emphasis_runs": 0,
+      "gradient_uses": 0,
+      "filter_uses": 0,
+      "text_effects": 0
+    },
+    "pages_with": {
+      "images": 1,
+      "icons": 1,
+      "presets": 0,
+      "charts": 0,
+      "tables": 0,
+      "formulas": 0,
+      "inline_emphasis_runs": 0,
+      "gradient_uses": 0,
+      "filter_uses": 0,
+      "text_effects": 0
+    },
+    "relationship_pages": null,
+    "geometry_elements": {
+      "circle": 0,
+      "ellipse": 0,
+      "line": 21,
+      "path": 2,
+      "polygon": 0,
+      "polyline": 0,
+      "rect": 4
+    },
+    "preset_names": {},
+    "native_objects": {
+      "chart": 0,
+      "formula_block": 0,
+      "formula_inline": 0,
+      "other": 0,
+      "table": 0
+    },
+    "image_page_max_frame_share_range": [
+      0.0102,
+      0.0102
+    ]
+  },
+  "project_issues": {
+    "template": [],
+    "animation": [],
+    "illustration": [],
+    "communication_trace": [],
+    "pptx_structure": []
+  },
+  "files": [
+    {
+      "file": "01_项目网络拓扑.svg",
+      "path": "D:\\javaprogram\\FireControl\\docs\\ppt-master\\network-topology_20261102\\svg_output\\01_项目网络拓扑.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [
+        "Font stack exports non-PPT-safe typeface(s) to PPTX (latin=Segoe Print): Segoe Print"
+      ],
+      "info": {
+        "viewbox": "0 0 1745 1280",
+        "carrier_receipt": {
+          "text_elements": 17,
+          "images": {
+            "placements": 8,
+            "files": [
+              "camera.png",
+              "fire-terminal.png",
+              "firewall.png",
+              "nvr.png",
+              "sip-server.png",
+              "switch.png",
+              "unified-platform-cloud.png",
+              "video-platform-cloud.png"
+            ],
+            "max_frame_share": 0.0102
+          },
+          "icons": 4,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 0,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 4,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 21,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 2
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 3,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 11
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Microsoft YaHei",
+          "Segoe Print"
+        ],
+        "text_elements": 17,
+        "tspan_elements": 3
+      },
+      "passed": true,
+      "source_sha256": "4c79522b4b35a15652221812c8163d477918a0103379c31c5f202f409add8deb"
+    }
+  ]
+}

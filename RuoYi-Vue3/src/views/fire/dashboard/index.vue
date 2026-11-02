@@ -326,7 +326,7 @@ const history = computed(() =>
 const hostStats = computed(() => [
   { name: '装置总量', value: stats.value.gateways ?? '—', color: '#4ed9ee', to: '/fire/hosts' },
   { name: '主机总量', value: stats.value.hosts ?? '—', color: '#4ed9ee', to: '/fire/hosts?tab=hosts' },
-  { name: '在线主机', value: stats.value.online ?? '—', color: '#45d6aa', to: '/fire/hosts?tab=hosts' },
+  { name: '在线装置', value: stats.value.gatewayOnline ?? '—', color: '#45d6aa', to: '/fire/hosts' },
   { name: '事件（24h）', value: liveEventStats.value.eventTotal ?? stats.value.eventTotal ?? '—', color: '#edbd5f', to: '/fire/alarms' },
   { name: '火警（24h）', value: liveEventStats.value.fireEvents ?? stats.value.fireEvents ?? '—', color: '#ed7e93', to: '/fire/alarms?kind=fire' },
   { name: '故障（24h）', value: liveEventStats.value.faultEvents ?? stats.value.faultEvents ?? '—', color: '#edbd5f', to: '/fire/alarms?kind=fault' },

@@ -34,6 +34,7 @@ try:
  sql("USE dachang;"+re.search(r"CREATE TABLE IF NOT EXISTS `fire_place`\s*\([\s\S]*?;",place,re.I).group(0))
  access=(ROOT/"SQL/fire_device_access.sql").read_text("utf-8")
  sql(access)
+ sql((ROOT/"SQL/fire_gateway_management_upgrade.sql").read_text("utf-8"))
  schema=(ROOT/"SQL/fire_119_incident.sql").read_text("utf-8-sig");sql(schema);sql(schema)
  upgrade=(ROOT/"SQL/fire_119_sync_optimization.sql").read_text("utf-8")
  # Upgrade both fresh schema and a simulated old schema; run twice to verify repeat safety.

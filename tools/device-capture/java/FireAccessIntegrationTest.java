@@ -104,7 +104,7 @@ public class FireAccessIntegrationTest {
   try(var s=db.createStatement();var r=s.executeQuery("SELECT status_bits FROM fire_gateway")){r.next();check(r.getInt(1)==0x14,"latest device state");}
   var q=new FireAccessQuery();check(mapper.gateways(q).size()==1,"gateway query");check(mapper.events(q).size()==5,"event query");check(mapper.alarmGatewayIds(q).size()==1,"SSE gateway scope query");
   check(mapper.messages(q).size()==16,"message query");check(mapper.gatewayCount(q)==1,"gateway count");
-  q.getParams().put("dataScope"," AND p.dept_id=999999");check(mapper.gateways(q).isEmpty(),"gateway scope");
+  q.getParams().put("dataScope"," AND g.dept_id=999999");check(mapper.gateways(q).isEmpty(),"gateway scope");
   check(mapper.events(q).isEmpty(),"event scope");check(mapper.alarmGatewayIds(q).isEmpty(),"SSE scope excludes unauthorized gateway");check(mapper.messages(q).isEmpty(),"raw message scope");
   check(((Number)mapper.eventStats(q).get("eventTotal")).longValue()==0,"statistics scope");q=new FireAccessQuery();
   byte[] tag={1,0,12,20,10,26};
@@ -126,6 +126,8 @@ public class FireAccessIntegrationTest {
   ingest(service,frame(104,2,component),"10.5.90.49");check(count("fire_host")==1,"component not invented host");
   check(Gb26875.objects(Gb26875.decode(frame(104,2,component))).get(0).get("fire").equals(true),"component FIRE bit");
   check(ingest(service,fire,"127.0.0.1").reply()==null,"wrong IP rejected");
+  byte[] otherVersion=fire.clone();otherVersion[4]=2;int versionSum=0;for(int i=2;i<otherVersion.length-3;i++)versionSum+=Gb26875.u(otherVersion[i]);otherVersion[otherVersion.length-3]=(byte)versionSum;
+  var unsupportedVersion=ingest(service,otherVersion,"10.5.90.49");check(unsupportedVersion.reply()==null&&unsupportedVersion.source()==null,"unsupported version cannot mark source online");
   byte[] corrupt=fire.clone();corrupt[corrupt.length-3]^=1;check(Gb26875.decode(ingest(service,corrupt,"10.5.90.49").reply()).command()==6,"checksum NACK");
   byte[] malformed=frame(105,21,new byte[]{1});check(Gb26875.decode(ingest(service,malformed,"10.5.90.49").reply()).command()==6,"malformed object NACK");
   check(Gb26875.decode(ingest(service,frame(106,128,new byte[]{1}),"10.5.90.49").reply()).command()==3,"unknown extension durably captured");

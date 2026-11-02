@@ -34,9 +34,9 @@ public class FireIngestService {
   byte[] raw=packet.raw();Gb26875.Frame frame=packet.frame();
   String source=raw.length>=24 && raw[0]==64 && raw[1]==64?Gb26875.hex(Arrays.copyOfRange(raw,12,18)):null;
   Map<String,Object> gateway=source==null?null:mapper.gatewayForUpdate(source);
-  boolean allowed=gateway!=null && "0".equals(gateway.get("enabled"))
+  boolean allowed=gateway!=null && "0".equals(gateway.get("enabled")) && "0".equals(gateway.get("delFlag"))
     && ip.equals(gateway.get("allowedIp")) && raw.length>=27
-    && gateway.get("centerAddress").equals(Gb26875.hex(Arrays.copyOfRange(raw,18,24)));
+    && Objects.equals(gateway.get("centerAddress"),Gb26875.hex(Arrays.copyOfRange(raw,18,24)));
   Long gatewayId=gateway==null?null:number(gateway.get("gatewayId"));
   List<Map<String,Object>> objects=List.of();String status="INVALID",error=packet.error();
   int replyCommand=0;
@@ -86,7 +86,7 @@ public class FireIngestService {
     @Override public void afterCommit(){updates.changed(changedGateway);}
    });
   }
-  if(replyCommand==0)return new Receipt(allowed?source:null,rxId,null,null);
+  if(replyCommand==0)return new Receipt(allowed && frame!=null && Gb26875.u(raw[4])==1?source:null,rxId,null,null);
   byte[] reply=Gb26875.response(raw,replyCommand,LocalDateTime.now(ZoneId.of("Asia/Shanghai")));
   Map<String,Object> tx=message(gatewayId,session,ip,"TX",reply,Gb26875.decode(reply),"REPLY",null,null,"QUEUED");
   mapper.insertMessage(tx);

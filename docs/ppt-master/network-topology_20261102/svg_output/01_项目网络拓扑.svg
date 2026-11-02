@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1745 1280" lang="zh-CN" data-pptx-page-role="content" font-family="Microsoft YaHei" font-size="26">
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse">
+      <polygon points="0,0 9,4.5 0,9" fill="#24282B"/>
+    </marker>
+  </defs>
+  <rect id="paper-background" data-pptx-role="background" x="0" y="0" width="1745" height="1280" fill="#FDFDFD"/>
+  <g id="paper-grid" data-pptx-role="decoration" data-pptx-bounds="0 0 1745 1280" stroke="#F0F0F0" stroke-width="0.6" fill="none">
+    <path d="M40 0V1280 M80 0V1280 M120 0V1280 M160 0V1280 M200 0V1280 M240 0V1280 M280 0V1280 M320 0V1280 M360 0V1280 M400 0V1280 M440 0V1280 M480 0V1280 M520 0V1280 M560 0V1280 M600 0V1280 M640 0V1280 M680 0V1280 M720 0V1280 M760 0V1280 M800 0V1280 M840 0V1280 M880 0V1280 M920 0V1280 M960 0V1280 M1000 0V1280 M1040 0V1280 M1080 0V1280 M1120 0V1280 M1160 0V1280 M1200 0V1280 M1240 0V1280 M1280 0V1280 M1320 0V1280 M1360 0V1280 M1400 0V1280 M1440 0V1280 M1480 0V1280 M1520 0V1280 M1560 0V1280 M1600 0V1280 M1640 0V1280 M1680 0V1280 M1720 0V1280"/>
+    <path d="M0 40H1745 M0 80H1745 M0 120H1745 M0 160H1745 M0 200H1745 M0 240H1745 M0 280H1745 M0 320H1745 M0 360H1745 M0 400H1745 M0 440H1745 M0 480H1745 M0 520H1745 M0 560H1745 M0 600H1745 M0 640H1745 M0 680H1745 M0 720H1745 M0 760H1745 M0 800H1745 M0 840H1745 M0 880H1745 M0 920H1745 M0 960H1745 M0 1000H1745 M0 1040H1745 M0 1080H1745 M0 1120H1745 M0 1160H1745 M0 1200H1745 M0 1240H1745"/>
+  </g>
+
+  <g id="network-topology" data-pptx-bounds="0 130 1652 1140">
+  <g id="government-boundary" data-pptx-bounds="85 130 483 169">
+    <rect x="87" y="132" width="479" height="165" fill="#D1F2E9" stroke="#727D7A" stroke-width="1"/>
+  </g>
+  <g id="machine-room-boundary" data-pptx-bounds="85 322 934 626">
+    <rect x="87" y="324" width="930" height="621" fill="#EBE9FE" stroke="#737379" stroke-width="1"/>
+  </g>
+  <g id="branches-boundary" data-pptx-bounds="0 964 596 304">
+    <rect x="0.5" y="966" width="593" height="300" fill="#FFF7EB" stroke="#80796F" stroke-width="1"/>
+  </g>
+
+  <g id="government-to-firewall" data-pptx-bounds="258 266 100 100" stroke="#24282B" stroke-width="1.2" fill="none">
+    <line x1="264" y1="269" x2="264" y2="361" marker-end="url(#arrow)"/>
+    <text x="272" y="319" font-size="15" fill="#333333" stroke="none">政务外网IP</text>
+  </g>
+  <g id="firewall-to-switch" data-pptx-bounds="258 474 14 130" stroke="#24282B" stroke-width="1.2">
+    <line x1="264" y1="476" x2="264" y2="601" marker-end="url(#arrow)"/>
+  </g>
+  <g id="switch-to-vpn" data-pptx-bounds="258 659 14 156" stroke="#24282B" stroke-width="1.2">
+    <line x1="264" y1="663" x2="264" y2="811" marker-end="url(#arrow)"/>
+  </g>
+  <g id="sip-to-switch" data-pptx-bounds="342 541 198 95" stroke="#24282B" stroke-width="1.2">
+    <line x1="535" y1="545" x2="393" y2="545"/>
+    <line x1="393" y1="545" x2="393" y2="630"/>
+    <line x1="393" y1="630" x2="347" y2="630" marker-end="url(#arrow)"/>
+  </g>
+  <g id="sip-to-softswitch" data-pptx-bounds="602 233 398 316" stroke="#24282B" stroke-width="1.2">
+    <line x1="606" y1="545" x2="973" y2="545"/>
+    <line x1="973" y1="545" x2="973" y2="239"/>
+    <line x1="973" y1="239" x2="996" y2="239" marker-end="url(#arrow)"/>
+  </g>
+  <g id="vpn-to-nvr" data-pptx-bounds="334 748 130 110" stroke="#24282B" stroke-width="1.2">
+    <line x1="338" y1="854" x2="411" y2="854"/>
+    <line x1="411" y1="854" x2="411" y2="754"/>
+    <line x1="411" y1="754" x2="461" y2="754" marker-end="url(#arrow)"/>
+  </g>
+  <g id="nvr-to-internet" data-pptx-bounds="675 630 140 134" stroke="#24282B" stroke-width="1.2">
+    <line x1="679" y1="759" x2="750" y2="759"/>
+    <line x1="750" y1="759" x2="750" y2="636"/>
+    <line x1="750" y1="636" x2="811" y2="636" marker-end="url(#arrow)"/>
+  </g>
+  <g id="internet-to-video-platform" data-pptx-bounds="953 630 174 14" stroke="#24282B" stroke-width="1.2">
+    <line x1="957" y1="636" x2="1123" y2="636" marker-end="url(#arrow)"/>
+  </g>
+  <g id="video-to-unified-platform" data-pptx-bounds="1286 626 185 14" stroke="#24282B" stroke-width="1.2">
+    <line x1="1290" y1="632" x2="1467" y2="632" marker-end="url(#arrow)"/>
+  </g>
+  <g id="vpn-to-branches" data-pptx-bounds="110 905 309 170" stroke="#24282B" stroke-width="1.2">
+    <line x1="265" y1="909" x2="265" y2="998"/>
+    <line x1="115" y1="998" x2="414" y2="998"/>
+    <line x1="115" y1="998" x2="115" y2="1069" marker-end="url(#arrow)"/>
+    <line x1="414" y1="998" x2="414" y2="1051" marker-end="url(#arrow)"/>
+  </g>
+
+  <g id="government-network" data-pptx-bounds="179 153 176 128">
+    <use data-icon="custom/government-cloud" x="181" y="155" width="172" height="172" fill="#00AADE"/>
+    <text x="264" y="232" text-anchor="middle" fill="#14252B">政务外网</text>
+  </g>
+  <g id="government-owner" data-pptx-bounds="366 201 188 42" font-size="24" fill="#171717">
+    <text x="371" y="228">江北大数据局</text>
+  </g>
+  <g id="firewall-device" data-pptx-bounds="212 356 232 124" fill="#24282B">
+    <image href="../images/firewall.png" x="216" y="360" width="98" height="117" preserveAspectRatio="xMidYMid meet"/>
+    <text x="328" y="429" font-size="15">防火墙/路由器<tspan x="328" dy="21">(一对一NAT)</tspan></text>
+  </g>
+  <g id="switch-device" data-pptx-bounds="177 590 176 81">
+    <image href="../images/switch.png" x="181" y="594" width="168" height="73" preserveAspectRatio="xMidYMid meet"/>
+  </g>
+  <g id="sip-relay-server" data-pptx-bounds="480 494 200 166" fill="#171717">
+    <image href="../images/sip-server.png" x="533" y="498" width="75" height="96" preserveAspectRatio="xMidYMid meet"/>
+    <text x="570" y="645" text-anchor="middle">SIP中继服务器</text>
+  </g>
+  <g id="softswitch-network" data-pptx-bounds="977 177 181 129">
+    <use data-icon="custom/government-cloud" x="985" y="179" width="172" height="172" fill="#00AADE"/>
+    <text x="1072" y="254" text-anchor="middle" fill="#14252B">软交换网络</text>
+  </g>
+  <g id="internet-leased-line" data-pptx-bounds="796 572 176 132">
+    <use data-icon="custom/government-cloud" x="798" y="574" width="172" height="172" fill="#00AADE"/>
+    <text x="883" y="651" text-anchor="middle" fill="#14252B">互联网专线</text>
+  </g>
+  <g id="nvr-device" data-pptx-bounds="455 723 230 103" fill="#171717">
+    <image href="../images/nvr.png" x="459" y="727" width="222" height="54" preserveAspectRatio="xMidYMid meet"/>
+    <text x="570" y="811" text-anchor="middle">硬盘录像机</text>
+  </g>
+  <g id="vpn-network" data-pptx-bounds="176 788 180 134">
+    <use data-icon="custom/government-cloud" x="181" y="794" width="172" height="172" fill="#00AADE"/>
+    <text x="264" y="870" text-anchor="middle" fill="#14252B">VPN专网</text>
+  </g>
+  <g id="machine-room-label" data-pptx-bounds="637 872 202 43" font-size="24" fill="#171717">
+    <text x="643" y="898">大厂街道机房</text>
+  </g>
+  <g id="video-platform" data-pptx-bounds="1111 568 191 176" fill="#171717">
+    <image href="../images/video-platform-cloud.png" x="1115" y="572" width="183" height="125" preserveAspectRatio="xMidYMid meet"/>
+    <text x="1205" y="729" text-anchor="middle">视联平台</text>
+  </g>
+  <g id="unified-management-platform" data-pptx-bounds="1468 570 183 176" fill="#171717">
+    <image href="../images/unified-platform-cloud.png" x="1472" y="574" width="175" height="125" preserveAspectRatio="xMidYMid meet"/>
+    <text x="1560" y="731" text-anchor="middle">一网统管平台</text>
+  </g>
+  <g id="branch-cameras" data-pptx-bounds="3 1061 222 165" fill="#171717" font-size="24">
+    <image href="../images/camera.png" x="59" y="1065" width="112" height="83" preserveAspectRatio="xMidYMid meet"/>
+    <text x="112" y="1178" text-anchor="middle">8个卡口监控、36<tspan x="112" dy="34">个摄像头</tspan></text>
+  </g>
+  <g id="branch-fire-terminals" data-pptx-bounds="303 1046 224 180" fill="#171717" font-size="24">
+    <image href="../images/fire-terminal.png" x="381" y="1050" width="67" height="96" preserveAspectRatio="xMidYMid meet"/>
+    <text x="414" y="1178" text-anchor="middle">消控室36台传输装<tspan x="414" dy="34">置</tspan></text>
+  </g>
+  <g id="branches-label" data-pptx-bounds="210 1214 100 43" font-size="24" fill="#CB9A9A">
+    <text x="216" y="1240">分支点</text>
+  </g>
+  <g id="source-number-two" data-pptx-bounds="374 485 126 160" font-family="Segoe Print" font-size="110" fill="#D42229">
+    <text x="381" y="600">2</text>
+  </g>
+  <g id="source-number-one" data-pptx-bounds="660 495 90 160" font-family="Segoe Print" font-size="110" fill="#D42229">
+    <text x="675" y="610">1</text>
+  </g>
+  </g>
+</svg>

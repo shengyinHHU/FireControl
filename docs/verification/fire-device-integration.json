@@ -5,7 +5,9 @@
   "places": 102,
   "gateways": 1,
   "sse_lifecycle": "SSE_LIFECYCLE_OK checks=12",
+  "asset_management": "FIRE_ASSET_INTEGRATION_OK checks=29",
+  "inventory": 36,
   "capture_frames": 8,
   "verification": "FIRE_ACCESS_INTEGRATION_OK",
-  "output": "FIRE_ACCESS_INTEGRATION_OK checks=653"
+  "output": "FIRE_ACCESS_INTEGRATION_OK checks=654"
 }
