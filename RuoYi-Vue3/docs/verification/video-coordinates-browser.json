@@ -1,0 +1,15 @@
+{
+  "fixtureHttp": true,
+  "fixtureMapSdk": true,
+  "checks": [
+    "blank initial coordinates and text device identity shown in real catalog",
+    "export is server-filtered across all pages and defaults to unlocated",
+    "async sync progress and completion displayed",
+    "preview precedes commit; invalid rows and before/after coordinates visible; successful import refreshes list",
+    "single edit preserves entered values after server failure and retries successfully",
+    "keyboard focus, authored select popup and narrow layout verified",
+    "error and no-result states have no demo fallback",
+    "database camera renders without a place binding; marker opens metadata and canonical authenticated live player"
+  ],
+  "errors": []
+}

@@ -3,7 +3,7 @@ import auth from '@/plugins/auth'
 import { canWriteResource } from './sourcePolicy'
 export const canFire = (resource, action = 'list') =>
   (!['add', 'edit', 'remove'].includes(action) || canWriteResource(resource)) &&
-  ((isFireMock && !['places','inspections','video','gateways','hosts','alarms','protocolMessages'].includes(resource)) || auth.hasPermi(`fire:${resource}:${action}`))
+  ((isFireMock && !['places','cameras','inspections','video','gateways','hosts','alarms','protocolMessages'].includes(resource)) || auth.hasPermi(`fire:${resource === 'cameras' ? 'video' : resource}:${action}`))
 
 export function filterFireMenus(routes) {
   return routes.flatMap((route) => {

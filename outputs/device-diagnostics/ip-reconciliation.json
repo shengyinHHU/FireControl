@@ -1,0 +1,9 @@
+{
+  "apply": true,
+  "inventoryIPs": 11,
+  "historicalEvents": 72,
+  "observedIPs": 5,
+  "backup": "D:\\javaprogram\\FireControl\\outputs\\device-diagnostics\\backups\\ip-identity-20261102-135908-587925.json.gz",
+  "messagesReassociated": 151,
+  "completed": true
+}

@@ -29,7 +29,8 @@ test('pending review coordinates remain visible; unlocated rows remain in the re
 test('database resources never merge or write demo records', () => {
   assert.equal(usesDatabase('places'), true)
   assert.equal(canWriteResource('places'), false)
-  assert.equal(usesDatabase('cameras'), false)
+  assert.equal(usesDatabase('cameras'), true)
+  assert.equal(canWriteResource('cameras'), false)
 })
 
 async function bundled(entry, plugins = []) {
@@ -45,7 +46,7 @@ test('even in mock mode real place reads and failures never fall back to the dem
       args.path === '@/plugins/auth' ? 'export default { hasPermi: () => true }' :
       args.path === '@/utils/auth' ? 'export const getToken = () => "test-token"' :
       args.path === '@/mock/fire/repository' ? 'export function createRepository(){ throw Error("Demo access forbidden") }' :
-      'export default async function request(config) { if(globalThis.__placeTransportError) throw Error("backend unavailable"); return config.url.endsWith("/list") ? {rows:[{placeId:"777",placeType:"industry",name:"数据库机构",longitude:null,latitude:null}],total:1} : {data:{placeId:"777",placeType:"industry",name:"数据库机构"}} }'
+      'export async function download() {} export default async function request(config) { if(globalThis.__placeTransportError) throw Error("backend unavailable"); return config.url.endsWith("/list") ? {rows:[{placeId:"777",placeType:"industry",name:"数据库机构",longitude:null,latitude:null}],total:1} : {data:{placeId:"777",placeType:"industry",name:"数据库机构"}} }'
     }))
   }}
   const { fire } = await bundled('src/api/fire/index.js', [plugin])

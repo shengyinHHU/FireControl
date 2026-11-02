@@ -21,6 +21,12 @@ public class FireVideoClient {
  private final Map<String,Map<String,Object>> deviceCatalog=new java.util.concurrent.ConcurrentHashMap<>();
  private final Map<String,Long> knownDevices=new java.util.concurrent.ConcurrentHashMap<>();
  public FireVideoClient(FireVideoProperties c,ObjectMapper j,FireVideoMedia m){config=c;json=j;media=m;}
+ public void requireAccess(){access();}
+ public String sourceId(){
+  access();if(config.getEnterpriseUser()==null||config.getEnterpriseUser().isBlank())throw new ServiceException("视频监控配置不完整");
+  try{return "ctseelink-"+java.util.HexFormat.of().formatHex(java.security.MessageDigest.getInstance("SHA-256").digest(config.getEnterpriseUser().getBytes(StandardCharsets.UTF_8))).substring(0,24);}
+  catch(java.security.NoSuchAlgorithmException impossible){throw new IllegalStateException(impossible);}
+ }
  private void access(){
   if(!config.isEnabled())throw new ServiceException("视频监控未启用");
   if(!SecurityUtils.isAdmin() && !config.getAllowedUserIds().contains(SecurityUtils.getUserId()))throw new ServiceException("未授权访问此监控账号",403);
@@ -112,7 +118,7 @@ public class FireVideoClient {
  @SuppressWarnings("unchecked")
  public Object preview(String code,String protocol) throws Exception {
   if(!Set.of("hls","rtsp","webrtc","flv").contains(protocol))throw new ServiceException("不支持的播放协议");
-  access();if(code==null||knownDevices.getOrDefault(code,0L)<System.currentTimeMillis())throw new ServiceException("请先刷新设备列表后再播放");
+  resolveDevice(code);
   // Keep the audio track in the source; the browser controls initial autoplay muting.
   var b=business();b.put("deviceCode",code);b.put("mediaType",1);b.put("mute",0);
   if(protocol.equals("webrtc")){b.put("netType",0);b.put("channel",0);}else if(!protocol.equals("flv"))b.put("supportDomain",1);

@@ -47,7 +47,7 @@
         </div>
       </header>
       <div v-if="isFireMock && !screen" class="fire-demo-bar">
-        <span v-if="liveVideoPage">当前视频监控来自天翼视联真实接口；播放按需连接，不使用演示摄像头</span>
+        <span v-if="liveVideoPage">监控目录来自天翼视联；坐标台账来自数据库，播放按需连接</span>
         <span v-else-if="inspectionPage">当前查岗岗位、记录与抓拍来自真实数据库；视频复用天翼视联监控</span>
         <span v-else-if="databasePage">当前页面使用真实数据库记录；119警情状态来自平台，设备通信状态来自后台接收</span>
         <span v-else>当前业务使用演示数据，操作保存在当前浏览器</span>

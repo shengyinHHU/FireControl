@@ -232,7 +232,7 @@
       <span>街道消防安全监管中心</span
       ><span>网格联动 · 资源共享 · 闭环管理</span
       ><span>{{
-        isFireMock ? '真实场所与查岗 / 其余业务演示' : 'FIRE SAFETY OPERATIONS'
+        isFireMock ? '真实场所、查岗与监控 / 其余业务演示' : 'FIRE SAFETY OPERATIONS'
       }}</span>
     </footer>
     <PlaceDetail
@@ -388,10 +388,11 @@ async function refreshResources() {
   try {
     const [s, p, c] = await Promise.all([
       fire.dashboard(),
-      ...['places', 'cameras'].map(r => fire.list(r, { pageSize: 1000 })),
+      fire.list('places', { pageSize: 1000 }),
+      canFire('cameras') ? fire.list('cameras', { pageSize: 1000 }) : Promise.resolve({ rows: [], total: 0 }),
     ])
     if (disposed) return
-    stats.value = { ...s.data, total: p.total,
+    stats.value = { ...s.data, total: p.total, cameras: c.total,
       categories: USE_FIXED_PLACE_COUNTS ? FIXED_PLACE_COUNTS : PLACE_LAYERS.map(layer => ({ name: layer.label, count: p.rows.filter(row => row.placeType === layer.type).length })),
     }
     places.value = p.rows

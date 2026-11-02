@@ -13,13 +13,21 @@ public class FireAccessService {
  public FireAccessService(FireAccessMapper m,FireConnections c){mapper=m;connections=c;}
  @DataScope(deptAlias="g",userAlias="g",userField="supervisor_user_id",permission="fire:alarms:list")
  public List<Long> alarmGatewayIds(FireAccessQuery q){return mapper.alarmGatewayIds(q);}
+ private boolean gatewayOnline(Map<String,Object> row){
+  Object enabled=row.getOrDefault("gatewayEnabled",row.get("enabled"));
+  if(enabled!=null&&!"0".equals(enabled))return false;
+  String ip=(String)row.getOrDefault("allowedIp",row.get("gatewayIp"));
+  Object received=row.getOrDefault("gatewayLastSeen",row.get("lastSeen"));
+  return connections.online(ip)||(received instanceof Date&&connections.recent((Date)received));
+ }
  private List<Map<String,Object>> normalize(List<Map<String,Object>> rows){
   SimpleDateFormat fmt=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");fmt.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
   for(Map<String,Object> row:rows){
+   boolean online=gatewayOnline(row);
    for(var item:row.entrySet())if(item.getValue() instanceof Date)item.setValue(fmt.format((Date)item.getValue()));
    row.put("dataSource","database");
-   if(row.containsKey("gatewayAddress"))row.put("status",connections.online((String)row.get("gatewayAddress"))?"在线":"离线");
-   else if(row.containsKey("enabled"))row.put("status",!"0".equals(row.get("enabled"))?"停用":row.get("serial")==null?"待配置":connections.online((String)row.get("serial"))?"在线":"离线");
+   if(row.containsKey("gatewayAddress"))row.put("status",online?"在线":"离线");
+   else if(row.containsKey("enabled"))row.put("status",!"0".equals(row.get("enabled"))?"停用":online?"在线":row.get("lastSeen")==null?"未收到报文":"离线");
   }
   return rows;
  }
@@ -34,9 +42,9 @@ public class FireAccessService {
  @DataScope(deptAlias="g",userAlias="g",userField="supervisor_user_id",permission="fire:hosts:list")
  public Map<String,Object> hostStats(FireAccessQuery q){
   Map<String,Object> stats=mapper.hostStats(q);stats.put("gateways",mapper.gatewayCount(q));long online=0;
-  for(Map<String,Object> group:mapper.hostConnectionCounts(q))if(connections.online((String)group.get("sourceAddress")))online+=((Number)group.get("total")).longValue();
+  for(Map<String,Object> group:mapper.hostConnectionCounts(q))if(gatewayOnline(group))online+=((Number)group.get("total")).longValue();
   stats.put("online",online);long gatewayOnline=0,pending=0;
-  for(var g:mapper.gateways(q)){if(g.get("serial")==null||g.get("centerAddress")==null||g.get("allowedIp")==null)pending++;else if("0".equals(g.get("enabled")) && connections.online((String)g.get("serial")))gatewayOnline++;}
+  for(var g:mapper.gateways(q)){if(g.get("allowedIp")==null)pending++;if(gatewayOnline(g))gatewayOnline++;}
   stats.put("gatewayOnline",gatewayOnline);stats.put("gatewayPending",pending);return stats;
  }
  @DataScope(deptAlias="g",userAlias="g",userField="supervisor_user_id",permission="fire:alarms:list")

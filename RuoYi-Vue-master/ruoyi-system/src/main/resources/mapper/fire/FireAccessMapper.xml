@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.FireAccessMapper">
+ <update id="bindObservedGateway">
+ UPDATE fire_gateway SET source_address=#{source},center_address=#{center},revision=revision+1,update_by='device-auto',update_time=NOW()
+ WHERE allowed_ip=#{ip} AND del_flag='0' AND (NOT(source_address &lt;=&gt; #{source}) OR NOT(center_address &lt;=&gt; #{center}))
+ </update>
+ <insert id="registerTrustedGateway">
+ INSERT INTO fire_gateway(name,unit_name,source_address,center_address,allowed_ip,enabled,supervisor_user_id,create_by,remark)
+ VALUES(CONCAT('自动接入装置 ',#{ip}),'待关联单位',#{source},#{center},#{ip},'0',1,'device-auto','由有效装置报文自动登记，所属单位待核对')
+ ON DUPLICATE KEY UPDATE gateway_id=gateway_id
+ </insert>
  <select id="gatewayForUpdate" resultType="map">
  SELECT gateway_id AS gatewayId,place_id AS placeId,source_address AS sourceAddress,center_address AS centerAddress,allowed_ip AS allowedIp,enabled,del_flag AS delFlag
- FROM fire_gateway WHERE source_address=#{source} FOR UPDATE
+ FROM fire_gateway WHERE allowed_ip=#{ip} FOR UPDATE
  </select>
  <insert id="insertMessage" useGeneratedKeys="true" keyProperty="messageId">
  INSERT INTO fire_protocol_message(gateway_id,session_id,peer_ip,direction,sequence_no,command_no,received_at,device_time,raw_hex,parse_status,error_text,parsed_json,transmission_status)
@@ -48,7 +57,7 @@
  </select>
  <select id="hosts" resultType="map">
  SELECT CAST(h.host_id AS CHAR) AS id,h.name,COALESCE(g.unit_name,p.name) AS placeName,CAST(p.place_id AS CHAR) AS placeId,
- CAST(g.gateway_id AS CHAR) AS gatewayId,g.name AS gatewayName,g.source_address AS gatewayAddress,
+ CAST(g.gateway_id AS CHAR) AS gatewayId,g.name AS gatewayName,g.source_address AS gatewayAddress,g.allowed_ip AS gatewayIp,g.enabled AS gatewayEnabled,g.last_received_at AS gatewayLastSeen,
  h.manufacturer,h.model,h.access_method AS accessMethod,h.system_type AS systemType,h.system_address AS systemAddress,h.revision,h.del_flag AS delFlag,CONCAT(h.system_type,'/',h.system_address) AS serial,h.status_description AS deviceStatus,h.status_bits AS statusBits,
  h.status_device_time AS deviceTime,h.last_received_at AS lastSeen,h.software_version AS softwareVersion,
  h.description,'database' AS dataSource
@@ -60,7 +69,7 @@
  SELECT e.event_id AS id,e.event_id AS code,e.name,e.event_kind AS kind,
  e.object_type AS objectType,e.object_key AS deviceId,'消控室主机' AS source,
  '设备记录' AS status,CAST(p.place_id AS CHAR) AS placeId,COALESCE(g.unit_name,p.name) AS placeName,
- CAST(g.gateway_id AS CHAR) AS gatewayId,g.name AS gatewayName,g.source_address AS gatewayAddress,
+ CAST(g.gateway_id AS CHAR) AS gatewayId,g.name AS gatewayName,g.source_address AS gatewayAddress,g.allowed_ip AS gatewayIp,g.enabled AS gatewayEnabled,g.last_received_at AS gatewayLastSeen,
  e.device_time AS deviceTime,e.received_at AS occurredAt,e.clock_warning AS clockWarning,
  e.details_json AS details,CAST(e.message_id AS CHAR) AS messageId,'database' AS dataSource
  FROM fire_event e JOIN fire_gateway g ON e.gateway_id=g.gateway_id LEFT JOIN fire_place p ON p.place_id=g.place_id
@@ -83,7 +92,7 @@
  FROM fire_event e JOIN fire_gateway g ON e.gateway_id=g.gateway_id LEFT JOIN fire_place p ON p.place_id=g.place_id
  WHERE e.received_at &gt;= #{recentSince} <include refid="scope"/>
  </select>
- <select id="hostConnectionCounts" resultType="map">SELECT g.source_address AS sourceAddress,COUNT(*) AS total FROM fire_host h JOIN fire_gateway g ON h.gateway_id=g.gateway_id LEFT JOIN fire_place p ON p.place_id=g.place_id WHERE h.del_flag='0' AND g.del_flag='0' <include refid="scope"/> GROUP BY g.source_address</select>
+ <select id="hostConnectionCounts" resultType="map">SELECT g.allowed_ip AS gatewayIp,g.enabled AS gatewayEnabled,g.last_received_at AS gatewayLastSeen,g.enabled,g.last_received_at AS lastSeen,COUNT(*) AS total FROM fire_host h JOIN fire_gateway g ON h.gateway_id=g.gateway_id LEFT JOIN fire_place p ON p.place_id=g.place_id WHERE h.del_flag='0' AND g.del_flag='0' <include refid="scope"/> GROUP BY g.allowed_ip,g.enabled,g.last_received_at</select>
 <select id="gatewayCount" resultType="long">SELECT COUNT(*) <include refid="joins"/> WHERE g.del_flag='0' <include refid="scope"/></select>
 <update id="bindRawSession">UPDATE fire_protocol_message SET gateway_id=#{gatewayId} WHERE session_id=#{session} AND gateway_id IS NULL AND parse_status='RAW_CHUNK'</update>
 <select id="sessionGateway" resultType="long">SELECT gateway_id FROM fire_protocol_message WHERE session_id=#{session} AND gateway_id IS NOT NULL ORDER BY message_id DESC LIMIT 1</select>

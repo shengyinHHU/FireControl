@@ -1,0 +1,11 @@
+﻿{
+    "success":  true,
+    "localAddress":  "10.5.90.50",
+    "port":  2000,
+    "peerAddress":  "10.5.89.246",
+    "changes":  [
+                    "Allowed inbound TCP to 10.5.90.50:2000 from 10.5.0.0/16.",
+                    "Added return route for 10.5.89.246/32 via 10.5.90.49 on the receiving Ethernet adapter."
+                ],
+    "checkedAt":  "2026-11-02T13:08:14.9096216+08:00"
+}

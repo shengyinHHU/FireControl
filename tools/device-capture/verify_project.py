@@ -34,6 +34,7 @@ try:
  access=(ROOT/"SQL/fire_device_access.sql").read_text("utf-8")
  sql(access);sql(access)
  upgrade=(ROOT/"SQL/fire_gateway_management_upgrade.sql").read_text("utf-8");sql(upgrade);sql(upgrade)
+ ip_identity=(ROOT/"SQL/fire_gateway_ip_identity_upgrade.sql").read_text("utf-8");sql(ip_identity);sql(ip_identity)
  assert sql("USE dachang;SELECT COUNT(*) FROM fire_place;")=="102"
  assert sql("USE dachang;SELECT COUNT(*) FROM fire_gateway;")=="1"
  # Obtain the exact compiler dependency path from the already-resolved Maven reactor.

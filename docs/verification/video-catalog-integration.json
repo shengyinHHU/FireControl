@@ -1,0 +1,8 @@
+{
+  "isolated_mysql": true,
+  "fixture_vendor": true,
+  "business_database_accessed": false,
+  "external_api_accessed": false,
+  "migration_repeat_safe": true,
+  "result": "VIDEO_CATALOG_INTEGRATION_OK: full pagination, directory recursion, dedup, blank/text export, import conversion, owner/account isolation, idempotency, coordinate preservation, duplicate/formula rejection, optimistic conflicts and transactional audit"
+}

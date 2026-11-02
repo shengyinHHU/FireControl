@@ -126,8 +126,8 @@
             role="button"
             tabindex="0"
             :aria-label="c.name"
-            @click.stop="emit('camera', c.id)"
-            @keydown.enter="emit('camera', c.id)"
+            @click.stop="selectCamera(c.id)"
+            @keydown.enter="selectCamera(c.id)"
           >
             <rect
               :x="xy(c)[0] - 7"
@@ -233,6 +233,11 @@
           <span v-if="databaseTruncated">点位超过上限，仅显示前 5000 个</span>
         </template>
       </div>
+      <div v-if="useDatabaseCameras && layers.includes('摄像头')" class="map-place-state" role="status" aria-live="polite">
+        <span v-if="cameraLoading">正在加载监控点位…</span>
+        <template v-else-if="cameraError"><span>{{ cameraError }}</span><el-button link @click="loadDatabaseCameras">重试监控</el-button></template>
+        <span v-else>已显示 {{ shownCameras.length }} 个监控点位{{ cameraTruncated ? '（仅前5000个）' : '' }}；无坐标设备保留在坐标维护台账</span>
+      </div>
     </div>
     <div class="map-grid-info" v-if="selectedGrid && !editing">
       <strong>{{ grids.find((g) => g.id === selectedGrid)?.name }}</strong
@@ -281,6 +286,18 @@
     </div>
     <PlaceDetail v-if="selectedMapPlace" v-model="databasePlaceOpen"
       :place-id="selectedMapPlace.id" :map-place="selectedMapPlace" />
+    <el-dialog v-model="cameraInfoOpen" title="监控点位" class="fire-dialog" width="min(600px, 95vw)" append-to-body>
+      <el-descriptions v-if="selectedMapCamera" :column="1" border>
+        <el-descriptions-item label="监控名称">{{ selectedMapCamera.name }}</el-descriptions-item>
+        <el-descriptions-item label="设备编码">{{ selectedMapCamera.deviceCode }}</el-descriptions-item>
+        <el-descriptions-item label="目录">{{ selectedMapCamera.directoryPath }}</el-descriptions-item>
+        <el-descriptions-item label="安装位置">{{ selectedMapCamera.installationLocation || '未填写' }}</el-descriptions-item>
+        <el-descriptions-item label="位置状态">{{ videoLocationText(selectedMapCamera.locationStatus) }}</el-descriptions-item>
+        <el-descriptions-item label="GCJ-02坐标">{{ selectedMapCamera.lng }}, {{ selectedMapCamera.lat }}</el-descriptions-item>
+      </el-descriptions>
+      <template #footer><el-button @click="cameraInfoOpen = false">关闭</el-button><el-button v-if="canVideo('preview')" type="primary" @click="cameraPlaying = true">查看视频</el-button></template>
+    </el-dialog>
+    <LiveVideoDialog v-model="cameraPlaying" :device="selectedMapCamera" />
     <div class="map-zoom">
       <button aria-label="放大地图" @click="changeZoom(1)">＋</button
       ><button aria-label="缩小地图" @click="changeZoom(-1)">－</button>
@@ -294,6 +311,9 @@ import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue'
 import { ElMessage } from 'element-plus'
 import MapBackdrop from './MapBackdrop.vue'
 import PlaceDetail from './PlaceDetail.vue'
+import LiveVideoDialog from './LiveVideoDialog.vue'
+import { canVideo } from '@/api/fire/video'
+import { videoCatalogMap, validVideoPoint, videoLocationText } from '@/api/fire/videoCatalog'
 import { useRouter } from 'vue-router'
 import { getToken } from '@/utils/auth'
 import { listMapPlaces } from '@/api/fire/places'
@@ -316,6 +336,9 @@ const useRealMap = import.meta.env.VITE_FIRE_MAP_PROVIDER === 'amap',
   sdkContainer = ref()
 const router = useRouter()
 const useDatabasePlaces = useRealMap && !props.editable
+const useDatabaseCameras = !props.editable
+const cameraLoading = ref(false), cameraError = ref(''), cameraTruncated = ref(false), cameraInfoOpen = ref(false), cameraPlaying = ref(false), selectedMapCamera = ref(null)
+let cameraVersion = 0
 const databasePlaces = ref([]), databaseLoading = ref(false), databaseError = ref(''),
   databaseNeedsLogin = ref(false), databaseTruncated = ref(false),
   databasePlaceOpen = ref(false), selectedMapPlace = ref(null)
@@ -388,9 +411,7 @@ const shownPlaces = computed(() => filterMapPlaces(
   layers.value, keyword.value, selectedGrid.value,
 ))
 const shownCameras = computed(() =>
-  cameras.value.filter((c) =>
-    shownPlaces.value.some((p) => p.id === c.placeId),
-  ),
+  cameras.value.filter(c => useDatabaseCameras ? validVideoPoint(c) && (!keyword.value || `${c.name} ${c.deviceCode} ${c.installationLocation}`.toLowerCase().includes(keyword.value.toLowerCase())) : shownPlaces.value.some(p => p.id === c.placeId)),
 )
 const shownDevices = computed(() =>
   devices.value.filter((c) =>
@@ -445,14 +466,34 @@ async function loadDatabasePlaces() {
     if (!disposed && version === databaseLoadVersion) databaseLoading.value = false
   }
 }
+function selectCamera(id) {
+  if (!useDatabaseCameras) { emit('camera', id); return }
+  const camera = cameras.value.find(row => row.id === String(id))
+  if (camera) { selectedMapCamera.value = camera; cameraInfoOpen.value = true }
+}
+async function loadDatabaseCameras() {
+  const version = ++cameraVersion
+  cameraError.value = ''; cameraLoading.value = true
+  try {
+    if (!getToken()) throw Error('请登录后加载监控点位')
+    if (!canVideo()) throw Error('暂无视频监控查看权限')
+    const response = await videoCatalogMap()
+    if (disposed || version !== cameraVersion) return
+    if (!Array.isArray(response.data?.rows)) throw Error('监控点位格式异常')
+    cameras.value = response.data.rows.filter(validVideoPoint)
+    cameraTruncated.value = Boolean(response.data.truncated)
+  } catch (e) {
+    if (!disposed && version === cameraVersion) { cameras.value = []; cameraError.value = e.message || '监控点位加载失败' }
+  } finally { if (!disposed && version === cameraVersion) cameraLoading.value = false }
+}
 async function load() {
   error.value = ''
-  const databaseRequest = useDatabasePlaces ? loadDatabasePlaces() : Promise.resolve()
+  const databaseRequest = Promise.all([useDatabasePlaces ? loadDatabasePlaces() : Promise.resolve(), useDatabaseCameras ? loadDatabaseCameras() : Promise.resolve()])
   // Keep demo business records off display maps; real API data remains enabled.
   if (isFireMock && !props.editable) {
     places.value = []
     grids.value = []
-    cameras.value = []
+    if (!useDatabaseCameras) cameras.value = []
     devices.value = []
     alarms.value = []
     try {
@@ -464,14 +505,14 @@ async function load() {
   try {
     const [p, g, c, d, a] = await Promise.all(
       ['places', 'grids', 'cameras', 'devices', 'alarms'].map((r) =>
-        canFire(r) && !(r === 'alarms' && props.alarmRows !== undefined) && !(useDatabasePlaces && r === 'places')
+        canFire(r) && !(r === 'cameras' && useDatabaseCameras) && !(r === 'alarms' && props.alarmRows !== undefined) && !(useDatabasePlaces && r === 'places')
           ? fire.list(r, { pageSize: 10000 })
           : Promise.resolve({ rows: [] }),
       ),
     )
     places.value = p.rows
     grids.value = g.rows
-    cameras.value = c.rows
+    if (!useDatabaseCameras) cameras.value = c.rows
     devices.value = d.rows
     alarms.value = a.rows
   } catch (e) {
@@ -589,7 +630,7 @@ async function retryMap() {
       const instance = await mountMap(sdkContainer.value, {
         showBoundary: !props.editable && !props.pickPoint,
         onSelect: (type, id) =>
-          type === 'grid' ? selectGrid(id) : type === 'place' ? selectPlace(id) : emit(type, id),
+          type === 'grid' ? selectGrid(id) : type === 'place' ? selectPlace(id) : type === 'camera' ? selectCamera(id) : emit(type, id),
         onPoint: (point) => {
           if (props.pickPoint) emit('pick', point)
           else if (editing.value) draft.value.push(point)
@@ -610,6 +651,7 @@ onMounted(retryMap)
 onBeforeUnmount(() => {
   disposed = true
   databaseLoadVersion++
+  cameraVersion++
   adapter?.destroy()
 })
 function focusAlarm(id) {

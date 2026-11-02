@@ -4,6 +4,7 @@
   "businessDatabaseAccessed": false,
   "checks": [
     "real gateway fields and separate device fault state",
+    "enable and save with all three protocol/IP fields empty; failed request preserves draft",
     "gateway create/edit/delete, required validation and failed save preserves draft",
     "subordinate host CRUD and gateway-filtered communication detail",
     "read-only event detail, stale clock warning, no demo associations or workflow",

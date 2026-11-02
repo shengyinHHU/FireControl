@@ -12,9 +12,9 @@
     <el-form-item :label="kind==='hosts'?'主机品牌':'装置厂家'"><el-input v-model="form.manufacturer" :aria-label="kind==='hosts'?'主机品牌':'装置厂家'" maxlength="100" :disabled="saving" /></el-form-item>
     <el-form-item label="型号"><el-input v-model="form.model" aria-label="型号" maxlength="100" :disabled="saving" /></el-form-item>
     <template v-if="kind==='gateways'">
-     <el-form-item label="装置协议地址" prop="sourceAddress"><el-input v-model="form.sourceAddress" aria-label="装置协议地址" maxlength="12" placeholder="报文中的12位十六进制地址" :disabled="saving" /></el-form-item>
-     <el-form-item label="中心协议地址" prop="centerAddress"><el-input v-model="form.centerAddress" aria-label="中心协议地址" maxlength="12" placeholder="报文中的12位十六进制地址" :disabled="saving" /></el-form-item>
-     <el-form-item label="允许来源IP" prop="allowedIp"><el-input v-model="form.allowedIp" aria-label="允许来源IP" maxlength="45" placeholder="服务器实际看到的装置IP" :disabled="saving" /></el-form-item>
+     <el-form-item label="装置协议地址（可选）" prop="sourceAddress"><el-input v-model="form.sourceAddress" aria-label="装置协议地址" maxlength="12" placeholder="自动从报文记录，可留空" :disabled="saving" /></el-form-item>
+     <el-form-item label="中心协议地址（可选）" prop="centerAddress"><el-input v-model="form.centerAddress" aria-label="中心协议地址" maxlength="12" placeholder="报文中的12位十六进制地址，仅作记录" :disabled="saving" /></el-form-item>
+     <el-form-item label="来源IP（装置识别，可选）" prop="allowedIp"><el-input v-model="form.allowedIp" aria-label="来源IP" maxlength="45" placeholder="填写后自动关联该IP的报文" :disabled="saving" /></el-form-item>
      <el-form-item label="摄像头IP（台账参考）"><el-input v-model="form.cameraIp" aria-label="摄像头IP" maxlength="45" :disabled="saving" /></el-form-item>
      <el-form-item label="安装情况"><el-input v-model="form.installationStatus" aria-label="安装情况" maxlength="100" :disabled="saving" /></el-form-item>
      <el-form-item label="接入状态" prop="enabled"><el-radio-group v-model="form.enabled" :disabled="saving"><el-radio value="0">启用</el-radio><el-radio value="1">停用</el-radio></el-radio-group></el-form-item>
@@ -24,9 +24,9 @@
      <el-form-item label="系统地址"><el-input-number v-model="form.systemAddress" aria-label="系统地址" :min="0" :max="255" :precision="0" :disabled="saving" /></el-form-item>
     </template>
    </div>
-   <el-form-item v-if="kind==='hosts'" label="接入方式"><el-input v-model="form.accessMethod" aria-label="接入方式" type="textarea" resize="vertical" maxlength="500" :disabled="saving" /></el-form-item>
-   <el-form-item v-else label="备注"><el-input v-model="form.remark" aria-label="备注" type="textarea" resize="vertical" maxlength="500" :disabled="saving" /></el-form-item>
-   <p class="muted">{{ kind==='hosts'?'系统类型和地址未知时请同时留空；实际报文识别出的主机可再维护名称和型号。':'编号与协议地址分别保存。协议地址或来源IP修改后，装置需重新连接；缺少接入参数时请先停用保存。' }}</p>
+   <el-form-item v-if="kind==='hosts'" label="接入方式"><el-input v-model="form.accessMethod" aria-label="接入方式" type="textarea" resize="none" maxlength="500" :disabled="saving" /></el-form-item>
+   <el-form-item v-else label="备注"><el-input v-model="form.remark" aria-label="备注" type="textarea" resize="none" maxlength="500" :disabled="saving" /></el-form-item>
+   <p class="muted">{{ kind==='hosts'?'系统类型和地址未知时请同时留空；实际报文识别出的主机可再维护名称和型号。':'按来源IP识别装置，协议地址自动记录，不参与身份匹配。三项均可留空并启用；未登记IP上报后自动建立接入记录，请补充所属单位。' }}</p>
   </el-form>
   <template #footer><el-button :disabled="saving" @click="open=false">取消</el-button><el-button type="primary" :loading="saving" @click="save">保存</el-button></template>
  </el-dialog>
@@ -49,7 +49,6 @@ const hexRule={validator:(_,v,cb)=>v&&!/^[a-fA-F0-9]{12}$/.test(v)?cb(new Error(
 const rules={name:[required('名称')],unitName:[required('所属单位')],sourceAddress:[hexRule],centerAddress:[hexRule]}
 function focusName(){nameInput.value?.focus()}
 async function save(){if(saving.value)return;error.value='';try{await formRef.value.validate()}catch{await nextTick();formRef.value?.$el.querySelector('.is-error input')?.focus();return}
- if(props.kind==='gateways'&&form.value.enabled==='0'&&(!form.value.sourceAddress||!form.value.centerAddress||!form.value.allowedIp)){error.value='启用前请填写装置协议地址、中心协议地址和允许来源IP';return}
  if(props.kind==='hosts'&&((form.value.systemType==null)!=(form.value.systemAddress==null))){error.value='系统类型和系统地址需同时填写或同时留空';return}
  saving.value=true;try{await saveAsset(props.kind,{...form.value,placeId:form.value.placeId||null});ElMessage.success('已保存');emit('saved');saving.value=false;open.value=false}catch(e){error.value=e.message||'保存失败，请重试'}finally{saving.value=false}}
 watch(()=>props.modelValue,v=>{++placeVersion;placesLoading.value=false;if(!v)return;places.value=props.record?.placeId?[{id:String(props.record.placeId),name:props.record.placeName}]:[];error.value='';form.value={name:'',unitName:'',manufacturer:props.kind==='gateways'?'浙江大华':'',model:props.kind==='gateways'?'DH-HY-FAM-1000':'',enabled:'1',...props.record,placeId:props.record?.placeId?String(props.record.placeId):'',sourceAddress:props.record?.serial||props.record?.sourceAddress||'',gatewayId:props.gatewayId||props.record?.gatewayId,systemType:props.record?.systemType??undefined,systemAddress:props.record?.systemAddress??undefined};nextTick(()=>formRef.value?.clearValidate())})

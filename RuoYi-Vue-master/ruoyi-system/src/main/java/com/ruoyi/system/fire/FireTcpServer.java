@@ -46,12 +46,11 @@ public class FireTcpServer implements SmartLifecycle {
     byte[] chunk=Arrays.copyOf(buffer,n);
     try{ingest.rawChunk(session,ip,chunk);}catch(Exception e){log.error("TCP原始数据保存失败，不返回确认",e);return;}
     for(Gb26875.Packet packet:stream.feed(chunk)){
-     String packetSource=packet.raw().length>=24?Gb26875.hex(Arrays.copyOfRange(packet.raw(),12,18)):null;
-     long generation=connections.generation(packetSource);
+     long generation=connections.generation(ip);
      FireIngestService.Receipt receipt;
      try{receipt=ingest.receive(packet,session,ip);}
      catch(Exception e){log.error("消防报文持久化失败，不发送成功确认；session={}",session,e);continue;}
-     if(receipt.source()!=null && packet.frame()!=null){if(!connections.seenCurrent(receipt.source(),session,generation)){socket.close();return;}sources.add(receipt.source());}
+     if(receipt.source()!=null && packet.frame()!=null){if(!connections.seenCurrent(ip,session,generation)){socket.close();return;}sources.add(ip);}
      if(receipt.reply()!=null){
       try{
        socket.getOutputStream().write(receipt.reply());socket.getOutputStream().flush();

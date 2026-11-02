@@ -30,17 +30,16 @@ public class FireAssetService {
   a.manufacturer=text(a.manufacturer,100,"厂家",false);a.model=text(a.model,100,"型号",false);a.remark=text(a.remark,500,"备注",false);
   a.sourceAddress=address(a.sourceAddress,"装置协议地址");a.centerAddress=address(a.centerAddress,"中心协议地址");a.allowedIp=ip(a.allowedIp,"允许来源IP");a.cameraIp=ip(a.cameraIp,"摄像头IP");a.installationStatus=text(a.installationStatus,100,"安装情况",false);
   if(!Set.of("0","1").contains(a.enabled==null?"":a.enabled))throw error("请选择启用或停用");
-  if("0".equals(a.enabled)&&(a.sourceAddress==null||a.centerAddress==null||a.allowedIp==null))throw error("启用前需配置协议地址、中心协议地址和允许来源IP");
   var old=a.id==null?null:lock(a.id,a.revision);
   Long oldPlace=old==null||old.get("placeId")==null?null:((Number)old.get("placeId")).longValue();
   if(a.placeId!=null&&!a.placeId.equals(oldPlace)){var q=new FirePlace();q.setPlaceId(a.placeId);if(places==null||places.selectMapPlaces(q).isEmpty())throw error("关联机构不存在或无权访问");}
-  var r=args(a);r.put("identityChanged",old!=null&&!Objects.equals(old.get("sourceAddress"),a.sourceAddress));
+  var r=args(a);r.put("identityChanged",old!=null&&!Objects.equals(old.get("allowedIp"),a.allowedIp));
   try{if(a.id==null){mapper.insertGateway(r);return ((Number)r.get("id")).longValue();}mapper.updateGateway(r);
-   if(!Objects.equals(old.get("sourceAddress"),a.sourceAddress)||!Objects.equals(old.get("centerAddress"),a.centerAddress)||!Objects.equals(old.get("allowedIp"),a.allowedIp)||!Objects.equals(old.get("enabled"),a.enabled))invalidate((String)old.get("sourceAddress"));return a.id;}
-  catch(org.springframework.dao.DuplicateKeyException e){throw error("装置编号或协议地址已存在（含历史删除记录），请核对");}
+   if(!Objects.equals(old.get("sourceAddress"),a.sourceAddress)||!Objects.equals(old.get("centerAddress"),a.centerAddress)||!Objects.equals(old.get("allowedIp"),a.allowedIp)||!Objects.equals(old.get("enabled"),a.enabled))invalidate((String)old.get("allowedIp"));return a.id;}
+  catch(org.springframework.dao.DuplicateKeyException e){throw error("装置编号或来源IP已存在（含历史删除记录），请核对");}
  }
  @Transactional(rollbackFor=Exception.class)
- public void deleteGateway(Long id,Long revision){var row=lock(id,revision);Map<String,Object> r=new HashMap<>();r.put("id",id);r.put("actor",SecurityUtils.getUsername());mapper.deleteGateway(r);invalidate((String)row.get("sourceAddress"));}
+ public void deleteGateway(Long id,Long revision){var row=lock(id,revision);Map<String,Object> r=new HashMap<>();r.put("id",id);r.put("actor",SecurityUtils.getUsername());mapper.deleteGateway(r);invalidate((String)row.get("allowedIp"));}
  @Transactional(rollbackFor=Exception.class)
  public Long saveHost(FireAsset a){
   if(a.gatewayId==null)throw error("请选择所属装置");gateway(a.gatewayId);var g=mapper.lockGateway(a.gatewayId);if(!"0".equals(g.get("delFlag")))throw error("所属装置已删除");

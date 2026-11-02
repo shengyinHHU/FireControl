@@ -125,7 +125,7 @@ public class FireAccessIntegrationTest {
   byte[] component=new byte[46];component[0]=1;component[1]=1;component[2]=25;component[3]=7;component[7]=3;System.arraycopy(tag,0,component,40,6);
   ingest(service,frame(104,2,component),"10.5.90.49");check(count("fire_host")==1,"component not invented host");
   check(Gb26875.objects(Gb26875.decode(frame(104,2,component))).get(0).get("fire").equals(true),"component FIRE bit");
-  check(ingest(service,fire,"127.0.0.1").reply()==null,"wrong IP rejected");
+  check(ingest(service,fire,"127.0.0.1").reply()!=null,"trusted source accepted without IP whitelist");
   byte[] otherVersion=fire.clone();otherVersion[4]=2;int versionSum=0;for(int i=2;i<otherVersion.length-3;i++)versionSum+=Gb26875.u(otherVersion[i]);otherVersion[otherVersion.length-3]=(byte)versionSum;
   var unsupportedVersion=ingest(service,otherVersion,"10.5.90.49");check(unsupportedVersion.reply()==null&&unsupportedVersion.source()==null,"unsupported version cannot mark source online");
   byte[] corrupt=fire.clone();corrupt[corrupt.length-3]^=1;check(Gb26875.decode(ingest(service,corrupt,"10.5.90.49").reply()).command()==6,"checksum NACK");
@@ -146,11 +146,11 @@ public class FireAccessIntegrationTest {
   try(var s=db.createStatement()){s.execute("DROP TRIGGER fail_reply");}
   check(lateFailed&&count("fire_event")==beforeLateEvents&&committedSignals.get()==beforeLateRollback,"registered afterCommit notification is discarded on later transaction rollback");
   // Local-only, bounded lifecycle test. Actual device and port 2000 are never used.
-  try(var s=db.createStatement()){s.execute("UPDATE fire_gateway SET allowed_ip='127.0.0.1'");}
+  // The trusted localhost device above is a separate IP identity.
   var props=new FireDeviceProperties();props.setEnabled(true);props.setBindAddress("127.0.0.1");props.setIdleSeconds(5);
   int port;try(var probe=new java.net.ServerSocket(0)){port=probe.getLocalPort();}props.setPort(port);
   var connections=new FireConnections(props);var tcp=new FireTcpServer(props,service,connections);
-  try {tcp.start();try(var socket=new Socket("127.0.0.1",port)){socket.setSoTimeout(3000);socket.getOutputStream().write(fire);byte[] reply=socket.getInputStream().readNBytes(30);check(Gb26875.decode(reply).command()==3,"Java socket ACK after commit");check(connections.online("c80000000000"),"connection online");}}
+  try {tcp.start();try(var socket=new Socket("127.0.0.1",port)){socket.setSoTimeout(3000);socket.getOutputStream().write(fire);byte[] reply=socket.getInputStream().readNBytes(30);check(Gb26875.decode(reply).command()==3,"Java socket ACK after commit");check(connections.online("127.0.0.1"),"connection online");}}
   finally{tcp.stop();}
   check(!tcp.isRunning(),"listener stopped");
   try(var s=db.createStatement();var r=s.executeQuery("SELECT COUNT(*) FROM fire_protocol_message WHERE parse_status='RAW_CHUNK' AND gateway_id IS NOT NULL")){r.next();check(r.getInt(1)>0,"actual TCP chunks retained and bound");}

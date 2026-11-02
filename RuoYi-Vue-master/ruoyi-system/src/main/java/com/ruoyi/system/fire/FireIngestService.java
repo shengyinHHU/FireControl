@@ -33,14 +33,19 @@ public class FireIngestService {
  public Receipt receive(Gb26875.Packet packet,String session,String ip) {
   byte[] raw=packet.raw();Gb26875.Frame frame=packet.frame();
   String source=raw.length>=24 && raw[0]==64 && raw[1]==64?Gb26875.hex(Arrays.copyOfRange(raw,12,18)):null;
-  Map<String,Object> gateway=source==null?null:mapper.gatewayForUpdate(source);
-  boolean allowed=gateway!=null && "0".equals(gateway.get("enabled")) && "0".equals(gateway.get("delFlag"))
-    && ip.equals(gateway.get("allowedIp")) && raw.length>=27
-    && Objects.equals(gateway.get("centerAddress"),Gb26875.hex(Arrays.copyOfRange(raw,18,24)));
+  // Trust inbound sources. Learn identity only from a complete, checksum-valid uplink.
+  // The unique source IP serializes first reports and preserves disabled/deleted records.
+  if(frame!=null && Gb26875.u(raw[4])==1 && frame.command()==2) {
+   mapper.registerTrustedGateway(frame.source(),frame.destination(),ip);
+   mapper.bindObservedGateway(frame.source(),frame.destination(),ip);
+  }
+  Map<String,Object> gateway=mapper.gatewayForUpdate(ip);
+  boolean allowed=source!=null && gateway!=null && "0".equals(gateway.get("enabled")) && "0".equals(gateway.get("delFlag"))
+    && raw.length>=27;
   Long gatewayId=gateway==null?null:number(gateway.get("gatewayId"));
   List<Map<String,Object>> objects=List.of();String status="INVALID",error=packet.error();
   int replyCommand=0;
-  if(!allowed) {status="REJECTED";error="未登记、停用或来源IP/中心协议地址不匹配";}
+  if(!allowed) {status="REJECTED";error="装置已停用或删除，或尚未收到可识别的有效上行报文";}
   else if(Gb26875.u(raw[4])!=1) {status="UNSUPPORTED";error="不支持的协议主版本";}
   else if(frame==null) {replyCommand=Gb26875.u(raw[26])==2?6:0;}
   else if(frame.command()!=2) {status="IGNORED";error="仅接收发送数据命令，不主动执行控制或查询";}
@@ -67,9 +72,9 @@ public class FireIngestService {
     host.put("version",o.get("softwareVersion"));mapper.upsertHost(host);
     hostId=number(mapper.host(host).get("hostId"));
    }
-   String objectKey=o.containsKey("systemAddress")?"system:"+o.get("systemType")+":"+o.get("systemAddress")+(o.containsKey("componentAddress")?":component:"+o.get("componentType")+":"+o.get("componentAddress"):""):"gateway:"+source;
+   String objectKey=o.containsKey("systemAddress")?"system:"+o.get("systemType")+":"+o.get("systemAddress")+(o.containsKey("componentAddress")?":component:"+o.get("componentType")+":"+o.get("componentAddress"):""):"gateway:"+ip;
    Map<String,Object> event=new HashMap<>(o);
-   event.put("eventId",hash(source+"|"+o.get("type")+"|"+o.get("raw")));
+   event.put("eventId",hash(ip+"|"+o.get("type")+"|"+o.get("raw")));
    event.put("gatewayId",gatewayId);event.put("hostId",hostId);event.put("messageId",rxId);event.put("objectKey",objectKey);
    event.put("deviceTime",eventTime);event.put("receivedAt",rx.get("receivedAt"));event.put("details",json(o));
    LocalDateTime device=eventTime==null?null:LocalDateTime.parse(eventTime.replace(' ','T'));
