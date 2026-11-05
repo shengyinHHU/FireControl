@@ -322,6 +322,7 @@ import { fireAlarmPoints } from '@/api/fire/rules'
 import { mountMap } from '@/api/fire/mapAdapter'
 import { fire } from '@/api/fire'
 import { canFire } from '@/api/fire/access'
+import { usesDatabase } from '@/api/fire/sourcePolicy'
 import { isFireMock } from '@/api/fire/config'
 import { attempt } from '@/views/fire/useFire'
 const props = defineProps({
@@ -366,9 +367,9 @@ const layerNames = [
     '综合商业体',
     '养老机构',
     '地图POI',
-    '网格',
+    ...(isFireMock ? ['网格'] : []),
     '摄像头',
-    '告警设备',
+    ...(isFireMock ? ['告警设备'] : []),
     '实时路况',
     ...INCIDENT_LAYERS,
     '显示警情名称',
@@ -505,7 +506,9 @@ async function load() {
   try {
     const [p, g, c, d, a] = await Promise.all(
       ['places', 'grids', 'cameras', 'devices', 'alarms'].map((r) =>
-        canFire(r) && !(r === 'cameras' && useDatabaseCameras) && !(r === 'alarms' && props.alarmRows !== undefined) && !(useDatabasePlaces && r === 'places')
+        // Only database-owned resources have production endpoints; permissions alone
+        // (especially an administrator's wildcard) do not imply backend availability.
+        canFire(r) && (isFireMock || usesDatabase(r)) && !(r === 'cameras' && useDatabaseCameras) && !(r === 'alarms' && props.alarmRows !== undefined) && !(useDatabasePlaces && r === 'places')
           ? fire.list(r, { pageSize: 10000 })
           : Promise.resolve({ rows: [] }),
       ),

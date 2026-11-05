@@ -1,0 +1,16 @@
+{
+  "backend_package": "BUILD SUCCESS",
+  "packaged_configuration_verified": true,
+  "result": "FIRE_TCP_BINDING_OK checks=20",
+  "business_database_accessed": false,
+  "external_services_started": false,
+  "device_port_2000_used": false,
+  "cases": [
+    "default wildcard bind",
+    "environment address and port override",
+    "TCP disable switch",
+    "real socket connections and port release",
+    "port conflict",
+    "unavailable local address"
+  ]
+}

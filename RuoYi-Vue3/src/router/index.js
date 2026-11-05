@@ -60,17 +60,16 @@ export const constantRoutes = [
     hidden: true
   },
   {
-    path: '',
-    component: Layout,
-    redirect: '/index',
-    children: [
-      {
-        path: '/index',
-        component: () => import('@/views/index'),
-        name: 'Index',
-        meta: { title: '首页', icon: 'dashboard', affix: true }
-      }
-    ]
+    path: '/',
+    redirect: '/fire/dashboard',
+    hidden: true
+  },
+  {
+    // Keep deployed bookmarks and existing home links pointing to the command screen.
+    path: '/index',
+    name: 'Index',
+    redirect: '/fire/dashboard',
+    hidden: true
   },
   {
     path: '/lock',

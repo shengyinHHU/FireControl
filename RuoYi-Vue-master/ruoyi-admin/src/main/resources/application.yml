@@ -149,9 +149,10 @@ xss:
 # 消防设备 TCP 接入。运行后端时自动启动；首次运行前先执行 SQL/fire_device_access.sql。
 fire:
   device:
-    enabled: true
-    bind-address: 10.5.90.50
-    port: 2000
+    enabled: ${FIRE_DEVICE_ENABLED:true}
+    # 默认监听本机所有 IPv4 网卡；指定网卡时填服务器实际拥有的地址，不填设备 IP 或 NAT 公网 IP。
+    bind-address: ${FIRE_DEVICE_BIND:0.0.0.0}
+    port: ${FIRE_DEVICE_PORT:2000}
     max-connections: 64
     # 当前为可配置的调试值，并非协议规定的心跳周期；根据实测调整。
     idle-seconds: 600

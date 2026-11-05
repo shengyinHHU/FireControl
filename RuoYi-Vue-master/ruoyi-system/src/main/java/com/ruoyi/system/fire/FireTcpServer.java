@@ -25,7 +25,7 @@ public class FireTcpServer implements SmartLifecycle {
    workers=new ThreadPoolExecutor(config.getMaxConnections(),config.getMaxConnections(),0,TimeUnit.SECONDS,new SynchronousQueue<>(),r->{Thread t=new Thread(r,"fire-device-session");t.setDaemon(true);return t;});
    running=true;acceptThread=new Thread(this::accept,"fire-device-accept");acceptThread.setDaemon(true);acceptThread.start();
    log.info("消防TCP接入已启动 {}:{}",config.getBindAddress(),config.getPort());
-  }catch(IOException e){if(listener!=null)try{listener.close();}catch(IOException ignored){}throw new IllegalStateException("消防TCP监听启动失败",e);}
+  }catch(IOException e){if(listener!=null)try{listener.close();}catch(IOException ignored){}throw new IllegalStateException("消防TCP监听启动失败 ["+config.getBindAddress()+":"+config.getPort()+"]：请确认监听地址属于本机（可使用0.0.0.0监听所有IPv4网卡），且端口未被占用",e);}
  }
  private void accept(){
   while(running)try{

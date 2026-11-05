@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties(prefix="fire.device")
 public class FireDeviceProperties {
- private boolean enabled=false; private String bindAddress="10.5.90.50";
+ private boolean enabled=false; private String bindAddress="0.0.0.0";
  private int port=2000,maxConnections=64,idleSeconds=600,onlineSeconds=600;
  public boolean isEnabled(){return enabled;} public void setEnabled(boolean v){enabled=v;}
  public String getBindAddress(){return bindAddress;}public void setBindAddress(String v){bindAddress=v;}

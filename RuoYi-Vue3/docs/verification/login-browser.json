@@ -1,0 +1,13 @@
+{
+  "fixtureHttp": true,
+  "liveCredentialsUsed": false,
+  "checks": [
+    "project brand, city line illustration and blank credential defaults; no third-party requests needed for login artwork",
+    "empty validation prevents requests and focuses the first invalid field",
+    "password visibility is keyboard accessible; duplicate submit blocked; credential error preserves input and refreshes captcha; legacy encrypted remember cookies retained",
+    "captcha loading failure is persistent, blocks submission and supports retry",
+    "phone and short laptop have no horizontal overflow, form remains reachable, reduced-motion and dark setting retain legibility",
+    "captcha-disabled configuration, cookie restoration/removal and IME-safe Enter work; successful login preserves original destination and query parameters"
+  ],
+  "errors": []
+}

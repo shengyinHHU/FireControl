@@ -14,6 +14,7 @@ public_key:MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAg0Ub6OQqQHo51Ur8wtEu49TJT
 政务网环境堡垒机地址：https://32.255.121.235/
 
 218.94.2.84
+http://218.94.2.84:18880/fire/dashboard
 18880，18881
 10.208.108.83-大厂街道-后端服务器
 10.208.108.84-大厂街道-数据库服务器
@@ -22,7 +23,7 @@ public_key:MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAg0Ub6OQqQHo51Ur8wtEu49TJT
 服务器：root/Dcjd!@#123
 ssh -p 18881 root@218.94.2.84
 & "C:\Users\Administrator\.ssh\Start-FireControlPanelTunnel.ps1"
-宝塔面板：https://127.0.0.1:18443/home
+宝塔面板：https://127.0.0.1:18443/home    gdzpcdr0    123456
 MySQL root   fbfe1043602d0f1d/dachang  123
 
 
@@ -68,3 +69,8 @@ DNS：223.5.5.5
 系统仅在内网使用，也能采用第一种方式。 使用 DNS 验证申请域名证书，不要求把业务网站开放到公网。证书验证说明 第二种方式也可行，但证书信任需要在客户端部署。内部 HTTPS 说明
 仅修改前端代码、增加“允许麦克风”按钮，无法消除普通 HTTP 的这项限制。
 具体落地还需要确认：服务器是 Windows 还是 Linux、目前是否用 Nginx 部署、有没有可用域名或单位统一证书
+
+打包命令
+前端：npm run build:prod
+Compress-Archive -Path .\dist\* -DestinationPath ..\firecontrol-frontend.zip -Force
+后端：maven 收藏夹  ruoyi父目录

@@ -1,4 +1,3 @@
-import { isFireMock } from '@/api/fire/config'
 import router from './router'
 import { ElMessage } from 'element-plus'
 import NProgress from 'nprogress'
@@ -21,9 +20,6 @@ const isWhiteList = (path) => {
 
 router.beforeEach(async (to, from) => {
   NProgress.start()
-  if (isFireMock && ['/', '/index'].includes(to.path)) {
-    return { path: '/fire/dashboard', replace: true }
-  }
   // Preserve old bookmarks after moving live monitoring to its dedicated page.
   if (to.path === '/fire/inspections' && to.query.tab === 'video') {
     const { tab, ...query } = to.query

@@ -3,13 +3,12 @@ import assert from 'node:assert/strict'
 import fs from 'node:fs'
 import vm from 'node:vm'
 
-function setup(token) {
+function setup(token, locked = false) {
   let guard
   let infoCalls = 0
   const user = { roles: [], async getInfo() { infoCalls++; this.roles = ['admin'] }, async logOut() {} }
   const source = fs.readFileSync(new URL('../../src/permission.js', import.meta.url), 'utf8').replace(/^import .*$/gm, '')
   vm.runInNewContext(source, {
-    isFireMock: true,
     router: { beforeEach(fn) { guard = fn }, afterEach() {}, addRoute() {} },
     NProgress: { configure() {}, start() {}, done() {} },
     getToken: () => token,
@@ -18,7 +17,7 @@ function setup(token) {
     isRelogin: { show: false },
     ElMessage: { error() {} },
     useUserStore: () => user,
-    useLockStore: () => ({ isLock: false }),
+    useLockStore: () => ({ isLock: locked }),
     useSettingsStore: () => ({ setTitle() {} }),
     usePermissionStore: () => ({ async generateRoutes() { return [] } })
   })
@@ -39,4 +38,10 @@ test('authenticated dashboard initializes actual user roles', async () => {
   assert.equal(result.replace, true)
   assert.equal(app.infoCalls(), 1)
   assert.equal(await app.navigate('/fire/dashboard'), true)
+})
+
+test('locked sessions cannot enter the dashboard through the home destination', async () => {
+  const app = setup('test-token', true)
+  assert.equal((await app.navigate('/fire/dashboard')).path, '/lock')
+  assert.equal(app.infoCalls(), 0)
 })
