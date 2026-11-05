@@ -19,17 +19,22 @@ public_key:MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAg0Ub6OQqQHo51Ur8wtEu49TJT
 10.208.108.84-大厂街道-数据库服务器
 10.208.112.151-大厂街道-应用服务器
 10.208.112.152-大厂街道-物联网数据中台
+服务器：root/Dcjd!@#123
+ssh -p 18881 root@218.94.2.84
+& "C:\Users\Administrator\.ssh\Start-FireControlPanelTunnel.ps1"
+宝塔面板：https://127.0.0.1:18443/home
+MySQL root   fbfe1043602d0f1d/dachang  123
 
 
 https://yhyj.jnrhtx.top:19091/yhyj/yhyj-home/#/index
 管理员账号   15888888888
 密码   yhyj#VCvLUI2a
 
-HLWZX025202610230282
+测消控时本机配置HLWZX025202610230282
 ip：10.5.90.50
 网关：10.5.90.49
-掩码255.255.255.248
-19.5.90.48/29
+掩码255.255.255.248/29位
+#10.5.90.48/29
 用传接入要放开防火墙
 
 
@@ -45,6 +50,8 @@ DNS：223.5.5.5
 10.214.18.141-10.5.90.146摄像头
 网关：10.5.90.146
 掩码：255.255.255.248
+
+摄像头：用户名：admin 密码：zybzyb032101   端口：37777
 
 
 对讲功能部署需要https:
