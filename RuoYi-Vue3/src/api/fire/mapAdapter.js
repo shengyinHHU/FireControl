@@ -1,4 +1,5 @@
-import { incidentKind, incidentIcon, incidentSummary, incidentUrgent } from './incidentPresentation'
+import { isInDachang } from './dachangScope.js'
+import { incidentKind, incidentIcon, incidentSummary, incidentUrgent, incidentEnded, incidentClusterKind } from './incidentPresentation'
 import { clusterPlaces, placeIcon } from './mapPresentation'
 import { hasMapCoordinates, placeLayer } from './placeLayers'
 import dachangBoundary from '@/assets/geo/dachang-boundary.json'
@@ -113,14 +114,14 @@ export async function mountMap(container, { onSelect, onPoint, showBoundary = tr
         if (type === 'alarm') {
           const kind = incidentKind(row)
           element.removeAttribute('style')
-          element.className = `fire-incident-marker kind-${kind}${incidentUrgent(row) ? ' is-urgent' : ''}${selectedAlarm === row.id ? ' is-selected' : ''}${showAlarmNames ? ' show-name' : ''}`
+          element.className = `fire-incident-marker kind-${kind}${incidentUrgent(row) ? ' is-urgent' : ''}${incidentEnded(row) ? ' is-ended' : ''}${selectedAlarm === row.id ? ' is-selected' : ''}${showAlarmNames ? ' show-name' : ''}`
           const icon = document.createElement('span'); icon.innerHTML = incidentIcon(kind)
           const label = document.createElement('span'); label.className = 'fire-incident-name'; label.textContent = incidentSummary(row)
           element.replaceChildren(icon, label)
           element.setAttribute('aria-label', `${incidentSummary(row)}，点击查看完整详情`)
         }
         element.onclick = e => { e.stopPropagation(); if (type === 'place') { selectedPlace = row.id; redraw() }; if (type === 'alarm') { selectedAlarm = row.id; redraw() }; onSelect(type, row.id) }
-        overlays.push(new AMap.Marker({ position: [Number(row.lng), Number(row.lat)], content: element, anchor: ['place', 'alarm'].includes(type) ? 'center' : 'bottom-center', zIndex: type === 'alarm' ? 220 : 120 }))
+        overlays.push(new AMap.Marker({ position: [Number(row.lng), Number(row.lat)], content: element, anchor: type === 'place' ? 'center' : 'bottom-center', zIndex: type === 'alarm' ? 220 : 120 }))
       }
       clusterPlaces(places, map.getZoom()).forEach(group => {
         if (group.rows.length === 1) { marker(group.rows[0], 'place', '#64cfe8'); return }
@@ -146,12 +147,13 @@ export async function mountMap(container, { onSelect, onPoint, showBoundary = tr
       })
       if (layers.includes('摄像头')) cameras.forEach(p => marker(p, 'camera', '#73dcc3'))
       if (layers.includes('告警设备')) devices.forEach(p => marker(p, 'device', '#e7bd70'))
-      clusterPlaces(alarms, map.getZoom()).forEach(group => {
+      clusterPlaces(alarms.filter(isInDachang), map.getZoom()).forEach(group => {
         if (group.rows.length === 1) { marker(group.rows[0], 'alarm', '#fc788b'); return }
         const button = document.createElement('button')
-        button.type = 'button'; button.className = 'fire-incident-cluster'
-        const icon = document.createElement('span'); icon.innerHTML = incidentIcon('unknown')
-        const count = document.createElement('span'); count.textContent = group.rows.length
+        const kind = incidentClusterKind(group.rows)
+        button.type = 'button'; button.className = `fire-incident-cluster kind-${kind}${group.rows.every(incidentEnded) ? ' is-ended' : ''}`
+        const icon = document.createElement('span'); icon.innerHTML = incidentIcon(kind)
+        const count = document.createElement('span'); count.textContent = group.rows.length; count.className = 'fire-incident-count'
         button.replaceChildren(icon, count)
         button.setAttribute('aria-label', `${group.rows.length}起警情，点击展开`)
         if (group.rows.some(incidentUrgent)) button.className += ' has-fire'
@@ -188,3 +190,4 @@ export async function mountMap(container, { onSelect, onPoint, showBoundary = tr
     destroy() { map.destroy() }
   }
 }
+

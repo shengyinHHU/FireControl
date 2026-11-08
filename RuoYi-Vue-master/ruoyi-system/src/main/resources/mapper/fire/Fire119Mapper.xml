@@ -117,8 +117,8 @@ street_match_method=CASE WHEN street_match_method='manual' THEN street_match_met
  </select>
  <!-- scopeAlias is a fixed mapper include property (a/i), never request input. -->
  <sql id="dachangIncluded">
- (( ${scopeAlias}.geofence_version=#{params.geofenceVersion} AND ${scopeAlias}.geofence_status='inside')
- OR COALESCE(${scopeAlias}.address,'') LIKE '%大厂%' OR COALESCE(${scopeAlias}.description,'') LIKE '%大厂%')
+ (COALESCE(${scopeAlias}.geofence_version,'')=#{params.geofenceVersion}
+ AND COALESCE(${scopeAlias}.geofence_status,'pending')='inside')
  </sql>
  <select id="scopeCounts" resultType="map">
  SELECT COUNT(*) AS total,COALESCE(SUM(<include refid="dachangIncluded"><property name="scopeAlias" value="a" /></include>),0) AS insideCount,

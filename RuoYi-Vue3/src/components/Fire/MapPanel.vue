@@ -319,6 +319,7 @@ import { getToken } from '@/utils/auth'
 import { listMapPlaces } from '@/api/fire/places'
 import { PLACE_LAYERS, filterMapPlaces, normalizeMapPlace } from '@/api/fire/placeLayers'
 import { fireAlarmPoints } from '@/api/fire/rules'
+import { isInDachang } from '@/api/fire/dachangScope.js'
 import { mountMap } from '@/api/fire/mapAdapter'
 import { fire } from '@/api/fire'
 import { canFire } from '@/api/fire/access'
@@ -421,7 +422,7 @@ const shownDevices = computed(() =>
 )
 // Active fire markers are never hidden by ordinary resource/category filters.
 const alarmPoints = computed(() => fireAlarmPoints(props.alarmRows === undefined ? alarms.value : props.alarmRows, useDatabasePlaces ? databasePlaces.value : places.value, devices.value))
-const visibleAlarmPoints = computed(() => filterIncidents(alarmPoints.value, layers.value))
+const visibleAlarmPoints = computed(() => filterIncidents(alarmPoints.value.filter(isInDachang), layers.value))
 const toggle = (l) => {
   layers.value = layers.value.includes(l)
     ? layers.value.filter((x) => x !== l)
@@ -826,3 +827,4 @@ defineExpose({ refresh: load, focusAlarm })
 .map-layer-buttons > button[aria-pressed="true"]::before { content:'✓ '; }
 .map-layer-buttons > button:focus-visible, .map-layer-toggle:focus-visible, .map-zoom button:focus-visible { outline:2px solid #a9e7ee; outline-offset:2px; }
 </style>
+

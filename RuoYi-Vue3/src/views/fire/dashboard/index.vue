@@ -257,6 +257,7 @@ import { deviceAlarmStats } from '@/api/fire/deviceAccess'
 import { PLACE_LAYERS } from '@/api/fire/placeLayers'
 import { canFire } from '@/api/fire/access'
 import { hostAlarmSummary, isActiveFire, isDisplayAlarm } from '@/api/fire/rules'
+import { isInDachang } from '@/api/fire/dachangScope.js'
 import { isFireMock } from '@/api/fire/config'
 import { attempt } from '../useFire'
 import Panel from '@/components/Fire/Panel.vue'
@@ -361,13 +362,13 @@ async function refreshAlarms() {
   try {
     const response = await fire.list('alarms', { pageSize: 1000 })
     if (disposed) return
-    alarms.value = response.rows
-    const fresh = response.rows.filter(x => isDisplayAlarm(x) && !seen.has(x.id))
+    alarms.value = response.rows.filter(isInDachang)
+    const fresh = alarms.value.filter(x => isDisplayAlarm(x) && !seen.has(x.id))
     if (initialized && fresh.length) {
       ElMessage.warning(`新增 ${fresh.length} 条消防警情，请及时核查`)
       if (sound.value) beep()
     }
-    seen = new Set(response.rows.filter(isDisplayAlarm).map(x => x.id))
+    seen = new Set(alarms.value.filter(isDisplayAlarm).map(x => x.id))
     initialized = true
     updated.value = new Date().toLocaleTimeString('zh-CN')
     alarmError.value = ''
@@ -1245,3 +1246,5 @@ onBeforeUnmount(() => {
 .selected-fire-actions { display:flex; gap:8px; margin-top:12px; }
 .selected-fire-actions .el-button + .el-button { margin-left:0; }
 </style>
+
+

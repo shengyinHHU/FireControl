@@ -21,13 +21,20 @@ export function incidentSummary(row) {
   const title = String(row.name || row.caseTypeName || '警情详情').replace(/\d{7,}/g, '…')
   return `${incidentSource(row)} · ${title.length > 18 ? title.slice(0,18) + '…' : title}`
 }
+// Tabler Icons (MIT); see src/assets/icons/tabler/LICENSE.
 const paths = {
- fire: '<path d="M13 2c1 5-5 6-3 11-3-1-3-4-3-4-6 7-1 13 5 13s10-6 6-12c0 4-3 4-3 4s3-7-2-12Z"/>',
- traffic: '<path d="m4 10 2-6h12l2 6M3 10h18v8H3zM5 18v3m14-3v3M6 14h2m8 0h2"/>',
- rescue: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="m6 5 3 4m6 6 3 4M5 18l4-3m6-6 4-3"/>',
- assist: '<path d="M3 16h4l3-3h7c3 0 3 3 0 3h-5m-5 0 4 5h7l4-6M3 14v8M12 9C3 4 10 0 12 4c2-4 9 0 0 5Z"/>',
- unknown: '<path d="M5 17h14l-2-3V9a5 5 0 0 0-10 0v5l-2 3Zm5 3h4M12 2v2"/>',
+  "fire": "<path d=\"M12 10.941c2.333 -3.308 .167 -7.823 -1 -8.941c0 3.395 -2.235 5.299 -3.667 6.706c-1.43 1.408 -2.333 3.294 -2.333 5.588c0 3.704 3.134 6.706 7 6.706c3.866 0 7 -3.002 7 -6.706c0 -1.712 -1.232 -4.403 -2.333 -5.588c-2.084 3.353 -3.257 3.353 -4.667 2.235\" />",
+  "traffic": "<path d=\"M5 17a2 2 0 1 0 4 0a2 2 0 1 0 -4 0\" />\n  <path d=\"M15 17a2 2 0 1 0 4 0a2 2 0 1 0 -4 0\" />\n  <path d=\"M5 17h-2v-6l2 -5h9l4 5h1a2 2 0 0 1 2 2v4h-2m-4 0h-6m-6 -6h15m-6 0v-5\" />",
+  "rescue": "<path d=\"M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0\" />\n  <path d=\"M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0\" />\n  <path d=\"M15 15l3.35 3.35\" />\n  <path d=\"M9 15l-3.35 3.35\" />\n  <path d=\"M5.65 5.65l3.35 3.35\" />\n  <path d=\"M18.35 5.65l-3.35 3.35\" />",
+  "assist": "<path d=\"M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572\" />\n  <path d=\"M12 6l-3.293 3.293a1 1 0 0 0 0 1.414l.543 .543c.69 .69 1.81 .69 2.5 0l1 -1a3.182 3.182 0 0 1 4.5 0l2.25 2.25\" />\n  <path d=\"M12.5 15.5l2 2\" />\n  <path d=\"M15 13l2 2\" />",
+  "unknown": "<path d=\"M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6\" />\n  <path d=\"M9 17v1a3 3 0 0 0 6 0v-1\" />",
+  "mixed": "<path d=\"M8 6a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2l0 -8\" />\n  <path d=\"M4 10a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2l0 -8\" />"
 }
 export function incidentIcon(kind) {
  return `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths[kind] || paths.unknown}</svg>`
+}
+export const incidentEnded = row => /返队|归档|已结束|已结案|已处理|处置结束|已办结/.test(row.status || row.caseStatusName || "")
+export function incidentClusterKind(rows) {
+ const kinds = new Set(rows.map(incidentKind))
+ return kinds.size === 1 ? [...kinds][0] : "mixed"
 }
