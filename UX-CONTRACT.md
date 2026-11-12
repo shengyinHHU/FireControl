@@ -1,5 +1,21 @@
 # Fire map interaction contract
 
+## Manual SMS canonical UI map
+
+| Capability | Canonical owner | Source of truth | Allowed variants | Verification |
+|---|---|---|---|---|
+| Form | SmsComposeDialog + Element Plus ElForm/ElInput/ElCheckbox | recipient snapshot + backend SMS contract | real place contact / real inspection post | sms.browser.cjs |
+| Table Selection | Element Plus checkbox group | server-resolved contact mobile list | one auto-selected / multiple explicit choices | sms.browser.cjs |
+| Select/Listbox | Element Plus ElSelect | SMS task-status map | record filter | sms.browser.cjs |
+| Date | Element Plus date range + server Asia/Shanghai time | record creation time | record query | sms.browser.cjs |
+| Toast | Element Plus ElMessage + persistent result/error | actual server outcome | submission / validation / failure / uncertainty | sms.browser.cjs |
+| Scrollbar | fire.scss + Element Plus overlay/table | DESIGN.md | bounded SMS dialog body, table horizontal overflow | sms.browser.cjs |
+| CRUD | FireSmsService + FireSmsReadService + SmsRecords | durable unique request and DataScope | explicit manual send / scoped read | tools/sms/verify_project.py |
+
+ContactActions adds 短信 immediately after 拨号. Hidden without fire:sms:send; disabled with a reason for missing source/phone, landlines or inactive posts. The server additionally requires source-list permission and existing source data scope. SmsComposeDialog reloads real recipient details, discards stale loads, starts with blank body, fixes the signature, exposes full live preview, uses explicit mobile selection, validates input and restores trigger focus. Draft close asks to discard; busy submission cannot close or double-submit. One dialog is owned by Shell across all supported sources; clicking SMS never opens a dial portal or starts video.
+
+POST carries source IDs, preview phone/signature, selected phones, raw body and a stable request ID, never vendor credentials or a frontend-computed sign. Pre-dispatch validation preserves editable input with a specific reason. Actual provider rejection preserves input; an explicit same-content retry asks before creating a new request. Unknown results lock resend and offer querying the same request. Pending/accepted/partial/failed/unknown are separate from delivery, which stays unconfirmed without a receipt. A durable unique sender/request record is committed before dispatch, and identical retries return it even after transport or post-dispatch DB errors. No automatic retry. SMS records have server-side pagination, persisted committed filters, loading/empty/error/retry, real details and sender/department scope; no demo fallback in any build mode. The legacy notification-rules tab retains its independent behavior and is not enabled to send real messages by this change.
+
 The shared MapPanel is the owner of resource-layer toggles. Preserve its current two-column label arrangement and Element Plus feedback/detail primitives. Selection is local transient map state, defaults to all four place layers off, and is not a persistent database mutation.
 
 Native buttons support Enter/Space, aria-pressed, visible keyboard focus, and independent multiple selection. Marker removal is immediate and does not depend on a new network request. The latest selection wins when data loads. Markers use class glyphs and names, not color alone.
@@ -142,3 +158,7 @@ Home routing source: 2026-11-05 user request to enter the local command screen a
 The form owns validation with novalidate, visible labels, username/current-password autocomplete, a native accessible password visibility button, keyboard-safe captcha refresh and IME-safe Enter submission. Invalid submission focuses the first error. Busy state preserves button size and blocks duplicates. Failed login retains input and refreshes/clears the enabled captcha; the shared request toast is supplemented by a persistent inline error. Captcha loading, malformed/failed response and retry are explicit; never permit login while the required captcha is unavailable. A server-disabled captcha displays the account guidance in the same reserved stage. Superseded/unmounted requests cannot change page state.
 
 Login is the documented light-form/dark-brand variant; desktop illustration and mobile simplification share one component. No frozen page height or hidden vertical document overflow; all controls remain reachable on small and short viewports. Page title identifies 大厂智慧消防. Canonical browser evidence: RuoYi-Vue3/tests/fire/login.browser.cjs with fixture HTTP, plus login-desktop/mobile/laptop screenshots.
+
+## Dahua talkback and connection binding
+
+The existing microphone action starts an explicit user-owned call. Stop, cancel, dialog close, camera switch, lost microphone, lost WS or queue overflow release capture; no automatic microphone restart. Show permission/connecting/sending/error states and separate browser, SDK-submitted and returned byte counts; submitted audio never implies confirmed on-site playback. Reuse Element Plus ElDialog, ElForm, ElInput, ElInputNumber, ElSelect, ElSwitch and ElMessage; connection-save blocks duplicate submits and retains fields on error. Existing record revision guards concurrent edits; removing binding requires confirmation. Passwords remain server-side. Preview-only users see neither talk nor connection-edit actions. Verification: tests/fire/video-talkback.browser.cjs, tests/fire/dahua-audio.test.mjs and tools/dahua/verify.py; deployment instructions in docs/dahua-netsdk-deployment.md.

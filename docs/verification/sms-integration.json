@@ -1,0 +1,8 @@
+{
+  "isolatedMySQL": true,
+  "loopbackSmsPlatform": true,
+  "schemaRepeatSafe": true,
+  "businessDatabaseAccessed": false,
+  "liveSmsSent": false,
+  "result": "SMS_INTEGRATION_OK checks=36; actual MySQL/MyBatis/DataScope, loopback HTTP, concurrency and failure recovery; no business DB or live SMS accessed"
+}

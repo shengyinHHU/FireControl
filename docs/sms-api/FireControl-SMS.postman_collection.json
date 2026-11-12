@@ -1,0 +1,233 @@
+{
+  "info": {
+    "name": "FireControl 短信服务",
+    "description": "先获取 Token，再发送和查询。新短信清空 requestId；重试保留原编号。实际发送会消耗短信额度。详见随附说明。",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "01 获取 Token",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "function stop(message) { pm.execution.skipRequest(); throw new Error(message); }",
+              "const root = String(pm.environment.get('baseUrl') || '');",
+              "if (!/^https?:\\/\\//.test(root) || root.endsWith('/')) stop('请设置无末尾斜杠的 API 根地址 baseUrl');",
+              "",
+              "const username = String(pm.environment.get('username') || '');",
+              "const password = String(pm.environment.get('password') || '');",
+              "if (!username || !password) stop('请在选中的环境中填写 username 和 password');",
+              "pm.variables.set('tokenPayload', JSON.stringify({username, password}));"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('获取 Token 成功', function () {",
+              "    pm.response.to.have.status(200);",
+              "    const r = pm.response.json();",
+              "    pm.expect(r.code).to.eql(200);",
+              "    pm.expect(r.token).to.be.a('string').and.not.empty;",
+              "    pm.environment.set('token', r.token);",
+              "    pm.environment.set('expiresIn', String(r.expiresIn));",
+              "});",
+              "if (pm.response.code !== 200 || pm.response.json().code !== 200) pm.environment.unset('token');"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/fire/sms/open/token",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "fire",
+            "sms",
+            "open",
+            "token"
+          ]
+        },
+        "auth": {
+          "type": "noauth"
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{{tokenPayload}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "02 发送短信",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "function stop(message) { pm.execution.skipRequest(); throw new Error(message); }",
+              "const root = String(pm.environment.get('baseUrl') || '');",
+              "if (!/^https?:\\/\\//.test(root) || root.endsWith('/')) stop('请设置无末尾斜杠的 API 根地址 baseUrl');",
+              "",
+              "if (!pm.environment.get('token')) stop('请先执行 01 获取 Token');",
+              "const mobiles = String(pm.environment.get('mobiles') || '').split(',').map(x => x.trim()).filter(Boolean);",
+              "if (mobiles.length < 1 || mobiles.length > 10 || mobiles.some(x => !/^1[3-9]\\d{9}$/.test(x)) || new Set(mobiles).size !== mobiles.length) stop('请填写 1 至 10 个真实手机号，用英文逗号分隔且不重复');",
+              "const content = String(pm.environment.get('content') || '');",
+              "if (!content.trim()) stop('请填写短信正文 content');",
+              "const bizId = String(pm.environment.get('bizId') || '');",
+              "if (bizId.length > 100) stop('bizId 长度不能超过 100');",
+              "let requestId = String(pm.environment.get('requestId') || '');",
+              "if (!requestId) { requestId = pm.variables.replaceIn('{{$guid}}').toLowerCase(); pm.environment.set('requestId', requestId); }",
+              "if (!/^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$/.test(requestId)) stop('requestId 必须是小写 UUID');",
+              "pm.variables.set('requestId', requestId);",
+              "pm.variables.set('smsPayload', JSON.stringify({requestId, mobiles, content, bizId}));"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('服务处理成功（另看 taskStatus 确认平台受理状态）', function () {",
+              "    pm.response.to.have.status(200);",
+              "    const r = pm.response.json();",
+              "    pm.expect(r.code).to.eql(200);",
+              "    pm.expect(r.data.requestId).to.eql(pm.environment.get('requestId'));",
+              "    pm.expect(['submitted','partial','failed','pending','unknown']).to.include(r.data.taskStatus);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/fire/sms/open/send",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "fire",
+            "sms",
+            "open",
+            "send"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{{smsPayload}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "03 查询结果",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "function stop(message) { pm.execution.skipRequest(); throw new Error(message); }",
+              "const root = String(pm.environment.get('baseUrl') || '');",
+              "if (!/^https?:\\/\\//.test(root) || root.endsWith('/')) stop('请设置无末尾斜杠的 API 根地址 baseUrl');",
+              "",
+              "if (!pm.environment.get('token')) stop('请先获取 Token');",
+              "const requestId = String(pm.environment.get('requestId') || '');",
+              "if (!/^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$/.test(requestId)) stop('请填写原发送使用的 requestId');",
+              "pm.variables.set('requestId', requestId);"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('服务处理成功（另看 taskStatus 确认平台受理状态）', function () {",
+              "    pm.response.to.have.status(200);",
+              "    const r = pm.response.json();",
+              "    pm.expect(r.code).to.eql(200);",
+              "    pm.expect(r.data.requestId).to.eql(pm.environment.get('requestId'));",
+              "    pm.expect(['submitted','partial','failed','pending','unknown']).to.include(r.data.taskStatus);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/fire/sms/open/requests/{{requestId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "fire",
+            "sms",
+            "open",
+            "requests",
+            "{{requestId}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "feature": "manual-sms",
+  "backend": {
+    "passed": true,
+    "checks": 36,
+    "loopbackPlatform": true,
+    "isolatedMySQL": true,
+    "command": "python tools/sms/verify_project.py"
+  },
+  "frontendUnit": {
+    "passed": true,
+    "tests": 67,
+    "command": "npm run test:fire"
+  },
+  "browser": {
+    "passed": true,
+    "fixtureHTTP": true,
+    "reports": "sms-browser.json",
+    "actualVue": true,
+    "command": "node tests/fire/sms.browser.cjs"
+  },
+  "regressions": {
+    "placeContacts": true,
+    "inspection": true
+  },
+  "productionBuild": {
+    "command": "npm run build:prod",
+    "passed": true
+  },
+  "premiumAudit": {
+    "mode": "strict",
+    "violations": 0
+  },
+  "security": {
+    "liveSmsSent": false,
+    "businessDatabaseAccessed": false,
+    "realKeysAbsentFromSourceAndBundle": true,
+    "localConfigGitIgnored": true
+  },
+  "installation": {
+    "appliedToBusinessDatabase": false,
+    "localServerCredentialsConfigured": true,
+    "requiresBackendRestart": true,
+    "sql": "SQL/fire_sms.sql"
+  }
+}

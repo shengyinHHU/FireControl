@@ -15,6 +15,7 @@ public_key:MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAg0Ub6OQqQHo51Ur8wtEu49TJT
 
 218.94.2.84
 http://218.94.2.84:18880/fire/dashboard
+http://dcjd.jnrhtx.top:18880/
 18880，18881
 10.208.108.83-大厂街道-后端服务器
 10.208.108.84-大厂街道-数据库服务器
@@ -74,3 +75,64 @@ DNS：223.5.5.5
 前端：npm run build:prod
 Compress-Archive -Path .\dist\* -DestinationPath ..\firecontrol-frontend.zip -Force
 后端：maven 收藏夹  ruoyi父目录
+用 Workbench 的 **“Server → Data Export”**，把整个 `dachang` 库导出成一个 SQL 文件，再上传到宝塔导入即可。
+
+1. **连接本机数据库**
+
+   打开 Workbench，进入你平时开发 FireControl 使用的本机连接。导出期间暂停本机后端的写入，MySQL 保持运行。
+
+2. **打开数据库导出页面**
+
+   点击顶部菜单 **Server → Data Export**，也可以点击左侧管理栏中的 **Data Export**。[Workbench 官方说明](https://dev.mysql.com/doc/workbench/en/wb-admin-export-import-management.html)
+
+3. **选择完整导出内容**
+
+   按下面设置：
+
+   | 页面选项 | 怎么选 |
+   |---|---|
+   | 左侧数据库列表 | 只勾选 **`dachang`** |
+   | 右侧对象列表 | 全部勾选，包括表和视图 |
+   | 导出类型下拉框 | **Dump Structure and Data**，即结构和数据 |
+   | Dump Stored Procedures and Functions | 勾选，包含存储过程和函数 |
+   | Dump Events | 勾选，包含数据库事件 |
+   | Dump Triggers | 勾选，包含触发器 |
+
+   不要勾选 `mysql`、`sys`、`information_schema`、`performance_schema` 等系统库。
+
+4. **选择生成一个 SQL 文件**
+
+   在下面的 **Export Options** 区域：
+
+   - 选择 **Export to Self-Contained File**。
+   - 点击右侧 `…`，例如保存到桌面的 `dachang_full.sql`。
+   - 勾选 **Create Dump in a Single Transaction**。
+   - 勾选 **Include Create Schema**，将建库语句一起导出。
+
+5. **调整高级选项**
+
+   点击 **Advanced Options…**，设置：
+
+   | 选项 | 设置 |
+   |---|---|
+   | `set-gtid-purged` | **OFF** |
+   | `column-statistics` | **FALSE／取消勾选** |
+   | `lock-tables` | **取消勾选**，配合前面的单事务导出 |
+
+   `set-gtid-purged=OFF` 可以避免把本机的复制事务状态写入迁移文件。[MySQL 官方说明](https://dev.mysql.com/doc/refman/8.4/en/mysqldump.html)
+
+6. **开始导出**
+
+   返回导出页面，点击右下角 **Start Export**，按提示输入数据库密码。
+
+   等待显示完成，确认日志没有导出失败或中断，并且指定位置生成了非空的 `.sql` 文件。
+
+7. **上传到宝塔并导入**
+
+   服务器安装好 MySQL 8.4 后，在宝塔中：
+
+   **数据库 → MySQL → 新建的空库 `dachang` → 导入 → 上传 → 选择 `dachang_full.sql` → 执行导入。**
+
+   等待显示导入成功，再查看表列表。[宝塔官方导入流程](https://docs.bt.cn/practical-tutorials/switch-mysql-version/)
+
+这里导出的是 **`dachang` 业务库的全部结构和数据**，包括项目账号、角色、菜单和业务记录。数据库连接用户 `firecontrol` 仍在宝塔单独创建；本机上传目录中的图片、附件也需要另行迁移。

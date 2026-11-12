@@ -15,7 +15,15 @@
         system系统模块
     </description>
 
+    <repositories><repository><id>dahua-bundled</id><url>file://${project.basedir}/../vendor/dahua-netsdk/maven</url></repository></repositories>
+    <build><resources>
+      <resource><directory>src/main/resources</directory></resource>
+      <resource><directory>../vendor/dahua-netsdk/config</directory></resource>
+      <resource><directory>../vendor/dahua-netsdk/native</directory></resource>
+    </resources></build>
     <dependencies>
+        <dependency><groupId>com.dahua</groupId><artifactId>netsdk-api</artifactId><version>3.060.0000003</version></dependency>
+        <dependency><groupId>net.java.dev.jna</groupId><artifactId>jna-jpms</artifactId><version>5.19.1</version></dependency>
 
         <!-- 通用工具-->
         <dependency>

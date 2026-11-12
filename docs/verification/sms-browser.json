@@ -1,0 +1,16 @@
+{
+  "actualVue": true,
+  "fixtureHTTP": true,
+  "liveSmsSent": false,
+  "businessDatabaseAccessed": false,
+  "checks": [
+    "phone-adjacent entry, landline disabled, empty validation, raw body/live preview, recipient identity, double-click single submit and success feedback",
+    "provider rejection and safe pre-dispatch validation preserve editable content with clear reasons",
+    "lost HTTP response locks resend and queries the original request without a second send",
+    "explicit choice for multiple mobiles, unsent draft confirmation, keyboard Escape and stale recipient response ignored",
+    "inspection uses the same dialog without starting video; narrow viewport keeps actions visible",
+    "real records page, source label and full result detail",
+    "read-only role has no real sending control even in firemock mode"
+  ],
+  "errors": []
+}

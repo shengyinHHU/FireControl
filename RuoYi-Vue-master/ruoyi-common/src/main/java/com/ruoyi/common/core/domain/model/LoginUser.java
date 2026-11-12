@@ -35,6 +35,11 @@ public class LoginUser implements UserDetails
      */
     private String token;
 
+    /** Server-side marker for narrowly scoped SMS service sessions; never put in JWT claims. */
+    private String smsCredentialStamp;
+    public String getSmsCredentialStamp() { return smsCredentialStamp; }
+    public void setSmsCredentialStamp(String value) { smsCredentialStamp = value; }
+
     /**
      * 登录时间
      */

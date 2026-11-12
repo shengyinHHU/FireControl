@@ -25,6 +25,7 @@ yarn-error.log*
 ### Logs & runtime ###
 logs/
 *.log
+**/runtime/dahua-sdk/
 
 ### OS ###
 .DS_Store
@@ -35,3 +36,8 @@ docs/talkapi/
 
 ### Local SQL dumps ###
 SQL/Dump*.sql
+
+# Local SMS server credentials (never bundled into source or frontend).
+RuoYi-Vue-master/config/fire-sms-local.properties
+work/sms-open-private/
+docs/sms-api/*.postman_environment.local.json

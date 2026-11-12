@@ -1,0 +1,5 @@
+# Credentials and requests/responses are local to this isolated probe.
+sms-local.properties
+local-results/
+out/
+*.class

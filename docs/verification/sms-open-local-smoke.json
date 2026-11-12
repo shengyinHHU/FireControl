@@ -1,0 +1,11 @@
+{
+  "packagedApplicationBooted": true,
+  "workingDirectory": "workspace-root",
+  "localDatabaseAccountAuthenticated": true,
+  "authenticatedMissingRequest404": true,
+  "invalidSendRejectedBeforeDispatch": true,
+  "globalSmsListDenied": true,
+  "logoutRevokesToken": true,
+  "temporaryLoopbackServer": true,
+  "liveSmsSent": false
+}

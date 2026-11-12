@@ -5,7 +5,7 @@
    <p v-if="loading" role="status">正在加载岗位摄像头…</p>
    <template v-if="post">
     <p>{{ post.placeName || '未关联机构' }}</p>
-    <InspectionContact class="session-contact" :name="post.contactName" :phone="post.contactPhone" />
+    <InspectionContact class="session-contact" :name="post.contactName" :phone="post.contactPhone" :post-id="post.postId || postId" :inactive="post.status !== '0'" />
     <el-select v-model="binding" :disabled="saving" aria-label="选择岗位摄像头" popper-class="fire-dialog" style="width:100%" @change="clearEvidence">
      <el-option v-for="c in post.cameras" :key="c.bindingId" :label="c.deviceName + (c.isPrimary ? '（默认）' : '')" :value="c.bindingId" />
     </el-select>

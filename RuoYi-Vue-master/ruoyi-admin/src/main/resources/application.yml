@@ -47,6 +47,12 @@ user:
 
 # Spring配置
 spring:
+  config:
+    import:
+      # Support IDE launches from the workspace root and the admin module directory.
+      - optional:file:./RuoYi-Vue-master/config/fire-sms-local.properties
+      - optional:file:../config/fire-sms-local.properties
+      - optional:file:${FIRE_SMS_CONFIG:./config/fire-sms-local.properties}
   # 资源信息
   messages:
     # 国际化资源文件路径
@@ -97,7 +103,7 @@ token:
   # 令牌自定义标识
   header: Authorization
   # 令牌密钥
-  secret: abcdefghijklmnopqrstuvwxyz
+  secret: ${TOKEN_SECRET:abcdefghijklmnopqrstuvwxyz}
   # 令牌有效期（默认30分钟）
   expireTime: 30
 
@@ -198,3 +204,14 @@ fire:
     enterprise-user: '18913326295'
     # 超级管理员默认可访问；其他用户需同时具备视频权限并在此显式授权。
     allowed-user-ids: []
+
+    dahua:
+      enabled: ${FIRE_DAHUA_ENABLED:true}
+      extract-directory: ${FIRE_DAHUA_EXTRACT_DIR:./runtime/dahua-sdk}
+      max-sessions: 4
+      # 浏览器网页的来源（协议+域名+端口），多个用逗号分隔；正式部署必须加入HTTPS域名。
+      allowed-origins: ${FIRE_DAHUA_ORIGINS:http://localhost,http://localhost:5173,http://127.0.0.1:5173}
+      credentials:
+        default:
+          username: ${FIRE_DAHUA_USER:admin}
+          password: ${FIRE_DAHUA_PASSWORD:}

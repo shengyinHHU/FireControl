@@ -15,7 +15,7 @@
           <el-descriptions-item label="联系人姓名">
             <div class="place-contact-name">
               <span>{{ contact.contactName || '未填写' }}</span>
-              <ContactDialLink class="place-contact-dial" :name="contact.contactName" />
+              <ContactActions class="place-contact-dial" :name="contact.contactName" :phone="contact.phone" :source="{ type: 'placeContact', id: contact.contactId, parentId: mapRecord.id || mapRecord.placeId || placeId }" />
             </div>
           </el-descriptions-item>
           <el-descriptions-item label="联系电话">{{ contact.phone || '未填写' }}</el-descriptions-item>
@@ -198,7 +198,7 @@
 <script setup>
 import { ref, watch, computed } from 'vue'
 import { ElMessageBox } from 'element-plus'
-import ContactDialLink from './ContactDialLink.vue'
+import ContactActions from './ContactActions.vue'
 import { fire, requestCall } from '@/api/fire'
 import { listDatabasePlaceContacts } from '@/api/fire/places'
 import { canFire } from '@/api/fire/access'

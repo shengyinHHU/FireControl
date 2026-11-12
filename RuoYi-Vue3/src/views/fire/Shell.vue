@@ -49,16 +49,19 @@
       <div v-if="isFireMock && !screen" class="fire-demo-bar">
         <span v-if="liveVideoPage">监控目录来自天翼视联；坐标台账来自数据库，播放按需连接</span>
         <span v-else-if="inspectionPage">当前查岗岗位、记录与抓拍来自真实数据库；视频复用天翼视联监控</span>
+        <span v-else-if="smsRecordsPage">短信发送记录来自真实数据库；任务提交与最终送达分别展示</span>
         <span v-else-if="databasePage">当前页面使用真实数据库记录；119警情状态来自平台，设备通信状态来自后台接收</span>
         <span v-else>当前业务使用演示数据，操作保存在当前浏览器</span>
         <el-button v-if="!databasePage && !liveVideoPage" link @click="reset">恢复示例数据</el-button>
       </div>
       <router-view :key="route.path" />
+      <SmsComposeDialog />
     </main>
   </div>
 </template>
 <script setup>
 import { computed } from 'vue'
+import SmsComposeDialog from '@/components/Fire/SmsComposeDialog.vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessageBox } from 'element-plus'
 import { navigation } from './catalog'
@@ -71,7 +74,8 @@ const route = useRoute(),
   router = useRouter()
 const liveVideoPage = computed(() => route.path === '/fire/video')
 const inspectionPage = computed(() => route.path === '/fire/inspections')
-const databasePage = computed(() => ['/fire/places', '/fire/hosts', '/fire/alarms', '/fire/inspections'].includes(route.path))
+const smsRecordsPage = computed(() => route.path === '/fire/sms' && route.query.tab !== 'rules')
+const databasePage = computed(() => ['/fire/places', '/fire/hosts', '/fire/alarms', '/fire/inspections'].includes(route.path) || smsRecordsPage.value)
 const screen = computed(() => route.path === '/fire/dashboard')
 const menus = computed(() =>
   navigation.filter((n) => canFire(n[0])),

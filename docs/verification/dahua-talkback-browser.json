@@ -1,0 +1,18 @@
+{
+  "fixtureGateway": true,
+  "fakeMicrophone": true,
+  "realDeviceAudioSent": false,
+  "checks": [
+    "IP/port/profile binding saved without browser password",
+    "shared sound button controls SDK listening during talk",
+    "real Chrome AudioWorklet sends PCM16 8k 640-byte fake microphone packets and decodes downlink",
+    "stop and close dialog release microphone and AudioContext",
+    "permission denial creates no ticket",
+    "late ticket cancelled after pending request stopped",
+    "no audio before SDK ready; rejected start releases capture",
+    "API and backpressure errors release capture",
+    "review and remove binding with confirmation",
+    "preview-only user has no talk/config actions"
+  ],
+  "errors": []
+}

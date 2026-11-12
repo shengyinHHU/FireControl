@@ -93,14 +93,22 @@ public class SecurityConfig
                 headersCustomizer.cacheControl(cache -> cache.disable()).frameOptions(options -> options.sameOrigin());
             })
             // 认证失败处理类
-            .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
+            .exceptionHandling(exception -> exception.authenticationEntryPoint((request,response,error) -> {
+                if(request.getServletPath().startsWith("/fire/sms/open/")) {
+                    response.setStatus(401);response.setContentType("application/json;charset=UTF-8");
+                    response.setHeader("Cache-Control","no-store");
+                    response.getWriter().write("{\"code\":401,\"msg\":\"Token缺失或已失效，请重新获取短信服务Token\"}");
+                } else unauthorizedHandler.commence(request,response,error);
+            }))
             // 基于token，所以不需要session
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             // 注解标记允许匿名访问的url
             .authorizeHttpRequests((requests) -> {
                 // Only server-created completion dispatches bypass re-authentication; initial SSE GET still requires JWT + method permission.
                 requests.requestMatchers(req -> req.getDispatcherType() == jakarta.servlet.DispatcherType.ASYNC && "/fire/alarms/stream".equals(req.getServletPath())).permitAll();
+                requests.requestMatchers(HttpMethod.GET, "/fire/video/dahua/socket").permitAll(); // One-use ticket required in first WS frame.
                 permitAllUrl.getUrls().forEach(url -> requests.requestMatchers(url).permitAll());
+                requests.requestMatchers(HttpMethod.POST,"/fire/sms/open/token").permitAll();
                 // 对于登录login 注册register 验证码captchaImage 允许匿名访问
                 requests.requestMatchers("/login", "/register", "/captchaImage").permitAll()
                     // 静态资源，可匿名访问
