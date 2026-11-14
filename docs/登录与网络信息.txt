@@ -74,7 +74,12 @@ DNS：223.5.5.5
 打包命令
 前端：npm run build:prod
 Compress-Archive -Path .\dist\* -DestinationPath ..\firecontrol-frontend.zip -Force
-后端：maven 收藏夹  ruoyi父目录
+
+
+后端：ctrl+shift+P  maven 收藏夹  ruoyi父目录
+D:\javaprogram\FireControl\RuoYi-Vue-master\ruoyi-admin\target\ruoyi-admin.jar
+再通过宝塔“文件”上传到： /opt/firecontrol/app/ruoyi-admin.jar
+数据库
 用 Workbench 的 **“Server → Data Export”**，把整个 `dachang` 库导出成一个 SQL 文件，再上传到宝塔导入即可。
 
 1. **连接本机数据库**
