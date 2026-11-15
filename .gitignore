@@ -26,6 +26,9 @@ yarn-error.log*
 logs/
 *.log
 **/runtime/dahua-sdk/
+outputs/device-diagnostics/backups/
+outputs/device-diagnostics/backend-restart.args
+outputs/place-management/backups/
 
 ### OS ###
 .DS_Store

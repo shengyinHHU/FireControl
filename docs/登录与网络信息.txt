@@ -141,3 +141,8 @@ D:\javaprogram\FireControl\RuoYi-Vue-master\ruoyi-admin\target\ruoyi-admin.jar
    等待显示导入成功，再查看表列表。[宝塔官方导入流程](https://docs.bt.cn/practical-tutorials/switch-mysql-version/)
 
 这里导出的是 **`dachang` 业务库的全部结构和数据**，包括项目账号、角色、菜单和业务记录。数据库连接用户 `firecontrol` 仍在宝塔单独创建；本机上传目录中的图片、附件也需要另行迁移。
+
+
+Get-NetTCPConnection -LocalPort 8080 -State Listen |
+  Select-Object -ExpandProperty OwningProcess -Unique |
+  ForEach-Object { Stop-Process -Id $_ -Force }

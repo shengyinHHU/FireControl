@@ -75,7 +75,7 @@ const route = useRoute(),
 const liveVideoPage = computed(() => route.path === '/fire/video')
 const inspectionPage = computed(() => route.path === '/fire/inspections')
 const smsRecordsPage = computed(() => route.path === '/fire/sms' && route.query.tab !== 'rules')
-const databasePage = computed(() => ['/fire/places', '/fire/hosts', '/fire/alarms', '/fire/inspections'].includes(route.path) || smsRecordsPage.value)
+const databasePage = computed(() => ['/fire/places', '/fire/gateways', '/fire/hosts', '/fire/alarms', '/fire/inspections'].includes(route.path) || smsRecordsPage.value)
 const screen = computed(() => route.path === '/fire/dashboard')
 const menus = computed(() =>
   navigation.filter((n) => canFire(n[0])),

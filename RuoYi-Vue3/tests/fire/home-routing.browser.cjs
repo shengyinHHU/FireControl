@@ -107,10 +107,10 @@ const server = spawn(process.execPath, ['node_modules/vite/bin/vite.js', '--mode
     assert.equal(await page.locator('.map-layer-buttons').getByRole('button', { name: '网格', exact: true }).count(), 0)
     await page.locator('.map-layer-toggle').click()
     for (let cycle = 0; cycle < 3; cycle++) {
-      const beforePolling = requests.filter(path => path === '/fire/hosts/stats').length
+      const beforePolling = requests.filter(path => path === '/fire/gateways/stats').length
       const beforeMap = requests.filter(path => path === '/fire/video/catalog/map').length
       await page.clock.fastForward(31000)
-      await assertPoll(() => requests.filter(path => path === '/fire/hosts/stats').length > beforePolling && requests.filter(path => path === '/fire/video/catalog/map').length > beforeMap)
+      await assertPoll(() => requests.filter(path => path === '/fire/gateways/stats').length > beforePolling && requests.filter(path => path === '/fire/video/catalog/map').length > beforeMap)
       await page.waitForFunction(() => !document.querySelector('.command-screen > .fire-error'))
     }
     assert.deepEqual([...new Set(unexpectedRequests)], [], 'all automatic fire API calls must have a real backend GET mapping')

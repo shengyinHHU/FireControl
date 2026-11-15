@@ -4,7 +4,31 @@
       暂无视频监控权限，请联系管理员授权。
     </p>
     <template v-else>
-      <div class="monitor-layout" :class="{ 'with-tree': directoryTree }">
+      <div v-if="compactTree" class="monitor-compact-tree">
+        <div class="monitor-toolbar">
+          <strong class="monitor-heading">监控目录</strong>
+          <el-button :loading="compactPaging" @click="reloadTree">刷新设备</el-button>
+        </div>
+        <div class="monitor-devices monitor-tree-scroll">
+          <p v-if="treeError" class="fire-error" role="alert">{{ treeError }} <el-button link @click="reloadTree">重试目录</el-button></p>
+          <el-tree :key="treeEpoch" ref="tree" node-key="id" lazy :load="loadTree" :props="treeProps"
+            :default-expanded-keys="['all']" :expand-on-click-node="true" highlight-current aria-label="视频监控目录树">
+            <template #default="{ node, data }">
+              <span v-if="data.kind === 'directory'" class="monitor-tree-directory" :title="data.name">
+                <el-icon><FolderOpened v-if="node.expanded" /><Folder v-else /></el-icon><span>{{ data.name }}</span>
+              </span>
+              <button v-else-if="data.kind === 'camera'" type="button" class="monitor-device monitor-tree-camera"
+                :title="data.name" :disabled="!canVideo('preview')" :aria-label="`查看视频：${data.name}`" @click.stop="play(data.device)">
+                <el-icon><VideoCamera /></el-icon><span>{{ data.name }}</span>
+              </button>
+              <el-button v-else-if="data.kind === 'more'" link :loading="compactPaging" @click.stop="loadTreeMore(node)">加载更多</el-button>
+              <span v-else class="monitor-tree-empty">{{ data.name }}</span>
+            </template>
+          </el-tree>
+        </div>
+        <div class="monitor-footer" role="status">展开目录，点击摄像头查看视频</div>
+      </div>
+      <div v-else class="monitor-layout" :class="{ 'with-tree': directoryTree }">
       <aside v-if="directoryTree" class="monitor-tree-panel" aria-label="监控目录">
         <h2>监控目录</h2>
         <el-button class="monitor-all" :type="selected ? 'default' : 'primary'" :aria-pressed="!selected" @click="goRoot">全部视频</el-button>
@@ -91,11 +115,12 @@
   </section>
 </template>
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { computed, ref, onMounted, onBeforeUnmount } from 'vue'
 import { canVideo, videoRegions, videoDevices } from '@/api/fire/video'
 import LiveVideoDialog from './LiveVideoDialog.vue'
 const props = defineProps({ compact: Boolean, directoryTree: Boolean, selectable: Boolean, selectedCodes: { type: Array, default: () => [] } })
 const emit = defineEmits(['select'])
+const compactTree = computed(() => props.compact && props.directoryTree)
 const selected = ref(''),
   regions = ref([]),
   children = ref([]),
@@ -107,19 +132,67 @@ const loading = ref(false),
   playing = ref(false),
   activeDevice = ref(null)
 const tree = ref(), treeError = ref(''), treeEpoch = ref(0), selectedName = ref('')
+const compactPaging = ref(false)
 const treeProps = { label: 'name', isLeaf: 'isLeaf' }
 let treeVersion = 0
 async function loadTree(node, resolve, reject) {
   const current = treeVersion
+  if (compactTree.value && node.level === 0) {
+    resolve([{ id: 'all', kind: 'directory', name: '全部视频', isLeaf: false }])
+    return
+  }
   try {
-    const { data } = await videoRegions(node.level === 0 ? undefined : node.data.id)
+    const regionId = compactTree.value ? node.data.regionId : node.level === 0 ? undefined : node.data.id
+    const [{ data }, page] = await Promise.all([
+      videoRegions(regionId),
+      compactTree.value ? videoDevices(regionId) : Promise.resolve(null),
+    ])
     if (current !== treeVersion) { resolve([]); return }
     if (!Array.isArray(data)) throw Error('监控目录返回格式异常')
+    if (compactTree.value) {
+      const folders = data.map(row => ({ id: `${node.key}:directory:${row.id}`, regionId: String(row.id), kind: 'directory', name: row.name, isLeaf: false }))
+      const children = [...folders, ...compactPageNodes(page.data, node.key, regionId)]
+      treeError.value = ''
+      resolve(children.length ? children : [{ id: `${node.key}:empty`, kind: 'empty', name: '当前目录暂无摄像头', isLeaf: true }])
+      return
+    }
     treeError.value = ''
     resolve(data.map(row => ({ ...row, id: String(row.id), isLeaf: row.hasChildren === 0 || row.hasChildren === '0' || row.hasChildren === false })))
   } catch (e) {
     if (current === treeVersion) treeError.value = e.message || '监控目录加载失败'
     reject()
+  }
+}
+function compactPageNodes(page, parentKey, regionId, existing = new Set()) {
+  if (!Array.isArray(page?.list)) throw Error('监控设备返回格式异常')
+  const nodes = []
+  for (const device of page.list) {
+    const id = `${parentKey}:camera:${device.deviceCode}`
+    if (existing.has(id)) continue
+    existing.add(id)
+    nodes.push({ id, kind: 'camera', name: device.deviceName || '未命名摄像头', device, isLeaf: true })
+  }
+  const cursor = String(page.lastId ?? -1)
+  if (cursor !== '-1') nodes.push({ id: `${parentKey}:more`, kind: 'more', name: '加载更多', regionId, cursor, isLeaf: true })
+  return nodes
+}
+async function loadTreeMore(node) {
+  if (compactPaging.value) return
+  const current = treeVersion, parent = node.parent, { regionId, cursor } = node.data
+  compactPaging.value = true
+  treeError.value = ''
+  try {
+    const { data } = await videoDevices(regionId, cursor)
+    if (current !== treeVersion) return
+    if (String(data?.lastId ?? -1) === cursor) throw Error('平台分页游标未更新，请刷新设备后重试')
+    const additions = compactPageNodes(data, parent.key, regionId, new Set(parent.childNodes.map(child => child.key)))
+    tree.value.remove(node.data)
+    for (const item of additions) tree.value.append(item, parent.data)
+    treeError.value = ''
+  } catch (e) {
+    if (current === treeVersion) treeError.value = e.message || '加载更多失败，请重试'
+  } finally {
+    if (current === treeVersion) compactPaging.value = false
   }
 }
 function selectTree(region) {
@@ -129,6 +202,8 @@ function selectTree(region) {
 }
 function reloadTree() {
   treeVersion++; treeEpoch.value++; treeError.value = ''
+  compactPaging.value = false
+  if (compactTree.value) return
   goRoot()
 }
 let version = 0
@@ -211,7 +286,7 @@ async function loadMore() {
   }
 }
 onMounted(() => {
-  if (canVideo()) refresh()
+  if (canVideo() && !compactTree.value) refresh()
 })
 onBeforeUnmount(() => {
   treeVersion++
@@ -341,6 +416,21 @@ onBeforeUnmount(() => {
 .compact .monitor-icon {
   font-size: 22px;
 }
+.monitor-compact-tree { display:flex; flex-direction:column; flex:1; min-height:0; overflow:hidden; }
+.monitor-compact-tree .monitor-toolbar { margin-bottom:6px; }
+.monitor-compact-tree .monitor-tree-scroll { display:block; overflow:auto; }
+.monitor-compact-tree :deep(.el-tree) { background:transparent; color:inherit; min-width:100%; --el-tree-node-hover-bg-color:var(--el-fill-color-light); }
+.monitor-compact-tree :deep(.el-tree-node__content) { height:auto; min-height:34px; align-items:flex-start; }
+.monitor-compact-tree :deep(.el-tree-node.is-current > .el-tree-node__content),.monitor-compact-tree :deep(.el-tree-node:focus > .el-tree-node__content) { background:var(--el-fill-color-light); color:var(--fire-cyan); }
+.monitor-compact-tree :deep(.el-tree-node:focus-visible > .el-tree-node__content) { outline:1px solid var(--fire-cyan); outline-offset:-1px; }
+.monitor-compact-tree :deep(.el-tree-node__expand-icon) { margin-top:5px; }
+.monitor-tree-directory,.compact .monitor-tree-camera { display:flex; flex:1; min-width:0; align-items:flex-start; gap:7px; padding:7px 4px 7px 0; text-align:left; white-space:normal; overflow-wrap:anywhere; line-height:1.45; }
+.monitor-tree-directory > span,.monitor-tree-camera > span { min-width:0; }
+.monitor-tree-directory .el-icon,.monitor-tree-camera .el-icon { flex-shrink:0; margin-top:2px; color:var(--fire-cyan); }
+.compact .monitor-tree-camera { border:0; border-radius:2px; background:transparent; font:inherit; color:inherit; flex-wrap:nowrap; }
+.compact .monitor-tree-camera:hover,.compact .monitor-tree-camera:focus-visible { color:var(--fire-cyan); outline:1px solid var(--fire-cyan); outline-offset:-1px; }
+.monitor-tree-empty { padding:8px 4px 8px 0; color:var(--fire-muted); white-space:normal; }
+.monitor-compact-tree .monitor-footer { margin-top:6px; color:var(--fire-muted); }
 @media (max-width: 600px) {
   .monitor-devices {
     grid-template-columns: 1fr;

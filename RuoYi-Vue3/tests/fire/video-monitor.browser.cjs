@@ -17,7 +17,7 @@ const server=spawn(process.execPath,['node_modules/vite/bin/vite.js','--mode','f
   }
  })
  await context.addCookies([{name:'Admin-Token',value:'fixture-only',url:base}])
- let treeFail=false,slowDirectory=false;let permissions=['*:*:*'];let fail=false,empty=false,previewCalls=0,flvSuccess=false,mediaRequests=0,closedStreams=0
+ let treeFail=false,slowDirectory=false,longNames=false;let permissions=['*:*:*'];let fail=false,empty=false,previewCalls=0,flvSuccess=false,mediaRequests=0,closedStreams=0
  const live=process.env.VIDEO_LIVE==='1'||process.env.VIDEO_FLV_RELAY==='1'
  const relay=process.env.VIDEO_FLV_RELAY==='1'
  const runtime=path.resolve('../tools/video/runtime')
@@ -33,9 +33,9 @@ const server=spawn(process.execPath,['node_modules/vite/bin/vite.js','--mode','f
   }
   if(p==='/getInfo')body={code:200,user:{userId:1,userName:'admin',nickName:'管理员',avatar:''},roles:['admin'],permissions}
   else if(p==='/getRouters')body={code:200,data:[]}
-  else if(p==='/fire/video/regions')body=treeFail?{code:500,msg:'目录加载测试失败'}:{code:200,data:u.searchParams.get('regionId')==='1'?[{id:2,name:'子目录测试',hasChildren:0}]:[{id:1,name:'消控室监控',hasChildren:1}]}
-  else if(p==='/fire/video/devices' && u.searchParams.get('regionId')){if(slowDirectory&&u.searchParams.get('regionId')==='1')await new Promise(r=>setTimeout(r,500));body={code:200,data:{lastId:-1,list:[{deviceCode:'region-'+u.searchParams.get('regionId'),deviceName:'目录摄像头'+u.searchParams.get('regionId')}]}}}
-  else if(p==='/fire/video/devices')body=fail?{code:500,msg:'监控接口测试失败'}:{code:200,data:{lastId:u.searchParams.get('lastId')==='22'?-1:22,list:empty?[]:u.searchParams.get('lastId')==='22'?[{deviceCode:'fixture-3',deviceName:'摄像头三'}]:[{deviceCode:'fixture-1',deviceName:'测试摄像头一'},{deviceCode:'fixture-2',deviceName:'测试摄像头二'}]}}
+  else if(p==='/fire/video/regions')body=treeFail?{code:500,msg:'目录加载测试失败'}:{code:200,data:empty||u.searchParams.get('regionId')==='2'?[]:u.searchParams.get('regionId')==='1'?[{id:2,name:'子目录测试',hasChildren:0}]:[{id:1,name:'消控室监控',hasChildren:1}]}
+  else if(p==='/fire/video/devices' && u.searchParams.get('regionId')){if(slowDirectory&&u.searchParams.get('regionId')==='1')await new Promise(r=>setTimeout(r,500));body={code:200,data:{lastId:-1,list:[{deviceCode:'region-'+u.searchParams.get('regionId'),deviceName:(longNames?'大厂街道消防值班室东侧出入口与综合服务中心走廊超长摄像头名称测试':'目录摄像头')+u.searchParams.get('regionId')}]}}}
+  else if(p==='/fire/video/devices')body=fail?{code:500,msg:'监控接口测试失败'}:{code:200,data:{lastId:empty||u.searchParams.get('lastId')==='22'?-1:22,list:empty?[]:u.searchParams.get('lastId')==='22'?[{deviceCode:'fixture-3',deviceName:'摄像头三'}]:[{deviceCode:'fixture-1',deviceName:'测试摄像头一'},{deviceCode:'fixture-2',deviceName:'测试摄像头二'}]}}
   else if(p.endsWith('/preview')){if(relay){const response=await fetch('http://127.0.0.1:5186/preview',{headers:{Authorization:'Bearer fixture-only'}});await route.fulfill({json:await response.json()});return}previewCalls++;const protocol=u.searchParams.get('protocol');assert.ok(['flv','rtsp'].includes(protocol));body=protocol==='rtsp'?{code:200,data:{url:'rtsp://example.invalid/fixture-only'}}:(flvSuccess||live)?{code:200,data:{url:'/fire/video/flv/fixture-'+previewCalls,protocol:'flv',requiresAuth:true}}:{code:500,msg:'测试播放授权失败'}}
   else if(p.includes('/fire/'))body={code:200,data:[],rows:[],total:0}
   await route.fulfill({json:body})
@@ -108,7 +108,54 @@ const server=spawn(process.execPath,['node_modules/vite/bin/vite.js','--mode','f
   const panel=page.locator('.inspections-panel')
   await panel.getByRole('tab',{name:'视频监控',exact:true}).click()
   await panel.locator('.monitor-device').first().waitFor();assert.equal(await panel.getByRole('link',{name:'全部监控 ›',exact:true}).getAttribute('href'),'/fire/video')
+  const compactTree=panel.getByRole('tree',{name:'视频监控目录树'})
+  await compactTree.getByText('消控室监控',{exact:true}).waitFor()
+  assert.equal(await panel.getByRole('combobox').count(),0)
+  assert.equal(await panel.getByText('fixture-1',{exact:true}).count(),0)
+  assert.equal(await panel.getByText('状态未知',{exact:true}).count(),0)
+  const beforeTreePreview=previewCalls
+  await compactTree.getByText('消控室监控',{exact:true}).click()
+  await compactTree.getByText('子目录测试',{exact:true}).click()
+  await compactTree.getByRole('button',{name:'查看视频：目录摄像头2',exact:true}).waitFor()
+  assert.equal(await compactTree.locator('.el-tree-node.is-current > .el-tree-node__content').last().evaluate(el=>getComputedStyle(el).backgroundColor),'rgb(21, 54, 80)')
+  assert.equal(previewCalls,beforeTreePreview)
+  fail=true;await compactTree.getByRole('button',{name:'加载更多',exact:true}).click()
+  await panel.getByRole('alert').filter({hasText:'监控接口测试失败'}).waitFor()
+  assert.equal(await compactTree.getByRole('button',{name:'加载更多',exact:true}).count(),1)
+  fail=false;await compactTree.getByRole('button',{name:'加载更多',exact:true}).click()
+  await compactTree.getByRole('button',{name:'查看视频：摄像头三',exact:true}).waitFor()
+  assert.equal(await compactTree.getByRole('button',{name:'加载更多',exact:true}).count(),0)
+  assert.equal(await compactTree.getByRole('button',{name:'查看视频：目录摄像头2',exact:true}).count(),1)
+  checks.push('dashboard uses one lazy folder/camera tree, hides device codes and unknown status, retries cursor pages and preserves expanded children')
+  flvSuccess=false
+  const cameraButton=compactTree.getByRole('button',{name:'查看视频：目录摄像头2',exact:true})
+  await cameraButton.focus();await page.keyboard.press('Enter')
+  const treeDialog=page.getByRole('dialog');await treeDialog.getByRole('alert').filter({hasText:'测试播放授权失败'}).waitFor()
+  await page.keyboard.press('Escape');await treeDialog.waitFor({state:'hidden'})
+  treeFail=true;await panel.getByRole('button',{name:'刷新设备',exact:true}).click()
+  await panel.getByRole('alert').filter({hasText:'目录加载测试失败'}).waitFor()
+  treeFail=false;await panel.getByRole('button',{name:'重试目录',exact:true}).click()
+  await compactTree.getByText('消控室监控',{exact:true}).waitFor()
+  slowDirectory=true;await compactTree.getByText('消控室监控',{exact:true}).click()
+  await panel.getByRole('button',{name:'刷新设备',exact:true}).click()
+  await compactTree.getByRole('button',{name:'查看视频：测试摄像头一',exact:true}).waitFor()
+  await page.waitForTimeout(650);assert.equal(await compactTree.getByRole('button',{name:'查看视频：目录摄像头1',exact:true}).count(),0);slowDirectory=false
+  empty=true;await panel.getByRole('button',{name:'刷新设备',exact:true}).click()
+  await compactTree.getByText('当前目录暂无摄像头',{exact:true}).waitFor()
+  empty=false;longNames=true;await panel.getByRole('button',{name:'刷新设备',exact:true}).click()
+  await compactTree.getByText('消控室监控',{exact:true}).click()
+  await compactTree.getByText('子目录测试',{exact:true}).click()
+  await compactTree.getByRole('button',{name:/查看视频：大厂街道.*2$/}).waitFor()
+  checks.push('dashboard keyboard camera activation uses canonical player; refresh ignores stale folder response; error/retry and empty states remain truthful')
+  await page.locator('.el-message').waitFor({state:'hidden'}).catch(async()=>{await page.waitForTimeout(3500)})
   await page.screenshot({path:'docs/verification/video-monitor-dashboard.png',fullPage:true})
+  await page.setViewportSize({width:390,height:844});await panel.scrollIntoViewIfNeeded()
+  const scroll=panel.locator('.monitor-tree-scroll'),footer=panel.locator('.monitor-footer')
+  await footer.scrollIntoViewIfNeeded();await page.screenshot({path:'docs/verification/video-monitor-dashboard-narrow.png'})
+  assert.ok(await scroll.evaluate(el=>el.scrollHeight>el.clientHeight))
+  assert.ok(await scroll.evaluate(el=>el.scrollWidth<=el.clientWidth+1),'long names wrap instead of forcing horizontal scrolling')
+  checks.push('compact selected folders keep dark theme; long camera names wrap in narrow panel with one internal scroller and reachable footer')
+  await page.setViewportSize({width:1440,height:1000})
   await panel.getByRole('tab',{name:'查岗管理',exact:true}).click()
   await panel.locator('.inspection-manager').waitFor()
   checks.push('dashboard shares real monitoring and its full-monitor link points to /fire/video')

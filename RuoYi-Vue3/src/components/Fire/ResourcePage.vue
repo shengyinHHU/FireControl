@@ -293,9 +293,7 @@
         "
         >查看关联视频</el-button
       >
-      <p v-if="resource === 'hosts'" class="muted">
-        主机监测数据以上报时间为准，离线时保留最后一次采集值。
-      </p></el-dialog
+</el-dialog
     >
     <el-dialog
       v-model="gridOpen"
@@ -367,7 +365,6 @@ const dates = ref([]),
   options = ref({
     places: [],
     grids: [],
-    hosts: [],
     cameras: [],
     personnel: [],
   }),
@@ -413,11 +410,10 @@ async function loadOptions() {
 const fieldOptions = (f) =>
   (options.value[f.type] || []).filter(
     (o) =>
-      !['hosts', 'cameras', 'personnel'].includes(f.type) ||
+      !['cameras', 'personnel'].includes(f.type) ||
       o.placeId === form.value.placeId,
   )
 const clearAssociations = () => {
-  form.value.hostId = ''
   form.value.cameraId = ''
   form.value.personnelId = ''
 }

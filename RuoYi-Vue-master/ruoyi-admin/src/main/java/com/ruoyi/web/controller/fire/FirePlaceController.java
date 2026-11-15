@@ -6,6 +6,14 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import com.ruoyi.common.annotation.Log;
+import com.ruoyi.common.enums.BusinessType;
+import com.ruoyi.system.service.FirePlaceWriteService;
 import com.ruoyi.common.core.page.TableDataInfo;
 import org.springframework.web.bind.annotation.RestController;
 import com.ruoyi.common.core.controller.BaseController;
@@ -20,6 +28,33 @@ public class FirePlaceController extends BaseController
 {
     @Autowired
     private IFirePlaceService placeService;
+    @Autowired
+    private FirePlaceWriteService writes;
+
+    @PreAuthorize("@ss.hasPermi('fire:places:list') and @ss.hasPermi('fire:places:edit')")
+    @GetMapping("/{placeId}/edit")
+    public AjaxResult editor(@PathVariable Long placeId) {
+        FirePlace query=new FirePlace();query.setPlaceId(placeId);return success(writes.editor(query));
+    }
+
+    @PreAuthorize("@ss.hasPermi('fire:places:list') and @ss.hasPermi('fire:places:add')")
+    @PostMapping
+    @Log(title="重点场所",businessType=BusinessType.INSERT)
+    public AjaxResult add(@RequestBody FirePlace body) { return success(writes.create(body)); }
+
+    @PreAuthorize("@ss.hasPermi('fire:places:list') and @ss.hasPermi('fire:places:edit')")
+    @PutMapping("/{placeId}")
+    @Log(title="重点场所",businessType=BusinessType.UPDATE)
+    public AjaxResult edit(@PathVariable Long placeId,@RequestBody FirePlace body) {
+        body.setPlaceId(placeId);writes.update(body);return success();
+    }
+
+    @PreAuthorize("@ss.hasPermi('fire:places:list') and @ss.hasPermi('fire:places:remove')")
+    @DeleteMapping("/{placeId}")
+    @Log(title="重点场所",businessType=BusinessType.DELETE)
+    public AjaxResult remove(@PathVariable Long placeId,@RequestParam Long revision) {
+        FirePlace query=new FirePlace();query.setPlaceId(placeId);query.setRevision(revision);writes.delete(query);return success();
+    }
 
     @PreAuthorize("@ss.hasPermi('fire:places:list')")
     @GetMapping("/map")

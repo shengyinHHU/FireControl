@@ -5,11 +5,21 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.ruoyi.common.core.domain.BaseEntity;
 
-/** 消防场所地图只读模型。 */
+/** 消防场所资料；写入时仅使用服务明确允许维护的字段。 */
 public class FirePlace extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
     private Long placeId;
+    private Long revision;
+    private java.util.List<Contact> contacts;
+    public static class Contact {
+        public Long contactId;
+        public String contactName, phone, contactRole;
+    }
+    public Long getRevision() { return revision; }
+    public void setRevision(Long value) { revision = value; }
+    public java.util.List<Contact> getContacts() { return contacts; }
+    public void setContacts(java.util.List<Contact> value) { contacts = value; }
     private String name;
     private String owner;
     private String phone;

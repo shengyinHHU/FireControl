@@ -135,7 +135,7 @@ street_match_method=CASE WHEN street_match_method='manual' THEN street_match_met
  CONVERT(e.name USING utf8mb4) COLLATE utf8mb4_general_ci AS name,
  CONVERT(e.event_kind USING utf8mb4) COLLATE utf8mb4_general_ci AS kind,
  CONVERT('device' USING utf8mb4) COLLATE utf8mb4_general_ci AS sourceCode,
- CONVERT('消控室主机' USING utf8mb4) COLLATE utf8mb4_general_ci AS source,
+ CONVERT('传输装置' USING utf8mb4) COLLATE utf8mb4_general_ci AS source,
  CONVERT('设备记录' USING utf8mb4) COLLATE utf8mb4_general_ci AS status,
  CONVERT(CAST(p.place_id AS CHAR) USING utf8mb4) COLLATE utf8mb4_general_ci AS placeId,
  CONVERT(COALESCE(g.unit_name,p.name) USING utf8mb4) COLLATE utf8mb4_general_ci AS placeName,

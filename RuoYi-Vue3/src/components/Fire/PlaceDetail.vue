@@ -9,8 +9,11 @@
       <el-descriptions-item label="场所类别">{{ mapRecord.category }}</el-descriptions-item>
       <el-descriptions-item label="场所地址">{{ mapRecord.address || '未填写' }}</el-descriptions-item>
       <el-descriptions-item label="行业类别">{{ mapRecord.industryCategory || '未填写' }}</el-descriptions-item>
+      <el-descriptions-item label="物业或管理单位">{{ mapRecord.managementCompany || '未填写' }}</el-descriptions-item>
+      <el-descriptions-item label="风险等级">{{ mapRecord.riskLevel || '未评估' }}</el-descriptions-item>
       <el-descriptions-item label="主要风险源">{{ mapRecord.mainRiskSources || '未填写' }}</el-descriptions-item>
       <el-descriptions-item label="坐标">{{ mapRecord.lng == null || mapRecord.lat == null ? '未定位' : `${mapRecord.lng}, ${mapRecord.lat}（GCJ-02）` }}</el-descriptions-item>
+      <el-descriptions-item label="备注">{{ mapRecord.remark || '未填写' }}</el-descriptions-item>
       <template v-for="(contact, index) in contacts" :key="contact.contactId || index">
           <el-descriptions-item label="联系人姓名">
             <div class="place-contact-name">

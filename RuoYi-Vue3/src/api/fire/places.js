@@ -30,3 +30,19 @@ export async function listDatabasePlaceContacts(id) {
   if (!Array.isArray(response.data)) throw Error('联系人返回格式异常，请重试')
   return response.data
 }
+
+export async function getPlaceEditor(id) {
+  requireLogin()
+  const response = await request({ url: `/fire/places/${encodeURIComponent(id)}/edit` })
+  return { place: normalizePlaceRecord(response.data.place), contacts: response.data.contacts }
+}
+export function saveDatabasePlace(data) {
+  requireLogin()
+  // The editor owns submit locking; server revisions/name checks reject duplicates.
+  // Allow explicit retry immediately after a failed request.
+  return request({ url: `/fire/places${data.placeId ? '/' + encodeURIComponent(data.placeId) : ''}`, method: data.placeId ? 'put' : 'post', headers: { repeatSubmit: false }, data })
+}
+export function removeDatabasePlace(row) {
+  requireLogin()
+  return request({ url: `/fire/places/${encodeURIComponent(row.id)}`, method: 'delete', params: { revision: row.revision } })
+}

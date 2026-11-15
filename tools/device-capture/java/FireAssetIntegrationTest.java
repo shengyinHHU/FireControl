@@ -22,8 +22,8 @@ public class FireAssetIntegrationTest {
  static void denied(Runnable r,String label){boolean failed=false;try{r.run();}catch(com.ruoyi.common.exception.ServiceException e){failed=true;}ok(failed,label);}
  static void login(long id,long dept,String scope){
   var user=new SysUser();user.setUserId(id);user.setUserName("fixture"+id);user.setDeptId(dept);
-  var role=new SysRole();role.setRoleId(10L);role.setStatus("0");role.setDataScope(scope);role.setPermissions(Set.of("fire:hosts:list","fire:hosts:add","fire:hosts:edit","fire:hosts:remove","fire:alarms:list"));user.setRoles(List.of(role));
-  var principal=new LoginUser(id,dept,user,Set.of("fire:hosts:list","fire:hosts:add","fire:hosts:edit","fire:hosts:remove"));
+  var role=new SysRole();role.setRoleId(10L);role.setStatus("0");role.setDataScope(scope);role.setPermissions(Set.of("fire:gateways:list","fire:gateways:add","fire:gateways:edit","fire:gateways:remove","fire:alarms:list"));user.setRoles(List.of(role));
+  var principal=new LoginUser(id,dept,user,Set.of("fire:gateways:list","fire:gateways:add","fire:gateways:edit","fire:gateways:remove"));
   SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(principal,"",List.of()));
  }
  static FireAsset asset(String code,String source){var a=new FireAsset();a.name="测试用传"+code;a.unitName="独立测试单位";a.deviceCode=code;a.manufacturer="浙江大华";a.model="DH-HY-FAM-1000";a.enabled="1";a.sourceAddress=source;a.centerAddress="640000000000";a.allowedIp=null;return a;}
@@ -68,11 +68,7 @@ public class FireAssetIntegrationTest {
    long history=scalar(db,"SELECT COUNT(*) FROM fire_event WHERE gateway_id="+a.id);service.deleteGateway(a.id,a.revision);
    denied(()->service.gateway(a.id),"deleted gateway hidden from active CRUD");var receipt=FireAccessIntegrationTest.ingest(ingest,frame(a.sourceAddress),a.allowedIp);ok(receipt.source()==null&&receipt.reply()==null,"deleted device cannot ACK or become online");
    var historyQuery=new FireAccessQuery();historyQuery.setGatewayId(String.valueOf(a.id));ok(mapper.events(historyQuery).size()==history,"history retained after gateway deletion");
-   var h=new FireAsset();h.name="台账主机";h.gatewayId=b.id;h.manufacturer="北大青鸟";h.id=service.saveHost(h);h.revision=0L;h.model="JB-TG-JBF-11S";service.saveHost(h);h.revision=1L;ok(scalar(db,"SELECT COUNT(*) FROM fire_host WHERE host_id="+h.id+" AND system_address IS NULL")==1,"draft host metadata CRUD without fabricated protocol identity");
-   h.systemType=1;h.systemAddress=null;denied(()->service.saveHost(h),"paired system identity validation");h.systemType=null;service.deleteHost(h.id,h.gatewayId,h.revision);
-   byte[] host=FireAccessIntegrationTest.frame(401,1,new byte[]{1,1,3,0,1,0,12,20,10,26});System.arraycopy(Gb26875.unhex(b.sourceAddress),0,host,12,6);int sum=0;for(int i=2;i<host.length-3;i++)sum+=Gb26875.u(host[i]);host[host.length-3]=(byte)sum;
-   FireAccessIntegrationTest.ingest(ingest,host,b.allowedIp);long hostId=scalar(db,"SELECT host_id FROM fire_host WHERE gateway_id="+b.id+" AND system_type=1");service.deleteHost(hostId,b.id,0L);FireAccessIntegrationTest.ingest(ingest,host,b.allowedIp);ok(scalar(db,"SELECT COUNT(*) FROM fire_host WHERE host_id="+hostId+" AND del_flag='2'")==1,"automatic discovery never resurrects deleted host");ok(scalar(db,"SELECT COUNT(*) FROM fire_event WHERE gateway_id="+b.id+" AND host_id="+hostId)>0,"deleted host reports still retained as events");
-   login(2,200,"5");denied(()->service.gateway(b.id),"real DataScope blocks other owner reads");denied(()->service.saveHost(h),"cannot attach host to forbidden gateway");
+   login(2,200,"5");denied(()->service.gateway(b.id),"real DataScope blocks other owner reads");
    var own=asset("fixture-own",null);own.placeId=102L;denied(()->service.saveGateway(own),"cannot bind a place outside current place permission scope");own.placeId=null;own.id=service.saveGateway(own);var q=new FireAccessQuery();q.getParams().put("dataScope"," OR 1=1");ok(reads.gateways(q).size()==1,"caller dataScope discarded; only own unlinked device visible");denied(()->service.unregistered(),"unregistered traffic restricted to admin");
    login(3,100,"3");ok(reads.gateways(new FireAccessQuery()).stream().anyMatch(row->String.valueOf(b.id).equals(row.get("id"))),"department scope works on gateway ownership");
    login(1,100,"1");ok(connections.generation(b.allowedIp)==0,"unrelated source generation untouched");connections.invalidate(b.allowedIp);ok(!connections.seenCurrent(b.allowedIp,"stale",0),"stale post-commit receipt cannot restore online");

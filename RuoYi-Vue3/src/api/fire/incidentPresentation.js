@@ -1,9 +1,9 @@
 import { isActiveFire } from './rules.js'
-export const INCIDENT_LAYERS = ['119警情', '消控主机', 'AI预警']
+export const INCIDENT_LAYERS = ['119警情', '传输装置', 'AI预警']
 export function incidentSource(row) {
   if (row.sourceCode === '119' || row.source === '119警情') return '119警情'
   if (row.sourceCode === 'AI' || /AI/.test(row.source || '')) return 'AI预警'
-  return '消控主机'
+  return '传输装置'
 }
 export function incidentKind(row) {
   if (incidentSource(row) === '119警情') {

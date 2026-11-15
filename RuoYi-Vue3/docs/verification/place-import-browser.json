@@ -3,7 +3,7 @@
   "fixtureHTTP": true,
   "businessDatabaseAccessed": false,
   "checks": [
-    "unlocated row remains visible, explicit location status, no fake CRUD",
+    "unlocated row remains visible, explicit location status and real manual maintenance available",
     "preview failure retains selection, retry, no commit before confirmation",
     "duplicate and validation reasons can be filtered and downloaded",
     "commit retry uses same owner batch, result remains visible and list reloads",

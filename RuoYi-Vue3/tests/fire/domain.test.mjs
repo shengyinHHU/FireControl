@@ -198,10 +198,9 @@ test('invalid calendar day and overlapping duty are rejected', async () => {
     /重复|重叠/,
   )
 })
-test('moving a referenced camera, host or person cannot break site associations', async () => {
+test('moving a referenced camera or person cannot break site associations', async () => {
   const r = make()
   await assert.rejects(r.update('cameras', 'c1', { placeId: 'p2' }), /关联/)
-  await assert.rejects(r.update('hosts', 'h1', { placeId: 'p2' }), /关联/)
   await assert.rejects(r.update('personnel', 'u1', { placeId: 'p2' }), /关联/)
 })
 test('share tokens expire and cannot resolve after deadline', async () => {

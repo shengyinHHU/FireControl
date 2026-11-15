@@ -1,0 +1,14 @@
+{
+  "apply": true,
+  "database": "dachang",
+  "counts": {
+    "fire_place": 337,
+    "fire_place_contact": 437,
+    "sys_menu": 105,
+    "sys_role_menu": 86
+  },
+  "completed": true,
+  "backup": "D:\\javaprogram\\FireControl\\outputs\\place-management\\backups\\before-crud-20261114-213347-247898.json.gz",
+  "businessRecordsUnchanged": true,
+  "roleGrantsUnchanged": true
+}

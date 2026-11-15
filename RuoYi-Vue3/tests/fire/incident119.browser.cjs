@@ -24,13 +24,12 @@ const checks=[], errors=[]
    if(p==='/getInfo')data={code:200,user:{userId:1,userName:'admin',nickName:'管理员',avatar:''},roles:['admin'],permissions:['*:*:*']}
    else if(p==='/getRouters')data={code:200,data:[]}
    else if(p==='/fire/gateways/list')data=fail?{code:500,msg:'测试接口暂时不可用'}:{code:200,rows:empty?[]:[gateway],total:empty?0:1}
-   else if(p==='/fire/hosts/list')data={code:200,rows:[],total:0}
    else if(p==='/fire/alarms/list') { const is119=u.searchParams.get('source')==='119',device=u.searchParams.get('source')==='device'; const rows=is119?(empty119?[]:[incident]):device?[event]:[incident,event]; data=is119&&fail119?{code:500,msg:'119查询测试失败'}:{code:200,rows,total:rows.length} }
    else if(decodeURIComponent(p)==='/fire/alarms/119:1')data={code:200,data:incident}
    else if(p==='/fire/119/status')data={code:200,data:{enabled:true,intervalSeconds:60,lastQuickResult:'success',lastQuickCompletedAt:'2026-10-21 15:09:00',fullIntervalSeconds:600,quickPages:3,lastResult:'failed',lastCompletedAt:'2026-10-21 15:00:00',dachangOnly:false,total:1,latestAlarmTime:'2026-10-21 13:14:16',latestReceivedAt:'2026-10-26 10:00:00',insideCount:1,pendingCount:0,coordinateSystem:'GCJ02',boundaryMode:'verified'}}
    else if(p==='/fire/alarms/event1')data={code:200,data:event}
    else if(p==='/fire/protocol/messages')data={code:200,rows:[{id:'1',direction:'TX',sequenceNo:10,commandNo:3,receivedAt:'2026-10-20 17:43:40',parseStatus:'REPLY',transmissionStatus:'SENT',rawHex:'40400a000102',parsed:'[]'}],total:1}
-   else if(p==='/fire/hosts/stats')data={code:200,data:{gateways:1,hosts:0,online:0}}
+   else if(p==='/fire/gateways/stats')data={code:200,data:{gateways:1,gatewayOnline:1,gatewayPending:0}}
    else if(p==='/fire/alarms/stats')data={code:200,data:{eventTotal:5,fireEvents:0,faultEvents:3}}
    else if(p.startsWith('/fire/places'))data={code:200,rows:[],total:0,data:[],truncated:false}
    await route.fulfill({contentType:'application/json',body:JSON.stringify(data)})
@@ -39,10 +38,7 @@ const checks=[], errors=[]
   await page.goto(base+'/fire/hosts',{waitUntil:'domcontentloaded',timeout:20000})
   await page.getByRole('cell',{name:gateway.name,exact:true}).waitFor()
   checks.push('real gateway fields and separate device fault state')
-  assert.equal(await page.getByRole('button',{name:/新增|编辑|删除/}).count(),0)
-  await page.getByRole('tab',{name:'消防主机',exact:true}).click()
-  await page.getByText('暂无符合条件的真实记录',{exact:true}).waitFor()
-  checks.push('empty host list does not invent a downstream host')
+  assert.equal(await page.getByRole('tab',{name:'全部下挂主机',exact:true}).count(),0)
   await page.getByRole('tab',{name:'设备事件',exact:true}).click()
   await page.getByRole('cell',{name:event.name,exact:true}).waitFor()
   await page.getByRole('button',{name:'详情',exact:true}).click()
@@ -60,7 +56,7 @@ const checks=[], errors=[]
   await page.getByRole('tab',{name:'传输装置',exact:true}).click()
   empty=true
   await page.getByRole('button',{name:'刷新记录',exact:true}).click()
-  await page.getByText('暂无符合条件的真实记录',{exact:true}).waitFor()
+  await page.getByText('暂无传输装置，可新增装置或调整查询条件',{exact:true}).waitFor()
   empty=false;fail=true
   await page.getByRole('button',{name:'刷新记录',exact:true}).click()
   await page.locator('.fire-error').filter({hasText:'测试接口暂时不可用'}).waitFor()
@@ -79,10 +75,10 @@ const checks=[], errors=[]
   await page.setViewportSize({width:1440,height:1000})
   await page.screenshot({path:'docs/verification/incident119-sibling-device.png',fullPage:true})
   await page.goto(base+'/fire/dashboard',{waitUntil:'domcontentloaded',timeout:20000})
-  await page.locator('.hosts-panel .host-stats').getByText('装置总量',{exact:true}).waitFor()
-  await page.waitForFunction(()=>document.querySelector('.hosts-panel .host-stats a')?.textContent.includes('1'))
-  const stats=await page.locator('.hosts-panel .host-stats').innerText()
-  assert.ok(stats.includes('主机总量') && stats.includes('事件（24h）'))
+  await page.locator('.gateways-panel .gateway-stats').getByText('装置总量',{exact:true}).waitFor()
+  await page.waitForFunction(()=>document.querySelector('.gateways-panel .gateway-stats a')?.textContent.includes('1'))
+  const stats=await page.locator('.gateways-panel .gateway-stats').innerText()
+  assert.ok(!stats.includes('主机总量') && stats.includes('在线装置') && stats.includes('事件（24h）'))
   await page.screenshot({path:'docs/verification/incident119-dashboard.png',fullPage:true})
   checks.push('dashboard uses real device statistics and event list')
   await page.locator('.source-tabs').getByRole('button',{name:/119警情/}).click()

@@ -40,15 +40,4 @@ public class FireAssetService {
  }
  @Transactional(rollbackFor=Exception.class)
  public void deleteGateway(Long id,Long revision){var row=lock(id,revision);Map<String,Object> r=new HashMap<>();r.put("id",id);r.put("actor",SecurityUtils.getUsername());mapper.deleteGateway(r);invalidate((String)row.get("allowedIp"));}
- @Transactional(rollbackFor=Exception.class)
- public Long saveHost(FireAsset a){
-  if(a.gatewayId==null)throw error("请选择所属装置");gateway(a.gatewayId);var g=mapper.lockGateway(a.gatewayId);if(!"0".equals(g.get("delFlag")))throw error("所属装置已删除");
-  a.name=text(a.name,255,"主机名称",true);a.manufacturer=text(a.manufacturer,100,"主机品牌",false);a.model=text(a.model,100,"主机型号",false);a.accessMethod=text(a.accessMethod,500,"接入方式",false);
-  if((a.systemType==null)!=(a.systemAddress==null))throw error("系统类型和系统地址需同时填写或同时留空");
-  if(a.systemType!=null&&(a.systemType<0||a.systemType>255||a.systemAddress<0||a.systemAddress>255))throw error("系统类型和地址范围为0至255");
-  var r=args(a);try{if(a.id==null){mapper.insertHost(r);return ((Number)r.get("id")).longValue();}var old=mapper.lockHost(a.id);if(old==null||!"0".equals(old.get("delFlag"))||!a.gatewayId.equals(((Number)old.get("gatewayId")).longValue()))throw error("主机不存在或所属装置不匹配");checkRevision(old,a.revision);mapper.updateHost(r);return a.id;}
-  catch(org.springframework.dao.DuplicateKeyException e){throw error("该系统类型和地址已登记（含历史删除记录），请核对");}
- }
- @Transactional(rollbackFor=Exception.class)
- public void deleteHost(Long id,Long gatewayId,Long revision){gateway(gatewayId);mapper.lockGateway(gatewayId);var old=mapper.lockHost(id);if(old==null||!"0".equals(old.get("delFlag"))||!gatewayId.equals(((Number)old.get("gatewayId")).longValue()))throw error("主机不存在或无权访问");checkRevision(old,revision);var r=new HashMap<String,Object>();r.put("id",id);r.put("actor",SecurityUtils.getUsername());mapper.deleteHost(r);}
 }

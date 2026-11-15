@@ -28,7 +28,7 @@ test('pending review coordinates remain visible; unlocated rows remain in the re
 
 test('database resources never merge or write demo records', () => {
   assert.equal(usesDatabase('places'), true)
-  assert.equal(canWriteResource('places'), false)
+  assert.equal(canWriteResource('places'), true)
   assert.equal(usesDatabase('cameras'), true)
   assert.equal(canWriteResource('cameras'), false)
 })
@@ -46,7 +46,7 @@ test('even in mock mode real place reads and failures never fall back to the dem
       args.path === '@/plugins/auth' ? 'export default { hasPermi: () => true }' :
       args.path === '@/utils/auth' ? 'export const getToken = () => "test-token"' :
       args.path === '@/mock/fire/repository' ? 'export function createRepository(){ throw Error("Demo access forbidden") }' :
-      'export async function download() {} export default async function request(config) { if(globalThis.__placeTransportError) throw Error("backend unavailable"); return config.url.endsWith("/list") ? {rows:[{placeId:"777",placeType:"industry",name:"数据库机构",longitude:null,latitude:null}],total:1} : {data:{placeId:"777",placeType:"industry",name:"数据库机构"}} }'
+      'export async function download() {} export default async function request(config) { (globalThis.__placeRequests ||= []).push(config); if(globalThis.__placeTransportError) throw Error("backend unavailable"); return config.url.endsWith("/list") ? {rows:[{placeId:"777",placeType:"industry",name:"数据库机构",longitude:null,latitude:null}],total:1} : {data:{placeId:"777",placeType:"industry",name:"数据库机构"}} }'
     }))
   }}
   const { fire } = await bundled('src/api/fire/index.js', [plugin])
@@ -56,7 +56,17 @@ test('even in mock mode real place reads and failures never fall back to the dem
   assert.equal((await fire.get('places', '777')).data.name, '数据库机构')
   globalThis.__placeTransportError = true
   try { await assert.rejects(fire.list('places'), /backend unavailable/) } finally { delete globalThis.__placeTransportError }
-  await assert.rejects(fire.create('places', { name: '模拟写入' }), /真实数据库/)
+  await fire.create('places', { name: '真实新增', contacts: [] })
+  assert.equal(globalThis.__placeRequests.at(-1).url, '/fire/places')
+  assert.equal(globalThis.__placeRequests.at(-1).method, 'post')
+  await fire.update('places', '777', { name: '真实编辑', revision: 1, contacts: [] })
+  assert.equal(globalThis.__placeRequests.at(-1).method, 'put')
+  assert.equal(globalThis.__placeRequests.at(-1).data.placeId, '777')
+  await fire.remove('places', '777', { revision: 2 })
+  assert.equal(globalThis.__placeRequests.at(-1).method, 'delete')
+  assert.equal(globalThis.__placeRequests.at(-1).params.revision, 2)
+  globalThis.__placeTransportError = true
+  try { await assert.rejects(fire.create('places', { name: '失败不得写入演示库' }), /backend unavailable/) } finally { delete globalThis.__placeTransportError; delete globalThis.__placeRequests }
 })
 
 test('map adapter removes stale markers, does not duplicate after repeated toggles, and retains database coordinates', async () => {

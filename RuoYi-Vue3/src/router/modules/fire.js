@@ -44,11 +44,12 @@ const definitions = [
     beforeEnter: () => canFire('alarms') || '/401',
   },
   {
-    path: 'hosts',
-    name: 'FireHosts',
-    component: () => import('@/views/fire/hosts/index.vue'),
-    meta: { title: '消防主机', icon: 'monitor', fireResource: 'hosts' },
-    beforeEnter: () => canFire('hosts') || '/401',
+    path: 'gateways',
+    alias: 'hosts',
+    name: 'FireGateways',
+    component: () => import('@/views/fire/gateways/index.vue'),
+    meta: { title: '传输装置', icon: 'monitor', fireResource: 'gateways' },
+    beforeEnter: () => canFire('gateways') || '/401',
   },
   {
     path: 'devices',

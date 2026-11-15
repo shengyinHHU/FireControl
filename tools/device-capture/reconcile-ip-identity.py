@@ -12,7 +12,7 @@ import pymysql
 import yaml
 
 ROOT = Path(__file__).resolve().parents[2]
-TABLES = ('fire_gateway', 'fire_host', 'fire_protocol_message', 'fire_event')
+TABLES = ('fire_gateway', 'fire_protocol_message', 'fire_event')
 
 
 def reconcile(db, apply):
@@ -40,8 +40,6 @@ def reconcile(db, apply):
             ids.add(event_id)
             gateway = by_ip.get(event['peer_ip'])
             gateway_id = gateway['gateway_id'] if gateway else event['gateway_id']
-            if event['host_id'] and gateway_id != event['gateway_id']:
-                raise RuntimeError('Historical host ownership requires manual review; no records changed')
             planned.append((event_id, gateway_id, event['event_id']))
         cur.execute("""SELECT peer_ip,MAX(message_id) AS messageId FROM fire_protocol_message
             WHERE direction='RX' AND parse_status IN ('PARSED','EMPTY','UNSUPPORTED','MALFORMED')

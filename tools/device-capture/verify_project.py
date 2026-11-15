@@ -27,7 +27,7 @@ try:
  else:raise RuntimeError("Temporary MySQL startup timeout")
  framework=(ROOT/"SQL/ry_20260417.sql").read_text("utf-8")
  bootstrap=["CREATE DATABASE dachang CHARACTER SET utf8mb4;USE dachang;"]
- for table in ["sys_dict_type","sys_dict_data","sys_menu"]:
+ for table in ["sys_dict_type","sys_dict_data","sys_menu","sys_role_menu"]:
   bootstrap.append(re.search(r"create table "+table+r"\s*\([\s\S]*?;",framework,re.I).group(0))
  sql("\n".join(bootstrap))
  sql((ROOT/"SQL/fire_place_init.sql").read_text("utf-8"))
@@ -35,6 +35,7 @@ try:
  sql(access);sql(access)
  upgrade=(ROOT/"SQL/fire_gateway_management_upgrade.sql").read_text("utf-8");sql(upgrade);sql(upgrade)
  ip_identity=(ROOT/"SQL/fire_gateway_ip_identity_upgrade.sql").read_text("utf-8");sql(ip_identity);sql(ip_identity)
+ only=(ROOT/"SQL/fire_gateway_only_upgrade.sql").read_text("utf-8");sql(only);sql(only)
  assert sql("USE dachang;SELECT COUNT(*) FROM fire_place;")=="102"
  assert sql("USE dachang;SELECT COUNT(*) FROM fire_gateway;")=="1"
  # Obtain the exact compiler dependency path from the already-resolved Maven reactor.
@@ -62,17 +63,32 @@ try:
  assert sql("USE dachang;SELECT COUNT(*) FROM fire_gateway WHERE device_code IN ('219','220') AND unit_name='元茂大厦';")=="2"
  assert sql("USE dachang;SELECT COUNT(*) FROM fire_gateway WHERE device_code REGEXP '^[0-9]{3}$' AND enabled='1' AND source_address IS NULL;")=="36"
  assert sql("USE dachang;SELECT COUNT(*) FROM fire_gateway WHERE device_code REGEXP '^[0-9]{3}$' AND allowed_ip IS NOT NULL;")=="10"
- assert sql("USE dachang;SELECT COUNT(*) FROM fire_host WHERE inventory_key LIKE 'dachang-inventory/%';")=="36"
+ assert sql("USE dachang;SELECT COUNT(*) FROM information_schema.tables WHERE table_schema=DATABASE() AND table_name='fire_host';")=="0"
  sql("USE dachang;UPDATE fire_gateway SET name='人工维护名称' WHERE device_code='202';");sql(seed)
  assert sql("USE dachang;SELECT name FROM fire_gateway WHERE device_code='202';")=="人工维护名称"
  assert sql("USE dachang;SELECT COUNT(*) FROM fire_gateway WHERE source_address='c80000000000' AND allowed_ip='127.0.0.1';")=="1"
+ # Exercise upgrade from a legacy database with real historical events, both permission generations and role grants.
+ before=sql("USE dachang;SELECT COUNT(*),BIT_XOR(CRC32(CONCAT(event_id,gateway_id,message_id,details_json,received_at))) FROM fire_event;")
+ messages_before=sql("USE dachang;SELECT COUNT(*),BIT_XOR(CRC32(CONCAT(message_id,raw_hex,received_at))) FROM fire_protocol_message;")
+ sql("USE dachang;CREATE TABLE fire_host(host_id bigint PRIMARY KEY,gateway_id bigint);INSERT INTO fire_host VALUES(1,1);ALTER TABLE fire_event ADD COLUMN host_id bigint;UPDATE fire_event SET host_id=1;")
+ sql("USE dachang;INSERT INTO sys_menu(menu_id,menu_name,perms) VALUES(90001,'旧主机查询','fire:hosts:list'),(90002,'旧主机新增','fire:hosts:add');INSERT INTO sys_role_menu VALUES(99,90001),(99,90002);DELETE FROM sys_menu WHERE perms='fire:gateways:add';")
+ sql(only);sql(only)
+ assert sql("USE dachang;SELECT COUNT(*),BIT_XOR(CRC32(CONCAT(event_id,gateway_id,message_id,details_json,received_at))) FROM fire_event;")==before
+ assert sql("USE dachang;SELECT COUNT(*),BIT_XOR(CRC32(CONCAT(message_id,raw_hex,received_at))) FROM fire_protocol_message;")==messages_before
+ assert sql("USE dachang;SELECT COUNT(*) FROM information_schema.columns WHERE table_schema=DATABASE() AND table_name='fire_event' AND column_name='host_id';")=="0"
+ assert sql("USE dachang;SELECT COUNT(*) FROM information_schema.tables WHERE table_schema=DATABASE() AND table_name='fire_host';")=="0"
+ assert sql("USE dachang;SELECT COUNT(*) FROM sys_menu WHERE perms LIKE 'fire:hosts:%';")=="0"
+ assert sql("USE dachang;SELECT COUNT(*) FROM sys_role_menu rm JOIN sys_menu m ON m.menu_id=rm.menu_id WHERE rm.role_id=99 AND m.perms IN ('fire:gateways:list','fire:gateways:add');")=="2"
+ # Maintained bootstrap/upgrade/import scripts cannot resurrect removed tables.
+ sql(access);sql(upgrade);sql(seed)
+ assert sql("USE dachang;SELECT COUNT(*) FROM information_schema.tables WHERE table_schema=DATABASE() AND table_name='fire_host';")=="0"
  lifecycle=ROOT/"tools/device-capture/java/SseLifecycleTest.java"
  compiled=run(["javac","-encoding","UTF-8","-cp",cp,"-d",classes,lifecycle],timeout=30)
  if compiled.returncode:raise RuntimeError(compiled.stderr.decode(errors="replace"))
  lifecycle_test=run(["java","-Dfile.encoding=UTF-8","-cp",str(classes)+os.pathsep+cp,"SseLifecycleTest"],timeout=20)
  print(lifecycle_test.stdout.decode(errors="replace"))
  if lifecycle_test.returncode:raise RuntimeError(lifecycle_test.stderr.decode(errors="replace"))
- report=dict(isolated_mysql=True,business_database_accessed=False,sql_repeat_safe=True,places=102,gateways=1,
+ report=dict(isolated_mysql=True,business_database_accessed=False,sql_repeat_safe=True,legacy_host_removal=True,history_preserved=True,role_grants_preserved=True,places=102,gateways=1,
              sse_lifecycle=lifecycle_test.stdout.decode(errors="replace").splitlines()[-1],asset_management=asset_test.stdout.decode(errors="replace").splitlines()[-1],inventory=36,capture_frames=8,verification="FIRE_ACCESS_INTEGRATION_OK",output=tested.stdout.decode(errors="replace").splitlines()[-1])
  out=ROOT/"docs/verification/fire-device-integration.json";out.parent.mkdir(parents=True,exist_ok=True);out.write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
  print("Verified. Temporary database: "+str(work))

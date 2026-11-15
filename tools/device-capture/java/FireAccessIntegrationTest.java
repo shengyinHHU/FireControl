@@ -99,7 +99,7 @@ public class FireAccessIntegrationTest {
    check(ack.sequence()==Gb26875.decode(b).sequence(),"ACK sequence");service.transmission(receipt.sendId(),"SENT",null);captured++;
    for(int cut=1;cut<b.length;cut++){var stream=new Gb26875.Stream();check(stream.feed(Arrays.copyOfRange(b,0,cut)).isEmpty(),"split wait");check(stream.feed(Arrays.copyOfRange(b,cut,b.length)).stream().filter(p->p.frame()!=null).count()==1,"split assemble");}
   }
-  check(captured==8,"8 captured frames");check(count("fire_event")==5,"5 business events");check(count("fire_host")==0,"no invented hosts");
+  check(captured==8,"8 captured frames");check(count("fire_event")==5,"5 business events");
   check(count("fire_protocol_message")==16,"all RX and TX retained");
   try(var s=db.createStatement();var r=s.executeQuery("SELECT status_bits FROM fire_gateway")){r.next();check(r.getInt(1)==0x14,"latest device state");}
   var q=new FireAccessQuery();check(mapper.gateways(q).size()==1,"gateway query");check(mapper.events(q).size()==5,"event query");check(mapper.alarmGatewayIds(q).size()==1,"SSE gateway scope query");
@@ -119,11 +119,11 @@ public class FireAccessIntegrationTest {
   byte[] old=frame(102,21,new byte[]{0,0,0,0,1,1,17});ingest(service,old,"10.5.90.49");
   try(var s=db.createStatement();var r=s.executeQuery("SELECT status_bits FROM fire_gateway")){r.next();check(r.getInt(1)==1,"old event cannot overwrite snapshot");}
   byte[] hostStatus=frame(103,1,new byte[]{1,1,3,0,1,0,12,20,10,26});ingest(service,hostStatus,"10.5.90.49");
-  check(count("fire_host")==1,"actual host discovered");
-  check(mapper.hosts(q).size()==1,"host list SQL");check(mapper.hostConnectionCounts(q).size()==1,"online grouping SQL");
+  check(count("fire_event")==eventCount+3,"system report retained directly as a gateway event");
+  try(var st=db.createStatement();var rs=st.executeQuery("SELECT gateway_id,object_key,details_json FROM fire_event WHERE object_type=1")){rs.next();check(rs.getLong(1)==1&&rs.getString(2).equals("system:1:1")&&rs.getString(3).contains("systemAddress"),"system fire keeps gateway ownership and original protocol details");}
   check(Gb26875.objects(Gb26875.decode(hostStatus)).get(0).get("fire").equals(true),"system FIRE bit");
   byte[] component=new byte[46];component[0]=1;component[1]=1;component[2]=25;component[3]=7;component[7]=3;System.arraycopy(tag,0,component,40,6);
-  ingest(service,frame(104,2,component),"10.5.90.49");check(count("fire_host")==1,"component not invented host");
+  ingest(service,frame(104,2,component),"10.5.90.49");check(count("fire_event")==eventCount+4,"component report retained directly as a gateway event");
   check(Gb26875.objects(Gb26875.decode(frame(104,2,component))).get(0).get("fire").equals(true),"component FIRE bit");
   check(ingest(service,fire,"127.0.0.1").reply()!=null,"trusted source accepted without IP whitelist");
   byte[] otherVersion=fire.clone();otherVersion[4]=2;int versionSum=0;for(int i=2;i<otherVersion.length-3;i++)versionSum+=Gb26875.u(otherVersion[i]);otherVersion[otherVersion.length-3]=(byte)versionSum;

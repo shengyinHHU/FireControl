@@ -2,12 +2,15 @@
   "isolated_mysql": true,
   "business_database_accessed": false,
   "sql_repeat_safe": true,
+  "legacy_host_removal": true,
+  "history_preserved": true,
+  "role_grants_preserved": true,
   "places": 102,
   "gateways": 1,
   "sse_lifecycle": "SSE_LIFECYCLE_OK checks=12",
-  "asset_management": "FIRE_ASSET_INTEGRATION_OK checks=50",
+  "asset_management": "FIRE_ASSET_INTEGRATION_OK checks=45",
   "inventory": 36,
   "capture_frames": 8,
   "verification": "FIRE_ACCESS_INTEGRATION_OK",
-  "output": "FIRE_ACCESS_INTEGRATION_OK checks=654"
+  "output": "FIRE_ACCESS_INTEGRATION_OK checks=652"
 }
