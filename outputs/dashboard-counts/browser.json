@@ -1,0 +1,13 @@
+{
+  "actualVue": true,
+  "productionMode": true,
+  "fixtureHTTP": true,
+  "checks": [
+    "loading and initial failure never display fixed or invented counts",
+    "all four category counts match clicked lists, including zero and unlocated records beyond row 1000",
+    "keyboard category activation and narrow viewport preserve the four counts",
+    "a failed later page retains the entire previous snapshot and matching list",
+    "background refresh and empty database update counters and selected list together"
+  ],
+  "errors": []
+}

@@ -18,6 +18,23 @@ export async function listDatabasePlaces(query = {}) {
   const response = await request({ url: '/fire/places/list', method: 'get', params })
   return { ...response, rows: (response.rows || []).map(normalizePlaceRecord).filter(Boolean) }
 }
+
+// The command screen filters locally, so its counters and list need every page,
+// including records without map coordinates. Never publish a partial snapshot.
+export async function listDashboardPlaces() {
+  const pageSize = 1000
+  const first = await listDatabasePlaces({ pageNum: 1, pageSize })
+  const rows = [...first.rows]
+  for (let pageNum = 2; rows.length < first.total; pageNum++) {
+    const next = await listDatabasePlaces({ pageNum, pageSize })
+    if (next.total !== first.total || !next.rows.length) throw Error('场所数据已变化，请重新加载')
+    rows.push(...next.rows)
+  }
+  if (rows.length !== first.total || new Set(rows.map(row => row.id)).size !== rows.length) {
+    throw Error('场所数据已变化，请重新加载')
+  }
+  return { ...first, rows }
+}
 export async function getDatabasePlace(id) {
   requireLogin()
   const response = await request({ url: `/fire/places/${encodeURIComponent(id)}`, method: 'get' })

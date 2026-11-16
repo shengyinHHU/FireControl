@@ -20,22 +20,6 @@
         </div>
       </div>
     </header>
-    <div class="command-subbar">
-      <span
-        ><i class="online-dot"></i
-        >{{ isFireMock ? '真实场所、传输装置、警情与查岗 · 其余业务为演示数据' : '街道消防安全运行态势' }}</span
-      >
-      <div>
-        <span
-          >覆盖场所 <b>{{ stats.total || 0 }}</b></span
-        ><span
-          >接入视频 <b>{{ stats.cameras || 0 }}</b></span
-        ><span
-          >未读消息 <b>{{ stats.unread || 0 }}</b></span
-        >
-      </div>
-      <span>警情更新 {{ updated || '—' }}</span>
-    </div>
     <div v-if="error || alarmError" class="fire-error">
       {{ alarmError || error }}<el-button link @click="refresh">重试</el-button>
     </div>
@@ -45,9 +29,10 @@
         <Panel title="数据概览"
           ><div class="overview-grid">
             <button
-              v-for="(s, i) in (USE_FIXED_PLACE_COUNTS ? FIXED_PLACE_COUNTS : stats.categories || [])"
+              v-for="(s, i) in placeCategories"
               :key="s.name"
               :class="{ active: category === s.name }"
+              :aria-pressed="category === s.name"
               @click="category = category === s.name ? '' : s.name"
             >
               <span class="stat-icon"
@@ -258,7 +243,6 @@
   </div>
 </template>
 <script setup>
-import { USE_FIXED_PLACE_COUNTS, FIXED_PLACE_COUNTS } from '@/api/fire/dashboardDisplay'
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { ElMessage } from 'element-plus'
 import { fire } from '@/api/fire'
@@ -266,6 +250,7 @@ import { getToken } from '@/utils/auth'
 import { startAlarmStream } from '@/api/fire/alarmStream'
 import { deviceAlarmStats } from '@/api/fire/deviceAccess'
 import { PLACE_LAYERS } from '@/api/fire/placeLayers'
+import { listDashboardPlaces } from '@/api/fire/places'
 import { canFire } from '@/api/fire/access'
 import { hostAlarmSummary, isActiveFire, isDisplayAlarm } from '@/api/fire/rules'
 import { isInDachang } from '@/api/fire/dachangScope.js'
@@ -303,7 +288,6 @@ const screen = ref(),
   gatewaySearch = ref(''),
   grid = ref(''),
   clock = ref(''),
-  updated = ref(''),
   error = ref(''),
   alarmError = ref(''),
   sound = ref(false)
@@ -314,6 +298,12 @@ const placeOpen = ref(false),
   alarmOpen = ref(false),
   alarmId = ref('')
 const selectedAlarm = computed(() => alarms.value.find(a => a.id === alarmId.value && isDisplayAlarm(a)))
+const placesLoaded = ref(false)
+// Count the same database snapshot used by the category buttons' place list.
+const placeCategories = computed(() => PLACE_LAYERS.map(layer => ({
+  name: layer.label,
+  count: placesLoaded.value ? places.value.filter(place => place.placeType === layer.type).length : '—',
+})))
 const filteredPlaces = computed(() =>
   places.value.filter(
     (p) =>
@@ -388,7 +378,6 @@ async function refreshAlarms() {
     }
     seen = new Set(alarms.value.filter(isDisplayAlarm).map(x => x.id))
     initialized = true
-    updated.value = new Date().toLocaleTimeString('zh-CN')
     alarmError.value = ''
   } catch (e) {
     if (!disposed) alarmError.value = e.message || '警情刷新失败，正在重试；当前保留上次成功数据'
@@ -407,14 +396,13 @@ async function refreshResources() {
   try {
     const [s, p, c] = await Promise.all([
       fire.dashboard(),
-      fire.list('places', { pageSize: 1000 }),
+      listDashboardPlaces(),
       canFire('cameras') ? fire.list('cameras', { pageSize: 1000 }) : Promise.resolve({ rows: [], total: 0 }),
     ])
     if (disposed) return
-    stats.value = { ...s.data, total: p.total, cameras: c.total,
-      categories: USE_FIXED_PLACE_COUNTS ? FIXED_PLACE_COUNTS : PLACE_LAYERS.map(layer => ({ name: layer.label, count: p.rows.filter(row => row.placeType === layer.type).length })),
-    }
+    stats.value = { ...s.data, total: p.total, cameras: c.total }
     places.value = p.rows
+    placesLoaded.value = true
     cameras.value = c.rows
     error.value = ''
     map.value?.refresh()
@@ -597,23 +585,6 @@ onBeforeUnmount(() => {
 }
 .header-right a {
   color: #47c7de;
-}
-.command-subbar {
-  height: 34px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 10px;
-  color: #779db5;
-  letter-spacing: 0.5px;
-}
-.command-subbar > div {
-  display: flex;
-  gap: 28px;
-}
-.command-subbar b {
-  color: #5cd5df;
-  margin-left: 7px;
 }
 .command-grid {
   display: grid;
@@ -1046,9 +1017,6 @@ onBeforeUnmount(() => {
   .command-header {
     min-height: 72px;
   }
-  .command-subbar {
-    height: 28px;
-  }
   .stat-icon {
     display: none;
   }
@@ -1093,9 +1061,6 @@ onBeforeUnmount(() => {
   }
   .header-right > span {
     font-size: 11px;
-  }
-  .command-subbar > div {
-    display: none;
   }
   .command-header {
     gap: 10px;
@@ -1171,7 +1136,6 @@ onBeforeUnmount(() => {
 .command-title { padding:8px 18px; }
 .command-title h1 { font-size:clamp(23px,1.8vw,34px); letter-spacing:3px; text-shadow:none; }
 .command-title p { margin-top:6px; }
-.command-subbar { height:28px; font-size:12px; }
 .command-column :deep(.fire-panel) { background:linear-gradient(135deg,#102348f5,#0c1b35ed); border:1px solid #294b72; box-shadow:0 8px 26px #0005; backdrop-filter:blur(5px); }
 .command-column :deep(.fire-panel > header) { height:38px; background:#15305588; }
 .command-column :deep(.fire-panel h2) { font-size:16px; color:#d3ecf7; }

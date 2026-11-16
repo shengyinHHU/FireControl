@@ -91,7 +91,7 @@ const server = spawn(process.execPath, ['node_modules/vite/bin/vite.js', '--mode
     await page.locator('.command-screen h1').waitFor()
     assert.equal(await page.locator('.command-screen h1').innerText(), '大厂街道智慧消防监管平台')
     assert.equal(await page.locator('.app-wrapper').count(), 0)
-    await page.getByText('街道消防安全运行态势', { exact: true }).waitFor()
+    await page.locator('.overview-grid').waitFor()
     assert.equal(await page.title(), '大厂智慧消防')
     checks.push('production mode login opens existing full-screen dashboard and preserves query/hash; RuoYi workbench is absent')
     for (const destination of ['/', '/index', '/fire/dashboard']) {
@@ -101,7 +101,7 @@ const server = spawn(process.execPath, ['node_modules/vite/bin/vite.js', '--mode
     }
     await page.reload()
     await page.locator('.command-screen h1').waitFor()
-    await page.waitForFunction(() => document.querySelector('.command-subbar')?.textContent.match(/警情更新\s+\d/))
+    await page.waitForFunction(() => [...document.querySelectorAll('.overview-grid strong')].length === 4 && [...document.querySelectorAll('.overview-grid strong')].every(el => /^\d+$/.test(el.textContent)))
     await page.locator('.map-layer-toggle').click()
     assert.equal(await page.locator('.map-layer-buttons').getByRole('button', { name: '告警设备', exact: true }).count(), 0)
     assert.equal(await page.locator('.map-layer-buttons').getByRole('button', { name: '网格', exact: true }).count(), 0)

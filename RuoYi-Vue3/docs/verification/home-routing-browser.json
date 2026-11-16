@@ -23,6 +23,7 @@
     "/fire/places/map",
     "/fire/places/{placeId}",
     "/fire/places/{placeId}/contacts",
+    "/fire/places/{placeId}/edit",
     "/fire/protocol/messages",
     "/fire/sms/list",
     "/fire/sms/open/requests/{requestId}",

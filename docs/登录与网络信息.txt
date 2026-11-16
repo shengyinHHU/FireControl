@@ -22,8 +22,9 @@ http://dcjd.jnrhtx.top:18880/
 10.208.112.151-大厂街道-应用服务器
 10.208.112.152-大厂街道-物联网数据中台
 服务器：root/Dcjd!@#123
-ssh -p 18881 root@218.94.2.84
 & "C:\Users\Administrator\.ssh\Start-FireControlPanelTunnel.ps1"
+ssh -p 18881 root@218.94.2.84
+
 宝塔面板：https://127.0.0.1:18443/home    gdzpcdr0    123456
 MySQL root   fbfe1043602d0f1d/dachang  123
 
@@ -71,7 +72,7 @@ DNS：223.5.5.5
 仅修改前端代码、增加“允许麦克风”按钮，无法消除普通 HTTP 的这项限制。
 具体落地还需要确认：服务器是 Windows 还是 Linux、目前是否用 Nginx 部署、有没有可用域名或单位统一证书
 
-打包命令
+打包命令 PowerShell
 前端：npm run build:prod
 Compress-Archive -Path .\dist\* -DestinationPath ..\firecontrol-frontend.zip -Force
 
@@ -142,7 +143,18 @@ D:\javaprogram\FireControl\RuoYi-Vue-master\ruoyi-admin\target\ruoyi-admin.jar
 
 这里导出的是 **`dachang` 业务库的全部结构和数据**，包括项目账号、角色、菜单和业务记录。数据库连接用户 `firecontrol` 仍在宝塔单独创建；本机上传目录中的图片、附件也需要另行迁移。
 
-
+停止端口
 Get-NetTCPConnection -LocalPort 8080 -State Listen |
   Select-Object -ExpandProperty OwningProcess -Unique |
   ForEach-Object { Stop-Process -Id $_ -Force }
+
+大华交换机
+https://192.168.1.110/#/index/ControlPanel
+admin
+password: UserDefine
+H3C防火墙：
+https://10.5.90.54/web/frame/login.html
+admin
+password: UserDefine
+
+H3C_PSK=81bf77a46255edff2d9ed206d9dba5cefe41a3ac92f542f91dec04c0595184ba
