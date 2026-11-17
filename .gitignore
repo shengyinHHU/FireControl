@@ -35,7 +35,8 @@ outputs/place-management/backups/
 Thumbs.db
 
 ### Local docs / SDKs ###
-docs/talkapi/
+# Contains local account and network credentials; keep the entire directory private.
+/docs/
 
 ### Local SQL dumps ###
 SQL/Dump*.sql
