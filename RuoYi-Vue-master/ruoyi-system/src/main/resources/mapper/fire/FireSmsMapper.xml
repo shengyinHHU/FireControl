@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.FireSmsMapper">
+  <select id="records" resultType="map">
+    SELECT CAST(s.record_id AS CHAR) recordId,s.request_id requestId,s.smsid,
+      s.sender_name senderName,s.recipient_name recipientName,s.source_name sourceName,
+      s.mobiles,s.content,
+      CASE WHEN s.task_status='pending' AND s.create_time&lt;DATE_SUB(NOW(),INTERVAL 60 SECOND) THEN 'unknown' ELSE s.task_status END taskStatus,
+      s.delivery_status deliveryStatus,s.platform_code platformCode,s.result_text resultText,
+      s.platform_task_id platformTaskId,s.accepted_phones acceptedPhones,
+      DATE_FORMAT(s.create_time,'%Y-%m-%d %H:%i:%s') createTime
+    FROM fire_sms_record s WHERE 1=1
+    <if test="keyword != null and keyword != ''">AND (s.recipient_name LIKE CONCAT('%',#{keyword},'%') OR s.mobiles LIKE CONCAT('%',#{keyword},'%') OR s.source_name LIKE CONCAT('%',#{keyword},'%'))</if>
+    <if test="taskStatus != null and taskStatus != ''">AND (CASE WHEN s.task_status='pending' AND s.create_time&lt;DATE_SUB(NOW(),INTERVAL 60 SECOND) THEN 'unknown' ELSE s.task_status END)=#{taskStatus}</if>
+    <if test="beginTime != null and beginTime != ''">AND s.create_time&gt;=#{beginTime}</if>
+    <if test="endTime != null and endTime != ''">AND s.create_time&lt;DATE_ADD(#{endTime},INTERVAL 1 DAY)</if>
+    ${params.dataScope}
+    ORDER BY s.create_time DESC,s.record_id DESC
+  </select>
+</mapper>

@@ -15,7 +15,7 @@ yarn dev
 ## 页面入口
 - `/fire/dashboard` 指挥大屏；`/fire/places` 重点场所；`/fire/grids` 网格地图。
 - `/fire/video` 视频资源；`/fire/inspections` 查岗；`/fire/alarms` 全来源警情处置。
-- `/fire/hosts` 主机；`/fire/devices` 设备；`/fire/personnel` 人员；`/fire/materials` 物资；`/fire/hazards` 安全生产；`/fire/tasks` 任务。
+- `/fire/gateways` 传输装置（`/fire/hosts` 为旧书签别名）；`/fire/devices` 设备；`/fire/personnel` 人员；`/fire/materials` 物资；`/fire/hazards` 安全生产；`/fire/tasks` 任务。
 - `/fire/duty` 值班表；`/fire/messages` 消息；`/fire/sms` 短信规则和发送记录。
 - `/fire-public/duty?token=...`、`/fire-public/video?token=...` 为短期授权链接。缺少/过期token不可使用。二维码从场所值班页或设备视频生成。
 
@@ -58,4 +58,4 @@ VITE_FIRE_PUBLIC_ORIGIN=https://你的站点
 
 模拟底图已按参考图改为黑蓝路网、河流、青色地名与白色区域边界。路网、地名位置和默认区域轮廓仅用于视觉演示，不代表真实地理数据；编辑边界和高德地图使用实际存储坐标。默认隐藏摄像头/设备图层，可通过地图左侧按钮开启。
 
-方案B已实施：桌面大屏为全幅地图和左右悬浮面板；资源图层、视频工具可折叠；点击火警显示右侧详情并定位地图，通过“查看与处置”进入原处置流程。低高度桌面压缩主机统计以保留报警列表，窄屏保留纵向布局。
+方案B已实施：桌面大屏为全幅地图和左右悬浮面板；资源图层、视频工具可折叠；点击火警显示右侧详情并定位地图，通过“查看与处置”进入原处置流程。低高度桌面压缩传输装置统计以保留报警列表，窄屏保留纵向布局。

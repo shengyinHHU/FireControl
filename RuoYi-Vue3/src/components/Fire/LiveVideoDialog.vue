@@ -29,16 +29,16 @@
     <div class="live-tools">
       <span role="status">{{ status }}</span
       ><el-button :loading="loading" @click="connect">重新连接</el-button
-      ><el-button v-if="soundAvailable" :disabled="loading" @click="toggleSound">
-        <el-icon><Mute v-if="!soundEnabled" /><Microphone v-else /></el-icon>
-        {{ soundEnabled ? '关闭声音' : '开启声音' }}
+      ><el-button v-if="soundAvailable || talkingAudio" :disabled="loading && !talkingAudio" @click="toggleSound">
+        <el-icon><Mute v-if="!(talkingAudio ? talkSoundEnabled : soundEnabled)" /><Microphone v-else /></el-icon>
+        {{ (talkingAudio ? talkSoundEnabled : soundEnabled) ? '关闭声音' : '开启声音' }}
       </el-button><el-button @click="fullscreen">全屏</el-button>
       <el-button :loading="downloading" @click="downloadVlc"
         >下载 VLC 播放列表</el-button
       >
     </div>
     <VideoTalkback ref="talk" :open="open" :device-code="device?.deviceCode"
-      :ready="status === '播放中'" :has-audio="soundAvailable" @starting="enableListening" />
+      :ready="status === '播放中'" :has-audio="soundAvailable" @starting="beginTalkAudio" @ended="endTalkAudio" />
     <slot :ready="status === '播放中'" :capture="captureFrame" :error="error" />
     <p class="muted">实时画面按需连接，关闭窗口后停止播放。</p>
   </el-dialog>
@@ -140,10 +140,22 @@ function armTimeout(current) {
 function onVolumeChange() {
   soundEnabled.value = !!video.value && !video.value.muted && video.value.volume > 0
 }
-function enableListening() {
-  if (soundAvailable.value && !soundEnabled.value) toggleSound()
+const talkingAudio = ref(false), talkSoundEnabled = ref(true)
+let restoreSound = false
+function beginTalkAudio() {
+  if (talkingAudio.value) return
+  talkingAudio.value = true; talkSoundEnabled.value = true; restoreSound = soundEnabled.value
+  if (video.value) video.value.muted = true
+  onVolumeChange()
+}
+function endTalkAudio() {
+  if (!talkingAudio.value) return
+  talkingAudio.value = false
+  if (video.value && restoreSound) video.value.muted = false
+  restoreSound = false; onVolumeChange()
 }
 async function toggleSound() {
+  if (talkingAudio.value) { talkSoundEnabled.value = talk.value?.toggleListening() ?? true; return }
   try {
     if (audioBridge) await audioBridge.toggle()
     else if (video.value) {

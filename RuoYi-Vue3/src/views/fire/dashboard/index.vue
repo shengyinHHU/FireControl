@@ -15,37 +15,24 @@
           <button @click="toggleSound">
             {{ sound ? '声音已开启' : '开启提醒音' }}</button
           ><button @click="fullscreen">全屏</button
+          ><button v-if="wideMap" @click="resetPanelLayout">还原布局</button
           ><router-link to="/fire/places">管理工作台 ↗</router-link>
         </div>
       </div>
     </header>
-    <div class="command-subbar">
-      <span
-        ><i class="online-dot"></i
-        >{{ isFireMock ? '真实场所、主机、警情与查岗 · 其余业务为演示数据' : '街道消防安全运行态势' }}</span
-      >
-      <div>
-        <span
-          >覆盖场所 <b>{{ stats.total || 0 }}</b></span
-        ><span
-          >接入视频 <b>{{ stats.cameras || 0 }}</b></span
-        ><span
-          >未读消息 <b>{{ stats.unread || 0 }}</b></span
-        >
-      </div>
-      <span>警情更新 {{ updated || '—' }}</span>
-    </div>
     <div v-if="error || alarmError" class="fire-error">
       {{ alarmError || error }}<el-button link @click="refresh">重试</el-button>
     </div>
     <div class="command-grid">
-      <div class="command-column left-column">
+      <PanelStack ref="leftStack" class="command-column left-column" :enabled="wideMap" storage-key="fire:dashboard:panels:v1:left" :panels="leftPanels" :initial-sizes="initialLeftSizes">
+        <template #overview>
         <Panel title="数据概览"
           ><div class="overview-grid">
             <button
-              v-for="(s, i) in (USE_FIXED_PLACE_COUNTS ? FIXED_PLACE_COUNTS : stats.categories || [])"
+              v-for="(s, i) in placeCategories"
               :key="s.name"
               :class="{ active: category === s.name }"
+              :aria-pressed="category === s.name"
               @click="category = category === s.name ? '' : s.name"
             >
               <span class="stat-icon"
@@ -59,6 +46,8 @@
             </button>
           </div></Panel
         >
+        </template>
+        <template #places>
         <Panel title="重点场所" class="places-panel"
           ><template #action
             ><span class="tiny">{{ filteredPlaces.length }} 处</span></template
@@ -84,6 +73,8 @@
             <p v-if="!filteredPlaces.length" class="fire-empty">暂无匹配场所</p>
           </div></Panel
         >
+        </template>
+        <template #monitor>
         <Panel :title="inspectionTab === 'inspections' ? '查岗管理' : '视频监控'" class="inspections-panel"
           ><template #action
             ><router-link :to="inspectionTab === 'video' ? '/fire/video' : '/fire/inspections'" class="tiny"
@@ -94,11 +85,12 @@
             <el-tab-pane label="查岗管理" name="inspections" />
             <el-tab-pane label="视频监控" name="video" />
           </el-tabs>
-          <VideoMonitor v-if="inspectionTab === 'video'" compact />
+          <VideoMonitor v-if="inspectionTab === 'video'" compact directory-tree />
           <InspectionManager v-else compact />
           </Panel
         >
-      </div>
+        </template>
+      </PanelStack>
       <div class="command-map">
         <MapPanel
           ref="map"
@@ -114,7 +106,8 @@
           大厂街道 <small>消防安全网格化监管</small>
         </div>
       </div>
-      <div class="command-column right-column">
+      <PanelStack ref="rightStack" class="command-column right-column" :enabled="wideMap" storage-key="fire:dashboard:panels:v1:right" :panels="rightPanels" :initial-sizes="initialRightSizes">
+        <template #alarms>
         <Panel title="消防警情" class="alarm-panel"
           ><template #action
             ><router-link to="/fire/alarms" class="tiny"
@@ -192,14 +185,16 @@
             <p v-if="!filteredAlarms.length" class="fire-empty">暂无符合范围的警情记录</p>
           </div></Panel
         >
-        <Panel title="消控主机" class="hosts-panel"
+        </template>
+        <template #gateways>
+        <Panel title="传输装置" class="gateways-panel"
           ><template #action
-            ><router-link to="/fire/hosts" class="tiny"
+            ><router-link to="/fire/gateways" class="tiny"
               >设备台账 ›</router-link
             ></template
           >
-          <div class="host-stats">
-            <router-link v-for="s in hostStats" :key="s.name" :to="s.to"
+          <div class="gateway-stats">
+            <router-link v-for="s in gatewayStats" :key="s.name" :to="s.to"
               ><strong :style="{ color: s.color }">{{ s.value }}</strong
               ><span>{{ s.name }}</span></router-link
             >
@@ -207,7 +202,7 @@
           <div class="history-head">
             <strong>设备上报（近24h）</strong
             ><el-input
-              v-model="hostSearch"
+              v-model="gatewaySearch"
               size="small"
               placeholder="单位 / 设备 / 预警"
               clearable
@@ -226,7 +221,8 @@
             <p v-if="!history.length" class="fire-empty">近24小时无匹配设备事件</p>
           </div></Panel
         >
-      </div>
+        </template>
+      </PanelStack>
     </div>
     <footer class="command-footer">
       <span>街道消防安全监管中心</span
@@ -247,7 +243,6 @@
   </div>
 </template>
 <script setup>
-import { USE_FIXED_PLACE_COUNTS, FIXED_PLACE_COUNTS } from '@/api/fire/dashboardDisplay'
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { ElMessage } from 'element-plus'
 import { fire } from '@/api/fire'
@@ -255,12 +250,14 @@ import { getToken } from '@/utils/auth'
 import { startAlarmStream } from '@/api/fire/alarmStream'
 import { deviceAlarmStats } from '@/api/fire/deviceAccess'
 import { PLACE_LAYERS } from '@/api/fire/placeLayers'
+import { listDashboardPlaces } from '@/api/fire/places'
 import { canFire } from '@/api/fire/access'
 import { hostAlarmSummary, isActiveFire, isDisplayAlarm } from '@/api/fire/rules'
 import { isInDachang } from '@/api/fire/dachangScope.js'
 import { isFireMock } from '@/api/fire/config'
 import { attempt } from '../useFire'
 import Panel from '@/components/Fire/Panel.vue'
+import PanelStack from '@/components/Fire/PanelStack.vue'
 import VideoMonitor from '@/components/Fire/VideoMonitor.vue'
 import InspectionManager from '@/components/Fire/InspectionManager.vue'
 import StatusTag from '@/components/Fire/StatusTag.vue'
@@ -270,6 +267,12 @@ import VideoDialog from '@/components/Fire/VideoDialog.vue'
 import AlarmDetail from '@/components/Fire/AlarmDetail.vue'
 const inspectionTab = ref('inspections')
 const wideMap = ref(window.innerWidth > 1100)
+const leftStack = ref(), rightStack = ref()
+const leftPanels = [{id:'overview',label:'数据概览',minSize:106},{id:'places',label:'重点场所',minSize:150},{id:'monitor',label:'视频监控/查岗管理',minSize:240}]
+const rightPanels = [{id:'alarms',label:'消防警情',minSize:240},{id:'gateways',label:'传输装置',minSize:220}]
+const initialLeftSizes = available => [106, Math.max(0, available - 106 - available * .38), available * .38]
+const initialRightSizes = available => window.innerHeight <= 800 ? [382, Math.max(0, available - 382)] : [1.35, 1]
+function resetPanelLayout(){leftStack.value?.reset();rightStack.value?.reset()}
 const resizeMap = () => { wideMap.value = window.innerWidth > 1100 }
 const screen = ref(),
   map = ref(),
@@ -281,11 +284,10 @@ const screen = ref(),
   search = ref(''),
   category = ref(''),
   source = ref('全部'),
-  sources = ['全部', '119警情', '消控室主机', 'AI监测预警'],
-  hostSearch = ref(''),
+  sources = ['全部', '119警情', '传输装置', 'AI监测预警'],
+  gatewaySearch = ref(''),
   grid = ref(''),
   clock = ref(''),
-  updated = ref(''),
   error = ref(''),
   alarmError = ref(''),
   sound = ref(false)
@@ -296,6 +298,12 @@ const placeOpen = ref(false),
   alarmOpen = ref(false),
   alarmId = ref('')
 const selectedAlarm = computed(() => alarms.value.find(a => a.id === alarmId.value && isDisplayAlarm(a)))
+const placesLoaded = ref(false)
+// Count the same database snapshot used by the category buttons' place list.
+const placeCategories = computed(() => PLACE_LAYERS.map(layer => ({
+  name: layer.label,
+  count: placesLoaded.value ? places.value.filter(place => place.placeType === layer.type).length : '—',
+})))
 const filteredPlaces = computed(() =>
   places.value.filter(
     (p) =>
@@ -321,13 +329,13 @@ const history = computed(() =>
       Date.now() -
         new Date(a.occurredAt.replace(' ', 'T') + '+08:00').getTime() <=
         86400000 &&
-      `${a.name}${a.placeName}${a.deviceId}`.includes(hostSearch.value),
+      `${a.name}${a.placeName}${a.deviceId}`.includes(gatewaySearch.value),
   ),
 )
-const hostStats = computed(() => [
-  { name: '装置总量', value: stats.value.gateways ?? '—', color: '#4ed9ee', to: '/fire/hosts' },
-  { name: '主机总量', value: stats.value.hosts ?? '—', color: '#4ed9ee', to: '/fire/hosts?tab=hosts' },
-  { name: '在线装置', value: stats.value.gatewayOnline ?? '—', color: '#45d6aa', to: '/fire/hosts' },
+const gatewayStats = computed(() => [
+  { name: '装置总量', value: stats.value.gateways ?? '—', color: '#4ed9ee', to: '/fire/gateways' },
+  { name: '在线装置', value: stats.value.gatewayOnline ?? '—', color: '#45d6aa', to: '/fire/gateways' },
+  { name: '待关联IP', value: stats.value.gatewayPending ?? '—', color: '#edbd5f', to: '/fire/gateways' },
   { name: '事件（24h）', value: liveEventStats.value.eventTotal ?? stats.value.eventTotal ?? '—', color: '#edbd5f', to: '/fire/alarms' },
   { name: '火警（24h）', value: liveEventStats.value.fireEvents ?? stats.value.fireEvents ?? '—', color: '#ed7e93', to: '/fire/alarms?kind=fire' },
   { name: '故障（24h）', value: liveEventStats.value.faultEvents ?? stats.value.faultEvents ?? '—', color: '#edbd5f', to: '/fire/alarms?kind=fault' },
@@ -370,7 +378,6 @@ async function refreshAlarms() {
     }
     seen = new Set(alarms.value.filter(isDisplayAlarm).map(x => x.id))
     initialized = true
-    updated.value = new Date().toLocaleTimeString('zh-CN')
     alarmError.value = ''
   } catch (e) {
     if (!disposed) alarmError.value = e.message || '警情刷新失败，正在重试；当前保留上次成功数据'
@@ -389,14 +396,13 @@ async function refreshResources() {
   try {
     const [s, p, c] = await Promise.all([
       fire.dashboard(),
-      fire.list('places', { pageSize: 1000 }),
+      listDashboardPlaces(),
       canFire('cameras') ? fire.list('cameras', { pageSize: 1000 }) : Promise.resolve({ rows: [], total: 0 }),
     ])
     if (disposed) return
-    stats.value = { ...s.data, total: p.total, cameras: c.total,
-      categories: USE_FIXED_PLACE_COUNTS ? FIXED_PLACE_COUNTS : PLACE_LAYERS.map(layer => ({ name: layer.label, count: p.rows.filter(row => row.placeType === layer.type).length })),
-    }
+    stats.value = { ...s.data, total: p.total, cameras: c.total }
     places.value = p.rows
+    placesLoaded.value = true
     cameras.value = c.rows
     error.value = ''
     map.value?.refresh()
@@ -579,23 +585,6 @@ onBeforeUnmount(() => {
 }
 .header-right a {
   color: #47c7de;
-}
-.command-subbar {
-  height: 34px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 10px;
-  color: #779db5;
-  letter-spacing: 0.5px;
-}
-.command-subbar > div {
-  display: flex;
-  gap: 28px;
-}
-.command-subbar b {
-  color: #5cd5df;
-  margin-left: 7px;
 }
 .command-grid {
   display: grid;
@@ -795,7 +784,7 @@ onBeforeUnmount(() => {
   flex: 1.08;
   min-height: 0;
 }
-.hosts-panel {
+.gateways-panel {
   flex: 1;
   min-height: 0;
 }
@@ -937,13 +926,13 @@ onBeforeUnmount(() => {
   white-space: normal;
   flex-shrink: 0;
 }
-.host-stats {
+.gateway-stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 6px;
   margin-bottom: 12px;
 }
-.host-stats > a {
+.gateway-stats > a {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -951,13 +940,13 @@ onBeforeUnmount(() => {
   border: 1px solid #143a54;
   padding: 8px 0;
 }
-.host-stats strong {
+.gateway-stats strong {
   font-size: 26px;
   font-family: Consolas, monospace;
   line-height: 1.1;
   text-shadow: 0 0 8px currentColor;
 }
-.host-stats span {
+.gateway-stats span {
   font-size: 10px;
   color: #7aa1b8;
   margin-top: 5px;
@@ -1028,9 +1017,6 @@ onBeforeUnmount(() => {
   .command-header {
     min-height: 72px;
   }
-  .command-subbar {
-    height: 28px;
-  }
   .stat-icon {
     display: none;
   }
@@ -1040,7 +1026,7 @@ onBeforeUnmount(() => {
   .alarm-card {
     padding: 7px;
   }
-  .host-stats strong {
+  .gateway-stats strong {
     font-size: 23px;
   }
 }
@@ -1075,9 +1061,6 @@ onBeforeUnmount(() => {
   }
   .header-right > span {
     font-size: 11px;
-  }
-  .command-subbar > div {
-    display: none;
   }
   .command-header {
     gap: 10px;
@@ -1146,14 +1129,13 @@ onBeforeUnmount(() => {
 .fire-priority-note b { font-size:20px; margin:0 6px; color:#fff1df; }
 .fire-priority-note span { float:right; font-size:10px; margin-top:5px; }
 .alarm-card { background:linear-gradient(110deg,#34253eaa,#122449); border-color:#514361; }
-.host-stats > a, .overview-grid button, .history-list > button, .inspection-card, .place-rows > button { background:#10244bcc; border-color:#254576; }
+.gateway-stats > a, .overview-grid button, .history-list > button, .inspection-card, .place-rows > button { background:#10244bcc; border-color:#254576; }
 /* Map-first command layout: floating readable panels, quiet chrome. */
 .command-screen { --left-panel:clamp(280px,23vw,370px); --right-panel:clamp(320px,26vw,420px); padding:0 14px; background:#050b18; }
 .command-header { min-height:72px; background:linear-gradient(180deg,#102954,#081427); }
 .command-title { padding:8px 18px; }
 .command-title h1 { font-size:clamp(23px,1.8vw,34px); letter-spacing:3px; text-shadow:none; }
 .command-title p { margin-top:6px; }
-.command-subbar { height:28px; font-size:12px; }
 .command-column :deep(.fire-panel) { background:linear-gradient(135deg,#102348f5,#0c1b35ed); border:1px solid #294b72; box-shadow:0 8px 26px #0005; backdrop-filter:blur(5px); }
 .command-column :deep(.fire-panel > header) { height:38px; background:#15305588; }
 .command-column :deep(.fire-panel h2) { font-size:16px; color:#d3ecf7; }
@@ -1185,10 +1167,10 @@ onBeforeUnmount(() => {
 .alarm-card p { font-size:14px; font-weight:500; margin:5px 0; line-height:1.4; }
 .alarm-footer small { font-size:12px; line-height:1.4; color:#a6bfd1; }
 .alarm-footer :deep(.fire-status) { font-size:11px; max-width:none; white-space:nowrap; }
-.host-stats { gap:4px; margin-bottom:8px; }
-.host-stats > a { padding:5px 0; border:0; background:#17304a77; }
-.host-stats strong { font-size:23px; text-shadow:none; }
-.host-stats span { font-size:12px; margin-top:3px; }
+.gateway-stats { gap:4px; margin-bottom:8px; }
+.gateway-stats > a { padding:5px 0; border:0; background:#17304a77; }
+.gateway-stats strong { font-size:23px; text-shadow:none; }
+.gateway-stats span { font-size:12px; margin-top:3px; }
 .history-head strong { font-size:12px; }
 .history-list > button { padding:8px; }
 .history-list strong, .history-list p { font-size:13px; }
@@ -1196,7 +1178,7 @@ onBeforeUnmount(() => {
 .map-street-label { display:none; }
 @media(min-width:1101px) {
   .command-grid { position:relative; display:block; }
-  .command-map { position:absolute; inset:0 -14px; border:0; box-shadow:none; }
+  .command-map { position:absolute; inset:0 -14px; border:0; box-shadow:none; z-index:0; }
   .command-map :deep(.fire-map) { min-height:100%; }
   .command-column { position:absolute; top:8px; bottom:8px; z-index:2; gap:10px; }
   .left-column { left:0; width:var(--left-panel); }
@@ -1205,12 +1187,13 @@ onBeforeUnmount(() => {
   .places-panel { flex:1; }
   .inspections-panel { flex:0 0 38%; }
   .alarm-panel { flex:1.35; }
-  .hosts-panel { flex:1; }
+  .gateways-panel { flex:1; }
   .command-map :deep(.map-search) { left:calc(var(--left-panel) + 32px); width:calc(100% - var(--left-panel) - var(--right-panel) - 64px); top:14px; }
   .command-map :deep(.map-layer-toggle), .command-map :deep(.map-layer-buttons) { left:calc(var(--left-panel) + 32px); }
   .command-map :deep(.map-caption), .command-map :deep(.map-fire-legend) { left:calc(var(--left-panel) + 32px); }
   .command-map :deep(.map-zoom) { right:calc(var(--right-panel) + 32px); }
   .command-map :deep(.map-grid-info) { top:120px; left:calc(var(--left-panel) + 32px); }
+  .command-map :deep(.map-error) { left:calc(var(--left-panel) + 32px); max-width:calc(100% - var(--left-panel) - var(--right-panel) - 64px); }
 }
 @media(min-width:1101px) and (max-height:800px) {
   .command-header { min-height:64px; }
@@ -1220,9 +1203,9 @@ onBeforeUnmount(() => {
   .alarm-footer small { font-size:11px; }
   .fire-priority-note { padding:4px 8px; }
   .command-column :deep(.panel-body) { padding:8px; }
-  .host-stats { grid-template-columns:repeat(6,1fr); gap:2px; }
-  .host-stats strong { font-size:20px; }
-  .host-stats span { font-size:10px; white-space:nowrap; }
+  .gateway-stats { grid-template-columns:repeat(6,1fr); gap:2px; }
+  .gateway-stats strong { font-size:20px; }
+  .gateway-stats span { font-size:10px; white-space:nowrap; }
 }
 @media(max-width:1100px) {
   .command-column { min-height:1000px; }
@@ -1245,6 +1228,30 @@ onBeforeUnmount(() => {
 .selected-fire dt { color:#8ba8bf; } .selected-fire dd { margin:0; }
 .selected-fire-actions { display:flex; gap:8px; margin-top:12px; }
 .selected-fire-actions .el-button + .el-button { margin-left:0; }
+/* Resizable columns own the available height; only panel contents scroll. */
+.command-column.panel-stack-enabled :deep(.fire-panel) { display:flex; flex-direction:column; flex:1 1 auto; min-height:0; }
+.command-column.panel-stack-enabled :deep(.fire-panel > header) { flex:0 0 38px; }
+.command-column.panel-stack-enabled :deep(.panel-body) { flex:1; height:auto; min-height:0; max-height:none; overflow:hidden; }
+.panel-stack-enabled .monitor-panel-tabs,
+.panel-stack-enabled .fire-priority-note,
+.panel-stack-enabled .source-tabs,
+.panel-stack-enabled .gateway-stats,
+.panel-stack-enabled .history-head { flex-shrink:0; }
+.panel-stack-enabled .selected-fire { flex:1; }
+.command-column.panel-stack-enabled :deep(.inspection-manager.compact) { display:flex; flex-direction:column; flex:1; min-height:0; overflow:hidden; }
+.command-column.panel-stack-enabled :deep(.inspection-toolbar) { flex-shrink:0; }
+.command-column.panel-stack-enabled :deep(.inspection-cards) { flex:1; min-height:0; max-height:none; align-content:start; }
+/* Narrow screens retain natural document scrolling instead of drag handles. */
+@media(max-width:1100px) {
+  .command-column :deep(.panel-stack-pane[data-panel="overview"]) { flex:0 0 125px; }
+  .command-column :deep(.panel-stack-pane[data-panel="places"]) { flex:1 0 300px; }
+  .command-column :deep(.panel-stack-pane[data-panel="monitor"]) { flex:0 0 380px; }
+  .command-column :deep(.panel-stack-pane[data-panel="alarms"]) { flex:1.35 0 430px; }
+  .command-column :deep(.panel-stack-pane[data-panel="gateways"]) { flex:1 0 320px; }
+}
+@media(max-width:650px) {
+  .command-column :deep(.panel-stack-pane[data-panel="overview"]) { flex-basis:130px; }
+}
 </style>
 
 

@@ -3,6 +3,8 @@
 <mapper namespace="com.ruoyi.system.mapper.FirePlaceMapper">
     <resultMap id="FirePlaceMap" type="com.ruoyi.system.domain.FirePlace">
         <id property="placeId" column="place_id" />
+        <result property="revision" column="revision" />
+        <result property="remark" column="remark" />
         <result property="name" column="name" />
         <result property="owner" column="owner" />
         <result property="phone" column="phone" />
@@ -20,7 +22,7 @@
         <result property="matchedAddress" column="matched_address" />
     </resultMap>
     <select id="selectMapPlaces" parameterType="com.ruoyi.system.domain.FirePlace" resultMap="FirePlaceMap">
-        SELECT p.place_id, p.name, p.place_type, p.industry_category,
+        SELECT p.place_id, p.revision, p.remark, p.name, p.place_type, p.industry_category,
                p.management_company, p.address, p.grid_id, p.risk_level,
                p.main_risk_sources, p.longitude, p.latitude,
                p.coordinate_system, p.location_status, p.matched_address,
@@ -45,6 +47,12 @@
         ${params.dataScope}
         ORDER BY p.place_type, p.place_id
         <if test="mapOnly">LIMIT 5001</if>
+    </select>
+    <select id="lockPlace" parameterType="com.ruoyi.system.domain.FirePlace" resultMap="FirePlaceMap">
+        SELECT p.* FROM fire_place p
+        WHERE p.place_id=#{placeId} AND p.del_flag='0' AND p.status='0'
+        ${params.dataScope}
+        FOR UPDATE
     </select>
     <select id="selectContacts" parameterType="com.ruoyi.system.domain.FirePlace" resultType="map">
         SELECT CAST(c.contact_id AS CHAR) AS contactId, c.contact_name AS contactName,

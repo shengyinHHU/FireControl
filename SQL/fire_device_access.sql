@@ -13,14 +13,6 @@ CREATE TABLE IF NOT EXISTS fire_gateway (
  update_by varchar(64) DEFAULT '',update_time datetime,remark varchar(500),
  UNIQUE KEY uk_fire_gateway_source(source_address), KEY idx_gateway_place(place_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户信息传输装置，enabled 0启用1停用';
-CREATE TABLE IF NOT EXISTS fire_host (
- host_id bigint NOT NULL AUTO_INCREMENT PRIMARY KEY, gateway_id bigint NOT NULL,
- system_type int NOT NULL, system_address int NOT NULL, name varchar(255) NOT NULL,
- status_bits int, status_description varchar(1000), status_device_time datetime,
- last_received_at datetime, software_version varchar(30), description varchar(1000),
- create_time datetime DEFAULT CURRENT_TIMESTAMP, update_time datetime,
- UNIQUE KEY uk_fire_host_address(gateway_id,system_type,system_address)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='实际报文识别的消防系统/主机，不由装置数量虚构';
 CREATE TABLE IF NOT EXISTS fire_protocol_message (
  message_id bigint NOT NULL AUTO_INCREMENT PRIMARY KEY, gateway_id bigint,
  session_id varchar(64), peer_ip varchar(45), direction char(2) NOT NULL,
@@ -32,7 +24,7 @@ CREATE TABLE IF NOT EXISTS fire_protocol_message (
  KEY idx_message_gateway(gateway_id,received_at), KEY idx_message_session(session_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='逐次双向原文，TX区分待发/已提交/失败，保留重传';
 CREATE TABLE IF NOT EXISTS fire_event (
- event_id char(64) NOT NULL PRIMARY KEY, gateway_id bigint NOT NULL, host_id bigint,
+ event_id char(64) NOT NULL PRIMARY KEY, gateway_id bigint NOT NULL,
  message_id bigint NOT NULL, object_type int NOT NULL, object_index int NOT NULL,
  object_key varchar(100) NOT NULL, event_kind varchar(32) NOT NULL,
  name varchar(1000) NOT NULL, device_time datetime, received_at datetime NOT NULL,
@@ -49,12 +41,12 @@ SELECT SHA2('manual/dachang-street/device-access',256),'大厂街道','governmen
 WHERE NOT EXISTS(SELECT 1 FROM fire_place WHERE name='大厂街道' AND del_flag='0');
 SET @fire_access_place_id=(SELECT place_id FROM fire_place WHERE name='大厂街道' AND del_flag='0' ORDER BY place_id LIMIT 1);
 INSERT INTO fire_gateway(place_id,name,manufacturer,model,source_address,center_address,allowed_ip,dept_id,supervisor_user_id,create_by,remark)
-SELECT place_id,'大厂街道用户信息传输装置','浙江大华','DH-HY-FAM-1000','c80000000000','640000000000','10.5.90.49',dept_id,supervisor_user_id,'admin','来自实机报文，未接入下级主机'
+SELECT place_id,'大厂街道用户信息传输装置','浙江大华','DH-HY-FAM-1000','c80000000000','640000000000','10.5.90.49',dept_id,supervisor_user_id,'admin','来自实机报文，接收消防警情'
 FROM fire_place WHERE place_id=@fire_access_place_id
 AND NOT EXISTS(SELECT 1 FROM fire_gateway WHERE source_address='c80000000000');
 INSERT INTO sys_menu(menu_name,parent_id,order_num,path,component,is_frame,is_cache,menu_type,visible,status,perms,icon,create_by,create_time,remark)
-SELECT '消防接入查询',0,91,'','','1','0','F','0','0','fire:hosts:list','#','admin',NOW(),'装置及主机只读查询'
-WHERE NOT EXISTS(SELECT 1 FROM sys_menu WHERE perms='fire:hosts:list');
+SELECT '消防接入查询',0,91,'','','1','0','F','0','0','fire:gateways:list','#','admin',NOW(),'传输装置只读查询'
+WHERE NOT EXISTS(SELECT 1 FROM sys_menu WHERE perms='fire:gateways:list');
 INSERT INTO sys_menu(menu_name,parent_id,order_num,path,component,is_frame,is_cache,menu_type,visible,status,perms,icon,create_by,create_time,remark)
 SELECT '消防事件查询',0,92,'','','1','0','F','0','0','fire:alarms:list','#','admin',NOW(),'真实设备事件只读查询'
 WHERE NOT EXISTS(SELECT 1 FROM sys_menu WHERE perms='fire:alarms:list');

@@ -13,7 +13,7 @@ export const categories = [...PLACE_LAYERS.map(layer => layer.label), '机关单
 export const catalog = {
   places: {
     title: '重点场所',
-    readOnly: true,
+    readOnly: false,
     subtitle: '重点单位档案 · 消防资源与安全生产信息',
     fields: [
       name,
@@ -98,37 +98,12 @@ export const catalog = {
     ],
     columns: ['name', 'owner', 'phone', 'description'],
   },
-  hosts: {
-    title: '消防主机',
-    subtitle: '接入主机运行状态与监测数据',
-    fields: [
-      name,
-      place,
-      field('serial', '主机编号'),
-      field('model', '型号'),
-      status,
-      field('loops', '回路数', 'number'),
-      field('voltage', '电压(V)', 'number'),
-    ],
-    columns: [
-      'name',
-      'placeName',
-      'serial',
-      'model',
-      'status',
-      'voltage',
-      'lastSeen',
-    ],
-    filter: ['status'],
-    defaults: { status: '在线', loops: 8, voltage: 24 },
-  },
   devices: {
     title: '设备台账',
     subtitle: '告警设备 · 地图定位 · 摄像头关联',
     fields: [
       name,
       place,
-      field('hostId', '消控主机', 'hosts'),
       field('cameraId', '联动摄像头', 'cameras'),
       field('category', '设备类型', 'select', [
         '烟感探测器',
@@ -222,7 +197,7 @@ export const catalog = {
       name,
       field('source', '告警来源', 'select', [
         '119警情',
-        '消控室主机',
+        '传输装置',
         'AI监测预警',
       ]),
       field('trigger', '通知时机', 'select', ['接单', '办结']),
@@ -281,7 +256,7 @@ export const navigation = [
   ['video', '视频监控', 'VideoCamera'],
   ['inspections', '查岗管理', 'View'],
   ['alarms', '警情处置', 'Bell'],
-  ['hosts', '消防主机', 'Cpu'],
+  ['gateways', '传输装置', 'Cpu'],
   ['devices', '设备台账', 'Connection'],
   ['personnel', '责任人员', 'User'],
   ['materials', '消防物资', 'Box'],

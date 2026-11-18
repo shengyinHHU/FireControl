@@ -1,0 +1,15 @@
+{
+  "actualVue": true,
+  "fixtureHTTP": true,
+  "businessDatabaseAccessed": false,
+  "checks": [
+    "real create, required validation, category selection, contact and unlocated save; failures retain drafts and busy state blocks close/duplicates",
+    "persisted edit and stable contact identity, coordinate-pair validation, conflict recovery, unsaved-draft confirmation and refreshed detail",
+    "failed edit load cannot save partial contact data and retries safely",
+    "URL search restoration, delete cancel/confirm and last-page clamp after deletion",
+    "list error clears stale rows and retry restores real results",
+    "390px form scroll keeps bottom fields and actions reachable",
+    "readonly role sees details without any mutation or import actions"
+  ],
+  "errors": []
+}

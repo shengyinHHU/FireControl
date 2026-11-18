@@ -31,21 +31,18 @@ public class FireAccessService {
   }
   return rows;
  }
- @DataScope(deptAlias="g",userAlias="g",userField="supervisor_user_id",permission="fire:hosts:list")
+ @DataScope(deptAlias="g",userAlias="g",userField="supervisor_user_id",permission="fire:gateways:list")
  public List<Map<String,Object>> gateways(FireAccessQuery q){return normalize(mapper.gateways(q));}
- @DataScope(deptAlias="g",userAlias="g",userField="supervisor_user_id",permission="fire:hosts:list")
- public List<Map<String,Object>> hosts(FireAccessQuery q){return normalize(mapper.hosts(q));}
  @DataScope(deptAlias="g",userAlias="g",userField="supervisor_user_id",permission="fire:alarms:list")
  public List<Map<String,Object>> events(FireAccessQuery q){return normalize(mapper.events(q));}
- @DataScope(deptAlias="g",userAlias="g",userField="supervisor_user_id",permission="fire:hosts:list")
+ @DataScope(deptAlias="g",userAlias="g",userField="supervisor_user_id",permission="fire:gateways:list")
  public List<Map<String,Object>> messages(FireAccessQuery q){return normalize(mapper.messages(q));}
- @DataScope(deptAlias="g",userAlias="g",userField="supervisor_user_id",permission="fire:hosts:list")
- public Map<String,Object> hostStats(FireAccessQuery q){
-  Map<String,Object> stats=mapper.hostStats(q);stats.put("gateways",mapper.gatewayCount(q));long online=0;
-  for(Map<String,Object> group:mapper.hostConnectionCounts(q))if(gatewayOnline(group))online+=((Number)group.get("total")).longValue();
-  stats.put("online",online);long gatewayOnline=0,pending=0;
-  for(var g:mapper.gateways(q)){if(g.get("allowedIp")==null)pending++;if(gatewayOnline(g))gatewayOnline++;}
-  stats.put("gatewayOnline",gatewayOnline);stats.put("gatewayPending",pending);return stats;
+ @DataScope(deptAlias="g",userAlias="g",userField="supervisor_user_id",permission="fire:gateways:list")
+ public Map<String,Object> gatewayStats(FireAccessQuery q){
+  Map<String,Object> stats=new HashMap<>();stats.put("gateways",mapper.gatewayCount(q));
+  long online=0,pending=0;
+  for(var g:mapper.gateways(q)){if(g.get("allowedIp")==null)pending++;if(gatewayOnline(g))online++;}
+  stats.put("gatewayOnline",online);stats.put("gatewayPending",pending);return stats;
  }
  @DataScope(deptAlias="g",userAlias="g",userField="supervisor_user_id",permission="fire:alarms:list")
  public Map<String,Object> eventStats(FireAccessQuery q){return mapper.eventStats(q);}

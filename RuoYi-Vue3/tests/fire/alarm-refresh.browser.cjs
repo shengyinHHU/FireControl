@@ -26,7 +26,7 @@ const server=spawn(process.execPath,['node_modules/vite/bin/vite.js','--mode','f
   const u=new URL(route.request().url()),p=u.pathname.replace('/dev-api','');let body={code:200,data:[],rows:[],total:0}
   if(p==='/getInfo')body={code:200,user:{userId:1,userName:'admin',nickName:'管理员',avatar:''},roles:['admin'],permissions:['*:*:*']}
   else if(p==='/getRouters')body={code:200,data:[]}
-  else if(p==='/fire/hosts/stats'){hostStatsCalls++;await slow;body={code:200,data:{hosts:1,gateways:1,online:1}}}
+  else if(p==='/fire/gateways/stats'){hostStatsCalls++;await slow;body={code:200,data:{hosts:1,gateways:1,online:1}}}
   else if(p==='/fire/alarms/stats')body={code:200,data:{eventTotal:stage,fireEvents:stage,faultEvents:0}}
   else if(p==='/fire/119/status')body={code:200,data:{enabled:true}}
   else if(p==='/fire/places/list'){placeCalls++;body={code:200,rows:[],total:0}}

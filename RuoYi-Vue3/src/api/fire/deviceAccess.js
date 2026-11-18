@@ -1,7 +1,7 @@
 import { visibleLocalAlarms } from './localAlarmHandling.js'
 import request from '@/utils/request'
 import auth from '@/plugins/auth'
-const urls = { gateways: '/fire/gateways/list', hosts: '/fire/hosts/list', alarms: '/fire/alarms/list', protocolMessages: '/fire/protocol/messages' }
+const urls = { gateways: '/fire/gateways/list', alarms: '/fire/alarms/list', protocolMessages: '/fire/protocol/messages' }
 export const normalizeDeviceRow = row => {
   const incident119 = row.sourceCode === '119'
   return {
@@ -24,12 +24,12 @@ export async function getDeviceRecord(resource, id) {
   return { ...res, data: normalizeDeviceRow(res.data) }
 }
 export async function deviceStats() {
-  const [hosts, events, incident119] = await Promise.all([
-    auth.hasPermi('fire:hosts:list') ? request({ url: '/fire/hosts/stats' }) : Promise.resolve({data:{hosts:null,online:null,gateways:null}}),
+  const [gateways, events, incident119] = await Promise.all([
+    auth.hasPermi('fire:gateways:list') ? request({ url: '/fire/gateways/stats' }) : Promise.resolve({data:{gateways:null,gatewayOnline:null,gatewayPending:null}}),
     auth.hasPermi('fire:alarms:list') ? request({ url: '/fire/alarms/stats' }) : Promise.resolve({data:{eventTotal:null,fireEvents:null,faultEvents:null}}),
     auth.hasPermi('fire:alarms:list') ? incident119Status() : Promise.resolve(null),
   ])
-  return { ...hosts.data, ...events.data, incident119 }
+  return { ...gateways.data, ...events.data, incident119 }
 }
 
 // Lightweight device-event counters, independent from place and 119 status requests.

@@ -1,13 +1,12 @@
 <template>
   <div class="fire-page fire-theme">
     <div v-if="!embedded" class="fire-page-title">
-      <div><div class="fire-kicker">{{ eventOnly ? 'INCIDENT RECORDS' : 'DEVICE MONITORING' }}</div><h1>{{ eventOnly ? '消防警情记录' : '消控主机与传输装置' }}</h1>
+      <div><div class="fire-kicker">{{ eventOnly ? 'INCIDENT RECORDS' : 'DEVICE MONITORING' }}</div><h1>{{ eventOnly ? '消防警情记录' : '传输装置' }}</h1>
         <p>{{ eventOnly ? '119警情与设备上报 · 保留来源和原始状态' : '真实设备上报 · 通信、设备状态与火警分别记录' }}</p></div>
       <div class="fire-toolbar"><router-link to="/fire/dashboard">指挥大屏 ↗</router-link><el-button :loading="loading" @click="load">刷新记录</el-button></div>
     </div>
     <el-tabs v-if="!embedded" v-model="tab" @tab-change="changeTab">
       <el-tab-pane v-if="!eventOnly" label="传输装置" name="gateways" />
-      <el-tab-pane v-if="!eventOnly" label="消防主机" name="hosts" />
       <el-tab-pane v-if="canFire('alarms')" :label="eventOnly ? '消防警情' : '设备事件'" name="alarms" />
       <el-tab-pane v-if="!eventOnly" label="通信报文" name="protocolMessages" />
     </el-tabs>
@@ -15,7 +14,7 @@
       <el-form inline novalidate @submit.prevent="search">
         <el-form-item :label="eventOnly ? '地址或内容' : '单位或装置'"><el-input v-model="keyword" clearable placeholder="输入名称后查询" @clear="search" /></el-form-item>
         <el-form-item v-if="eventOnly" label="接入来源"><el-select v-model="source" clearable placeholder="全部来源" style="width:160px" @change="changeSource">
-          <el-option label="119警情" value="119" /><el-option label="消控室主机" value="device" />
+          <el-option label="119警情" value="119" /><el-option label="传输装置" value="device" />
         </el-select></el-form-item>
         <el-form-item v-if="eventOnly && source === '119'" label="案件类型"><el-select v-model="caseType" clearable placeholder="全部案件类型" style="width:160px" @change="search">
           <el-option label="火警扑救" value="1" /><el-option label="抢险救援" value="2" /><el-option label="社会救助" value="3" />
@@ -28,7 +27,6 @@
         <el-form-item><el-button native-type="submit" type="primary" :loading="loading">查询</el-button></el-form-item>
       </el-form>
       <div v-if="error" class="fire-error" role="alert">{{ error }}<el-button link @click="load">重试</el-button></div>
-      <p v-if="tab === 'hosts'" class="muted">显示台账及实际报文识别的下挂主机。请在所属装置详情中维护；传输装置在线不代表主机正常，未知字段显示“—”。</p>
       <el-table v-loading="loading" :data="tab === 'alarms' ? visibleLocalAlarms(rows) : rows" row-key="id" stripe empty-text="暂无符合条件的真实记录">
         <el-table-column v-for="column in columns" :key="column.key" :prop="column.key" :label="column.label" :min-width="column.width || 160" show-overflow-tooltip>
           <template #default="{ row }"><StatusTag v-if="column.key === 'status'" :value="row.status" /><span v-else>{{ row[column.key] ?? '—' }}</span></template>
@@ -55,7 +53,7 @@ import StatusTag from './StatusTag.vue'
 import AlarmDetail from './AlarmDetail.vue'
 const props = defineProps({ eventOnly: Boolean, embedded: Boolean, resource: String, gatewayId: [String,Number] })
 const route = useRoute(), router = useRouter()
-const allowed = props.resource ? [props.resource] : props.eventOnly ? ['alarms'] : ['gateways', 'hosts', 'alarms', 'protocolMessages']
+const allowed = props.resource ? [props.resource] : props.eventOnly ? ['alarms'] : ['gateways', 'alarms', 'protocolMessages']
 const tab = ref(allowed.includes(route.query.tab) ? route.query.tab : allowed[0])
 const keyword = ref(String(route.query.keyword || '')), kind = ref(String(route.query.kind || ''))
 const source = ref(props.eventOnly ? String(route.query.source || '') : 'device'), caseType = ref(String(route.query.caseType || ''))
@@ -64,7 +62,6 @@ const detailOpen = ref(false), eventOpen = ref(false), selected = ref(null), sel
 let revision = 0, timer
 const definitions = {
  gateways: [['name','装置名称',230],['placeName','所属单位'],['model','型号'],['serial','协议地址'],['status','通信状态'],['deviceStatus','装置上报状态',260],['lastSeen','最后有效报文',190]],
- hosts: [['name','主机/系统',220],['placeName','所属单位'],['gatewayName','传输装置',220],['serial','系统类型/地址'],['status','装置通信状态'],['deviceStatus','主机上报状态',260],['lastSeen','最后接收时间',190]],
  alarms: [['name','事件内容',300],['placeName','所属单位'],['gatewayName','上报装置',220],['occurredAt','服务器接收时间',190],['deviceTime','设备事件时间',190],['status','记录状态']],
  protocolMessages: [['direction','方向'],['sessionId','连接编号',220],['peerIp','设备IP'],['sequenceNo','流水号'],['commandNo','命令'],['receivedAt','记录时间',190],['parseStatus','解析结果'],['transmissionStatus','发送结果']],
 }

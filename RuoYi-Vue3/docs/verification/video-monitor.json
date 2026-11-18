@@ -10,6 +10,9 @@
     "FLV requests carry auth; reconnect and close destroy MSE and delete owned streams; no HLS/RTC fallback",
     "failure clears stale rows, retry and empty states work without demo fallback",
     "keyboard/narrow viewport and separate inspection management route",
+    "dashboard uses one lazy folder/camera tree, hides device codes and unknown status, retries cursor pages and preserves expanded children",
+    "dashboard keyboard camera activation uses canonical player; refresh ignores stale folder response; error/retry and empty states remain truthful",
+    "compact selected folders keep dark theme; long camera names wrap in narrow panel with one internal scroller and reachable footer",
     "dashboard shares real monitoring and its full-monitor link points to /fire/video",
     "legacy video link redirects to the dedicated page for users with only real video permission",
     "video route denies access without real video permission even in demo build mode"

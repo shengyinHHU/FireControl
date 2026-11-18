@@ -1,0 +1,16 @@
+{
+  "actualVue": true,
+  "productionMode": true,
+  "fixtureHTTP": true,
+  "checks": [
+    "left drag expands video list by 120px while retaining toolbar/footer and reducing only places",
+    "all three boundaries independently adjust their adjacent pair",
+    "reload restores both columns; Escape cancels a drag without storing it",
+    "arrow/Shift/Home/End work and minimum heights prevent panels from disappearing",
+    "reset restores defaults; 1920x1080, 1440x720 and fullscreen keep panels bounded without overwriting preference",
+    "narrow screens naturally scroll and retain desktop preferences; corrupt storage recovers; double click resets a column",
+    "blocked browser preference storage leaves dragging and reset usable; inspection tab has bounded internal scrolling"
+  ],
+  "previewCalls": 0,
+  "errors": []
+}

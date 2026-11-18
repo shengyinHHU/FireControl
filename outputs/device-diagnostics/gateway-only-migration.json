@@ -1,0 +1,24 @@
+{
+  "database": "dachang",
+  "apply": true,
+  "before": {
+    "fire_gateway": 37,
+    "fire_host": 37,
+    "fire_event": 106,
+    "fire_protocol_message": 980,
+    "sys_menu": 105,
+    "sys_role_menu": 86
+  },
+  "completed": true,
+  "backup": "D:\\javaprogram\\FireControl\\outputs\\device-diagnostics\\backups\\gateway-only-20261114-211459-705765.json.gz",
+  "historyPreserved": true,
+  "roleGrantsPreserved": true,
+  "after": {
+    "fire_gateway": 37,
+    "fire_host": null,
+    "fire_event": 106,
+    "fire_protocol_message": 980,
+    "sys_menu": 105,
+    "sys_role_menu": 86
+  }
+}

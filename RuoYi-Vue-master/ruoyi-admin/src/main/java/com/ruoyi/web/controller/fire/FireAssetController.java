@@ -12,20 +12,14 @@ import com.ruoyi.system.service.FireAssetService;
 public class FireAssetController extends BaseController {
  private final FireAssetService service;
  public FireAssetController(FireAssetService s){service=s;}
- @GetMapping("/unregistered") @PreAuthorize("@ss.hasPermi('fire:hosts:list')")
+ @GetMapping("/unregistered") @PreAuthorize("@ss.hasPermi('fire:gateways:list')")
  public AjaxResult unregistered(){return success(service.unregistered());}
- @GetMapping("/gateways/{id}") @PreAuthorize("@ss.hasPermi('fire:hosts:list')")
+ @GetMapping("/gateways/{id}") @PreAuthorize("@ss.hasPermi('fire:gateways:list')")
  public AjaxResult gateway(@PathVariable Long id){return success(service.gateway(id));}
- @PostMapping("/gateways") @PreAuthorize("@ss.hasPermi('fire:hosts:add')") @Log(title="传输装置",businessType=BusinessType.INSERT)
+ @PostMapping("/gateways") @PreAuthorize("@ss.hasPermi('fire:gateways:add')") @Log(title="传输装置",businessType=BusinessType.INSERT)
  public AjaxResult addGateway(@RequestBody FireAsset a){a.id=null;return success(service.saveGateway(a));}
- @PutMapping("/gateways/{id}") @PreAuthorize("@ss.hasPermi('fire:hosts:edit')") @Log(title="传输装置",businessType=BusinessType.UPDATE)
+ @PutMapping("/gateways/{id}") @PreAuthorize("@ss.hasPermi('fire:gateways:edit')") @Log(title="传输装置",businessType=BusinessType.UPDATE)
  public AjaxResult editGateway(@PathVariable Long id,@RequestBody FireAsset a){a.id=id;return success(service.saveGateway(a));}
- @DeleteMapping("/gateways/{id}") @PreAuthorize("@ss.hasPermi('fire:hosts:remove')") @Log(title="传输装置",businessType=BusinessType.DELETE)
+ @DeleteMapping("/gateways/{id}") @PreAuthorize("@ss.hasPermi('fire:gateways:remove')") @Log(title="传输装置",businessType=BusinessType.DELETE)
  public AjaxResult deleteGateway(@PathVariable Long id,@RequestParam Long revision){service.deleteGateway(id,revision);return success();}
- @PostMapping("/hosts") @PreAuthorize("@ss.hasPermi('fire:hosts:add')") @Log(title="下挂消防主机",businessType=BusinessType.INSERT)
- public AjaxResult addHost(@RequestBody FireAsset a){a.id=null;return success(service.saveHost(a));}
- @PutMapping("/hosts/{id}") @PreAuthorize("@ss.hasPermi('fire:hosts:edit')") @Log(title="下挂消防主机",businessType=BusinessType.UPDATE)
- public AjaxResult editHost(@PathVariable Long id,@RequestBody FireAsset a){a.id=id;return success(service.saveHost(a));}
- @DeleteMapping("/hosts/{id}") @PreAuthorize("@ss.hasPermi('fire:hosts:remove')") @Log(title="下挂消防主机",businessType=BusinessType.DELETE)
- public AjaxResult deleteHost(@PathVariable Long id,@RequestParam Long gatewayId,@RequestParam Long revision){service.deleteHost(id,gatewayId,revision);return success();}
 }

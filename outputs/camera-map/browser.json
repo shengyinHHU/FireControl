@@ -1,0 +1,16 @@
+{
+  "actualVue": true,
+  "productionMode": true,
+  "fixtureHTTP": true,
+  "fixtureMapSdk": true,
+  "checks": [
+    "overview uses 38px camera icons at original coordinates, invalid coordinates excluded, names hidden, no automatic preview",
+    "hover/focus reveals full accessible name; Enter opens existing metadata dialog without starting video",
+    "zoom 17 shows bounded/ellipsized labels; zooming out hides names; click still reaches canonical video player and its error state",
+    "layer toggles and search remove stale markers with no duplicate accumulation",
+    "narrow viewport retains icon click and complete metadata dialog",
+    "failed catalog displays retry with no fallback; retry restores icons; empty catalog stays empty"
+  ],
+  "errors": [],
+  "previewCalls": 1
+}

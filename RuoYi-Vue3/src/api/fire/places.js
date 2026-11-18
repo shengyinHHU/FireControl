@@ -18,6 +18,23 @@ export async function listDatabasePlaces(query = {}) {
   const response = await request({ url: '/fire/places/list', method: 'get', params })
   return { ...response, rows: (response.rows || []).map(normalizePlaceRecord).filter(Boolean) }
 }
+
+// The command screen filters locally, so its counters and list need every page,
+// including records without map coordinates. Never publish a partial snapshot.
+export async function listDashboardPlaces() {
+  const pageSize = 1000
+  const first = await listDatabasePlaces({ pageNum: 1, pageSize })
+  const rows = [...first.rows]
+  for (let pageNum = 2; rows.length < first.total; pageNum++) {
+    const next = await listDatabasePlaces({ pageNum, pageSize })
+    if (next.total !== first.total || !next.rows.length) throw Error('场所数据已变化，请重新加载')
+    rows.push(...next.rows)
+  }
+  if (rows.length !== first.total || new Set(rows.map(row => row.id)).size !== rows.length) {
+    throw Error('场所数据已变化，请重新加载')
+  }
+  return { ...first, rows }
+}
 export async function getDatabasePlace(id) {
   requireLogin()
   const response = await request({ url: `/fire/places/${encodeURIComponent(id)}`, method: 'get' })
@@ -29,4 +46,20 @@ export async function listDatabasePlaceContacts(id) {
   const response = await request({ url: `/fire/places/${encodeURIComponent(id)}/contacts`, method: 'get' })
   if (!Array.isArray(response.data)) throw Error('联系人返回格式异常，请重试')
   return response.data
+}
+
+export async function getPlaceEditor(id) {
+  requireLogin()
+  const response = await request({ url: `/fire/places/${encodeURIComponent(id)}/edit` })
+  return { place: normalizePlaceRecord(response.data.place), contacts: response.data.contacts }
+}
+export function saveDatabasePlace(data) {
+  requireLogin()
+  // The editor owns submit locking; server revisions/name checks reject duplicates.
+  // Allow explicit retry immediately after a failed request.
+  return request({ url: `/fire/places${data.placeId ? '/' + encodeURIComponent(data.placeId) : ''}`, method: data.placeId ? 'put' : 'post', headers: { repeatSubmit: false }, data })
+}
+export function removeDatabasePlace(row) {
+  requireLogin()
+  return request({ url: `/fire/places/${encodeURIComponent(row.id)}`, method: 'delete', params: { revision: row.revision } })
 }

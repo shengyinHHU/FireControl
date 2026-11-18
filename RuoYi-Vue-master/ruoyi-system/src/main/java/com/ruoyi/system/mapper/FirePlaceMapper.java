@@ -6,5 +6,6 @@ import com.ruoyi.system.domain.FirePlace;
 public interface FirePlaceMapper
 {
     List<FirePlace> selectMapPlaces(FirePlace query);
+    FirePlace lockPlace(FirePlace query);
     List<java.util.Map<String, Object>> selectContacts(FirePlace query);
 }

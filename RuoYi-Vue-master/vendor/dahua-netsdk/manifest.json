@@ -1,0 +1,129 @@
+{
+  "source_sdk_windows": "General_NetSDK_ChnEng_JAVA_Win64_IS_V3.060.0000003.0.R.251127",
+  "source_sdk_linux": "General_NetSDK_ChnEng_JAVA_Linux64_IS_V3.060.0000003.0.R.251127",
+  "java_api_source_comparison": {
+    "java_files": 3653,
+    "differences": 0
+  },
+  "api_packaging": "Unmodified com/netsdk/lib classes plus ErrorCode/PaintPanel/LoginModule dependency support from Windows vendor demo jar; byte-identical Java API sources to Linux kit",
+  "api_entries": 5686,
+  "linux_architecture": "ELF64 x86-64 (e_machine=62); ARM64 not included",
+  "business_integration": "Not yet wired into Maven or application; dependencies staged only",
+  "files": [
+    {
+      "path": "config/dynamic-lib-load.xml",
+      "bytes": 1274,
+      "sha256": "ad88fd7718c0b211dac599f86a56898d28792a5322fb24238a4d1df0d03a5ba7"
+    },
+    {
+      "path": "java/dahua-netsdk-api-3.060.0000003.jar",
+      "bytes": 4545506,
+      "sha256": "bb130895ff98e73c3477bb31b019da21f583eec81b069f9396fd57516f329ac3"
+    },
+    {
+      "path": "java/jna-5.13.0.jar",
+      "bytes": 1879325,
+      "sha256": "66d4f819a062a51a1d5627bffc23fac55d1677f0e0a1feba144aabdd670a64bb"
+    },
+    {
+      "path": "native/linux64/libavnetsdk.so",
+      "bytes": 29786520,
+      "sha256": "ada92e2e5d2ddc47900368977f05a9030209ce6743350d33d1db7783843c1fab"
+    },
+    {
+      "path": "native/linux64/libcrypto.so",
+      "bytes": 2846840,
+      "sha256": "6b4c0965bf464eea35bc98bba428f6e322cbcdcb4797eda1e57747f5be274203"
+    },
+    {
+      "path": "native/linux64/libdhconfigsdk.so",
+      "bytes": 31495608,
+      "sha256": "8139a7b909e33138e354f7e6dccfa99f194ef0d2c66bd9b6e8180ed075e4dab8"
+    },
+    {
+      "path": "native/linux64/libdhnetsdk.so",
+      "bytes": 50960424,
+      "sha256": "bae24d6766c8126ec1afc16cfac52c5c0b29204437ca65019e25616aeabe97eb"
+    },
+    {
+      "path": "native/linux64/libImageAlg.so",
+      "bytes": 61450,
+      "sha256": "ce0577202a032d2c8dec9962757d46cf6fea7d2c9ab26ba7e198d2ac74b4f0d9"
+    },
+    {
+      "path": "native/linux64/libssl.so",
+      "bytes": 507944,
+      "sha256": "e18c638dd830e2be4db8588c7a34fe876e6ab0efbeda5ccad88ad5aa08c9304f"
+    },
+    {
+      "path": "native/linux64/libStreamConvertor.so",
+      "bytes": 11152104,
+      "sha256": "09c49f1d540c5bbc7f8c83d0ed6c90ba20fdd937d08c84129fc0138e5a711948"
+    },
+    {
+      "path": "native/win64/avnetsdk.dll",
+      "bytes": 4656128,
+      "sha256": "9c00dadddbcf204d47efb08328ac3b085125bdd9c9b17a4e23e108c3c993a979"
+    },
+    {
+      "path": "native/win64/dhconfigsdk.dll",
+      "bytes": 8569856,
+      "sha256": "375a00265ec7fcd86b5c934f34c612a62ed936e6d572792219b4a2aeb088b1f9"
+    },
+    {
+      "path": "native/win64/dhnetsdk.dll",
+      "bytes": 33128960,
+      "sha256": "8d49b3d527a1627f6f966957ad1314e3b3ed857efca8160df7c65d68acb38d5f"
+    },
+    {
+      "path": "native/win64/ImageAlg.dll",
+      "bytes": 50176,
+      "sha256": "790e3b9f2d0a448627fc5dff2262cead891a0b22915a7583e356deff33f97c55"
+    },
+    {
+      "path": "native/win64/Infra.dll",
+      "bytes": 2089984,
+      "sha256": "134291c7f3da7228895726188d900f82ca8ff69fdf6a1f3db038fe3a0fd32f28"
+    },
+    {
+      "path": "native/win64/IvsDrawer.dll",
+      "bytes": 773120,
+      "sha256": "3d77b91e3391170c068f351f2680f333f1380ab99d46c7b839d4af1e8a8dadac"
+    },
+    {
+      "path": "native/win64/libeay32.dll",
+      "bytes": 1980928,
+      "sha256": "e6054d3283367bdd7e6664b05216b76c4666fc2760a619b5233497850ad1cde5"
+    },
+    {
+      "path": "native/win64/play.dll",
+      "bytes": 14236160,
+      "sha256": "6f2a84dcc5e691a2ce3d538aaf12a01a7f094349cf440ec4f43d744679dd14c8"
+    },
+    {
+      "path": "native/win64/RenderEngine.dll",
+      "bytes": 1915904,
+      "sha256": "442adb51767f4103cfeaa5828efa63daae0a5a575458ad78213aeae22630bf97"
+    },
+    {
+      "path": "native/win64/ssleay32.dll",
+      "bytes": 453120,
+      "sha256": "f0a1fdcd6f4903e998d16f5b930a0b709c739558c75aedc7f28550acc1fa91a1"
+    },
+    {
+      "path": "native/win64/StreamConvertor.dll",
+      "bytes": 9454592,
+      "sha256": "f28d80c0e703859422ad93679ec5e8f37b73558948ae6296683cc10a2e3238d4"
+    },
+    {
+      "path": "ReadMe_Linux64.txt",
+      "bytes": 31052,
+      "sha256": "42271c882a84d361f02b3535d144fb949e4b0d483add7a09da70eff91b75e490"
+    },
+    {
+      "path": "ReadMe_Win64.txt",
+      "bytes": 31052,
+      "sha256": "42271c882a84d361f02b3535d144fb949e4b0d483add7a09da70eff91b75e490"
+    }
+  ]
+}

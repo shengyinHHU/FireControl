@@ -46,6 +46,8 @@ public class TokenService
     @Value("${token.expireTime}")
     private int expireTime;
 
+    public int getExpireMinutes() { return expireTime; }
+
     protected static final long MILLIS_SECOND = 1000;
 
     protected static final long MILLIS_MINUTE = 60 * MILLIS_SECOND;

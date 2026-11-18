@@ -4,9 +4,10 @@ import { normalizePlaceRecord, normalizeMapPlace } from '../../src/api/fire/plac
 import { usesDatabase, canWriteResource } from '../../src/api/fire/sourcePolicy.js'
 import { isActiveFire } from '../../src/api/fire/rules.js'
 test('database owns device and event resources even while other business remains demo',()=>{
- for(const kind of ['places','gateways','hosts','alarms','protocolMessages']) {
+ for(const kind of ['gateways','alarms','protocolMessages']) {
   assert.equal(usesDatabase(kind),true);assert.equal(canWriteResource(kind),false)
  }
+ assert.equal(usesDatabase('places'),true);assert.equal(canWriteResource('places'),true)
 })
 test('government unit remains readable without joining the four enterprise map layers',()=>{
  const row={placeId:'102',name:'大厂街道',placeType:'government',longitude:118,latitude:32}

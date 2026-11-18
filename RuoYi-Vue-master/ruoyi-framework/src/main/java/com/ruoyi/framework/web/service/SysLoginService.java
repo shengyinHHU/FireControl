@@ -64,6 +64,20 @@ public class SysLoginService
     {
         // 验证码校验
         validateCaptcha(username, code, uuid);
+        return authenticatedLogin(username, password, ignored -> { });
+    }
+
+    /** Only the SMS service entry may call this, with mandatory least-privilege account validation. */
+    public String loginSmsServiceAccount(String username, String password,
+            java.util.function.Consumer<LoginUser> serviceAccountValidator)
+    {
+        if (serviceAccountValidator == null) throw new IllegalArgumentException("Service account validator required");
+        return authenticatedLogin(username, password, serviceAccountValidator);
+    }
+
+    private String authenticatedLogin(String username, String password,
+            java.util.function.Consumer<LoginUser> accountValidator)
+    {
         // 登录前置校验
         loginPreCheck(username, password);
         // 用户验证
@@ -74,6 +88,7 @@ public class SysLoginService
             AuthenticationContextHolder.setContext(authenticationToken);
             // 该方法会去调用UserDetailsServiceImpl.loadUserByUsername
             authentication = authenticationManager.authenticate(authenticationToken);
+            accountValidator.accept((LoginUser) authentication.getPrincipal());
         }
         catch (Exception e)
         {

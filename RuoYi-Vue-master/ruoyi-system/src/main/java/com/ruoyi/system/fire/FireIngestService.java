@@ -61,21 +61,11 @@ public class FireIngestService {
    Map<String,Object> touch=new HashMap<>();touch.put("gatewayId",gatewayId);touch.put("receivedAt",rx.get("receivedAt"));mapper.touchGateway(touch);
   }
   if("PARSED".equals(status)) for(Map<String,Object> o:objects) {
-   String eventTime=(String)o.get("eventTime");Long hostId=null;
-   Map<String,Object> host=null;
-   if(o.containsKey("systemAddress")) {
-    host=new HashMap<>(o);host.put("gatewayId",gatewayId);host.put("receivedAt",rx.get("receivedAt"));
-    host.put("hostName","消防系统 "+o.get("systemType")+"/"+o.get("systemAddress"));
-    // A component snapshot cannot overwrite the whole host's state.
-    host.put("bits",Integer.valueOf(1).equals(o.get("type"))?o.get("statusBits"):null);
-    host.put("stateName",host.get("bits")==null?null:o.get("name"));host.put("stateTime",eventTime);
-    host.put("version",o.get("softwareVersion"));mapper.upsertHost(host);
-    hostId=number(mapper.host(host).get("hostId"));
-   }
+   String eventTime=(String)o.get("eventTime");
    String objectKey=o.containsKey("systemAddress")?"system:"+o.get("systemType")+":"+o.get("systemAddress")+(o.containsKey("componentAddress")?":component:"+o.get("componentType")+":"+o.get("componentAddress"):""):"gateway:"+ip;
    Map<String,Object> event=new HashMap<>(o);
    event.put("eventId",hash(ip+"|"+o.get("type")+"|"+o.get("raw")));
-   event.put("gatewayId",gatewayId);event.put("hostId",hostId);event.put("messageId",rxId);event.put("objectKey",objectKey);
+   event.put("gatewayId",gatewayId);event.put("messageId",rxId);event.put("objectKey",objectKey);
    event.put("deviceTime",eventTime);event.put("receivedAt",rx.get("receivedAt"));event.put("details",json(o));
    LocalDateTime device=eventTime==null?null:LocalDateTime.parse(eventTime.replace(' ','T'));
    boolean warning=device==null || Math.abs(Duration.between(device,LocalDateTime.now(ZoneId.of("Asia/Shanghai"))).getSeconds())>86400;

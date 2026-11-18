@@ -1,6 +1,6 @@
 import { isInDachang } from './dachangScope.js'
 import { incidentKind, incidentIcon, incidentSummary, incidentUrgent, incidentEnded, incidentClusterKind } from './incidentPresentation'
-import { clusterPlaces, placeIcon } from './mapPresentation'
+import { clusterPlaces, placeIcon, cameraIcon } from './mapPresentation'
 import { hasMapCoordinates, placeLayer } from './placeLayers'
 import dachangBoundary from '@/assets/geo/dachang-boundary.json'
 // AMap JS API 2.0. Browser key is public; configure serviceHost to keep the security code on the server.
@@ -93,7 +93,7 @@ export async function mountMap(container, { onSelect, onPoint, showBoundary = tr
       const marker = (row, type, color) => {
         if (!hasMapCoordinates(row.lng, row.lat)) return
         const element = document.createElement('button')
-        element.type = 'button'; element.textContent = `${type === 'camera' ? '▣' : type === 'alarm' ? (row.sourceCode === '119' ? '119' : '🔥') : '●'} ${row.name}`
+        element.type = 'button'; element.textContent = `${type === 'alarm' ? (row.sourceCode === '119' ? '119' : '🔥') : '●'} ${row.name}`
         element.style.cssText = `background:#082539;color:${color};border:1px solid ${color};padding:5px 7px;border-radius:3px;white-space:nowrap;cursor:pointer;font-size:11px`
         if (type === 'place') {
           const layer = placeLayer(row.placeType)
@@ -111,6 +111,20 @@ export async function mountMap(container, { onSelect, onPoint, showBoundary = tr
           element.removeAttribute('style')
           if (selectedPlace === row.id) element.classList.add('is-selected')
         }
+        if (type === 'camera') {
+          const name = row.name || row.deviceName || '未命名摄像头'
+          const icon = document.createElement('span')
+          icon.innerHTML = cameraIcon()
+          icon.setAttribute('aria-hidden', 'true')
+          const label = document.createElement('span')
+          label.className = 'fire-map-camera-name'
+          label.textContent = name
+          element.replaceChildren(icon, label)
+          element.removeAttribute('style')
+          element.className = `fire-map-camera-marker${map.getZoom() >= 17 ? ' show-name' : ''}`
+          element.title = `摄像头：${name}`
+          element.setAttribute('aria-label', `${element.title}，点击查看监控点位`)
+        }
         if (type === 'alarm') {
           const kind = incidentKind(row)
           element.removeAttribute('style')
@@ -121,7 +135,7 @@ export async function mountMap(container, { onSelect, onPoint, showBoundary = tr
           element.setAttribute('aria-label', `${incidentSummary(row)}，点击查看完整详情`)
         }
         element.onclick = e => { e.stopPropagation(); if (type === 'place') { selectedPlace = row.id; redraw() }; if (type === 'alarm') { selectedAlarm = row.id; redraw() }; onSelect(type, row.id) }
-        overlays.push(new AMap.Marker({ position: [Number(row.lng), Number(row.lat)], content: element, anchor: type === 'place' ? 'center' : 'bottom-center', zIndex: type === 'alarm' ? 220 : 120 }))
+        overlays.push(new AMap.Marker({ position: [Number(row.lng), Number(row.lat)], content: element, anchor: type === 'place' || type === 'camera' ? 'center' : 'bottom-center', zIndex: type === 'alarm' ? 220 : 120 }))
       }
       clusterPlaces(places, map.getZoom()).forEach(group => {
         if (group.rows.length === 1) { marker(group.rows[0], 'place', '#64cfe8'); return }

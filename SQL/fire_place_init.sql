@@ -9,6 +9,7 @@ USE `dachang`;
 
 CREATE TABLE IF NOT EXISTS `fire_place` (
  `place_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '监管场所ID',
+ `revision` bigint NOT NULL DEFAULT 0 COMMENT '资料版本，防止覆盖并发修改',
  `source_key` char(64) DEFAULT NULL COMMENT '初始导入来源SHA256，手工新增可空',
  `name` varchar(255) NOT NULL COMMENT '企业、机构或小区名称',
  `place_type` varchar(32) NOT NULL COMMENT '字典fire_place_type的dict_value',

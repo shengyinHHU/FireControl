@@ -1,0 +1,6 @@
+# Allow the prepared Java dependencies despite the repository-wide *.jar rule.
+!java/*.jar
+runtime/
+logs/
+
+!maven/**/*.jar
