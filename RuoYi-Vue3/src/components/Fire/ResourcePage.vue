@@ -120,12 +120,7 @@
                 }
               "
               >网格地图</el-button
-            ><el-button
-              v-if="resource === 'grids' && canFire('grids', 'call')"
-              link
-              @click="callGrid(row)"
-              >呼叫</el-button
-            ><el-button
+            ><ContactDialLink v-if="resource === 'grids' && canFire('grids', 'call')" :name="row.owner" :phone="row.phone" /><el-button
               v-if="
                 resource === 'messages' &&
                 row.status === '未读' &&
@@ -349,6 +344,7 @@ import PlaceDetail from './PlaceDetail.vue'
 import VideoDialog from './VideoDialog.vue'
 import MapPanel from './MapPanel.vue'
 import ShareCode from './ShareCode.vue'
+import ContactDialLink from './ContactDialLink.vue'
 const props = defineProps({ resource: { type: String, required: true } })
 const definition = computed(() => catalog[props.resource]),
   route = useRoute()
@@ -490,9 +486,7 @@ async function details(row) {
 async function read(row) {
   if (await attempt(() => markMessageRead(row.id), '已标记为已读')) load()
 }
-function callGrid() {
-  window.location.assign('https://www.jnrhtx.top/meeting/index?from=Dc')
-}
+
 
 function showPlace(id) {
   gridPlaceId.value = id

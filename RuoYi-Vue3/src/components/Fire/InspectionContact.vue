@@ -1,6 +1,6 @@
 <template>
   <div class="inspection-contact">
-    <div class="contact-line"><span>联系人：{{ name || '未填写' }}</span><ContactDialLink v-if="phone && phone.trim()" :name="name" /></div>
+    <div class="contact-line"><span>联系人：{{ name || '未填写' }}</span><ContactDialLink v-if="phone && phone.trim()" :name="name" :phone="phone" /></div>
     <div class="contact-phone">联系电话：{{ phone || '未填写' }}</div>
   </div>
 </template>
