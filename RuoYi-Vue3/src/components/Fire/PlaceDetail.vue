@@ -18,7 +18,11 @@
           <el-descriptions-item label="联系人姓名">
             <div class="place-contact-name">
               <span>{{ contact.contactName || '未填写' }}</span>
+<<<<<<< HEAD
+              <ContactDialLink class="place-contact-dial" :name="contact.contactName" :phone="contact.phone" />
+=======
               <ContactActions class="place-contact-dial" :name="contact.contactName" :phone="contact.phone" :source="{ type: 'placeContact', id: contact.contactId, parentId: mapRecord.id || mapRecord.placeId || placeId }" />
+>>>>>>> 8d2b32494d80c8ded538436c8b2260f8aad513f1
             </div>
           </el-descriptions-item>
           <el-descriptions-item label="联系电话">{{ contact.phone || '未填写' }}</el-descriptions-item>
@@ -166,12 +170,7 @@
         <h2>{{ person.name }}</h2>
         <p>{{ person.role }} · {{ place?.name }}</p>
         <p>联系电话：{{ person.phone }}</p>
-        <el-button
-          v-if="canFire('personnel', 'call')"
-          type="primary"
-          @click="call"
-          >VOLTE 视频呼叫</el-button
-        >
+        <ContactDialLink v-if="canFire('personnel', 'call')" :name="person.name" :phone="person.phone" />
       </div></el-dialog
     >
     <el-dialog
@@ -201,8 +200,13 @@
 <script setup>
 import { ref, watch, computed } from 'vue'
 import { ElMessageBox } from 'element-plus'
+<<<<<<< HEAD
+import ContactDialLink from './ContactDialLink.vue'
+import { fire } from '@/api/fire'
+=======
 import ContactActions from './ContactActions.vue'
 import { fire, requestCall } from '@/api/fire'
+>>>>>>> 8d2b32494d80c8ded538436c8b2260f8aad513f1
 import { listDatabasePlaceContacts } from '@/api/fire/places'
 import { canFire } from '@/api/fire/access'
 import { attempt } from '@/views/fire/useFire'
@@ -315,10 +319,7 @@ function dispatch(p) {
   person.value = p
   cameraSelect.value = true
 }
-async function call() {
-  const res = await attempt(() => requestCall(person.value.id))
-  if (res) ElMessageBox.alert(res.data.message || '呼叫请求已提交', '视频呼叫')
-}
+
 watch(
   () => [props.modelValue, props.placeId, props.mapPlace],
   () => {

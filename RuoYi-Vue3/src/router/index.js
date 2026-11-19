@@ -27,6 +27,7 @@ import Layout from '@/layout'
 
 // 公共路由
 export const constantRoutes = [
+  { path: '/fire/contact-call', redirect: '/fire/dashboard', hidden: true },
   ...fireRoutes, ...firePublicRoutes,
   {
     path: '/redirect',
