@@ -41,8 +41,10 @@ public class DahuaSdk {
  }
  public interface Channel extends AutoCloseable {long send(byte[] pcm);void close();}
  public Channel open(DahuaEndpointStore.Endpoint endpoint,Consumer<byte[]> audio,Consumer<String> failed){
+  DahuaEndpointStore.Endpoint connection=properties.resolveEndpoint(endpoint);
+  if(connection!=endpoint)log.info("Dahua tunnel camera={} device={}:{} local={}:{}",endpoint.cameraId(),endpoint.host(),endpoint.port(),connection.host(),connection.port());
   Call call;synchronized(this){if(stopping)throw new IllegalStateException("对讲服务正在关闭");call=new Call(runtime(),audio,failed);calls.add(call);}
-  try{call.open(endpoint,properties.credential(endpoint.credentialRef()));return call;}
+  try{call.open(connection,properties.credential(endpoint.credentialRef()));return call;}
   catch(RuntimeException|LinkageError e){call.close();throw e;}
  }
  public final class Call implements Channel {

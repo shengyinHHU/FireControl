@@ -1,0 +1,26 @@
+{
+  "node_id": "site-01",
+  "listen": { "address": "10.5.90.50", "port": 2000 },
+  "target": {
+    "address": "10.214.18.130",
+    "port": 22000,
+    "certificate_sha256": "REPLACE_WITH_RECEIVER_CERTIFICATE_SHA256",
+    "secret_file": "relay.secret"
+  },
+  "max_connections": 64,
+  "connect_timeout_seconds": 5,
+  "idle_seconds": 600,
+  "reconnect_seconds": 5,
+  "log_directory": "logs",
+  "ssh": {
+    "enabled": false,
+    "host": "218.94.2.84",
+    "port": 18881,
+    "username": "fire-relay",
+    "private_key_file": "ssh/id_ed25519",
+    "known_hosts_file": "ssh/known_hosts",
+    "local_port": 22100,
+    "remote_address": "127.0.0.1",
+    "remote_port": 22000
+  }
+}

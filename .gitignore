@@ -43,5 +43,14 @@ SQL/Dump*.sql
 
 # Local SMS server credentials (never bundled into source or frontend).
 RuoYi-Vue-master/config/fire-sms-local.properties
+RuoYi-Vue-master/config/fire-relay-local.properties
+RuoYi-Vue-master/config/fire-relay-private/
+tools/fire-relay/.build/
+tools/fire-relay/dist/
+tools/fire-relay/__pycache__/
+tools/fire-relay/tests/__pycache__/
+tools/fire-relay-linux/.build/
+tools/fire-relay-linux/dist/
+tools/fire-relay-linux/__pycache__/
 work/sms-open-private/
 docs/sms-api/*.postman_environment.local.json

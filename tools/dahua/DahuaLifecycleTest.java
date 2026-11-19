@@ -37,6 +37,15 @@ public class DahuaLifecycleTest {
   var p=new DahuaProperties();var credential=new DahuaProperties.Credential();credential.setPassword("offline-fixture-only");p.getCredentials().put("default",credential);var sdk=new Sdk(p);var service=new DahuaTalkService(sdk,new Store(p),p);
   try{
    check(DahuaEndpointStore.privateIpv4("10.5.90.150"));check(DahuaEndpointStore.privateIpv4("172.16.0.1"));check(!DahuaEndpointStore.privateIpv4("8.8.8.8"));check(!DahuaEndpointStore.privateIpv4("127.0.0.1"));check(!DahuaEndpointStore.privateIpv4("10.5.090.150"));check(!DahuaEndpointStore.privateIpv4("10.5.90.999"));
+   var real=new DahuaEndpointStore.Endpoint(17,"10.5.90.150",37777,"default",true,3);
+   check(p.resolveEndpoint(real)==real);
+   var tunnel=new DahuaProperties.Tunnel();tunnel.setDeviceHost("10.5.90.150");p.getTunnels().put("shanpan",tunnel);
+   var mapped=p.resolveEndpoint(real);check(mapped.host().equals("127.0.0.1")&&mapped.port()==33777&&mapped.cameraId()==17&&mapped.credentialRef().equals("default")&&mapped.revision()==3);
+   var other=new DahuaEndpointStore.Endpoint(18,"10.5.90.146",37777,"default",true,0);check(p.resolveEndpoint(other)==other);
+   var wrongPort=new DahuaEndpointStore.Endpoint(17,"10.5.90.150",37778,"default",true,3);check(p.resolveEndpoint(wrongPort)==wrongPort);
+   tunnel.setDeviceHost("8.8.8.8");rejects(()->p.resolveEndpoint(real));tunnel.setDeviceHost("10.5.90.150");
+   p.getTunnels().put("duplicate",tunnel);rejects(()->p.resolveEndpoint(real));p.getTunnels().remove("duplicate");
+   tunnel.setLocalPort(80);rejects(()->p.resolveEndpoint(real));tunnel.setLocalPort(33777);p.getTunnels().clear();
    String key=ticket(service,1,7);rejects(()->ticket(service,1,8));rejects(()->ticket(service,2,7));
    service.cancel(key,8);var socket=new Socket();var call=service.authenticate(key,socket.value);rejects(()->service.authenticate(key,new Socket().value));
    until(()->socket.messages.stream().anyMatch(m->m instanceof TextMessage&&m.getPayload().toString().contains("ready")));
