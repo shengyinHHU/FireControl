@@ -28,6 +28,7 @@ public class Fire119Properties {
  public String getPassword(){return password;} public void setPassword(String v){password=v;}
  public String getPublicKey(){return publicKey;} public void setPublicKey(String v){publicKey=v;}
  public String getSourceSystem(){return sourceSystem;} public void setSourceSystem(String v){sourceSystem=v;}
+ public java.util.List<String> getRegionCodes(){return java.util.Arrays.stream(regionCode.split(",")).map(String::trim).filter(v->!v.isEmpty()).distinct().toList();}
  public String getRegionCode(){return regionCode;} public void setRegionCode(String v){regionCode=v;}
  public String getSourceCoordinateSystem(){return sourceCoordinateSystem;} public void setSourceCoordinateSystem(String v){sourceCoordinateSystem=v;}
  public int getIntervalSeconds(){return intervalSeconds;} public void setIntervalSeconds(int v){intervalSeconds=v;}

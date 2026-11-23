@@ -56,11 +56,12 @@ public class Fire119Client {
 
  }
  @SuppressWarnings("unchecked")
- public Map<String,Object> page(int page) throws Exception {
+ public Map<String,Object> page(int page) throws Exception {return page(config.getRegionCodes().get(0),page);}
+ public Map<String,Object> page(String regionCode,int page) throws Exception {
   for(int attempt=0;attempt<2;attempt++){
    String used=token();Map<String,Object> response;
    try {
-    URI address=URI.create(uri("queryParamsXfjqxx")+"?xzqybh="+URLEncoder.encode(config.getRegionCode(),StandardCharsets.UTF_8)+"&pageNum="+page+"&pageSize="+config.getPageSize());
+    URI address=URI.create(uri("queryParamsXfjqxx")+"?xzqybh="+URLEncoder.encode(regionCode,StandardCharsets.UTF_8)+"&pageNum="+page+"&pageSize="+config.getPageSize());
     response=send(HttpRequest.newBuilder(address).GET().header("token",used).header("orderSource",config.getOrderSource()));
     String code=String.valueOf(response.get("code"));
     if(code.equals("401")||code.equals("403"))throw new AuthenticationExpired();

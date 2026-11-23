@@ -36,7 +36,7 @@ public class Fire119IngestService {
  private static BigDecimal coordinate(Object value,int bound){try{BigDecimal b=new BigDecimal(String.valueOf(value));return b.abs().compareTo(BigDecimal.valueOf(bound))<=0?b.setScale(8,RoundingMode.HALF_UP):null;}catch(Exception e){return null;}}
  public Map<String,Object> prepare(Map<String,Object> raw,String batch) throws Exception {
   String external=text(raw.get("id"),128);if(external==null||external.isBlank())throw new IllegalArgumentException("缺少警情ID");
-  String region=text(raw.get("xzqybh"),32);if(!config.getRegionCode().equals(region))throw new IllegalArgumentException("警情区划与请求不一致");
+  String region=text(raw.get("xzqybh"),32);if(!config.getRegionCodes().contains(region))throw new IllegalArgumentException("警情区划与请求不一致");
   Map<String,Object> row=new HashMap<>();row.put("source_system",config.getSourceSystem());row.put("external_id",external);row.put("order_source",config.getOrderSource());row.put("region_code",region);
   String[][] strings={{"ajlxdm","case_type_code"},{"ajlxmc","case_type_name"},{"ajztdm","case_status_code"},{"ajztmc","case_status_name"},{"afdz","address"},{"ajms","description"},{"ajxz","case_nature_code"},{"ajxzmc","case_nature_name"},{"hbzt","merge_status_code"},{"hbztmc","merge_status_name"},{"temp_ajdjdm","case_level_code"},{"temp_ajdjdmmc","case_level_name"}};
   for(String[] pair:strings)row.put(pair[1],text(raw.get(pair[0]),pair[1].endsWith("_code")?32:pair[1].endsWith("_name")?128:16000));

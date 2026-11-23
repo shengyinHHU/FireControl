@@ -64,13 +64,18 @@ public class Fire119Synchronizer implements SmartLifecycle {
    for(int pass=0;pass<(full?20:1);pass++){check(deadline);int n=ingest.rebuildCoordinates(200,deadline);rebuilt+=n;if(n<200)break;}
    if(rebuilt>0)log.info("119历史坐标重算：处理{}条，规则={}；未新增警情或改写来警/接收时间",rebuilt,Fire119Boundary.scopeVersion(config.getSourceCoordinateSystem()));
    int limit=full?config.getMaxPages():config.getQuickPages();
+   int combinedPages=0,combinedTotal=0;
+   for(String regionCode:config.getRegionCodes()){
+   ended=false;
    for(int page=1;page<=limit;page++){
     check(deadline);Map<String,Object> pageLog=record(batch,Fire119IngestService.now(),full);pageLog.put("operation",full?"page":"quick-page");pageLog.put("page",page);
     try{
-     Map<String,Object> response=client.page(page);pageLog.put("http",200);pageLog.put("code","200");
+     pageLog.put("region",regionCode);
+     Map<String,Object> response=client.page(regionCode,page);pageLog.put("http",200);pageLog.put("code","200");
      if(integer(response.get("pageNum"),"pageNum")!=page)throw new IllegalArgumentException("119响应页码不一致");
      int pages=integer(response.get("pages"),"pages"),total=integer(response.get("total"),"total");
-     summary.put("pages",pages);summary.put("total",total);pageLog.put("pages",pages);pageLog.put("total",total);
+     if(page==1){combinedPages+=pages;combinedTotal+=total;}
+     summary.put("pages",combinedPages);summary.put("total",combinedTotal);pageLog.put("pages",pages);pageLog.put("total",total);
      if(integer(response.get("pageSize"),"pageSize")!=config.getPageSize()||pages!=(int)(((long)total+config.getPageSize()-1)/config.getPageSize()))throw new IllegalArgumentException("119分页总量与页数不一致");
      if(full&&pages>config.getMaxPages())throw new IllegalStateException("119页数超过配置上限，未标记完整成功");
      if(!(response.get("list") instanceof List<?> rows))throw new IllegalArgumentException("119分页list结构异常");
@@ -90,7 +95,8 @@ public class Fire119Synchronizer implements SmartLifecycle {
      try{finishLog(pageLog);}catch(Exception logFailure){e.addSuppressed(logFailure);}throw e;
     }
    }
-   if(!ended)throw new IllegalStateException("119未完成本轮所需分页");
+   if(!ended)throw new IllegalStateException("119未完成本轮所需分页："+regionCode);
+   }
    summary.put("result",((Number)summary.get("failed")).intValue()>0?"partial":"success");
    if("success".equals(summary.get("result")))summary.put("completed",Fire119IngestService.now());else summary.put("error","部分警情校验失败，成功时间未推进");
   }catch(Exception e){
