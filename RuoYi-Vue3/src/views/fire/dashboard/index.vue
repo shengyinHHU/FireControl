@@ -94,7 +94,7 @@
       <div class="command-map">
         <MapPanel
           ref="map"
-          :alarm-rows="alarms"
+          :alarm-rows="displayAlarms"
           :panoramic="wideMap"
           @place="showPlace"
           @camera="showCamera"
@@ -115,6 +115,7 @@
             ></template
           >
           <div class="fire-priority-note">🔥 设备待核验火警上报 <b>{{ activeFires.length }}</b> <span>请立即核查处置</span></div>
+          <p v-if="displayableAlarms.length > alarmDisplayLimit" class="tiny alarm-limit-note" role="status">仅展示范围内最新 {{ alarmDisplayLimit }} 条，更多请查看警情记录</p>
           <div v-show="!selectedAlarm" class="source-tabs">
             <button
               v-for="(s, i) in sources"
@@ -316,7 +317,10 @@ const filteredPlaces = computed(() =>
   ),
 )
 const activeFires = computed(() => alarms.value.filter(isActiveFire))
-const displayAlarms = computed(() => alarms.value.filter(isDisplayAlarm))
+const alarmDisplayLimit = 100
+const displayableAlarms = computed(() => alarms.value.filter(isDisplayAlarm))
+// The API orders by occurredAt DESC, id DESC; apply the cap after geographic and display filtering.
+const displayAlarms = computed(() => displayableAlarms.value.slice(0, alarmDisplayLimit))
 const filteredAlarms = computed(() =>
   displayAlarms.value.filter(
     (a) => source.value === '全部' || a.source === source.value,
@@ -841,6 +845,7 @@ onBeforeUnmount(() => {
 .alarm-list {
   flex: 1;
 }
+.alarm-limit-note { flex-shrink: 0; margin: 0 0 8px; line-height: 1.5; }
 .alarm-card {
   width: 100%;
   border: 1px solid #11334d;

@@ -7,10 +7,12 @@
     "3-second polling updates alarms without reloading static resources",
     "notification bursts coalesce with no overlapping alarm requests",
     "failed refresh retains prior alarms and automatically recovers through polling",
+    "670 incoming rows become 100 geographically filtered/displayable cards and matching map rows; tab counts, full active-fire count, keyboard and narrow layout verified",
+    "fewer than 100 and empty refreshes show every qualifying row and remove the limit hint",
     "polling continues after stream disconnect",
     "leaving dashboard stops alarm polling and stream lifecycle"
   ],
-  "alarmCalls": 8,
+  "alarmCalls": 11,
   "maxActive": 1,
   "errors": []
 }

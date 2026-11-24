@@ -20,7 +20,7 @@ const server=spawn(process.execPath,['node_modules/vite/bin/vite.js','--mode','f
    return Promise.resolve(new Response(stream,{headers:{'Content-Type':'text/event-stream'}}))
   }
  })
- let stage=0,alarmCalls=0,placeCalls=0,hostStatsCalls=0,fail=false,delay=0,active=0,maxActive=0
+ let stage=0,alarmCalls=0,placeCalls=0,hostStatsCalls=0,fail=false,delay=0,active=0,maxActive=0,fixtureRows=null
  const event=n=>({id:'fire-'+n,sourceCode:'device',source:'消控室主机',kind:'fire',name:'实时火警测试'+n,placeName:'测试场所',placeId:'102',occurredAt:'2026-10-22 23:00:00',status:'待核验',lng:118.75,lat:32.22})
  await context.route('**/dev-api/**',async route=>{
   const u=new URL(route.request().url()),p=u.pathname.replace('/dev-api','');let body={code:200,data:[],rows:[],total:0}
@@ -34,7 +34,8 @@ const server=spawn(process.execPath,['node_modules/vite/bin/vite.js','--mode','f
   else if(p==='/fire/alarms/list'){
    alarmCalls++;active++;maxActive=Math.max(active,maxActive);const snapshot=stage
    if(delay)await new Promise(r=>setTimeout(r,delay));active--
-   body=fail?{code:500,msg:'测试警情查询失败'}:{code:200,rows:Array.from({length:snapshot},(_,i)=>event(i+1)),total:snapshot}
+   const rows=fixtureRows??Array.from({length:snapshot},(_,i)=>event(i+1))
+   body=fail?{code:500,msg:'测试警情查询失败'}:{code:200,rows,total:rows.length}
   }
   await route.fulfill({json:body}).catch(()=>{})
  })
@@ -61,6 +62,48 @@ const server=spawn(process.execPath,['node_modules/vite/bin/vite.js','--mode','f
  fail=false;stage=4
  await page.getByText('实时火警测试4',{exact:true}).first().waitFor({timeout:4500})
  checks.push('failed refresh retains prior alarms and automatically recovers through polling')
+ const inside=Array.from({length:500},(_,i)=>{
+  const n=500-i
+  return {...event(n),id:'limit-'+n,name:'范围内警情'+n,occurredAt:new Date(Date.UTC(2026,10,24,0,n)).toISOString().slice(0,19).replace('T',' '),sourceCode:n%4===0?'device':'119',source:n%4===0?'传输装置':'119警情'}
+ })
+ // Newer out-of-area and non-displayable rows must not consume the 100 display slots.
+ const outside=Array.from({length:150},(_,i)=>({...event(i),id:'outside-'+i,name:'范围外警情'+i,occurredAt:'2026-11-25 00:00:00',lng:118.777719,lat:32.265056}))
+ const faults=Array.from({length:20},(_,i)=>({...event(i),id:'fault-'+i,name:'故障记录'+i,occurredAt:'2026-11-25 00:00:00',kind:'fault'}))
+ fixtureRows=[...outside,...faults,...inside]
+ await page.evaluate(()=>window.__emitAlarm())
+ await page.locator('.alarm-card').filter({hasText:'范围内警情500'}).waitFor({timeout:4500})
+ assert.equal(await page.locator('.alarm-card').count(),100)
+ assert.match(await page.locator('.alarm-card').first().innerText(),/范围内警情500/)
+ assert.match(await page.locator('.alarm-card').last().innerText(),/范围内警情401/)
+ assert.equal(await page.locator('.alarm-limit-note').count(),1)
+ assert.equal(await page.locator('.source-tabs button').filter({hasText:'全部'}).locator('b').innerText(),'100')
+ assert.equal(await page.locator('.source-tabs button').filter({hasText:'119警情'}).locator('b').innerText(),'75')
+ assert.equal(await page.locator('.fire-priority-note b').innerText(),'125','active-fire count must use the complete scoped snapshot')
+ const mapRows=await page.evaluate(()=>{
+  const map=document.querySelector('.fire-map').__vueParentComponent
+  return map.props.alarmRows.map(row=>row.id)
+ })
+ assert.deepEqual(mapRows,inside.slice(0,100).map(row=>row.id),'map and list share the same latest 100 alarms')
+ await page.getByRole('link',{name:'警情记录 ›'}).focus()
+ assert.equal(await page.getByRole('link',{name:'警情记录 ›'}).evaluate(el=>el===document.activeElement),true)
+ fs.mkdirSync('../outputs/dashboard-alarm-limit',{recursive:true})
+ await page.screenshot({path:'../outputs/dashboard-alarm-limit/desktop.png'})
+ await page.setViewportSize({width:390,height:844})
+ await page.locator('.alarm-limit-note').scrollIntoViewIfNeeded()
+ await page.screenshot({path:'../outputs/dashboard-alarm-limit/narrow.png'})
+ assert.equal(await page.locator('.alarm-card').count(),100)
+ checks.push('670 incoming rows become 100 geographically filtered/displayable cards and matching map rows; tab counts, full active-fire count, keyboard and narrow layout verified')
+ fixtureRows=inside.slice(0,12)
+ await page.evaluate(()=>window.__emitAlarm())
+ await page.waitForFunction(()=>document.querySelectorAll('.alarm-card').length===12)
+ assert.equal(await page.locator('.alarm-limit-note').count(),0)
+ fixtureRows=[]
+ await page.evaluate(()=>window.__emitAlarm())
+ await page.locator('.alarm-list .fire-empty').waitFor()
+ assert.equal(await page.locator('.alarm-card').count(),0)
+ assert.equal(await page.locator('.alarm-limit-note').count(),0)
+ checks.push('fewer than 100 and empty refreshes show every qualifying row and remove the limit hint')
+ fixtureRows=null
  await page.evaluate(()=>window.__endStream());stage=5
  await page.getByText('实时火警测试5',{exact:true}).first().waitFor({timeout:4500})
  checks.push('polling continues after stream disconnect')

@@ -1,5 +1,9 @@
 # FireControl design and data context
 
+## Dashboard alarm display limit (2026-11-24)
+
+The dashboard keeps the existing server scope and frontend isInDachang coordinate-boundary filter. Within the current scoped API snapshot, list and map share the latest 100 displayable alarms in server order (occurredAt DESC, id DESC), after geographic and locally handled/non-displayable filtering. Source-tab counts describe this displayed snapshot. The complete scoped snapshot still owns device history, active-fire counts and new-alarm notifications. When more than 100 alarms qualify, show a compact explanation pointing to the existing full paginated 警情记录 page. Reuse Panel, MapPanel, fire.scss and the existing tiny text style. No backend inclusion rule, ingestion or stored history changes. Verification: tests/fire/alarm-refresh.browser.cjs.
+
 ## Manual SMS integration (2026-11-11)
 
 ContactActions is the canonical phone-adjacent action owner, preserving ContactDialLink and adding the Element Plus Message icon/短信 control. PlaceDetail and InspectionContact pass real source identifiers; inspection tables, compact cards and the active session reuse the same component. Shell owns one SmsComposeDialog, using existing fire.scss navy/cyan tokens, Element Plus dialog/form/checkbox/input and shared feedback. The distinguishing content is the recipient verification and live complete-message preview, with the server-owned 大厂街道办事处 signature. No independent visual theme or per-row dialog.
