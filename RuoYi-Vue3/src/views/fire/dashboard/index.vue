@@ -1,5 +1,6 @@
 <template>
   <div class="command-screen" ref="screen">
+    <div v-if="pendingAlarmCount" class="alarm-light-border" aria-hidden="true"></div>
     <header class="command-header">
       <div class="header-left">
         <span class="shield">消</span
@@ -12,9 +13,8 @@
       <div class="header-right">
         <span>{{ clock }}</span>
         <div>
-          <button @click="toggleSound">
-            {{ sound ? '声音已开启' : '开启提醒音' }}</button
-          ><button @click="fullscreen">全屏</button
+          <AlarmAnnunciator :active="pendingAlarmCount > 0" :count="pendingAlarmCount" :sequence="alarmSequence" @stop="stopAlarmSignals" />
+          <button @click="fullscreen">全屏</button
           ><button v-if="wideMap" @click="resetPanelLayout">还原布局</button
           ><router-link to="/fire/places">管理工作台 ↗</router-link>
         </div>
@@ -245,10 +245,12 @@
 </template>
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { fire } from '@/api/fire'
 import { getToken } from '@/utils/auth'
 import { startAlarmStream } from '@/api/fire/alarmStream'
+import { createAlarmSignals } from '@/api/fire/alarmSignals'
 import { deviceAlarmStats } from '@/api/fire/deviceAccess'
 import { PLACE_LAYERS } from '@/api/fire/placeLayers'
 import { listDashboardPlaces } from '@/api/fire/places'
@@ -266,6 +268,11 @@ import MapPanel from '@/components/Fire/MapPanel.vue'
 import PlaceDetail from '@/components/Fire/PlaceDetail.vue'
 import VideoDialog from '@/components/Fire/VideoDialog.vue'
 import AlarmDetail from '@/components/Fire/AlarmDetail.vue'
+import AlarmAnnunciator from '@/components/Fire/AlarmAnnunciator.vue'
+const alarmSignals = createAlarmSignals()
+const route = useRoute(), router = useRouter()
+const pendingAlarmCount = ref(0), alarmSequence = ref(0)
+function stopAlarmSignals() { alarmSignals.stop(); pendingAlarmCount.value = 0 }
 const inspectionTab = ref('inspections')
 const wideMap = ref(window.innerWidth > 1100)
 const leftStack = ref(), rightStack = ref()
@@ -290,8 +297,7 @@ const screen = ref(),
   grid = ref(''),
   clock = ref(''),
   error = ref(''),
-  alarmError = ref(''),
-  sound = ref(false)
+  alarmError = ref('')
 const placeOpen = ref(false),
   placeId = ref(''),
   cameraOpen = ref(false),
@@ -354,9 +360,6 @@ let polling,
   alarmStatsBusy = false,
   alarmQueued = false,
   ticking,
-  audioContext,
-  seen = new Set(),
-  initialized = false,
   busy = false,
   disposed = false
 async function refreshAlarmStats() {
@@ -375,13 +378,17 @@ async function refreshAlarms() {
     const response = await fire.list('alarms', { pageSize: 1000 })
     if (disposed) return
     alarms.value = response.rows.filter(isInDachang)
-    const fresh = alarms.value.filter(x => isDisplayAlarm(x) && !seen.has(x.id))
-    if (initialized && fresh.length) {
-      ElMessage.warning(`新增 ${fresh.length} 条消防警情，请及时核查`)
-      if (sound.value) beep()
+    const simulationId = typeof route.query.simulation === 'string' ? route.query.simulation : ''
+    const { fresh, pendingCount } = alarmSignals.update(alarms.value, simulationId)
+    if (simulationId && alarms.value.some(row => row.id === simulationId && row.isSimulation)) {
+      const { simulation, ...query } = route.query
+      router.replace({ query })
     }
-    seen = new Set(alarms.value.filter(isDisplayAlarm).map(x => x.id))
-    initialized = true
+    pendingAlarmCount.value = pendingCount
+    if (fresh.length) {
+      alarmSequence.value++
+      ElMessage.warning(`新增 ${fresh.length} 条消防警情，请及时核查`)
+    }
     alarmError.value = ''
   } catch (e) {
     if (!disposed) alarmError.value = e.message || '警情刷新失败，正在重试；当前保留上次成功数据'
@@ -415,29 +422,6 @@ async function refreshResources() {
 }
 function refresh() { refreshAlarms(); refreshResources() }
 
-function beep() {
-  if (!audioContext) return
-  const o = audioContext.createOscillator(),
-    g = audioContext.createGain()
-  o.connect(g)
-  g.connect(audioContext.destination)
-  o.frequency.value = 660
-  g.gain.value = 0.08
-  o.start()
-  o.stop(audioContext.currentTime + 0.4)
-}
-async function toggleSound() {
-  if (!sound.value) {
-    try {
-      audioContext ||= new (window.AudioContext || window.webkitAudioContext)()
-      await audioContext.resume()
-      sound.value = true
-      beep()
-    } catch {
-      ElMessage.warning('浏览器无法开启提示音')
-    }
-  } else sound.value = false
-}
 function showPlace(id) {
   placeId.value = id
   placeOpen.value = true
@@ -493,7 +477,6 @@ onBeforeUnmount(() => {
   clearInterval(alarmPolling)
   clearTimeout(alarmFollowup)
   stopAlarmStream?.()
-  audioContext?.close()
 })
 </script>
 <style scoped>
@@ -506,6 +489,22 @@ onBeforeUnmount(() => {
   padding: 0 18px;
   color: #c7dfed;
   overflow: hidden;
+}
+.alarm-light-border {
+  position: fixed;
+  inset: 0;
+  z-index: 2001;
+  pointer-events: none;
+  border: 5px solid #ff443e;
+  box-shadow: inset 0 0 26px 8px #ff302ccc;
+  animation: alarm-border-pulse 1.2s ease-in-out infinite;
+}
+@keyframes alarm-border-pulse {
+  0%, 100% { opacity: .18; }
+  50% { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .alarm-light-border { animation: none; opacity: 1; }
 }
 .command-header {
   display: flex;
@@ -575,11 +574,15 @@ onBeforeUnmount(() => {
 }
 .header-right > div {
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   justify-content: flex-end;
-  gap: 12px;
+  gap: 6px 10px;
   margin-top: 10px;
   font-size: 11px;
 }
+.header-right .alarm-annunciator { flex: 1 1 100%; }
+.header-right button, .header-right a { white-space: nowrap; }
 .header-right button {
   border: 0;
   background: none;
@@ -1219,7 +1222,12 @@ onBeforeUnmount(() => {
   .alarm-panel { min-height:430px; }
 }
 @media(max-width:650px) {
+  .command-header { flex-wrap:wrap; padding-block:10px; }
+  .command-title { flex:1 1 100%; min-width:0; }
   .command-title h1 { font-size:17px; letter-spacing:1px; }
+  .header-right { width:100%; flex:1 1 100%; }
+  .header-right > div { flex-direction:row; justify-content:center; margin-top:0; }
+  .header-right .alarm-annunciator { justify-content:center; }
   .command-column { min-height:0; }
   .command-column > .fire-panel:first-child { min-height:130px; }
   .right-column > .alarm-panel:first-child { min-height:430px; }

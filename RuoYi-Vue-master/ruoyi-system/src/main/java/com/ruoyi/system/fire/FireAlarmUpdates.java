@@ -17,6 +17,7 @@ public class FireAlarmUpdates implements DisposableBean {
  private final Map<String,Subscription> subscriptions=new ConcurrentHashMap<>();
  private final Map<String,DeviceSubscription> devices=new ConcurrentHashMap<>();
  private final Set<Long> pending=new HashSet<>();
+ private final Set<Long> pendingUsers=new HashSet<>();
  private final Set<Long> pendingDevices=new HashSet<>();
  private final ScheduledExecutorService executor=Executors.newSingleThreadScheduledExecutor(r->{Thread t=new Thread(r,"fire-alarm-push");t.setDaemon(true);return t;});
  private long heartbeat;
@@ -35,6 +36,13 @@ public class FireAlarmUpdates implements DisposableBean {
   return ()->subscriptions.remove(id);
  }
  public void changed(Long gateway){if(!destroyed.get() && gateway!=null)synchronized(pending){pending.add(gateway);}}
+ /** Simulation hints contain no record data and target only the creating user's alarm streams. */
+ public void alarmChangedForUserAfterCommit(Long user){
+  if(user!=null&&org.springframework.transaction.support.TransactionSynchronizationManager.isSynchronizationActive())
+   org.springframework.transaction.support.TransactionSynchronizationManager.registerSynchronization(new org.springframework.transaction.support.TransactionSynchronization(){
+    @Override public void afterCommit(){if(!destroyed.get())synchronized(pendingUsers){pendingUsers.add(user);}}
+   });
+ }
  public synchronized Runnable subscribeDevices(long user,Supplier<Set<Long>> scope,Sink sink){
   if(destroyed.get())throw new ServiceException("实时通知服务正在关闭");
   if(devices.size()>=200||devices.values().stream().filter(s->s.user==user).count()>=5)throw new ServiceException("实时通知连接过多，已继续使用低频校准");
@@ -52,12 +60,13 @@ public class FireAlarmUpdates implements DisposableBean {
  }
  private void flush(){
   Set<Long> changed; synchronized(pending){changed=new HashSet<>(pending);pending.clear();}
+  Set<Long> users;synchronized(pendingUsers){users=new HashSet<>(pendingUsers);pendingUsers.clear();}
   Set<Long> deviceChanges;synchronized(pendingDevices){deviceChanges=new HashSet<>(pendingDevices);pendingDevices.clear();}
   long now=clock.getAsLong();boolean ping=now-heartbeat>=15000;if(ping)heartbeat=now;
   subscriptions.forEach((id,s)->{
    if(now>=s.expires()){if(subscriptions.remove(id,s))closeQuietly(s.sink());return;}
    try{
-    if(!Collections.disjoint(changed,s.gateways()))s.sink().send("alarm-change");
+    if(users.contains(s.user())||!Collections.disjoint(changed,s.gateways()))s.sink().send("alarm-change");
     else if(ping)s.sink().send("heartbeat");
    }catch(Exception e){subscriptions.remove(id,s);/* No second completion after a failed write. */}
   });
@@ -71,5 +80,5 @@ public class FireAlarmUpdates implements DisposableBean {
    }catch(Exception e){devices.remove(id,s);}
   });
  }
- @Override public synchronized void destroy(){if(!destroyed.compareAndSet(false,true))return;executor.shutdownNow();var remaining=new ArrayList<>(subscriptions.values());subscriptions.clear();remaining.forEach(s->closeQuietly(s.sink()));var deviceRemaining=new ArrayList<>(devices.values());devices.clear();deviceRemaining.forEach(s->closeQuietly(s.sink));synchronized(pending){pending.clear();}synchronized(pendingDevices){pendingDevices.clear();}}
+ @Override public synchronized void destroy(){if(!destroyed.compareAndSet(false,true))return;executor.shutdownNow();var remaining=new ArrayList<>(subscriptions.values());subscriptions.clear();remaining.forEach(s->closeQuietly(s.sink()));var deviceRemaining=new ArrayList<>(devices.values());devices.clear();deviceRemaining.forEach(s->closeQuietly(s.sink));synchronized(pending){pending.clear();}synchronized(pendingUsers){pendingUsers.clear();}synchronized(pendingDevices){pendingDevices.clear();}}
 }

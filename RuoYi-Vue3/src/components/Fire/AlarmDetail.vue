@@ -9,9 +9,12 @@
       <div v-if="error" class="fire-error">
         {{ error }}<el-button @click="load">重试</el-button>
       </div>
+      <el-alert v-if="alarm?.isSimulation" title="模拟演示警情" type="warning" :closable="false" show-icon>
+        此记录由人工模拟生成，未向真实设备或119平台发送报警。
+      </el-alert>
       <template v-if="alarm?.sourceCode === '119'">
         <h2>{{ alarm.caseTypeName || '119警情' }}</h2>
-        <p class="muted">119 原始案件状态保持同步，本地处理不会修改来源系统。</p>
+        <p v-if="!alarm.isSimulation" class="muted">119 原始案件状态保持同步，本地处理不会修改来源系统。</p>
         <el-descriptions :column="1" border>
           <el-descriptions-item label="警情编号">{{ alarm.code }}</el-descriptions-item>
           <el-descriptions-item label="来警时间">{{ alarm.occurredAt || '未提供' }}</el-descriptions-item>
@@ -41,7 +44,7 @@
           <el-descriptions-item label="状态">{{ alarm.status }}</el-descriptions-item>
         </el-descriptions>
         <h3>协议解析结果</h3><pre style="white-space:pre-wrap;overflow-wrap:anywhere;max-height:320px;overflow:auto">{{ alarm.details }}</pre>
-        <el-button @click="placeOpen = true">单位档案</el-button>
+        <el-button :disabled="!alarm.placeId" @click="placeOpen = true">单位档案</el-button>
       </template>
       <template v-else-if="alarm"
         ><div class="alarm-heading">
@@ -99,7 +102,10 @@
           </div></template
         ></template
       >
-      <section v-if="alarm?.dataSource === 'database' && canFire('alarms')" style="margin-top:24px">
+      <section v-if="alarm?.simulationHandledAt" style="margin-top:24px">
+        <h3>处理结果</h3><p>{{ alarm.simulationNote }}</p><p class="muted">{{ alarm.simulationOperator }} · {{ alarm.simulationHandledAt }}</p>
+      </section>
+      <section v-else-if="alarm?.dataSource === 'database' && canFire('alarms')" style="margin-top:24px">
         <h3>处理说明</h3>
         <el-input v-model="note" type="textarea" :rows="4" maxlength="1000" show-word-limit
           :disabled="saving" aria-label="处理说明" placeholder="请填写核查情况及处理结果（必填）" />
@@ -117,6 +123,7 @@
 </template>
 <script setup>
 import { handleAlarmLocally } from '@/api/fire/localAlarmHandling'
+import { handleAlarmSimulation } from '@/api/fire/alarmSimulation'
 import { ref, computed, watch, onBeforeUnmount } from 'vue'
 import { fire, transitionAlarm } from '@/api/fire'
 import { createLatestRequest } from '@/api/fire/rules'
@@ -179,7 +186,11 @@ async function handleLocal() {
   const target = alarm.value
   saving.value = true
   try {
-    const result = await attempt(async () => { handleAlarmLocally(target, note.value); return true }, '处理完成，该警情已隐藏')
+    const result = await attempt(async () => {
+      if (target.isSimulation) await handleAlarmSimulation(target.id, note.value)
+      else handleAlarmLocally(target, note.value)
+      return true
+    }, target.isSimulation ? '模拟警情已处理，大屏和地图将同步移除' : '处理完成，该警情已隐藏')
     if (result) { if (props.alarmId === target.id) { note.value = ''; open.value = false }; emit('changed') }
   } finally { saving.value = false }
 }

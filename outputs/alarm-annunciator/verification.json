@@ -1,0 +1,28 @@
+{
+  "date": "2026-11-25",
+  "feature": "Dashboard sound and red flashing border for new device fire/manual-fire reports and 119 incidents",
+  "asset": {
+    "source": "docs/alarm/firealarm.wav",
+    "bundled": "RuoYi-Vue3/src/assets/audio/firealarm.wav",
+    "sha256": "EAE22C3682C1C1D5C5E5FFA54AC945D9F2F4A19A2AE520D1B8C453255EA4B9F8",
+    "unchanged": true
+  },
+  "checks": {
+    "productionBuild": "PASS: npm run build:prod; original WAV included in dist/static/wav",
+    "featureBrowser": "PASS: tests/fire/alarm-annunciator.browser.cjs; actual Edge WAV decoding/playback with controlled HTTP/SSE; selected source tab does not suppress other-source notifications",
+    "refreshRegression": "PASS: tests/fire/alarm-refresh.browser.cjs; SSE, polling, coalescing, error recovery, 100-card/map limit and teardown",
+    "unit": "87/88 pass: npm run test:fire; all new alarm-signals cases and all Vue templates pass",
+    "diffWhitespace": "PASS: git diff --check",
+    "designLint": "0 errors, 1 existing warning: DESIGN.md has no YAML frontmatter",
+    "premiumStaticAudit": "5 existing findings confined to unchanged MeetingConsole.vue; no new feature findings"
+  },
+  "existingFailures": [
+    "tests/fire/incident-presentation.test.mjs:32 expects a callGrid function absent from unchanged ResourcePage.vue",
+    "MeetingConsole.vue:15 native select conflicts with authored ownership; lines 22-25 omit novalidate"
+  ],
+  "limits": [
+    "Browser HTTP/SSE are controlled fixtures, not a live device or 119 production integration test",
+    "Browser autoplay restrictions may require clicking 开启报警声音; red light and persistent status remain available",
+    "The first successful snapshot remains silent history, using existing scope and displayability rules"
+  ]
+}

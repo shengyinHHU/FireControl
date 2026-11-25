@@ -7,7 +7,7 @@ export const normalizeDeviceRow = row => {
   return {
     ...row, id: String(row.id), dataSource: 'database',
     alarmType: incident119 ? (row.caseTypeCode === '1' ? 'FIRE' : 'INFORMATION') : ['fire', 'manual_alarm'].includes(row.kind) ? 'FIRE' : 'INFORMATION',
-    status: incident119 ? (row.status || '未提供') : row.kind ? (['fire', 'manual_alarm'].includes(row.kind) ? '待核验' : '设备记录') : row.status,
+    status: row.isSimulation && row.simulationHandledAt ? '已处理' : incident119 ? (row.status || '未提供') : row.kind ? (['fire', 'manual_alarm'].includes(row.kind) ? '待核验' : '设备记录') : row.status,
     timeline: [],
   }
 }

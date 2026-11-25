@@ -1,0 +1,16 @@
+{
+  "actualVue": true,
+  "actualAudioPlayback": true,
+  "fixtureHTTP": true,
+  "fixtureMapVendor": true,
+  "actualMapAdapter": true,
+  "checks": [
+    "Button beside 查询; scoped coordinate picker, keyboard selection, required validation, double-click lock and uncertain retry with stable idempotency key",
+    "Record-page navigation starts first-snapshot simulation sound/light; list and map share the marked record and escaped content",
+    "Normal details require a note; processing saves the result, removes dashboard/map records, stops audio/light and keeps handled history readable",
+    "Place failure retry/empty/narrow states and separate 119 creation/handling with optional dashboard entry work",
+    "An already-open second dashboard receives the simulated record and removes its card/marker/light after processing",
+    "Users without fire:alarms:simulate do not see the action"
+  ],
+  "errors": []
+}

@@ -1,0 +1,7 @@
+{
+  "isolated_mysql": true,
+  "business_database_accessed": false,
+  "sql_repeat_safe": true,
+  "verification": "ALARM_SIMULATION_INTEGRATION_OK",
+  "output": "ALARM_SIMULATION_INTEGRATION_OK checks=19"
+}

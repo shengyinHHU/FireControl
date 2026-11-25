@@ -36,6 +36,7 @@ try:
  sql(access)
  sql((ROOT/"SQL/fire_gateway_management_upgrade.sql").read_text("utf-8"))
  schema=(ROOT/"SQL/fire_119_incident.sql").read_text("utf-8-sig");sql(schema);sql(schema)
+ simulation_schema=(ROOT/"SQL/fire_alarm_simulation.sql").read_text("utf-8");sql(simulation_schema);sql(simulation_schema)
  upgrade=(ROOT/"SQL/fire_119_sync_optimization.sql").read_text("utf-8")
  # Upgrade both fresh schema and a simulated old schema; run twice to verify repeat safety.
  for column in ['last_quick_attempt_at','last_quick_completed_at','last_quick_result','last_quick_error','last_quick_failures','last_new_incident_at']:

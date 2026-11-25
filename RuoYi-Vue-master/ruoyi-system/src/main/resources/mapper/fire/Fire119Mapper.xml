@@ -158,12 +158,13 @@ street_match_method=CASE WHEN street_match_method='manual' THEN street_match_met
  CONVERT(NULL USING utf8mb4) COLLATE utf8mb4_general_ci AS address,
  CONVERT(NULL USING utf8mb4) COLLATE utf8mb4_general_ci AS description,
  CONVERT(NULL USING utf8mb4) COLLATE utf8mb4_general_ci AS streetRegion,
- NULL AS lng,
- NULL AS lat,
- CONVERT(NULL USING utf8mb4) COLLATE utf8mb4_general_ci AS coordinateStatus,
+ CASE WHEN p.coordinate_system='GCJ02' THEN p.longitude END AS lng,
+ CASE WHEN p.coordinate_system='GCJ02' THEN p.latitude END AS lat,
+ CONVERT(CASE WHEN p.coordinate_system='GCJ02' AND p.longitude BETWEEN -180 AND 180 AND p.latitude BETWEEN -90 AND 90 THEN 'valid' ELSE 'missing' END USING utf8mb4) COLLATE utf8mb4_general_ci AS coordinateStatus,
  NULL AS lastSyncedAt,
  CONVERT(NULL USING utf8mb4) COLLATE utf8mb4_general_ci AS caseStatusCode,
- NULL AS boundaryDistanceM
+ NULL AS boundaryDistanceM,
+ 0 AS isSimulation,NULL AS simulationHandledAt,NULL AS simulationNote,NULL AS simulationOperator
  FROM fire_event e JOIN fire_gateway g ON e.gateway_id=g.gateway_id LEFT JOIN fire_place p ON p.place_id=g.place_id
  WHERE 1=1
  UNION ALL
@@ -172,8 +173,21 @@ street_match_method=CASE WHEN street_match_method='manual' THEN street_match_met
  NULL,NULL,NULL,NULL,NULL,i.alarm_time,0,CAST(i.raw_json AS CHAR),NULL,
  i.dept_id,i.supervisor_user_id,i.case_type_code,i.case_type_name,i.case_nature_name,i.case_level_name,i.merge_status_name,i.address,i.description,
  CONCAT('用户33点范围 ',i.geofence_version,'；地区=',CASE WHEN <include refid="dachangIncluded"><property name="scopeAlias" value="i" /></include> THEN '大厂街道' WHEN i.geofence_version=#{params.geofenceVersion} AND i.geofence_status='outside' THEN '范围外' ELSE '待核验' END),CASE WHEN i.geofence_version=#{params.geofenceVersion} THEN i.map_longitude END,CASE WHEN i.geofence_version=#{params.geofenceVersion} THEN i.map_latitude END,CASE WHEN i.geofence_version=#{params.geofenceVersion} THEN i.coordinate_status ELSE 'pending' END,i.last_seen_at,i.case_status_code,CASE WHEN i.geofence_version=#{params.geofenceVersion} THEN i.boundary_distance_m END
+ ,0,NULL,NULL,NULL
  FROM fire_119_incident i WHERE i.source_system=#{params.sourceSystem}
  <if test="params.dachangOnly == null or params.dachangOnly">AND <include refid="dachangIncluded"><property name="scopeAlias" value="i" /></include></if>
+ UNION ALL
+ SELECT s.simulation_id,s.simulation_id,CONCAT('【模拟演示】',s.description),
+ CASE WHEN s.source_code='119' THEN '1' ELSE 'fire' END,s.source_code,
+ CASE WHEN s.source_code='119' THEN '119警情' ELSE '传输装置' END,
+ CASE WHEN s.handled_at IS NOT NULL THEN '已处理' WHEN s.source_code='119' THEN '演示待处理' ELSE '待核验' END,
+ CAST(s.place_id AS CHAR),s.place_name,NULL,CASE WHEN s.source_code='device' THEN '模拟传输装置' END,
+ NULL,NULL,NULL,s.occurred_at,0,'模拟演示，无真实设备协议报文',NULL,
+ s.dept_id,s.supervisor_user_id,CASE WHEN s.source_code='119' THEN '1' END,
+ CASE WHEN s.source_code='119' THEN '火警扑救' END,'测试',NULL,NULL,s.address,s.description,
+ '模拟演示；地区=大厂街道',s.longitude,s.latitude,'valid',s.occurred_at,NULL,NULL,
+ 1,s.handled_at,s.handling_note,s.handled_by
+ FROM fire_alarm_simulation s
  </sql>
  <select id="alarms" resultType="map">
  SELECT a.* FROM (<include refid="unified"/>) a WHERE 1=1 ${params.dataScope}

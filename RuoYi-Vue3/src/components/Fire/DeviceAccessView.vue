@@ -25,8 +25,9 @@
           <el-option label="状态上报" value="status" /><el-option label="操作记录" value="operation" /><el-option label="模拟量" value="measurement" />
           <el-option label="版本" value="version" /><el-option label="配置" value="configuration" /><el-option label="设备时间" value="clock" />
         </el-select></el-form-item>
-        <el-form-item><el-button native-type="submit" type="primary" :loading="loading">查询</el-button></el-form-item>
+        <el-form-item><el-button native-type="submit" type="primary" :loading="loading">查询</el-button><el-button v-if="eventOnly && canFire('alarms', 'simulate') && canFire('places')" type="warning" plain @click="simulationOpen = true">模拟报警</el-button></el-form-item>
       </el-form>
+      <el-alert v-if="simulationId" title="模拟警情已生成，可在记录中查看和处理。" type="success" :closable="false" show-icon><router-link v-if="canFire('dashboard')" :to="{ path: '/fire/dashboard', query: { simulation: simulationId } }">进入大屏演示 ↗</router-link></el-alert>
       <div v-if="error" class="fire-error" role="alert">{{ error }}<el-button link @click="load">重试</el-button></div>
       <el-table v-loading="loading" :data="tab === 'alarms' ? visibleLocalAlarms(rows) : rows" row-key="id" stripe empty-text="暂无符合条件的真实记录">
         <el-table-column v-for="column in columns" :key="column.key" :prop="column.key" :label="column.label" :min-width="column.width || 160" show-overflow-tooltip>
@@ -38,6 +39,7 @@
       <el-pagination v-model:current-page="page" :page-size="20" :total="total" layout="total, prev, pager, next" @current-change="load" />
     </div>
     <AlarmDetail v-model="eventOpen" :alarm-id="selectedId" @changed="load" />
+    <AlarmSimulationDialog v-if="eventOnly && canFire('alarms', 'simulate') && canFire('places')" v-model="simulationOpen" :source="source" @created="simulationCreated" />
     <el-dialog v-model="detailOpen" title="设备接入记录" class="fire-dialog" width="min(850px, 94vw)" append-to-body>
       <el-descriptions :column="1" border><el-descriptions-item v-for="column in columns" :key="column.key" :label="column.label">{{ selected?.[column.key] ?? '—' }}</el-descriptions-item></el-descriptions>
       <template v-if="tab === 'protocolMessages'"><h3>原始十六进制</h3><pre class="device-raw">{{ selected?.rawHex }}</pre><p>{{ selected?.error || '' }}</p><pre class="device-raw">{{ selected?.parsed || '' }}</pre></template>
@@ -54,6 +56,7 @@ import { useDeviceUpdates } from '@/views/fire/useDeviceUpdates'
 import { canFire } from '@/api/fire/access'
 import StatusTag from './StatusTag.vue'
 import AlarmDetail from './AlarmDetail.vue'
+import AlarmSimulationDialog from './AlarmSimulationDialog.vue'
 const props = defineProps({ eventOnly: Boolean, embedded: Boolean, resource: String, gatewayId: [String,Number] })
 const route = useRoute(), router = useRouter()
 const allowed = props.resource ? [props.resource] : props.eventOnly ? ['alarms'] : ['gateways', 'alarms', 'protocolMessages']
@@ -62,6 +65,12 @@ const keyword = ref(String(route.query.keyword || '')), kind = ref(String(route.
 const source = ref(props.eventOnly ? String(route.query.source || '') : 'device'), caseType = ref(String(route.query.caseType || ''))
 const page = ref(Math.max(1, Number(route.query.page) || 1)), rows = ref([]), total = ref(0), loading = ref(false), error = ref('')
 const detailOpen = ref(false), eventOpen = ref(false), selected = ref(null), selectedId = ref('')
+const simulationOpen = ref(false), simulationId = ref('')
+function simulationCreated(result) {
+ simulationId.value = result.id
+ keyword.value='';kind.value='';source.value='';caseType.value='';search()
+ if(result.enterDashboard && canFire('dashboard'))router.push({path:'/fire/dashboard',query:{simulation:result.id}})
+}
 const definitions = {
  gateways: [['name','装置名称',230],['placeName','所属单位'],['model','型号'],['serial','协议地址'],['status','通信状态'],['deviceStatus','装置上报状态',260],['lastSeen','最后有效报文',190]],
  alarms: [['name','事件内容',300],['placeName','所属单位'],['gatewayName','上报装置',220],['occurredAt','服务器接收时间',190],['deviceTime','设备事件时间',190],['status','记录状态']],
@@ -78,11 +87,11 @@ const refreshQueue = createTableRefresh(async (silent, isCurrent) => {
   rows.value=reconcileTableRows(rows.value,res.rows);total.value=res.total;error.value=''
  } catch(e) { if(isCurrent()) { if(!silent){rows.value=[];total.value=0}error.value=(e.message || '设备记录加载失败')+(silent?'；当前保留上次成功记录，将自动重试':'') } }
  finally {if(isCurrent())loading.value=false}
-}, { paused: () => document.hidden || detailOpen.value || eventOpen.value })
+}, { paused: () => document.hidden || detailOpen.value || eventOpen.value || simulationOpen.value })
 // Preserve the independent 119 record page's cadence, now without a background loading overlay.
 const updateState = useDeviceUpdates(() => refreshQueue.refresh(true), props.embedded || !props.eventOnly ? 'gateways' : 'alarms', props.eventOnly ? 5000 : 60000)
 function load() { refreshQueue.refresh() }
-watch([detailOpen,eventOpen], () => refreshQueue.resume())
+watch([detailOpen,eventOpen,simulationOpen], () => refreshQueue.resume())
 function persist() { if(props.embedded)return;router.replace({ query:{...route.query,tab:tab.value,keyword:keyword.value || undefined,kind:kind.value || undefined,source:source.value || undefined,caseType:caseType.value || undefined,page:String(page.value)} }) }
 function search() { page.value=1;persist();load() }
 function changeSource() { kind.value='';caseType.value='';search() }

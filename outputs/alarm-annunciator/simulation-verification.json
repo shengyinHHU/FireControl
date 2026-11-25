@@ -1,0 +1,31 @@
+{
+  "date": "2026-11-25",
+  "feature": "Scoped simulation alarm action beside the incident record query button, with normal dashboard, map, audio/light and processing flows",
+  "passed": {
+    "backend": "Maven offline ruoyi-admin reactor compile passed; tools/alarm-simulation/verify_project.py passed 19 real SQL/DataScope/transaction checks",
+    "browser": "alarm-simulation.browser.cjs passed: both sources, initial-snapshot entry, second open dashboard, real WAV playback, actual map adapter and coordinates, handled history, required-note/validation focus, popup width/keyboard, request locking/retry, no-place/error/narrow states and permission hiding",
+    "regression": "incident119.browser.cjs passed all 14 checks for existing device/119 list/detail/filter/status/provenance/responsive behavior",
+    "frontend": "npm run build:prod passed; all new alarm-signals tests and all Vue templates compile",
+    "fullUnitSuite": "89/90 pass; unchanged grid-call expectation is the sole failure",
+    "whitespace": "git diff --check passed",
+    "designLint": "0 errors, existing no-YAML-frontmatter warning"
+  },
+  "existingFailures": [
+    "tests/fire/incident-presentation.test.mjs:32 expects a callGrid function absent in unchanged ResourcePage.vue",
+    "Legacy tools/119-secret-key/verify_project.py fails its keyword-inclusion expectation at Fire119IntegrationTest.java:180; the HEAD dachangIncluded fragment already implements geometric inclusion only. This feature did not change that fragment",
+    "Premium static audit retains five findings in unchanged MeetingConsole.vue: native select ownership and four missing novalidate attributes"
+  ],
+  "deployment": {
+    "sql": "SQL/fire_alarm_simulation.sql must precede the matching backend/frontend deployment",
+    "permission": "fire:alarms:simulate plus existing fire:alarms:list and fire:places:list; dashboard navigation also respects fire:dashboard:list",
+    "instructions": "tools/alarm-simulation/README.md",
+    "businessDatabaseModified": false,
+    "deployed": false
+  },
+  "limits": [
+    "SQL integration uses a disposable MySQL; browser HTTP and map vendor interfaces are fixtures",
+    "Actual Vue, map adapter/marker lifecycle and uploaded WAV decoding/playback execute in the browser",
+    "Simulation records are clearly labeled and isolated from real device-event, protocol and 119 ingestion tables",
+    "Simulation processing is persisted; processing it does not acknowledge other pending real alarms"
+  ]
+}

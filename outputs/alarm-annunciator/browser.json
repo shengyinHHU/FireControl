@@ -1,0 +1,20 @@
+{
+  "actualVue": true,
+  "fixtureHTTP": true,
+  "fixtureSSE": true,
+  "actualWavPlayback": true,
+  "decoded": {
+    "duration": 12.147,
+    "sampleRate": 48000,
+    "bytes": 3214178
+  },
+  "checks": [
+    "Initial history stays silent; original WAV fetches and decodes in Edge",
+    "Device report starts red edges; autoplay rejection stays visible and explicit enable plays the real looping WAV; polling does not replay",
+    "Keyboard stop silences only this batch; a later 119 rescue incident triggers both channels",
+    "Refresh failure retains the active alarm; mute preserves light; playback failure exposes retry and recovers",
+    "Desktop pulse, steady reduced-motion border, narrow layout, fault/outside exclusion, manual alarm and resolved-batch teardown verified",
+    "Idle enable previews only 1.5 seconds; navigating away releases active media"
+  ],
+  "errors": []
+}

@@ -24,6 +24,7 @@ public class FireAlarmQueryService {
    else if(v instanceof Date t)entry.setValue(t.toInstant().atZone(ZoneId.of("Asia/Shanghai")).format(TIME));
   }
   if("119".equals(row.get("sourceCode")) && row.get("boundaryDistanceM") instanceof Number n)row.put("boundaryReview",n.doubleValue()<=1.0);
+  row.put("isSimulation",Boolean.TRUE.equals(row.get("isSimulation")) || row.get("isSimulation") instanceof Number n && n.intValue()==1);
   row.remove("dept_id");row.remove("supervisor_user_id");row.put("dataSource","database");
  }
  @DataScope(deptAlias="a",userAlias="a",userField="supervisor_user_id",permission="fire:alarms:list")
