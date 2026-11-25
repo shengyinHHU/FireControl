@@ -1,0 +1,14 @@
+{
+  "committed_rows": 101,
+  "unique_names": 101,
+  "excel_rows_verified": 101,
+  "highrise_positive": 31,
+  "highrise_zero": 70,
+  "schema_definitions_verified": 56,
+  "coordinate_statuses": {
+    "review": 101
+  },
+  "outside_project_drawn_boundary": [
+    "紫景园"
+  ]
+}

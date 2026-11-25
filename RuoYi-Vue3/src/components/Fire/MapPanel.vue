@@ -363,10 +363,7 @@ const svg = ref(),
   draft = ref([]),
   saving = ref(false)
 const layerNames = [
-    '重点企业',
-    '高层建筑',
-    '综合商业体',
-    '养老机构',
+    ...PLACE_LAYERS.map(layer => layer.label),
     '地图POI',
     ...(isFireMock ? ['网格'] : []),
     '摄像头',

@@ -37,6 +37,11 @@ try:
  sql("USE dachang;"+re.search(r"CREATE TABLE IF NOT EXISTS `fire_place_contact`\s*\([\s\S]*?;",place,re.I).group(0))
  sql("USE dachang;"+re.search(r"CREATE TABLE IF NOT EXISTS `fire_place_import_row`\s*\([\s\S]*?;",place,re.I).group(0))
  sql(place)
+ old_places=sql("USE dachang;SELECT COUNT(*) FROM fire_place;")
+ residential=(ROOT/"SQL/fire_place_residential_label.sql").read_text("utf-8")
+ sql("USE dachang;"+residential);sql("USE dachang;"+residential)
+ assert sql("USE dachang;SELECT dict_label FROM sys_dict_data WHERE dict_type='fire_place_type' AND dict_value='highrise';")=="居民小区"
+ assert sql("USE dachang;SELECT COUNT(*) FROM fire_place;")==old_places
  migration=(ROOT/"SQL/fire_place_import.sql").read_text("utf-8-sig");sql(migration);sql(migration)
  schema=(ROOT/"SQL/fire_119_incident.sql").read_text("utf-8-sig");sql(schema);sql(schema)
  assert sql("USE dachang;SELECT COUNT(*) FROM fire_119_incident;")=="0"

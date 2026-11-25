@@ -40,7 +40,7 @@ The user requires database records to replace conflicting or overlapping demo re
 
 ## Map layer contract
 
-- Labels/codes: 重点企业=industry, 高层建筑=highrise, 综合商业体=commercial, 养老院=elderly.
+- Labels/codes: 重点企业=industry, 居民小区=highrise, 综合商业体=commercial, 养老院=elderly.
 - All four initially off. Labels are independent native toggle buttons with aria-pressed and visible focus/selection.
 - Enabling adds matching real places; disabling removes them immediately. Changes use current selection even if an earlier fetch resolves later; no duplicate marker accumulation.
 - Real coordinates in review status are displayed with their truthful status; do not auto-confirm them. Missing/invalid/non-GCJ02 map coordinates are excluded.
@@ -91,7 +91,7 @@ Dashboard alarms have one owner: dashboard refreshAlarms, 3-second polling plus 
 
 Canonical importer: `components/ExcelImportDialog/PlaceImport.vue`, a business-named variant of the shared ExcelImportDialog family, reuses Element Plus upload/dialog/table/radio/pagination, request.js auth/download, and the existing navy/cyan tokens. PlaceManager mounts this importer beside manual maintenance. Keep the legacy generic update-import dialog unchanged; place import has no update switch. The signature is an operational preview strip (new/duplicate/invalid plus located/unlocated), with row-numbered reasons and CSV download. No new color/type theme.
 
-`场所类别` owns `fire_place.place_type`: 重点企业=industry, 高层建筑=highrise, 综合商业体=commercial, 养老机构=elderly. `PLACE_LAYERS` owns frontend labels; backend parser and SQL dictionary match these codes/labels. Legacy spreadsheet labels are accepted as aliases, never guessed from industry category. The user's explicit current Excel classifications take precedence over earlier inferred housing types.
+`场所类别` owns `fire_place.place_type`: 重点企业=industry, 居民小区=highrise, 综合商业体=commercial, 养老机构=elderly. `PLACE_LAYERS` owns frontend labels; backend parser and SQL dictionary match these codes/labels. The 2026-11-25 user decision changes the highrise display label to 居民小区 while retaining the code. Imports accept both 高层建筑 and 居民小区 (and the existing 高层住宅 alias), and preserve original source cells. Old category bookmarks, demo storage and completed import results normalize at frontend boundaries. The user's explicit current Excel classifications take precedence over earlier inferred housing types.
 
 Import is additive only. Header parsing excludes auxiliary coordinate candidates (AK/AL etc.); only 经度/纬度/坐标系 become place coordinates. Source cells including public-address evidence are retained in audit JSON. Existing and in-file similar names are skipped, not merged or updated. Thus a duplicate row with new coordinates does not modify an unlocated existing record. Coordinates remain review and are map-visible when valid GCJ02; absent coordinates remain pending and list-visible.
 

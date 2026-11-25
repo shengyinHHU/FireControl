@@ -1,7 +1,7 @@
 <template>
   <el-dialog v-model="visible" title="导入重点场所" class="fire-dialog" width="min(1080px, 95vw)" append-to-body
     :close-on-click-modal="false" :close-on-press-escape="!busy" :show-close="!busy" @closed="reset">
-    <p class="import-guidance">仅新增场所，同名或近似名称自动跳过，不覆盖已有档案。读取“场所类别”列：重点企业、高层建筑、综合商业体、养老机构。</p>
+    <p class="import-guidance">仅新增场所，同名或近似名称自动跳过，不覆盖已有档案。读取“场所类别”列：重点企业、居民小区、综合商业体、养老机构。</p>
     <template v-if="!result">
       <el-button link type="primary" :disabled="busy" @click="downloadTemplate">下载标准模板</el-button>
       <el-upload ref="uploader" :auto-upload="false" :limit="1" accept=".xlsx" :disabled="busy" drag

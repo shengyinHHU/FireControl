@@ -50,7 +50,7 @@ places 场所、grids 网格、personnel 人员、materials 物资、hazards 安
 H5只提交姓名、手机号、日期、起止时间；下班时间早于上班时间时代表次日。服务端存储startsAt/endsAt，响应应为含偏移的ISO8601；时间展示字段 occurredAt/time/lastSeen/deadline 约定 yyyy-MM-dd HH:mm:ss，Asia/Shanghai。
 
 ## 字段与约束
-- places：name、category、gridId必填；category=重点企业/高层建筑/综合商业体/养老院；risk=低/一般/较高。owner、phone、address、description、lng、lat、crs。
+- places：name、category、gridId必填；category=重点企业/居民小区/综合商业体/养老院；risk=低/一般/较高。owner、phone、address、description、lng、lat、crs。
 - grids：name、owner、phone、description；polygon为不重复的至少3点坐标数组[[lng,lat],...]，API存储不含重复闭合点，转换GeoJSON时在末尾补首点。
 - personnel：name、placeId、phone、role。materials：name、placeId、category、unit、quantity（非负）。
 - hazards：name、placeId、category（风险源/隐患）、level、status（待整改/整改中/已整改）、owner、source、deadline、description。

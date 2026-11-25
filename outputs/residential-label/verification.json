@@ -1,0 +1,35 @@
+{
+  "frontend_unit_tests": {
+    "total": 93,
+    "passed": 92,
+    "failed": 1,
+    "preexisting_failure": "incident-presentation.test.mjs: grid call navigates directly to the requested meeting URL",
+    "failure_test_and_ResourcePage_unchanged": true
+  },
+  "targeted_unit_tests": {
+    "passed": 19,
+    "failed": 0
+  },
+  "backend_import_integration": {
+    "passed": 34,
+    "isolated_mysql": true
+  },
+  "production_build": true,
+  "browser_tests": [
+    "dashboard-counts.browser.cjs",
+    "place-import.browser.cjs"
+  ],
+  "ui_audit": {
+    "preexisting_errors": 5,
+    "file": "MeetingConsole.vue"
+  },
+  "dictionary": {
+    "dictionary_label": "居民小区",
+    "dictionary_value": "highrise",
+    "residential_records": 101,
+    "residential_data_unchanged": true,
+    "schema_unchanged": true,
+    "dictionary_cache_invalidated": true,
+    "cache_entries_removed": 1
+  }
+}

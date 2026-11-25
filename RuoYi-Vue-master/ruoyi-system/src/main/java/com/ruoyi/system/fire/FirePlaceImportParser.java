@@ -11,8 +11,8 @@ import com.ruoyi.common.exception.ServiceException;
 
 /** Header-based standard workbook parser. Never evaluates Excel formulas. */
 public final class FirePlaceImportParser {
- public static final Map<String,String> LABELS=Map.of("industry","重点企业","highrise","高层建筑","commercial","综合商业体","elderly","养老机构");
- private static final Map<String,String> TYPES=Map.ofEntries(Map.entry("重点企业","industry"),Map.entry("工贸企业","industry"),Map.entry("高层建筑","highrise"),Map.entry("高层住宅","highrise"),Map.entry("综合商业体","commercial"),Map.entry("商业综合体","commercial"),Map.entry("养老机构","elderly"),Map.entry("养老院","elderly"));
+ public static final Map<String,String> LABELS=Map.of("industry","重点企业","highrise","居民小区","commercial","综合商业体","elderly","养老机构");
+ private static final Map<String,String> TYPES=Map.ofEntries(Map.entry("重点企业","industry"),Map.entry("工贸企业","industry"),Map.entry("居民小区","highrise"),Map.entry("高层建筑","highrise"),Map.entry("高层住宅","highrise"),Map.entry("综合商业体","commercial"),Map.entry("商业综合体","commercial"),Map.entry("养老机构","elderly"),Map.entry("养老院","elderly"));
  private static final Set<String> FIELDS=Set.of("来源序号","行业类别","对象名称","负责人","联系电话","所属/管理单位","联系人2","联系电话2","联系人3","联系电话3","场所类别","对象类型","详细地址","所属网格","风险等级","对象编码","经度","纬度","坐标系","资料日期","来源文件","备注");
  public static class RowData {
   public int rowNumber; public String sheet,name,type,category,status="new",reason="",sourceKey; public BigDecimal longitude,latitude;
@@ -57,7 +57,7 @@ public final class FirePlaceImportParser {
     if(result.size()>=2000)throw new ServiceException("一次最多2000条，请分批导入");
     row.name=row.cells.getOrDefault("对象名称","");String label=row.cells.getOrDefault("场所类别",row.cells.getOrDefault("对象类型",""));row.type=TYPES.getOrDefault(label,LABELS.containsKey(label)?label:"");row.category=LABELS.getOrDefault(row.type,label);
     if(row.name.isBlank()||row.name.length()>255)errors.add("对象名称必填且不超过255字");
-    if(row.type.isBlank())errors.add("场所类别需为重点企业、高层建筑、综合商业体或养老机构");
+    if(row.type.isBlank())errors.add("场所类别需为重点企业、居民小区、综合商业体或养老机构");
     for(var lim:Map.of("行业类别",100,"所属/管理单位",255,"详细地址",500,"风险等级",16,"负责人",100,"联系电话",64,"联系人2",100,"联系电话2",64,"联系人3",100,"联系电话3",64).entrySet())if(row.cells.getOrDefault(lim.getKey(),"").length()>lim.getValue())errors.add(lim.getKey()+"超出长度限制");
     String lng=row.cells.getOrDefault("经度",""),lat=row.cells.getOrDefault("纬度","");
     if(!lng.isBlank()||!lat.isBlank()){

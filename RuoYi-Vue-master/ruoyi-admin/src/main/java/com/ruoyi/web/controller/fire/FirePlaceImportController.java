@@ -10,6 +10,7 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.system.fire.FirePlaceImportService;
+import com.ruoyi.system.fire.FirePlaceImportParser;
 
 @RestController
 @RequestMapping("/fire/places/import")
@@ -31,7 +32,7 @@ public class FirePlaceImportController extends BaseController {
    var sheet=book.createSheet("监管对象");String[] headers={"来源序号","行业类别","对象名称","负责人","联系电话","所属/管理单位","联系人2","联系电话2","联系人3","联系电话3","场所类别","详细地址","所属网格","风险等级","对象编码","经度","纬度","坐标系","资料日期","来源文件","备注"};
    var header=sheet.createRow(0);for(int i=0;i<headers.length;i++){header.createCell(i).setCellValue(headers[i]);sheet.setColumnWidth(i,22*256);}sheet.createFreezePane(0,1);
    var style=book.createCellStyle();style.setDataFormat(book.createDataFormat().getFormat("@"));for(int col:new int[]{0,4,7,9,14})sheet.setDefaultColumnStyle(col,style);
-   var helper=sheet.getDataValidationHelper();var list=helper.createExplicitListConstraint(new String[]{"重点企业","高层建筑","综合商业体","养老机构"});var validation=helper.createValidation(list,new org.apache.poi.ss.util.CellRangeAddressList(1,2000,10,10));validation.setShowErrorBox(true);sheet.addValidationData(validation);book.write(response.getOutputStream());
+   var helper=sheet.getDataValidationHelper();var labels=java.util.stream.Stream.of("industry","highrise","commercial","elderly").map(FirePlaceImportParser.LABELS::get).toArray(String[]::new);var list=helper.createExplicitListConstraint(labels);var validation=helper.createValidation(list,new org.apache.poi.ss.util.CellRangeAddressList(1,2000,10,10));validation.setShowErrorBox(true);sheet.addValidationData(validation);book.write(response.getOutputStream());
   }
  }
  public record Confirm(String batchId){}

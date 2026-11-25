@@ -148,7 +148,7 @@ CREATE TABLE IF NOT EXISTS `fire_place_import_row` (
 START TRANSACTION;
 '''
 parts=[DDL]
-dicts=[('fire_place_type','消防监管场所类别', [('industry','工贸企业'),('highrise','高层住宅'),('commercial','商业综合体'),('elderly','养老机构')]),('fire_location_status','消防场所定位状态',[('pending','待定位'),('review','待核验'),('confirmed','已确认'),('failed','定位失败')]),('fire_contact_role','消防场所联系人角色',[('legal_representative','法人'),('principal','主要负责人'),('onsite_manager','现场负责人')])]
+dicts=[('fire_place_type','消防监管场所类别', [('industry','工贸企业'),('highrise','居民小区'),('commercial','商业综合体'),('elderly','养老机构')]),('fire_location_status','消防场所定位状态',[('pending','待定位'),('review','待核验'),('confirmed','已确认'),('failed','定位失败')]),('fire_contact_role','消防场所联系人角色',[('legal_representative','法人'),('principal','主要负责人'),('onsite_manager','现场负责人')])]
 for dt,label,values in dicts:
     parts.append(add_row('sys_dict_type',dict(dict_name=label,dict_type=dt,status='0',create_by='admin',remark='消防业务字典'), 'SELECT 1 FROM sys_dict_type WHERE dict_type='+lit(dt)))
     for i,(value,label) in enumerate(values,1):

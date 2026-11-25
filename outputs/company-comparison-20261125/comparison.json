@@ -1,0 +1,7995 @@
+{
+  "database": "dachang",
+  "source_sheet": "2026.11.25",
+  "source_rows": 222,
+  "source_unique": 215,
+  "database_counts": [
+    {
+      "type": "elderly",
+      "status": "0",
+      "del_flag": "0",
+      "count": 12
+    },
+    {
+      "type": "highrise",
+      "status": "0",
+      "del_flag": "0",
+      "count": 91
+    },
+    {
+      "type": "industry",
+      "status": "0",
+      "del_flag": "0",
+      "count": 217
+    },
+    {
+      "type": "commercial",
+      "status": "0",
+      "del_flag": "0",
+      "count": 17
+    },
+    {
+      "type": "government",
+      "status": "0",
+      "del_flag": "0",
+      "count": 1
+    }
+  ],
+  "active_industry_rows": 217,
+  "active_industry_unique": 217,
+  "map_industry_rows": 120,
+  "missing_exact_name": [
+    {
+      "name": "南京凯联服饰",
+      "serial": 1,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "王冬梅",
+      "phone": "13770843688",
+      "cell": "C23",
+      "candidates": [
+        {
+          "score": 0.75,
+          "same_phone": true,
+          "name": "南京凯联服饰有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.215674,
+          "place_id": 44,
+          "longitude": 118.753765,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "轻工",
+          "contacts": [
+            {
+              "person": "王冬梅",
+              "phone": "13770843688"
+            },
+            {
+              "person": "卢倩倩",
+              "phone": "13705185592"
+            }
+          ]
+        },
+        {
+          "score": 0.462,
+          "same_phone": false,
+          "name": "南京诚联扬物流",
+          "remark": "来源：2026.10.8!A17:E17；对象类型需与现有系统字典核对",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": null,
+          "place_id": 117,
+          "longitude": null,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "危化品运输、经营单位",
+          "contacts": [
+            {
+              "person": "李仰诚",
+              "phone": "17366386887"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "南京圣凰制衣",
+      "serial": 2,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "许全盛",
+      "phone": "13376072368",
+      "cell": "C24",
+      "candidates": [
+        {
+          "score": 0.75,
+          "same_phone": true,
+          "name": "南京圣凰制衣有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.217497,
+          "place_id": 69,
+          "longitude": 118.74954,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "轻工",
+          "contacts": [
+            {
+              "person": "许全胜",
+              "phone": "13376072368"
+            },
+            {
+              "person": "许全胜",
+              "phone": "13376072368"
+            }
+          ]
+        },
+        {
+          "score": 0.5,
+          "same_phone": false,
+          "name": "南京锦润制衣有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.234609,
+          "place_id": 75,
+          "longitude": 118.773507,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "轻工",
+          "contacts": [
+            {
+              "person": "周磊",
+              "phone": "13376072388"
+            },
+            {
+              "person": "周磊",
+              "phone": "13376072388"
+            }
+          ]
+        },
+        {
+          "score": 0.5,
+          "same_phone": false,
+          "name": "南京三圣物流",
+          "remark": "来源：2026.10.8!A3:E3；对象类型需与现有系统字典核对",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.232168,
+          "place_id": 103,
+          "longitude": 118.784438,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "危化品运输、经营单位",
+          "contacts": [
+            {
+              "person": "杨文生",
+              "phone": "15365169111"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "南京锦润制衣",
+      "serial": 3,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "周磊",
+      "phone": "13376072388",
+      "cell": "C25",
+      "candidates": [
+        {
+          "score": 0.75,
+          "same_phone": true,
+          "name": "南京锦润制衣有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.234609,
+          "place_id": 75,
+          "longitude": 118.773507,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "轻工",
+          "contacts": [
+            {
+              "person": "周磊",
+              "phone": "13376072388"
+            },
+            {
+              "person": "周磊",
+              "phone": "13376072388"
+            }
+          ]
+        },
+        {
+          "score": 0.5,
+          "same_phone": false,
+          "name": "南京圣凰制衣有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.217497,
+          "place_id": 69,
+          "longitude": 118.74954,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "轻工",
+          "contacts": [
+            {
+              "person": "许全胜",
+              "phone": "13376072368"
+            },
+            {
+              "person": "许全胜",
+              "phone": "13376072368"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "南京金荣春洗涤",
+      "serial": 6,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "杨连荣",
+      "phone": "18795870980",
+      "cell": "C28",
+      "candidates": [
+        {
+          "score": 0.778,
+          "same_phone": true,
+          "name": "南京金荣春洗涤有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.209475,
+          "place_id": 57,
+          "longitude": 118.756875,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "轻工",
+          "contacts": [
+            {
+              "person": "杨连荣",
+              "phone": "18795870980"
+            },
+            {
+              "person": "蒋先兰",
+              "phone": "15895804989"
+            }
+          ]
+        },
+        {
+          "score": 0.462,
+          "same_phone": false,
+          "name": "南京康明水洗",
+          "remark": "来源：2026.10.8!A27:E27",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.238245,
+          "place_id": 124,
+          "longitude": 118.791223,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "工贸企业",
+          "contacts": [
+            {
+              "person": "王先龙",
+              "phone": "13016997121"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "南京大化机工程",
+      "serial": 7,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "吕华",
+      "phone": "13851886702",
+      "cell": "C29",
+      "candidates": [
+        {
+          "score": 0.778,
+          "same_phone": true,
+          "name": "南京大化机工程有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.234049,
+          "place_id": 46,
+          "longitude": 118.767358,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "机械",
+          "contacts": [
+            {
+              "person": "李振和",
+              "phone": "13905183931"
+            },
+            {
+              "person": "吕华",
+              "phone": "13851886702"
+            }
+          ]
+        },
+        {
+          "score": 0.476,
+          "same_phone": false,
+          "name": "南京禾诚石化装备工程有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.225735,
+          "place_id": 49,
+          "longitude": 118.760026,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "机械",
+          "contacts": [
+            {
+              "person": "李济明",
+              "phone": "13601582910"
+            },
+            {
+              "person": "王昌华",
+              "phone": "13915904968"
+            }
+          ]
+        },
+        {
+          "score": 0.476,
+          "same_phone": false,
+          "name": "南京诚安石化装备工程有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.229212,
+          "place_id": 64,
+          "longitude": 118.785265,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "机械",
+          "contacts": [
+            {
+              "person": "姜惠斌",
+              "phone": "15850526228"
+            },
+            {
+              "person": "顾耘天",
+              "phone": "13584006394"
+            }
+          ]
+        },
+        {
+          "score": 0.462,
+          "same_phone": false,
+          "name": "南京程顺船务",
+          "remark": "来源：2026.10.8!A18:E18；对象类型需与现有系统字典核对",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.20756,
+          "place_id": 118,
+          "longitude": 118.737642,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "危化品运输、经营单位",
+          "contacts": [
+            {
+              "person": "许成龙",
+              "phone": "18014811111"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "南京博大重型锻造",
+      "serial": 8,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "张洪庆",
+      "phone": "18861601698",
+      "cell": "C30",
+      "candidates": [
+        {
+          "score": 0.8,
+          "same_phone": true,
+          "name": "南京博大重型锻造有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.229361,
+          "place_id": 47,
+          "longitude": 118.770436,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "机械",
+          "contacts": [
+            {
+              "person": "张瑞庆",
+              "phone": "13801518583"
+            },
+            {
+              "person": "张洪庆",
+              "phone": "18861601698"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "中石化南京化工机械",
+      "serial": 9,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "江晨",
+      "phone": "15850719168",
+      "cell": "C31",
+      "candidates": [
+        {
+          "score": 0.818,
+          "same_phone": false,
+          "name": "中石化南京化工机械有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.226668,
+          "place_id": 43,
+          "longitude": 118.772153,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "机械",
+          "contacts": [
+            {
+              "person": "杨金凯",
+              "phone": "15295711727"
+            },
+            {
+              "person": "汪加将",
+              "phone": "13912982196"
+            }
+          ]
+        },
+        {
+          "score": 0.5,
+          "same_phone": false,
+          "name": "南京畅达机械厂",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.222788,
+          "place_id": 65,
+          "longitude": 118.768754,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "机械",
+          "contacts": [
+            {
+              "person": "张建",
+              "phone": "13182808118"
+            },
+            {
+              "person": "王思楠",
+              "phone": "15683763657"
+            }
+          ]
+        },
+        {
+          "score": 0.5,
+          "same_phone": false,
+          "name": "中化学南京置业",
+          "remark": "来源：2026.10.8!P45:T45；对象类型需与现有系统字典核对",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.206675,
+          "place_id": 267,
+          "longitude": 118.749625,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "园中园出租单位",
+          "contacts": [
+            {
+              "person": "董涛涛",
+              "phone": "13933926102"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "南京钢铁集团建设",
+      "serial": 10,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "龚宇",
+      "phone": "15996475640",
+      "cell": "C32",
+      "candidates": [
+        {
+          "score": 0.8,
+          "same_phone": false,
+          "name": "南京钢铁集团建设有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.200177,
+          "place_id": 48,
+          "longitude": 118.749037,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "机械",
+          "contacts": [
+            {
+              "person": "徐洋珍",
+              "phone": "18952052888"
+            },
+            {
+              "person": "李岚",
+              "phone": "13813839538"
+            }
+          ]
+        },
+        {
+          "score": 0.545,
+          "same_phone": false,
+          "name": "南京钢铁集团盛达实业有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.201504,
+          "place_id": 50,
+          "longitude": 118.749263,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "机械",
+          "contacts": [
+            {
+              "person": "吕有仁",
+              "phone": "13809026546"
+            },
+            {
+              "person": "单军",
+              "phone": "18751912116"
+            }
+          ]
+        },
+        {
+          "score": 0.5,
+          "same_phone": false,
+          "name": "南京钢铁集团江苏冶金机械有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.207284,
+          "place_id": 53,
+          "longitude": 118.738362,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "机械",
+          "contacts": [
+            {
+              "person": "黄海峰",
+              "phone": "15050578858"
+            },
+            {
+              "person": "吴安龙",
+              "phone": "13951969152"
+            }
+          ]
+        },
+        {
+          "score": 0.5,
+          "same_phone": false,
+          "name": "南化建设",
+          "remark": "来源：2026.10.8!F55:J55；对象类型需与现有系统字典核对",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.209081,
+          "place_id": 168,
+          "longitude": 118.741214,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "仓储其他类企业",
+          "contacts": [
+            {
+              "person": "王玮",
+              "phone": "13851463164"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "南京钢铁集团盛达实业",
+      "serial": 12,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "单军",
+      "phone": "18751912116",
+      "cell": "C34",
+      "candidates": [
+        {
+          "score": 0.833,
+          "same_phone": true,
+          "name": "南京钢铁集团盛达实业有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.201504,
+          "place_id": 50,
+          "longitude": 118.749263,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "机械",
+          "contacts": [
+            {
+              "person": "吕有仁",
+              "phone": "13809026546"
+            },
+            {
+              "person": "单军",
+              "phone": "18751912116"
+            }
+          ]
+        },
+        {
+          "score": 0.545,
+          "same_phone": false,
+          "name": "南京钢铁集团建设有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.200177,
+          "place_id": 48,
+          "longitude": 118.749037,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "机械",
+          "contacts": [
+            {
+              "person": "徐洋珍",
+              "phone": "18952052888"
+            },
+            {
+              "person": "李岚",
+              "phone": "13813839538"
+            }
+          ]
+        },
+        {
+          "score": 0.462,
+          "same_phone": false,
+          "name": "南京钢铁集团江苏冶金机械有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.207284,
+          "place_id": 53,
+          "longitude": 118.738362,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "机械",
+          "contacts": [
+            {
+              "person": "黄海峰",
+              "phone": "15050578858"
+            },
+            {
+              "person": "吴安龙",
+              "phone": "13951969152"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "江苏南钢钢材加工配送",
+      "serial": 14,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "汪学宝",
+      "phone": "13851454334",
+      "cell": "C36",
+      "candidates": [
+        {
+          "score": 0.833,
+          "same_phone": false,
+          "name": "江苏南钢钢材加工配送有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.201746,
+          "place_id": 52,
+          "longitude": 118.75117,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "机械",
+          "contacts": [
+            {
+              "person": "焦刚",
+              "phone": "15195839379"
+            },
+            {
+              "person": "范明昊",
+              "phone": "13814095862"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "南京卓泽化工设备有",
+      "serial": 15,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "陆文涛",
+      "phone": "13951871287",
+      "cell": "C37",
+      "candidates": [
+        {
+          "score": 0.857,
+          "same_phone": false,
+          "name": "南京卓泽化工设备有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.23197,
+          "place_id": 61,
+          "longitude": 118.781881,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "机械",
+          "contacts": [
+            {
+              "person": "陆文涛",
+              "phone": "13813878595"
+            },
+            {
+              "person": "戴玉",
+              "phone": "13851566942"
+            }
+          ]
+        },
+        {
+          "score": 0.533,
+          "same_phone": false,
+          "name": "启迪化工设备",
+          "remark": "来源：2026.10.8!F43:J43；对象类型需与现有系统字典核对",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.241106,
+          "place_id": 156,
+          "longitude": 118.77874,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "仓储其他类企业",
+          "contacts": [
+            {
+              "person": "殷旭",
+              "phone": "13952058666"
+            }
+          ]
+        },
+        {
+          "score": 0.5,
+          "same_phone": false,
+          "name": "南京大化机工程有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.234049,
+          "place_id": 46,
+          "longitude": 118.767358,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "机械",
+          "contacts": [
+            {
+              "person": "李振和",
+              "phone": "13905183931"
+            },
+            {
+              "person": "吕华",
+              "phone": "13851886702"
+            }
+          ]
+        },
+        {
+          "score": 0.476,
+          "same_phone": false,
+          "name": "南京格采电力设备有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.225833,
+          "place_id": 45,
+          "longitude": 118.780426,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "机械",
+          "contacts": [
+            {
+              "person": "应海兵",
+              "phone": "15189822808"
+            },
+            {
+              "person": "应海兵",
+              "phone": "15189822808"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "诚安石化装备工程",
+      "serial": 16,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "葛仁贵",
+      "phone": "13770666601",
+      "cell": "C38",
+      "candidates": [
+        {
+          "score": 0.727,
+          "same_phone": false,
+          "name": "南京诚安石化装备工程有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.229212,
+          "place_id": 64,
+          "longitude": 118.785265,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "机械",
+          "contacts": [
+            {
+              "person": "姜惠斌",
+              "phone": "15850526228"
+            },
+            {
+              "person": "顾耘天",
+              "phone": "13584006394"
+            }
+          ]
+        },
+        {
+          "score": 0.636,
+          "same_phone": false,
+          "name": "南京禾诚石化装备工程有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.225735,
+          "place_id": 49,
+          "longitude": 118.760026,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "机械",
+          "contacts": [
+            {
+              "person": "李济明",
+              "phone": "13601582910"
+            },
+            {
+              "person": "王昌华",
+              "phone": "13915904968"
+            }
+          ]
+        },
+        {
+          "score": 0.5,
+          "same_phone": false,
+          "name": "江腾建筑安装工程",
+          "remark": "来源：2026.10.8!K42:O42；对象类型需与现有系统字典核对",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": null,
+          "place_id": 214,
+          "longitude": null,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "仓储其他类企业",
+          "contacts": [
+            {
+              "person": "许爱国",
+              "phone": "15251727768"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "禾诚石化装备工程",
+      "serial": 17,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "王昌华",
+      "phone": "13915904968",
+      "cell": "C39",
+      "candidates": [
+        {
+          "score": 0.727,
+          "same_phone": true,
+          "name": "南京禾诚石化装备工程有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.225735,
+          "place_id": 49,
+          "longitude": 118.760026,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "机械",
+          "contacts": [
+            {
+              "person": "李济明",
+              "phone": "13601582910"
+            },
+            {
+              "person": "王昌华",
+              "phone": "13915904968"
+            }
+          ]
+        },
+        {
+          "score": 0.636,
+          "same_phone": false,
+          "name": "南京诚安石化装备工程有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.229212,
+          "place_id": 64,
+          "longitude": 118.785265,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "机械",
+          "contacts": [
+            {
+              "person": "姜惠斌",
+              "phone": "15850526228"
+            },
+            {
+              "person": "顾耘天",
+              "phone": "13584006394"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "众悦机械设备",
+      "serial": 18,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "王兴盛",
+      "phone": "13913851155",
+      "cell": "C40",
+      "candidates": [
+        {
+          "score": 0.6,
+          "same_phone": true,
+          "name": "南京众悦机械设备有限责任公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.239055,
+          "place_id": 84,
+          "longitude": 118.779138,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "机械",
+          "contacts": [
+            {
+              "person": "王兴盛",
+              "phone": "13913851155"
+            },
+            {
+              "person": "王兴盛",
+              "phone": "13913851155"
+            }
+          ]
+        },
+        {
+          "score": 0.667,
+          "same_phone": false,
+          "name": "康王机械设备",
+          "remark": "来源：2026.10.8!P8:T8；对象类型需与现有系统字典核对",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.234569,
+          "place_id": 240,
+          "longitude": 118.777063,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "仓储其他类企业",
+          "contacts": [
+            {
+              "person": "王卫中",
+              "phone": "13372009985"
+            }
+          ]
+        },
+        {
+          "score": 0.5,
+          "same_phone": false,
+          "name": "徐业红机械设备加工部",
+          "remark": "来源：2026.10.8!K53:O53；对象类型需与现有系统字典核对",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": null,
+          "place_id": 225,
+          "longitude": null,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "仓储其他类企业",
+          "contacts": [
+            {
+              "person": "徐业红",
+              "phone": "15251732856"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "科晋橡塑科技",
+      "serial": 19,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "张树峰",
+      "phone": "13851766753",
+      "cell": "C41",
+      "candidates": [
+        {
+          "score": 0.667,
+          "same_phone": true,
+          "name": "南京科晋橡塑科技有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.241265,
+          "place_id": 72,
+          "longitude": 118.779727,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "机械",
+          "contacts": [
+            {
+              "person": "张树峰",
+              "phone": "13851766753"
+            },
+            {
+              "person": "张树峰",
+              "phone": "13851766753"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "官唐机电制造",
+      "serial": 21,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "卢凤平",
+      "phone": "18610089383",
+      "cell": "C43",
+      "candidates": [
+        {
+          "score": 0.667,
+          "same_phone": true,
+          "name": "南京官唐机电制造有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.205377,
+          "place_id": 89,
+          "longitude": 118.752354,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "机械",
+          "contacts": [
+            {
+              "person": "卢凤平",
+              "phone": "18610089383"
+            },
+            {
+              "person": "卢雨泽",
+              "phone": "15150508727"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "金晖机电检修",
+      "serial": 22,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "洪文龙",
+      "phone": "13776516117",
+      "cell": "C44",
+      "candidates": [
+        {
+          "score": 0.6,
+          "same_phone": true,
+          "name": "南京金晖机电检修有限责任公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.2084,
+          "place_id": 83,
+          "longitude": 118.73678,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "机械",
+          "contacts": [
+            {
+              "person": "洪文龙",
+              "phone": "13776516117"
+            },
+            {
+              "person": "陶乐",
+              "phone": "15895865536"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "科淼机电",
+      "serial": 23,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "王东铭",
+      "phone": "13951904534",
+      "cell": "C45",
+      "candidates": [
+        {
+          "score": 0.571,
+          "same_phone": true,
+          "name": "南京科淼机电有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.228238,
+          "place_id": 80,
+          "longitude": 118.782291,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "机械",
+          "contacts": [
+            {
+              "person": "王东铭",
+              "phone": "13951904534"
+            },
+            {
+              "person": "王兵",
+              "phone": "13951619067"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "畅达机械厂",
+      "serial": 24,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "张建",
+      "phone": "13182808118",
+      "cell": "C46",
+      "candidates": [
+        {
+          "score": 0.833,
+          "same_phone": true,
+          "name": "南京畅达机械厂",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.222788,
+          "place_id": 65,
+          "longitude": 118.768754,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "机械",
+          "contacts": [
+            {
+              "person": "张建",
+              "phone": "13182808118"
+            },
+            {
+              "person": "王思楠",
+              "phone": "15683763657"
+            }
+          ]
+        },
+        {
+          "score": 0.5,
+          "same_phone": false,
+          "name": "卓卫机械加工厂",
+          "remark": "来源：2026.10.8!K49:O49；对象类型需与现有系统字典核对",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.221824,
+          "place_id": 221,
+          "longitude": 118.765856,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "仓储其他类企业",
+          "contacts": [
+            {
+              "person": "卓卫",
+              "phone": "13770852812"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "双润金属加工",
+      "serial": 25,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "王建",
+      "phone": "13770810190",
+      "cell": "C47",
+      "candidates": [
+        {
+          "score": 0.667,
+          "same_phone": true,
+          "name": "南京双润金属加工有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.228238,
+          "place_id": 62,
+          "longitude": 118.782291,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "机械",
+          "contacts": [
+            {
+              "person": "王建",
+              "phone": "13770810190"
+            },
+            {
+              "person": "王建",
+              "phone": "13770810190"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "格采电力设备",
+      "serial": 26,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "应海兵",
+      "phone": "15189822808",
+      "cell": "C48",
+      "candidates": [
+        {
+          "score": 0.667,
+          "same_phone": true,
+          "name": "南京格采电力设备有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.225833,
+          "place_id": 45,
+          "longitude": 118.780426,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "机械",
+          "contacts": [
+            {
+              "person": "应海兵",
+              "phone": "15189822808"
+            },
+            {
+              "person": "应海兵",
+              "phone": "15189822808"
+            }
+          ]
+        },
+        {
+          "score": 0.5,
+          "same_phone": false,
+          "name": "淳久电气设备",
+          "remark": "来源：2026.10.8!P30:T30；对象类型需与现有系统字典核对",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": null,
+          "place_id": 257,
+          "longitude": null,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "园中园出租单位",
+          "contacts": [
+            {
+              "person": "汪国法",
+              "phone": "13505158402"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "共创金属制品",
+      "serial": 27,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "王超",
+      "phone": "15951772523",
+      "cell": "C49",
+      "candidates": [
+        {
+          "score": 0.667,
+          "same_phone": true,
+          "name": "南京共创金属制品有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.222709,
+          "place_id": 94,
+          "longitude": 118.757872,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "机械",
+          "contacts": [
+            {
+              "person": "王超",
+              "phone": "15951772523"
+            },
+            {
+              "person": "王超",
+              "phone": "15951772523"
+            }
+          ]
+        },
+        {
+          "score": 0.667,
+          "same_phone": false,
+          "name": "再渡金属制品",
+          "remark": "来源：2026.10.8!K56:O56；对象类型需与现有系统字典核对",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.221525,
+          "place_id": 228,
+          "longitude": 118.758975,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "仓储其他类企业",
+          "contacts": [
+            {
+              "person": "刘永洲",
+              "phone": "18851614805"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "酷众机械制造",
+      "serial": 28,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "钱立宝",
+      "phone": "13914750909",
+      "cell": "C50",
+      "candidates": [
+        {
+          "score": 0.667,
+          "same_phone": true,
+          "name": "南京酷众机械制造有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.229212,
+          "place_id": 56,
+          "longitude": 118.785265,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "机械",
+          "contacts": [
+            {
+              "person": "钱立宝",
+              "phone": "13914750909"
+            },
+            {
+              "person": "钱立宝",
+              "phone": "13914750909"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "江苏福得工程技术",
+      "serial": 29,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "朱磊",
+      "phone": "13605191687",
+      "cell": "C51",
+      "candidates": [
+        {
+          "score": 0.8,
+          "same_phone": true,
+          "name": "江苏福得工程技术有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.225833,
+          "place_id": 82,
+          "longitude": 118.780426,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "机械",
+          "contacts": [
+            {
+              "person": "朱磊",
+              "phone": "13605191687"
+            },
+            {
+              "person": "朱磊",
+              "phone": "13605191687"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "淼焱消防设备制造",
+      "serial": 30,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "钟生",
+      "phone": "13913358858",
+      "cell": "C52",
+      "candidates": [
+        {
+          "score": 0.727,
+          "same_phone": true,
+          "name": "南京淼焱消防设备制造有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.242925,
+          "place_id": 66,
+          "longitude": 118.775125,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "轻工",
+          "contacts": [
+            {
+              "person": "钟生",
+              "phone": "13913358858"
+            },
+            {
+              "person": "钟生",
+              "phone": "13913358858"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "润友冶金机械",
+      "serial": 31,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "杭开鑫",
+      "phone": "15150621841",
+      "cell": "C53",
+      "candidates": [
+        {
+          "score": 0.667,
+          "same_phone": true,
+          "name": "南京润友冶金机械有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.207284,
+          "place_id": 93,
+          "longitude": 118.738362,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "机械",
+          "contacts": [
+            {
+              "person": "杭展",
+              "phone": "13305103369"
+            },
+            {
+              "person": "杭开鑫",
+              "phone": "15150621841"
+            }
+          ]
+        },
+        {
+          "score": 0.667,
+          "same_phone": false,
+          "name": "江苏冶金机械",
+          "remark": "来源：2026.10.8!A33:E33",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.199125,
+          "place_id": 125,
+          "longitude": 118.750175,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "工贸企业",
+          "contacts": [
+            {
+              "person": "韩亮",
+              "phone": "15996453259"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "科尔生物技术",
+      "serial": 32,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "高飞",
+      "phone": "13813851220",
+      "cell": "C54",
+      "candidates": [
+        {
+          "score": 0.667,
+          "same_phone": true,
+          "name": "南京科尔生物技术有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.228702,
+          "place_id": 58,
+          "longitude": 118.786258,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "轻工",
+          "contacts": [
+            {
+              "person": "高飞",
+              "phone": "13813851220"
+            },
+            {
+              "person": "高飞",
+              "phone": "13813851220"
+            }
+          ]
+        },
+        {
+          "score": 0.5,
+          "same_phone": false,
+          "name": "纳华生物科技",
+          "remark": "来源：2026.10.8!K50:O50；对象类型需与现有系统字典核对",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": null,
+          "place_id": 222,
+          "longitude": null,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "仓储其他类企业",
+          "contacts": [
+            {
+              "person": "王明珠",
+              "phone": "13814521842"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "乙氏环保智能科技",
+      "serial": 33,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "乙永伟",
+      "phone": "15051800714",
+      "cell": "C55",
+      "candidates": [
+        {
+          "score": 0.727,
+          "same_phone": true,
+          "name": "南京乙氏环保智能科技有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.207901,
+          "place_id": 88,
+          "longitude": 118.730971,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "轻工",
+          "contacts": [
+            {
+              "person": "乙万圣",
+              "phone": "17551515716"
+            },
+            {
+              "person": "乙永伟",
+              "phone": "15051800714"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "铁宏轨道车辆装备制造",
+      "serial": 34,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "池定勇",
+      "phone": "15605199303",
+      "cell": "C56",
+      "candidates": [
+        {
+          "score": 0.769,
+          "same_phone": false,
+          "name": "南京铁宏轨道车辆装备制造有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.230475,
+          "place_id": 78,
+          "longitude": 118.784228,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "机械",
+          "contacts": [
+            {
+              "person": "洪保",
+              "phone": "13805150078"
+            },
+            {
+              "person": "洪保",
+              "phone": "13805150078"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "顺旺机电科技",
+      "serial": 35,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "朱成顺",
+      "phone": "15151801418",
+      "cell": "C57",
+      "candidates": [
+        {
+          "score": 0.667,
+          "same_phone": false,
+          "name": "南京顺旺机电科技有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.228702,
+          "place_id": 59,
+          "longitude": 118.786258,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "机械",
+          "contacts": [
+            {
+              "person": "朱成顺",
+              "phone": "13605182436"
+            },
+            {
+              "person": "李振宇",
+              "phone": "13951971006"
+            }
+          ]
+        },
+        {
+          "score": 0.667,
+          "same_phone": false,
+          "name": "厚信机电科技",
+          "remark": "来源：2026.10.8!K24:O24；对象类型需与现有系统字典核对",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": null,
+          "place_id": 197,
+          "longitude": null,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "仓储其他类企业",
+          "contacts": [
+            {
+              "person": "常南京",
+              "phone": "17366220363"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "紫燕科技",
+      "serial": 36,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "葛元兴",
+      "phone": "13813389790",
+      "cell": "C58",
+      "candidates": [
+        {
+          "score": 0.571,
+          "same_phone": true,
+          "name": "南京紫燕科技有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.227307,
+          "place_id": 63,
+          "longitude": 118.781046,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "机械",
+          "contacts": [
+            {
+              "person": "葛元兴",
+              "phone": "13813389790"
+            },
+            {
+              "person": "孙林",
+              "phone": "15850716812"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "南傲电机",
+      "serial": 37,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "刘远平",
+      "phone": "13921527316",
+      "cell": "C59",
+      "candidates": [
+        {
+          "score": 0.571,
+          "same_phone": true,
+          "name": "南京南傲电机有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.225833,
+          "place_id": 76,
+          "longitude": 118.780426,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "机械",
+          "contacts": [
+            {
+              "person": "刘远平",
+              "phone": "13921527316"
+            },
+            {
+              "person": "刘远平",
+              "phone": "13921527316"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "嘉华混凝土",
+      "serial": 38,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "张远飞",
+      "phone": "13951071768",
+      "cell": "C60",
+      "candidates": [
+        {
+          "score": 0.625,
+          "same_phone": true,
+          "name": "南京嘉华混凝土有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.249819,
+          "place_id": 68,
+          "longitude": 118.716795,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "建材",
+          "contacts": [
+            {
+              "person": "陈晓东",
+              "phone": "13382783864"
+            },
+            {
+              "person": "张远飞",
+              "phone": "13951071768"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "涂瑞新材料",
+      "serial": 39,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "裴雨",
+      "phone": "15251716788",
+      "cell": "C61",
+      "candidates": [
+        {
+          "score": 0.625,
+          "same_phone": true,
+          "name": "南京涂瑞新材料有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.207901,
+          "place_id": 55,
+          "longitude": 118.730971,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "轻工",
+          "contacts": [
+            {
+              "person": "裴雨",
+              "phone": "15251716788"
+            },
+            {
+              "person": "陈文锁",
+              "phone": "18651855723"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "好味来食品",
+      "serial": 40,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "陈坚雄",
+      "phone": "15195957695",
+      "cell": "C62",
+      "candidates": [
+        {
+          "score": 0.556,
+          "same_phone": true,
+          "name": "南京好味来食品有限责任公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.21536,
+          "place_id": 74,
+          "longitude": 118.754583,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "轻工",
+          "contacts": [
+            {
+              "person": "陈坚雄",
+              "phone": "15195957695"
+            },
+            {
+              "person": "陈坚雄",
+              "phone": "15195957695"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "全意包装材料",
+      "serial": 41,
+      "category": "工贸企业",
+      "person": "陈长丰",
+      "phone": "13809037408",
+      "cell": "H3",
+      "candidates": [
+        {
+          "score": 0.667,
+          "same_phone": true,
+          "name": "南京全意包装材料有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.241298,
+          "place_id": 91,
+          "longitude": 118.779284,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "轻工",
+          "contacts": [
+            {
+              "person": "陈长丰",
+              "phone": "13809037408"
+            },
+            {
+              "person": "陈长丰",
+              "phone": "13809037408"
+            }
+          ]
+        },
+        {
+          "score": 0.462,
+          "same_phone": false,
+          "name": "窗外窗装饰材料",
+          "remark": "来源：2026.10.8!F19:J19；对象类型需与现有系统字典核对",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": null,
+          "place_id": 132,
+          "longitude": null,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "仓储其他类企业",
+          "contacts": [
+            {
+              "person": "孙火军",
+              "phone": "13913315453"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "宁华塑料制品",
+      "serial": 42,
+      "category": "工贸企业",
+      "person": "李京华",
+      "phone": "15951775008",
+      "cell": "H4",
+      "candidates": [
+        {
+          "score": 0.667,
+          "same_phone": true,
+          "name": "南京宁华塑料制品有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.230475,
+          "place_id": 79,
+          "longitude": 118.784228,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "轻工",
+          "contacts": [
+            {
+              "person": "李京华",
+              "phone": "15951775008"
+            },
+            {
+              "person": "李京华",
+              "phone": "15951775008"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "嘉思特塑业",
+      "serial": 43,
+      "category": "工贸企业",
+      "person": "陈先春",
+      "phone": "13851564826",
+      "cell": "H5",
+      "candidates": [
+        {
+          "score": 0.625,
+          "same_phone": true,
+          "name": "南京嘉思特塑业有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.243043,
+          "place_id": 71,
+          "longitude": 118.780417,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "轻工",
+          "contacts": [
+            {
+              "person": "陈先春",
+              "phone": "13851564826"
+            },
+            {
+              "person": "陈先春",
+              "phone": "13851564826"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "玖聚复合材料",
+      "serial": 44,
+      "category": "工贸企业",
+      "person": "张强",
+      "phone": "18012979528",
+      "cell": "H6",
+      "candidates": [
+        {
+          "score": 0.667,
+          "same_phone": true,
+          "name": "南京玖聚复合材料有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.225833,
+          "place_id": 86,
+          "longitude": 118.780426,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "轻工",
+          "contacts": [
+            {
+              "person": "张强",
+              "phone": "18012979528"
+            },
+            {
+              "person": "张强",
+              "phone": "18012979528"
+            }
+          ]
+        },
+        {
+          "score": 0.533,
+          "same_phone": false,
+          "name": "裕强复合新材料科技",
+          "remark": "来源：2026.10.8!P15:T15；对象类型需与现有系统字典核对",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": null,
+          "place_id": 247,
+          "longitude": null,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "厂中厂出租单位",
+          "contacts": [
+            {
+              "person": "武温兴",
+              "phone": "13915906558"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "驰纳包装材料",
+      "serial": 45,
+      "category": "工贸企业",
+      "person": "嵇泉成",
+      "phone": "13813034808",
+      "cell": "H7",
+      "candidates": [
+        {
+          "score": 0.667,
+          "same_phone": true,
+          "name": "南京驰纳包装材料有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.227924,
+          "place_id": 90,
+          "longitude": 118.77997,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "轻工",
+          "contacts": [
+            {
+              "person": "嵇泉成",
+              "phone": "13813034808"
+            },
+            {
+              "person": "嵇旺旺",
+              "phone": "13913988647"
+            }
+          ]
+        },
+        {
+          "score": 0.462,
+          "same_phone": false,
+          "name": "窗外窗装饰材料",
+          "remark": "来源：2026.10.8!F19:J19；对象类型需与现有系统字典核对",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": null,
+          "place_id": 132,
+          "longitude": null,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "仓储其他类企业",
+          "contacts": [
+            {
+              "person": "孙火军",
+              "phone": "13913315453"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "扬恩商贸",
+      "serial": 46,
+      "category": "工贸企业",
+      "person": "高名庆",
+      "phone": "13851929808",
+      "cell": "H8",
+      "candidates": [
+        {
+          "score": 0.571,
+          "same_phone": true,
+          "name": "南京扬恩商贸有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.234765,
+          "place_id": 60,
+          "longitude": 118.778651,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "轻工",
+          "contacts": [
+            {
+              "person": "高名庆",
+              "phone": "13851929808"
+            },
+            {
+              "person": "高名庆",
+              "phone": "13851929808"
+            }
+          ]
+        },
+        {
+          "score": 0.5,
+          "same_phone": false,
+          "name": "奋果商贸",
+          "remark": "来源：2026.10.8!F26:J26；对象类型需与现有系统字典核对",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.22836,
+          "place_id": 139,
+          "longitude": 118.78212,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "仓储其他类企业",
+          "contacts": [
+            {
+              "person": "曹素芳",
+              "phone": "13851541380"
+            }
+          ]
+        },
+        {
+          "score": 0.5,
+          "same_phone": false,
+          "name": "玉腾商贸",
+          "remark": "来源：2026.10.8!F46:J46；对象类型需与现有系统字典核对",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.204603,
+          "place_id": 159,
+          "longitude": 118.729487,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "仓储其他类企业",
+          "contacts": [
+            {
+              "person": "李玉",
+              "phone": "18994040931"
+            }
+          ]
+        },
+        {
+          "score": 0.5,
+          "same_phone": false,
+          "name": "策泰商贸",
+          "remark": "来源：2026.10.8!F49:J49；对象类型需与现有系统字典核对",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": null,
+          "place_id": 162,
+          "longitude": null,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "仓储其他类企业",
+          "contacts": [
+            {
+              "person": "何彦辉",
+              "phone": "13801595190"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "吉港大件起重吊装",
+      "serial": 47,
+      "category": "工贸企业",
+      "person": "薛成簇",
+      "phone": "13951931386",
+      "cell": "H9",
+      "candidates": [
+        {
+          "score": 0.727,
+          "same_phone": true,
+          "name": "南京吉港大件起重吊装有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.228238,
+          "place_id": 92,
+          "longitude": 118.782291,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "轻工",
+          "contacts": [
+            {
+              "person": "周慧敏",
+              "phone": "15312071599"
+            },
+            {
+              "person": "薛成簇",
+              "phone": "13951931386"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "雀和机电设备",
+      "serial": 48,
+      "category": "工贸企业",
+      "person": "王志强",
+      "phone": "13101893058",
+      "cell": "H10",
+      "candidates": [
+        {
+          "score": 0.667,
+          "same_phone": true,
+          "name": "南京雀和机电设备有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.228238,
+          "place_id": 81,
+          "longitude": 118.782291,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "轻工",
+          "contacts": [
+            {
+              "person": "王自强",
+              "phone": "13101893058"
+            },
+            {
+              "person": "周崇光",
+              "phone": "18013029087"
+            }
+          ]
+        },
+        {
+          "score": 0.5,
+          "same_phone": false,
+          "name": "康王机械设备",
+          "remark": "来源：2026.10.8!P8:T8；对象类型需与现有系统字典核对",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.234569,
+          "place_id": 240,
+          "longitude": 118.777063,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "仓储其他类企业",
+          "contacts": [
+            {
+              "person": "王卫中",
+              "phone": "13372009985"
+            }
+          ]
+        },
+        {
+          "score": 0.5,
+          "same_phone": false,
+          "name": "淳久电气设备",
+          "remark": "来源：2026.10.8!P30:T30；对象类型需与现有系统字典核对",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": null,
+          "place_id": 257,
+          "longitude": null,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "园中园出租单位",
+          "contacts": [
+            {
+              "person": "汪国法",
+              "phone": "13505158402"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "凯曼仪器仪表",
+      "serial": 49,
+      "category": "工贸企业",
+      "person": "刘书杰",
+      "phone": "13337738259",
+      "cell": "H11",
+      "candidates": [
+        {
+          "score": 0.6,
+          "same_phone": true,
+          "name": "南京凯曼仪器仪表有限责任公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.226668,
+          "place_id": 67,
+          "longitude": 118.772153,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "轻工",
+          "contacts": [
+            {
+              "person": "赵秀丽",
+              "phone": "13337738260"
+            },
+            {
+              "person": "刘书杰",
+              "phone": "13337738259"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "桑普力遮阳设备制造",
+      "serial": 50,
+      "category": "工贸企业",
+      "person": "郑桂州",
+      "phone": "13813394128",
+      "cell": "H12",
+      "candidates": [
+        {
+          "score": 0.75,
+          "same_phone": false,
+          "name": "南京桑普力遮阳设备制造有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.234609,
+          "place_id": 73,
+          "longitude": 118.773507,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "轻工",
+          "contacts": [
+            {
+              "person": "郑桂州",
+              "phone": "13813394127"
+            },
+            {
+              "person": "郑桂州",
+              "phone": "13813394127"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "新启源探测装备",
+      "serial": 51,
+      "category": "工贸企业",
+      "person": "黄承军",
+      "phone": "15895857717",
+      "cell": "H13",
+      "candidates": [
+        {
+          "score": 0.636,
+          "same_phone": true,
+          "name": "南京新启源探测装备有限责任公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.207529,
+          "place_id": 87,
+          "longitude": 118.747333,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "轻工",
+          "contacts": [
+            {
+              "person": "王凯",
+              "phone": "18913028098"
+            },
+            {
+              "person": "黄承军",
+              "phone": "15895857717"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "飞涛食品",
+      "serial": 52,
+      "category": "工贸企业",
+      "person": "刘燕",
+      "phone": "15077897416",
+      "cell": "H14",
+      "candidates": [
+        {
+          "score": 0.571,
+          "same_phone": false,
+          "name": "南京飞涛食品有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.215674,
+          "place_id": 70,
+          "longitude": 118.753765,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "轻工",
+          "contacts": [
+            {
+              "person": "丁玉涛",
+              "phone": "13505171615"
+            },
+            {
+              "person": "丁玉涛",
+              "phone": "13505171615"
+            }
+          ]
+        },
+        {
+          "score": 0.5,
+          "same_phone": false,
+          "name": "轩嘉食品",
+          "remark": "来源：2026.10.8!F25:J25；对象类型需与现有系统字典核对",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.229114,
+          "place_id": 138,
+          "longitude": 118.781137,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "仓储其他类企业",
+          "contacts": [
+            {
+              "person": "董小伟",
+              "phone": "13327839500"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "爱腾汽车服务",
+      "serial": 85,
+      "category": "仓储其他类企业",
+      "person": "潘文生",
+      "phone": "13245200883",
+      "cell": "M40",
+      "candidates": [
+        {
+          "score": 0.714,
+          "same_phone": false,
+          "name": "南京奔腾汽车服务",
+          "remark": "来源：2026.10.8!A12:E12；对象类型需与现有系统字典核对",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.227623,
+          "place_id": 112,
+          "longitude": 118.748868,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "危化品运输、经营单位",
+          "contacts": [
+            {
+              "person": "郜俊",
+              "phone": "15062299999"
+            }
+          ]
+        },
+        {
+          "score": 0.667,
+          "same_phone": false,
+          "name": "卡邦汽车服务",
+          "remark": "来源：2026.10.8!K33:O33；对象类型需与现有系统字典核对",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.238517,
+          "place_id": 206,
+          "longitude": 118.79184,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "仓储其他类企业",
+          "contacts": [
+            {
+              "person": "毛保松",
+              "phone": "18351857888"
+            }
+          ]
+        },
+        {
+          "score": 0.615,
+          "same_phone": false,
+          "name": "栖妮琪汽车服务",
+          "remark": "来源：2026.10.8!K25:O25；对象类型需与现有系统字典核对",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": null,
+          "place_id": 198,
+          "longitude": null,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "仓储其他类企业",
+          "contacts": [
+            {
+              "person": "黄乐",
+              "phone": "13382035352"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "畅达机械厂",
+      "serial": 8,
+      "category": "厂中厂出租单位（13家）",
+      "person": "张建",
+      "phone": "13182808118",
+      "cell": "R22",
+      "candidates": [
+        {
+          "score": 0.833,
+          "same_phone": true,
+          "name": "南京畅达机械厂",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.222788,
+          "place_id": 65,
+          "longitude": 118.768754,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "机械",
+          "contacts": [
+            {
+              "person": "张建",
+              "phone": "13182808118"
+            },
+            {
+              "person": "王思楠",
+              "phone": "15683763657"
+            }
+          ]
+        },
+        {
+          "score": 0.5,
+          "same_phone": false,
+          "name": "卓卫机械加工厂",
+          "remark": "来源：2026.10.8!K49:O49；对象类型需与现有系统字典核对",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.221824,
+          "place_id": 221,
+          "longitude": 118.765856,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "仓储其他类企业",
+          "contacts": [
+            {
+              "person": "卓卫",
+              "phone": "13770852812"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "中石化南京化工机械",
+      "serial": 9,
+      "category": "厂中厂出租单位（13家）",
+      "person": "江晨",
+      "phone": "15850719168",
+      "cell": "R23",
+      "candidates": [
+        {
+          "score": 0.818,
+          "same_phone": false,
+          "name": "中石化南京化工机械有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.226668,
+          "place_id": 43,
+          "longitude": 118.772153,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "机械",
+          "contacts": [
+            {
+              "person": "杨金凯",
+              "phone": "15295711727"
+            },
+            {
+              "person": "汪加将",
+              "phone": "13912982196"
+            }
+          ]
+        },
+        {
+          "score": 0.5,
+          "same_phone": false,
+          "name": "南京畅达机械厂",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.222788,
+          "place_id": 65,
+          "longitude": 118.768754,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "机械",
+          "contacts": [
+            {
+              "person": "张建",
+              "phone": "13182808118"
+            },
+            {
+              "person": "王思楠",
+              "phone": "15683763657"
+            }
+          ]
+        },
+        {
+          "score": 0.5,
+          "same_phone": false,
+          "name": "中化学南京置业",
+          "remark": "来源：2026.10.8!P45:T45；对象类型需与现有系统字典核对",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.206675,
+          "place_id": 267,
+          "longitude": 118.749625,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "园中园出租单位",
+          "contacts": [
+            {
+              "person": "董涛涛",
+              "phone": "13933926102"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "锦润制衣",
+      "serial": 10,
+      "category": "厂中厂出租单位（13家）",
+      "person": "周磊",
+      "phone": "13376072388",
+      "cell": "R24",
+      "candidates": [
+        {
+          "score": 0.571,
+          "same_phone": true,
+          "name": "南京锦润制衣有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.234609,
+          "place_id": 75,
+          "longitude": 118.773507,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "轻工",
+          "contacts": [
+            {
+              "person": "周磊",
+              "phone": "13376072388"
+            },
+            {
+              "person": "周磊",
+              "phone": "13376072388"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "钢铁集团江苏冶金机械",
+      "serial": 12,
+      "category": "厂中厂出租单位（13家）",
+      "person": "吴安龙",
+      "phone": "13951969152",
+      "cell": "R26",
+      "candidates": [
+        {
+          "score": 0.769,
+          "same_phone": true,
+          "name": "南京钢铁集团江苏冶金机械有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.207284,
+          "place_id": 53,
+          "longitude": 118.738362,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "机械",
+          "contacts": [
+            {
+              "person": "黄海峰",
+              "phone": "15050578858"
+            },
+            {
+              "person": "吴安龙",
+              "phone": "13951969152"
+            }
+          ]
+        },
+        {
+          "score": 0.75,
+          "same_phone": false,
+          "name": "江苏冶金机械",
+          "remark": "来源：2026.10.8!A33:E33",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.199125,
+          "place_id": 125,
+          "longitude": 118.750175,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "工贸企业",
+          "contacts": [
+            {
+              "person": "韩亮",
+              "phone": "15996453259"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "诚安石化装备工程",
+      "serial": 13,
+      "category": "厂中厂出租单位（13家）",
+      "person": "葛仁贵",
+      "phone": "13770666601",
+      "cell": "R27",
+      "candidates": [
+        {
+          "score": 0.727,
+          "same_phone": false,
+          "name": "南京诚安石化装备工程有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.229212,
+          "place_id": 64,
+          "longitude": 118.785265,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "机械",
+          "contacts": [
+            {
+              "person": "姜惠斌",
+              "phone": "15850526228"
+            },
+            {
+              "person": "顾耘天",
+              "phone": "13584006394"
+            }
+          ]
+        },
+        {
+          "score": 0.636,
+          "same_phone": false,
+          "name": "南京禾诚石化装备工程有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.225735,
+          "place_id": 49,
+          "longitude": 118.760026,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "机械",
+          "contacts": [
+            {
+              "person": "李济明",
+              "phone": "13601582910"
+            },
+            {
+              "person": "王昌华",
+              "phone": "13915904968"
+            }
+          ]
+        },
+        {
+          "score": 0.5,
+          "same_phone": false,
+          "name": "江腾建筑安装工程",
+          "remark": "来源：2026.10.8!K42:O42；对象类型需与现有系统字典核对",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": null,
+          "place_id": 214,
+          "longitude": null,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "仓储其他类企业",
+          "contacts": [
+            {
+              "person": "许爱国",
+              "phone": "15251727768"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "金晖机电检修",
+      "serial": 10,
+      "category": "园中园出租单位（18家）",
+      "person": "洪文龙",
+      "phone": "13776516117",
+      "cell": "R37",
+      "candidates": [
+        {
+          "score": 0.6,
+          "same_phone": true,
+          "name": "南京金晖机电检修有限责任公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.2084,
+          "place_id": 83,
+          "longitude": 118.73678,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "机械",
+          "contacts": [
+            {
+              "person": "洪文龙",
+              "phone": "13776516117"
+            },
+            {
+              "person": "陶乐",
+              "phone": "15895865536"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "鼎高物流",
+      "serial": 11,
+      "category": "园中园出租单位（18家）",
+      "person": "谢发辉",
+      "phone": "13382035352",
+      "cell": "R38",
+      "candidates": [
+        {
+          "score": 0.8,
+          "same_phone": true,
+          "name": "南京鼎高物流",
+          "remark": "来源：2026.10.8!A14:E14；对象类型需与现有系统字典核对",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.241408,
+          "place_id": 114,
+          "longitude": 118.780244,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "危化品运输、经营单位",
+          "contacts": [
+            {
+              "person": "谢发辉",
+              "phone": "13382035352"
+            }
+          ]
+        },
+        {
+          "score": 0.0,
+          "same_phone": true,
+          "name": "栖妮琪汽车服务",
+          "remark": "来源：2026.10.8!K25:O25；对象类型需与现有系统字典核对",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": null,
+          "place_id": 198,
+          "longitude": null,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "仓储其他类企业",
+          "contacts": [
+            {
+              "person": "黄乐",
+              "phone": "13382035352"
+            }
+          ]
+        },
+        {
+          "score": 0.5,
+          "same_phone": false,
+          "name": "硕威物流",
+          "remark": "来源：2026.10.8!K8:O8；对象类型需与现有系统字典核对",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.206351,
+          "place_id": 181,
+          "longitude": 118.729385,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "仓储其他类企业",
+          "contacts": [
+            {
+              "person": "张威",
+              "phone": "13072535868"
+            }
+          ]
+        },
+        {
+          "score": 0.5,
+          "same_phone": false,
+          "name": "路通物流",
+          "remark": "来源：2026.10.8!K15:O15；对象类型需与现有系统字典核对",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.210272,
+          "place_id": 188,
+          "longitude": 118.758567,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "仓储其他类企业",
+          "contacts": [
+            {
+              "person": "汤经理",
+              "phone": "13770556405"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "全意包装材料",
+      "serial": 12,
+      "category": "园中园出租单位（18家）",
+      "person": "陈长丰",
+      "phone": "13809037408",
+      "cell": "R39",
+      "candidates": [
+        {
+          "score": 0.667,
+          "same_phone": true,
+          "name": "南京全意包装材料有限公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.241298,
+          "place_id": 91,
+          "longitude": 118.779284,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "轻工",
+          "contacts": [
+            {
+              "person": "陈长丰",
+              "phone": "13809037408"
+            },
+            {
+              "person": "陈长丰",
+              "phone": "13809037408"
+            }
+          ]
+        },
+        {
+          "score": 0.462,
+          "same_phone": false,
+          "name": "窗外窗装饰材料",
+          "remark": "来源：2026.10.8!F19:J19；对象类型需与现有系统字典核对",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": null,
+          "place_id": 132,
+          "longitude": null,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "仓储其他类企业",
+          "contacts": [
+            {
+              "person": "孙火军",
+              "phone": "13913315453"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "众悦机械设备",
+      "serial": 13,
+      "category": "园中园出租单位（18家）",
+      "person": "王兴盛",
+      "phone": "13913851155",
+      "cell": "R40",
+      "candidates": [
+        {
+          "score": 0.6,
+          "same_phone": true,
+          "name": "南京众悦机械设备有限责任公司",
+          "remark": "Excel初始导入；坐标及监管归属待核实",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.239055,
+          "place_id": 84,
+          "longitude": 118.779138,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "机械",
+          "contacts": [
+            {
+              "person": "王兴盛",
+              "phone": "13913851155"
+            },
+            {
+              "person": "王兴盛",
+              "phone": "13913851155"
+            }
+          ]
+        },
+        {
+          "score": 0.667,
+          "same_phone": false,
+          "name": "康王机械设备",
+          "remark": "来源：2026.10.8!P8:T8；对象类型需与现有系统字典核对",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.234569,
+          "place_id": 240,
+          "longitude": 118.777063,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "仓储其他类企业",
+          "contacts": [
+            {
+              "person": "王卫中",
+              "phone": "13372009985"
+            }
+          ]
+        },
+        {
+          "score": 0.5,
+          "same_phone": false,
+          "name": "徐业红机械设备加工部",
+          "remark": "来源：2026.10.8!K53:O53；对象类型需与现有系统字典核对",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": null,
+          "place_id": 225,
+          "longitude": null,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "仓储其他类企业",
+          "contacts": [
+            {
+              "person": "徐业红",
+              "phone": "15251732856"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "extra_exact_name": [
+    {
+      "name": "中石化南京化工机械有限公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.226668,
+      "place_id": 43,
+      "longitude": 118.772153,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "机械",
+      "contacts": [
+        {
+          "person": "杨金凯",
+          "phone": "15295711727"
+        },
+        {
+          "person": "汪加将",
+          "phone": "13912982196"
+        }
+      ]
+    },
+    {
+      "name": "南京凯联服饰有限公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.215674,
+      "place_id": 44,
+      "longitude": 118.753765,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "轻工",
+      "contacts": [
+        {
+          "person": "王冬梅",
+          "phone": "13770843688"
+        },
+        {
+          "person": "卢倩倩",
+          "phone": "13705185592"
+        }
+      ]
+    },
+    {
+      "name": "南京格采电力设备有限公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.225833,
+      "place_id": 45,
+      "longitude": 118.780426,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "机械",
+      "contacts": [
+        {
+          "person": "应海兵",
+          "phone": "15189822808"
+        },
+        {
+          "person": "应海兵",
+          "phone": "15189822808"
+        }
+      ]
+    },
+    {
+      "name": "南京大化机工程有限公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.234049,
+      "place_id": 46,
+      "longitude": 118.767358,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "机械",
+      "contacts": [
+        {
+          "person": "李振和",
+          "phone": "13905183931"
+        },
+        {
+          "person": "吕华",
+          "phone": "13851886702"
+        }
+      ]
+    },
+    {
+      "name": "南京博大重型锻造有限公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.229361,
+      "place_id": 47,
+      "longitude": 118.770436,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "机械",
+      "contacts": [
+        {
+          "person": "张瑞庆",
+          "phone": "13801518583"
+        },
+        {
+          "person": "张洪庆",
+          "phone": "18861601698"
+        }
+      ]
+    },
+    {
+      "name": "南京钢铁集团建设有限公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.200177,
+      "place_id": 48,
+      "longitude": 118.749037,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "机械",
+      "contacts": [
+        {
+          "person": "徐洋珍",
+          "phone": "18952052888"
+        },
+        {
+          "person": "李岚",
+          "phone": "13813839538"
+        }
+      ]
+    },
+    {
+      "name": "南京禾诚石化装备工程有限公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.225735,
+      "place_id": 49,
+      "longitude": 118.760026,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "机械",
+      "contacts": [
+        {
+          "person": "李济明",
+          "phone": "13601582910"
+        },
+        {
+          "person": "王昌华",
+          "phone": "13915904968"
+        }
+      ]
+    },
+    {
+      "name": "南京钢铁集团盛达实业有限公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.201504,
+      "place_id": 50,
+      "longitude": 118.749263,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "机械",
+      "contacts": [
+        {
+          "person": "吕有仁",
+          "phone": "13809026546"
+        },
+        {
+          "person": "单军",
+          "phone": "18751912116"
+        }
+      ]
+    },
+    {
+      "name": "中交三航局第三工程有限公司建筑工业分公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.233462,
+      "place_id": 51,
+      "longitude": 118.797931,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "建材",
+      "contacts": [
+        {
+          "person": "黄瑞华",
+          "phone": "13951022259"
+        },
+        {
+          "person": "王佳龙",
+          "phone": "13584066645"
+        }
+      ]
+    },
+    {
+      "name": "江苏南钢钢材加工配送有限公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.201746,
+      "place_id": 52,
+      "longitude": 118.75117,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "机械",
+      "contacts": [
+        {
+          "person": "焦刚",
+          "phone": "15195839379"
+        },
+        {
+          "person": "范明昊",
+          "phone": "13814095862"
+        }
+      ]
+    },
+    {
+      "name": "南京钢铁集团江苏冶金机械有限公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.207284,
+      "place_id": 53,
+      "longitude": 118.738362,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "机械",
+      "contacts": [
+        {
+          "person": "黄海峰",
+          "phone": "15050578858"
+        },
+        {
+          "person": "吴安龙",
+          "phone": "13951969152"
+        }
+      ]
+    },
+    {
+      "name": "南京康明服饰有限责任公司水洗分公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.239297,
+      "place_id": 54,
+      "longitude": 118.79129,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "轻工",
+      "contacts": [
+        {
+          "person": "赵友龙",
+          "phone": "13905180919"
+        },
+        {
+          "person": "秦庭华",
+          "phone": "13057592232"
+        }
+      ]
+    },
+    {
+      "name": "南京涂瑞新材料有限公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.207901,
+      "place_id": 55,
+      "longitude": 118.730971,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "轻工",
+      "contacts": [
+        {
+          "person": "裴雨",
+          "phone": "15251716788"
+        },
+        {
+          "person": "陈文锁",
+          "phone": "18651855723"
+        }
+      ]
+    },
+    {
+      "name": "南京酷众机械制造有限公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.229212,
+      "place_id": 56,
+      "longitude": 118.785265,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "机械",
+      "contacts": [
+        {
+          "person": "钱立宝",
+          "phone": "13914750909"
+        },
+        {
+          "person": "钱立宝",
+          "phone": "13914750909"
+        }
+      ]
+    },
+    {
+      "name": "南京金荣春洗涤有限公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.209475,
+      "place_id": 57,
+      "longitude": 118.756875,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "轻工",
+      "contacts": [
+        {
+          "person": "杨连荣",
+          "phone": "18795870980"
+        },
+        {
+          "person": "蒋先兰",
+          "phone": "15895804989"
+        }
+      ]
+    },
+    {
+      "name": "南京科尔生物技术有限公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.228702,
+      "place_id": 58,
+      "longitude": 118.786258,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "轻工",
+      "contacts": [
+        {
+          "person": "高飞",
+          "phone": "13813851220"
+        },
+        {
+          "person": "高飞",
+          "phone": "13813851220"
+        }
+      ]
+    },
+    {
+      "name": "南京顺旺机电科技有限公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.228702,
+      "place_id": 59,
+      "longitude": 118.786258,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "机械",
+      "contacts": [
+        {
+          "person": "朱成顺",
+          "phone": "13605182436"
+        },
+        {
+          "person": "李振宇",
+          "phone": "13951971006"
+        }
+      ]
+    },
+    {
+      "name": "南京扬恩商贸有限公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.234765,
+      "place_id": 60,
+      "longitude": 118.778651,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "轻工",
+      "contacts": [
+        {
+          "person": "高名庆",
+          "phone": "13851929808"
+        },
+        {
+          "person": "高名庆",
+          "phone": "13851929808"
+        }
+      ]
+    },
+    {
+      "name": "南京卓泽化工设备有限公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.23197,
+      "place_id": 61,
+      "longitude": 118.781881,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "机械",
+      "contacts": [
+        {
+          "person": "陆文涛",
+          "phone": "13813878595"
+        },
+        {
+          "person": "戴玉",
+          "phone": "13851566942"
+        }
+      ]
+    },
+    {
+      "name": "南京双润金属加工有限公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.228238,
+      "place_id": 62,
+      "longitude": 118.782291,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "机械",
+      "contacts": [
+        {
+          "person": "王建",
+          "phone": "13770810190"
+        },
+        {
+          "person": "王建",
+          "phone": "13770810190"
+        }
+      ]
+    },
+    {
+      "name": "南京紫燕科技有限公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.227307,
+      "place_id": 63,
+      "longitude": 118.781046,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "机械",
+      "contacts": [
+        {
+          "person": "葛元兴",
+          "phone": "13813389790"
+        },
+        {
+          "person": "孙林",
+          "phone": "15850716812"
+        }
+      ]
+    },
+    {
+      "name": "南京诚安石化装备工程有限公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.229212,
+      "place_id": 64,
+      "longitude": 118.785265,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "机械",
+      "contacts": [
+        {
+          "person": "姜惠斌",
+          "phone": "15850526228"
+        },
+        {
+          "person": "顾耘天",
+          "phone": "13584006394"
+        }
+      ]
+    },
+    {
+      "name": "南京畅达机械厂",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.222788,
+      "place_id": 65,
+      "longitude": 118.768754,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "机械",
+      "contacts": [
+        {
+          "person": "张建",
+          "phone": "13182808118"
+        },
+        {
+          "person": "王思楠",
+          "phone": "15683763657"
+        }
+      ]
+    },
+    {
+      "name": "南京淼焱消防设备制造有限公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.242925,
+      "place_id": 66,
+      "longitude": 118.775125,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "轻工",
+      "contacts": [
+        {
+          "person": "钟生",
+          "phone": "13913358858"
+        },
+        {
+          "person": "钟生",
+          "phone": "13913358858"
+        }
+      ]
+    },
+    {
+      "name": "南京凯曼仪器仪表有限责任公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.226668,
+      "place_id": 67,
+      "longitude": 118.772153,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "轻工",
+      "contacts": [
+        {
+          "person": "赵秀丽",
+          "phone": "13337738260"
+        },
+        {
+          "person": "刘书杰",
+          "phone": "13337738259"
+        }
+      ]
+    },
+    {
+      "name": "南京嘉华混凝土有限公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.249819,
+      "place_id": 68,
+      "longitude": 118.716795,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "建材",
+      "contacts": [
+        {
+          "person": "陈晓东",
+          "phone": "13382783864"
+        },
+        {
+          "person": "张远飞",
+          "phone": "13951071768"
+        }
+      ]
+    },
+    {
+      "name": "南京圣凰制衣有限公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.217497,
+      "place_id": 69,
+      "longitude": 118.74954,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "轻工",
+      "contacts": [
+        {
+          "person": "许全胜",
+          "phone": "13376072368"
+        },
+        {
+          "person": "许全胜",
+          "phone": "13376072368"
+        }
+      ]
+    },
+    {
+      "name": "南京飞涛食品有限公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.215674,
+      "place_id": 70,
+      "longitude": 118.753765,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "轻工",
+      "contacts": [
+        {
+          "person": "丁玉涛",
+          "phone": "13505171615"
+        },
+        {
+          "person": "丁玉涛",
+          "phone": "13505171615"
+        }
+      ]
+    },
+    {
+      "name": "南京嘉思特塑业有限公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.243043,
+      "place_id": 71,
+      "longitude": 118.780417,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "轻工",
+      "contacts": [
+        {
+          "person": "陈先春",
+          "phone": "13851564826"
+        },
+        {
+          "person": "陈先春",
+          "phone": "13851564826"
+        }
+      ]
+    },
+    {
+      "name": "南京科晋橡塑科技有限公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.241265,
+      "place_id": 72,
+      "longitude": 118.779727,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "机械",
+      "contacts": [
+        {
+          "person": "张树峰",
+          "phone": "13851766753"
+        },
+        {
+          "person": "张树峰",
+          "phone": "13851766753"
+        }
+      ]
+    },
+    {
+      "name": "南京桑普力遮阳设备制造有限公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.234609,
+      "place_id": 73,
+      "longitude": 118.773507,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "轻工",
+      "contacts": [
+        {
+          "person": "郑桂州",
+          "phone": "13813394127"
+        },
+        {
+          "person": "郑桂州",
+          "phone": "13813394127"
+        }
+      ]
+    },
+    {
+      "name": "南京好味来食品有限责任公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.21536,
+      "place_id": 74,
+      "longitude": 118.754583,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "轻工",
+      "contacts": [
+        {
+          "person": "陈坚雄",
+          "phone": "15195957695"
+        },
+        {
+          "person": "陈坚雄",
+          "phone": "15195957695"
+        }
+      ]
+    },
+    {
+      "name": "南京锦润制衣有限公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.234609,
+      "place_id": 75,
+      "longitude": 118.773507,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "轻工",
+      "contacts": [
+        {
+          "person": "周磊",
+          "phone": "13376072388"
+        },
+        {
+          "person": "周磊",
+          "phone": "13376072388"
+        }
+      ]
+    },
+    {
+      "name": "南京南傲电机有限公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.225833,
+      "place_id": 76,
+      "longitude": 118.780426,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "机械",
+      "contacts": [
+        {
+          "person": "刘远平",
+          "phone": "13921527316"
+        },
+        {
+          "person": "刘远平",
+          "phone": "13921527316"
+        }
+      ]
+    },
+    {
+      "name": "新疆大成鑫源金属科技有限公司南京分公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.230729,
+      "place_id": 77,
+      "longitude": 118.783883,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "机械",
+      "contacts": [
+        {
+          "person": "陈建军",
+          "phone": "15373178111"
+        },
+        {
+          "person": "王志国",
+          "phone": "19951933591"
+        }
+      ]
+    },
+    {
+      "name": "南京铁宏轨道车辆装备制造有限公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.230475,
+      "place_id": 78,
+      "longitude": 118.784228,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "机械",
+      "contacts": [
+        {
+          "person": "洪保",
+          "phone": "13805150078"
+        },
+        {
+          "person": "洪保",
+          "phone": "13805150078"
+        }
+      ]
+    },
+    {
+      "name": "南京宁华塑料制品有限公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.230475,
+      "place_id": 79,
+      "longitude": 118.784228,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "轻工",
+      "contacts": [
+        {
+          "person": "李京华",
+          "phone": "15951775008"
+        },
+        {
+          "person": "李京华",
+          "phone": "15951775008"
+        }
+      ]
+    },
+    {
+      "name": "南京科淼机电有限公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.228238,
+      "place_id": 80,
+      "longitude": 118.782291,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "机械",
+      "contacts": [
+        {
+          "person": "王东铭",
+          "phone": "13951904534"
+        },
+        {
+          "person": "王兵",
+          "phone": "13951619067"
+        }
+      ]
+    },
+    {
+      "name": "南京雀和机电设备有限公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.228238,
+      "place_id": 81,
+      "longitude": 118.782291,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "轻工",
+      "contacts": [
+        {
+          "person": "王自强",
+          "phone": "13101893058"
+        },
+        {
+          "person": "周崇光",
+          "phone": "18013029087"
+        }
+      ]
+    },
+    {
+      "name": "江苏福得工程技术有限公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.225833,
+      "place_id": 82,
+      "longitude": 118.780426,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "机械",
+      "contacts": [
+        {
+          "person": "朱磊",
+          "phone": "13605191687"
+        },
+        {
+          "person": "朱磊",
+          "phone": "13605191687"
+        }
+      ]
+    },
+    {
+      "name": "南京金晖机电检修有限责任公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.2084,
+      "place_id": 83,
+      "longitude": 118.73678,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "机械",
+      "contacts": [
+        {
+          "person": "洪文龙",
+          "phone": "13776516117"
+        },
+        {
+          "person": "陶乐",
+          "phone": "15895865536"
+        }
+      ]
+    },
+    {
+      "name": "南京众悦机械设备有限责任公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.239055,
+      "place_id": 84,
+      "longitude": 118.779138,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "机械",
+      "contacts": [
+        {
+          "person": "王兴盛",
+          "phone": "13913851155"
+        },
+        {
+          "person": "王兴盛",
+          "phone": "13913851155"
+        }
+      ]
+    },
+    {
+      "name": "南京苏凌机械有限责任公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.241909,
+      "place_id": 85,
+      "longitude": 118.774841,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "机械",
+      "contacts": [
+        {
+          "person": "王建玉",
+          "phone": "13805172108"
+        },
+        {
+          "person": "杨永斌",
+          "phone": "13813023323"
+        }
+      ]
+    },
+    {
+      "name": "南京玖聚复合材料有限公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.225833,
+      "place_id": 86,
+      "longitude": 118.780426,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "轻工",
+      "contacts": [
+        {
+          "person": "张强",
+          "phone": "18012979528"
+        },
+        {
+          "person": "张强",
+          "phone": "18012979528"
+        }
+      ]
+    },
+    {
+      "name": "南京新启源探测装备有限责任公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.207529,
+      "place_id": 87,
+      "longitude": 118.747333,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "轻工",
+      "contacts": [
+        {
+          "person": "王凯",
+          "phone": "18913028098"
+        },
+        {
+          "person": "黄承军",
+          "phone": "15895857717"
+        }
+      ]
+    },
+    {
+      "name": "南京乙氏环保智能科技有限公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.207901,
+      "place_id": 88,
+      "longitude": 118.730971,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "轻工",
+      "contacts": [
+        {
+          "person": "乙万圣",
+          "phone": "17551515716"
+        },
+        {
+          "person": "乙永伟",
+          "phone": "15051800714"
+        }
+      ]
+    },
+    {
+      "name": "南京官唐机电制造有限公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.205377,
+      "place_id": 89,
+      "longitude": 118.752354,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "机械",
+      "contacts": [
+        {
+          "person": "卢凤平",
+          "phone": "18610089383"
+        },
+        {
+          "person": "卢雨泽",
+          "phone": "15150508727"
+        }
+      ]
+    },
+    {
+      "name": "南京驰纳包装材料有限公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.227924,
+      "place_id": 90,
+      "longitude": 118.77997,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "轻工",
+      "contacts": [
+        {
+          "person": "嵇泉成",
+          "phone": "13813034808"
+        },
+        {
+          "person": "嵇旺旺",
+          "phone": "13913988647"
+        }
+      ]
+    },
+    {
+      "name": "南京全意包装材料有限公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.241298,
+      "place_id": 91,
+      "longitude": 118.779284,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "轻工",
+      "contacts": [
+        {
+          "person": "陈长丰",
+          "phone": "13809037408"
+        },
+        {
+          "person": "陈长丰",
+          "phone": "13809037408"
+        }
+      ]
+    },
+    {
+      "name": "南京吉港大件起重吊装有限公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.228238,
+      "place_id": 92,
+      "longitude": 118.782291,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "轻工",
+      "contacts": [
+        {
+          "person": "周慧敏",
+          "phone": "15312071599"
+        },
+        {
+          "person": "薛成簇",
+          "phone": "13951931386"
+        }
+      ]
+    },
+    {
+      "name": "南京润友冶金机械有限公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.207284,
+      "place_id": 93,
+      "longitude": 118.738362,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "机械",
+      "contacts": [
+        {
+          "person": "杭展",
+          "phone": "13305103369"
+        },
+        {
+          "person": "杭开鑫",
+          "phone": "15150621841"
+        }
+      ]
+    },
+    {
+      "name": "南京共创金属制品有限公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.222709,
+      "place_id": 94,
+      "longitude": 118.757872,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "机械",
+      "contacts": [
+        {
+          "person": "王超",
+          "phone": "15951772523"
+        },
+        {
+          "person": "王超",
+          "phone": "15951772523"
+        }
+      ]
+    },
+    {
+      "name": "华润电力江苏检修",
+      "remark": "来源：2026.10.8!K44:O44；对象类型需与现有系统字典核对",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.208533,
+      "place_id": 216,
+      "longitude": 118.757278,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "仓储其他类企业",
+      "contacts": [
+        {
+          "person": "刘建民",
+          "phone": "13951868902"
+        }
+      ]
+    }
+  ],
+  "source_duplicates": [
+    {
+      "name": "中石化南京化工机械",
+      "count": 2,
+      "source": [
+        {
+          "name": "中石化南京化工机械",
+          "serial": 9,
+          "category": "工贸企业（21家A、32家B=53）",
+          "person": "江晨",
+          "phone": "15850719168",
+          "cell": "C31"
+        },
+        {
+          "name": "中石化南京化工机械",
+          "serial": 9,
+          "category": "厂中厂出租单位（13家）",
+          "person": "江晨",
+          "phone": "15850719168",
+          "cell": "R23"
+        }
+      ],
+      "database": []
+    },
+    {
+      "name": "诚安石化装备工程",
+      "count": 2,
+      "source": [
+        {
+          "name": "诚安石化装备工程",
+          "serial": 16,
+          "category": "工贸企业（21家A、32家B=53）",
+          "person": "葛仁贵",
+          "phone": "13770666601",
+          "cell": "C38"
+        },
+        {
+          "name": "诚安石化装备工程",
+          "serial": 13,
+          "category": "厂中厂出租单位（13家）",
+          "person": "葛仁贵",
+          "phone": "13770666601",
+          "cell": "R27"
+        }
+      ],
+      "database": []
+    },
+    {
+      "name": "众悦机械设备",
+      "count": 2,
+      "source": [
+        {
+          "name": "众悦机械设备",
+          "serial": 18,
+          "category": "工贸企业（21家A、32家B=53）",
+          "person": "王兴盛",
+          "phone": "13913851155",
+          "cell": "C40"
+        },
+        {
+          "name": "众悦机械设备",
+          "serial": 13,
+          "category": "园中园出租单位（18家）",
+          "person": "王兴盛",
+          "phone": "13913851155",
+          "cell": "R40"
+        }
+      ],
+      "database": []
+    },
+    {
+      "name": "金晖机电检修",
+      "count": 2,
+      "source": [
+        {
+          "name": "金晖机电检修",
+          "serial": 22,
+          "category": "工贸企业（21家A、32家B=53）",
+          "person": "洪文龙",
+          "phone": "13776516117",
+          "cell": "C44"
+        },
+        {
+          "name": "金晖机电检修",
+          "serial": 10,
+          "category": "园中园出租单位（18家）",
+          "person": "洪文龙",
+          "phone": "13776516117",
+          "cell": "R37"
+        }
+      ],
+      "database": []
+    },
+    {
+      "name": "畅达机械厂",
+      "count": 2,
+      "source": [
+        {
+          "name": "畅达机械厂",
+          "serial": 24,
+          "category": "工贸企业（21家A、32家B=53）",
+          "person": "张建",
+          "phone": "13182808118",
+          "cell": "C46"
+        },
+        {
+          "name": "畅达机械厂",
+          "serial": 8,
+          "category": "厂中厂出租单位（13家）",
+          "person": "张建",
+          "phone": "13182808118",
+          "cell": "R22"
+        }
+      ],
+      "database": []
+    },
+    {
+      "name": "全意包装材料",
+      "count": 2,
+      "source": [
+        {
+          "name": "全意包装材料",
+          "serial": 41,
+          "category": "工贸企业",
+          "person": "陈长丰",
+          "phone": "13809037408",
+          "cell": "H3"
+        },
+        {
+          "name": "全意包装材料",
+          "serial": 12,
+          "category": "园中园出租单位（18家）",
+          "person": "陈长丰",
+          "phone": "13809037408",
+          "cell": "R39"
+        }
+      ],
+      "database": []
+    },
+    {
+      "name": "港润科技发展",
+      "count": 2,
+      "source": [
+        {
+          "name": "港润科技发展",
+          "serial": 56,
+          "category": "仓储其他类企业",
+          "person": "陈行义",
+          "phone": "13913310269",
+          "cell": "M11"
+        },
+        {
+          "name": "港润科技发展",
+          "serial": 15,
+          "category": "园中园出租单位（18家）",
+          "person": "陈行义",
+          "phone": "13913310269",
+          "cell": "R42"
+        }
+      ],
+      "database": [
+        {
+          "name": "港润科技发展",
+          "remark": "来源：2026.10.8!K11:O11；对象类型需与现有系统字典核对；本批次同名记录，保留待核对",
+          "status": "0",
+          "del_flag": "0",
+          "latitude": 32.235015,
+          "place_id": 184,
+          "longitude": 118.778378,
+          "place_type": "industry",
+          "coordinate_system": "GCJ02",
+          "industry_category": "仓储其他类企业",
+          "contacts": [
+            {
+              "person": "陈行义",
+              "phone": "13913310269"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "matched_rows": [
+    {
+      "name": "南京三圣物流",
+      "serial": 1,
+      "category": "危化品运输、经营单位（20家B）",
+      "person": "杨文生",
+      "phone": "15365169111",
+      "cell": "C3",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 103,
+          "name": "南京三圣物流"
+        }
+      ]
+    },
+    {
+      "name": "南京健业物流",
+      "serial": 2,
+      "category": "危化品运输、经营单位（20家B）",
+      "person": "陈绵生",
+      "phone": "13605173315",
+      "cell": "C4",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 104,
+          "name": "南京健业物流"
+        }
+      ]
+    },
+    {
+      "name": "江苏省省联危险品物流",
+      "serial": 3,
+      "category": "危化品运输、经营单位（20家B）",
+      "person": "刘广平",
+      "phone": "18751860248",
+      "cell": "C5",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 105,
+          "name": "江苏省省联危险品物流"
+        }
+      ]
+    },
+    {
+      "name": "江苏新安物流（浩宇）",
+      "serial": 4,
+      "category": "危化品运输、经营单位（20家B）",
+      "person": "陈新江",
+      "phone": "13382789999",
+      "cell": "C6",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 106,
+          "name": "江苏新安物流（浩宇）"
+        }
+      ]
+    },
+    {
+      "name": "南京陆玖运输",
+      "serial": 5,
+      "category": "危化品运输、经营单位（20家B）",
+      "person": "毛保松",
+      "phone": "18351857888",
+      "cell": "C7",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 107,
+          "name": "南京陆玖运输"
+        }
+      ]
+    },
+    {
+      "name": "南京嘉泰物流",
+      "serial": 6,
+      "category": "危化品运输、经营单位（20家B）",
+      "person": "刘林",
+      "phone": "15851846909",
+      "cell": "C8",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 108,
+          "name": "南京嘉泰物流"
+        }
+      ]
+    },
+    {
+      "name": "南钢四通运输",
+      "serial": 7,
+      "category": "危化品运输、经营单位（20家B）",
+      "person": "陈洪本",
+      "phone": "13851718992",
+      "cell": "C9",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 109,
+          "name": "南钢四通运输"
+        }
+      ]
+    },
+    {
+      "name": "南京天宇运输",
+      "serial": 8,
+      "category": "危化品运输、经营单位（20家B）",
+      "person": "查浩",
+      "phone": "18952005653",
+      "cell": "C10",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 110,
+          "name": "南京天宇运输"
+        }
+      ]
+    },
+    {
+      "name": "南京瑞天物流",
+      "serial": 9,
+      "category": "危化品运输、经营单位（20家B）",
+      "person": "李书宝",
+      "phone": "13655180688",
+      "cell": "C11",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 111,
+          "name": "南京瑞天物流"
+        }
+      ]
+    },
+    {
+      "name": "南京奔腾汽车服务",
+      "serial": 10,
+      "category": "危化品运输、经营单位（20家B）",
+      "person": "郜俊",
+      "phone": "15062299999",
+      "cell": "C12",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 112,
+          "name": "南京奔腾汽车服务"
+        }
+      ]
+    },
+    {
+      "name": "南京源发运输",
+      "serial": 11,
+      "category": "危化品运输、经营单位（20家B）",
+      "person": "曹杰",
+      "phone": "13776530695",
+      "cell": "C13",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 113,
+          "name": "南京源发运输"
+        }
+      ]
+    },
+    {
+      "name": "南京鼎高物流",
+      "serial": 12,
+      "category": "危化品运输、经营单位（20家B）",
+      "person": "谢发辉",
+      "phone": "13382035352",
+      "cell": "C14",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 114,
+          "name": "南京鼎高物流"
+        }
+      ]
+    },
+    {
+      "name": "南京榆次液压气体",
+      "serial": 13,
+      "category": "危化品运输、经营单位（20家B）",
+      "person": "欧明瀚",
+      "phone": "18512590053",
+      "cell": "C15",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 115,
+          "name": "南京榆次液压气体"
+        }
+      ]
+    },
+    {
+      "name": "南京双闽物流",
+      "serial": 14,
+      "category": "危化品运输、经营单位（20家B）",
+      "person": "李勤",
+      "phone": "17715230766",
+      "cell": "C16",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 116,
+          "name": "南京双闽物流"
+        }
+      ]
+    },
+    {
+      "name": "南京诚联扬物流",
+      "serial": 15,
+      "category": "危化品运输、经营单位（20家B）",
+      "person": "李仰诚",
+      "phone": "17366386887",
+      "cell": "C17",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 117,
+          "name": "南京诚联扬物流"
+        }
+      ]
+    },
+    {
+      "name": "南京程顺船务",
+      "serial": 16,
+      "category": "危化品运输、经营单位（20家B）",
+      "person": "许成龙",
+      "phone": "18014811111",
+      "cell": "C18",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 118,
+          "name": "南京程顺船务"
+        }
+      ]
+    },
+    {
+      "name": "赛菲特石油化工",
+      "serial": 17,
+      "category": "危化品运输、经营单位（20家B）",
+      "person": "庄建",
+      "phone": "18020101939",
+      "cell": "C19",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 119,
+          "name": "赛菲特石油化工"
+        }
+      ]
+    },
+    {
+      "name": "大厂加油站",
+      "serial": 18,
+      "category": "危化品运输、经营单位（20家B）",
+      "person": "吴小云",
+      "phone": "15951638568",
+      "cell": "C20",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 120,
+          "name": "大厂加油站"
+        }
+      ]
+    },
+    {
+      "name": "利华加油站",
+      "serial": 19,
+      "category": "危化品运输、经营单位（20家B）",
+      "person": "高翔",
+      "phone": "15651755885",
+      "cell": "C21",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 121,
+          "name": "利华加油站"
+        }
+      ]
+    },
+    {
+      "name": "平顶山路加油站",
+      "serial": 20,
+      "category": "危化品运输、经营单位（20家B）",
+      "person": "刘志全",
+      "phone": "13852287662",
+      "cell": "C22",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 122,
+          "name": "平顶山路加油站"
+        }
+      ]
+    },
+    {
+      "name": "南京凯联服饰",
+      "serial": 1,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "王冬梅",
+      "phone": "13770843688",
+      "cell": "C23",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 44,
+          "name": "南京凯联服饰有限公司"
+        }
+      ]
+    },
+    {
+      "name": "南京圣凰制衣",
+      "serial": 2,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "许全盛",
+      "phone": "13376072368",
+      "cell": "C24",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 69,
+          "name": "南京圣凰制衣有限公司"
+        }
+      ]
+    },
+    {
+      "name": "南京锦润制衣",
+      "serial": 3,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "周磊",
+      "phone": "13376072388",
+      "cell": "C25",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 75,
+          "name": "南京锦润制衣有限公司"
+        }
+      ]
+    },
+    {
+      "name": "南京乾宏塑胶科技",
+      "serial": 4,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "任千红",
+      "phone": "15850705546",
+      "cell": "C26",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 123,
+          "name": "南京乾宏塑胶科技"
+        }
+      ]
+    },
+    {
+      "name": "南京康明水洗",
+      "serial": 5,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "王先龙",
+      "phone": "13016997121",
+      "cell": "C27",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 124,
+          "name": "南京康明水洗"
+        }
+      ]
+    },
+    {
+      "name": "南京金荣春洗涤",
+      "serial": 6,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "杨连荣",
+      "phone": "18795870980",
+      "cell": "C28",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 57,
+          "name": "南京金荣春洗涤有限公司"
+        }
+      ]
+    },
+    {
+      "name": "南京大化机工程",
+      "serial": 7,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "吕华",
+      "phone": "13851886702",
+      "cell": "C29",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 46,
+          "name": "南京大化机工程有限公司"
+        }
+      ]
+    },
+    {
+      "name": "南京博大重型锻造",
+      "serial": 8,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "张洪庆",
+      "phone": "18861601698",
+      "cell": "C30",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 47,
+          "name": "南京博大重型锻造有限公司"
+        }
+      ]
+    },
+    {
+      "name": "中石化南京化工机械",
+      "serial": 9,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "江晨",
+      "phone": "15850719168",
+      "cell": "C31",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 43,
+          "name": "中石化南京化工机械有限公司"
+        }
+      ]
+    },
+    {
+      "name": "南京钢铁集团建设",
+      "serial": 10,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "龚宇",
+      "phone": "15996475640",
+      "cell": "C32",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 48,
+          "name": "南京钢铁集团建设有限公司"
+        }
+      ]
+    },
+    {
+      "name": "江苏冶金机械",
+      "serial": 11,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "韩亮",
+      "phone": "15996453259",
+      "cell": "C33",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 125,
+          "name": "江苏冶金机械"
+        }
+      ]
+    },
+    {
+      "name": "南京钢铁集团盛达实业",
+      "serial": 12,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "单军",
+      "phone": "18751912116",
+      "cell": "C34",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 50,
+          "name": "南京钢铁集团盛达实业有限公司"
+        }
+      ]
+    },
+    {
+      "name": "中交三航局第三工程建筑工业",
+      "serial": 13,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "王佳龙",
+      "phone": "13584066645",
+      "cell": "C35",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 126,
+          "name": "中交三航局第三工程建筑工业"
+        }
+      ]
+    },
+    {
+      "name": "江苏南钢钢材加工配送",
+      "serial": 14,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "汪学宝",
+      "phone": "13851454334",
+      "cell": "C36",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 52,
+          "name": "江苏南钢钢材加工配送有限公司"
+        }
+      ]
+    },
+    {
+      "name": "南京卓泽化工设备有",
+      "serial": 15,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "陆文涛",
+      "phone": "13951871287",
+      "cell": "C37",
+      "method": "原表名称截断，按主体名称对应",
+      "matches": [
+        {
+          "id": 61,
+          "name": "南京卓泽化工设备有限公司"
+        }
+      ]
+    },
+    {
+      "name": "诚安石化装备工程",
+      "serial": 16,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "葛仁贵",
+      "phone": "13770666601",
+      "cell": "C38",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 64,
+          "name": "南京诚安石化装备工程有限公司"
+        }
+      ]
+    },
+    {
+      "name": "禾诚石化装备工程",
+      "serial": 17,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "王昌华",
+      "phone": "13915904968",
+      "cell": "C39",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 49,
+          "name": "南京禾诚石化装备工程有限公司"
+        }
+      ]
+    },
+    {
+      "name": "众悦机械设备",
+      "serial": 18,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "王兴盛",
+      "phone": "13913851155",
+      "cell": "C40",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 84,
+          "name": "南京众悦机械设备有限责任公司"
+        }
+      ]
+    },
+    {
+      "name": "科晋橡塑科技",
+      "serial": 19,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "张树峰",
+      "phone": "13851766753",
+      "cell": "C41",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 72,
+          "name": "南京科晋橡塑科技有限公司"
+        }
+      ]
+    },
+    {
+      "name": "苏凌机械有限",
+      "serial": 20,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "王建玉",
+      "phone": "13805172108",
+      "cell": "C42",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 127,
+          "name": "苏凌机械有限"
+        }
+      ]
+    },
+    {
+      "name": "官唐机电制造",
+      "serial": 21,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "卢凤平",
+      "phone": "18610089383",
+      "cell": "C43",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 89,
+          "name": "南京官唐机电制造有限公司"
+        }
+      ]
+    },
+    {
+      "name": "金晖机电检修",
+      "serial": 22,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "洪文龙",
+      "phone": "13776516117",
+      "cell": "C44",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 83,
+          "name": "南京金晖机电检修有限责任公司"
+        }
+      ]
+    },
+    {
+      "name": "科淼机电",
+      "serial": 23,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "王东铭",
+      "phone": "13951904534",
+      "cell": "C45",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 80,
+          "name": "南京科淼机电有限公司"
+        }
+      ]
+    },
+    {
+      "name": "畅达机械厂",
+      "serial": 24,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "张建",
+      "phone": "13182808118",
+      "cell": "C46",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 65,
+          "name": "南京畅达机械厂"
+        }
+      ]
+    },
+    {
+      "name": "双润金属加工",
+      "serial": 25,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "王建",
+      "phone": "13770810190",
+      "cell": "C47",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 62,
+          "name": "南京双润金属加工有限公司"
+        }
+      ]
+    },
+    {
+      "name": "格采电力设备",
+      "serial": 26,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "应海兵",
+      "phone": "15189822808",
+      "cell": "C48",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 45,
+          "name": "南京格采电力设备有限公司"
+        }
+      ]
+    },
+    {
+      "name": "共创金属制品",
+      "serial": 27,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "王超",
+      "phone": "15951772523",
+      "cell": "C49",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 94,
+          "name": "南京共创金属制品有限公司"
+        }
+      ]
+    },
+    {
+      "name": "酷众机械制造",
+      "serial": 28,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "钱立宝",
+      "phone": "13914750909",
+      "cell": "C50",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 56,
+          "name": "南京酷众机械制造有限公司"
+        }
+      ]
+    },
+    {
+      "name": "江苏福得工程技术",
+      "serial": 29,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "朱磊",
+      "phone": "13605191687",
+      "cell": "C51",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 82,
+          "name": "江苏福得工程技术有限公司"
+        }
+      ]
+    },
+    {
+      "name": "淼焱消防设备制造",
+      "serial": 30,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "钟生",
+      "phone": "13913358858",
+      "cell": "C52",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 66,
+          "name": "南京淼焱消防设备制造有限公司"
+        }
+      ]
+    },
+    {
+      "name": "润友冶金机械",
+      "serial": 31,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "杭开鑫",
+      "phone": "15150621841",
+      "cell": "C53",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 93,
+          "name": "南京润友冶金机械有限公司"
+        }
+      ]
+    },
+    {
+      "name": "科尔生物技术",
+      "serial": 32,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "高飞",
+      "phone": "13813851220",
+      "cell": "C54",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 58,
+          "name": "南京科尔生物技术有限公司"
+        }
+      ]
+    },
+    {
+      "name": "乙氏环保智能科技",
+      "serial": 33,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "乙永伟",
+      "phone": "15051800714",
+      "cell": "C55",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 88,
+          "name": "南京乙氏环保智能科技有限公司"
+        }
+      ]
+    },
+    {
+      "name": "铁宏轨道车辆装备制造",
+      "serial": 34,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "池定勇",
+      "phone": "15605199303",
+      "cell": "C56",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 78,
+          "name": "南京铁宏轨道车辆装备制造有限公司"
+        }
+      ]
+    },
+    {
+      "name": "顺旺机电科技",
+      "serial": 35,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "朱成顺",
+      "phone": "15151801418",
+      "cell": "C57",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 59,
+          "name": "南京顺旺机电科技有限公司"
+        }
+      ]
+    },
+    {
+      "name": "紫燕科技",
+      "serial": 36,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "葛元兴",
+      "phone": "13813389790",
+      "cell": "C58",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 63,
+          "name": "南京紫燕科技有限公司"
+        }
+      ]
+    },
+    {
+      "name": "南傲电机",
+      "serial": 37,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "刘远平",
+      "phone": "13921527316",
+      "cell": "C59",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 76,
+          "name": "南京南傲电机有限公司"
+        }
+      ]
+    },
+    {
+      "name": "嘉华混凝土",
+      "serial": 38,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "张远飞",
+      "phone": "13951071768",
+      "cell": "C60",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 68,
+          "name": "南京嘉华混凝土有限公司"
+        }
+      ]
+    },
+    {
+      "name": "涂瑞新材料",
+      "serial": 39,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "裴雨",
+      "phone": "15251716788",
+      "cell": "C61",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 55,
+          "name": "南京涂瑞新材料有限公司"
+        }
+      ]
+    },
+    {
+      "name": "好味来食品",
+      "serial": 40,
+      "category": "工贸企业（21家A、32家B=53）",
+      "person": "陈坚雄",
+      "phone": "15195957695",
+      "cell": "C62",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 74,
+          "name": "南京好味来食品有限责任公司"
+        }
+      ]
+    },
+    {
+      "name": "全意包装材料",
+      "serial": 41,
+      "category": "工贸企业",
+      "person": "陈长丰",
+      "phone": "13809037408",
+      "cell": "H3",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 91,
+          "name": "南京全意包装材料有限公司"
+        }
+      ]
+    },
+    {
+      "name": "宁华塑料制品",
+      "serial": 42,
+      "category": "工贸企业",
+      "person": "李京华",
+      "phone": "15951775008",
+      "cell": "H4",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 79,
+          "name": "南京宁华塑料制品有限公司"
+        }
+      ]
+    },
+    {
+      "name": "嘉思特塑业",
+      "serial": 43,
+      "category": "工贸企业",
+      "person": "陈先春",
+      "phone": "13851564826",
+      "cell": "H5",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 71,
+          "name": "南京嘉思特塑业有限公司"
+        }
+      ]
+    },
+    {
+      "name": "玖聚复合材料",
+      "serial": 44,
+      "category": "工贸企业",
+      "person": "张强",
+      "phone": "18012979528",
+      "cell": "H6",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 86,
+          "name": "南京玖聚复合材料有限公司"
+        }
+      ]
+    },
+    {
+      "name": "驰纳包装材料",
+      "serial": 45,
+      "category": "工贸企业",
+      "person": "嵇泉成",
+      "phone": "13813034808",
+      "cell": "H7",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 90,
+          "name": "南京驰纳包装材料有限公司"
+        }
+      ]
+    },
+    {
+      "name": "扬恩商贸",
+      "serial": 46,
+      "category": "工贸企业",
+      "person": "高名庆",
+      "phone": "13851929808",
+      "cell": "H8",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 60,
+          "name": "南京扬恩商贸有限公司"
+        }
+      ]
+    },
+    {
+      "name": "吉港大件起重吊装",
+      "serial": 47,
+      "category": "工贸企业",
+      "person": "薛成簇",
+      "phone": "13951931386",
+      "cell": "H9",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 92,
+          "name": "南京吉港大件起重吊装有限公司"
+        }
+      ]
+    },
+    {
+      "name": "雀和机电设备",
+      "serial": 48,
+      "category": "工贸企业",
+      "person": "王志强",
+      "phone": "13101893058",
+      "cell": "H10",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 81,
+          "name": "南京雀和机电设备有限公司"
+        }
+      ]
+    },
+    {
+      "name": "凯曼仪器仪表",
+      "serial": 49,
+      "category": "工贸企业",
+      "person": "刘书杰",
+      "phone": "13337738259",
+      "cell": "H11",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 67,
+          "name": "南京凯曼仪器仪表有限责任公司"
+        }
+      ]
+    },
+    {
+      "name": "桑普力遮阳设备制造",
+      "serial": 50,
+      "category": "工贸企业",
+      "person": "郑桂州",
+      "phone": "13813394128",
+      "cell": "H12",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 73,
+          "name": "南京桑普力遮阳设备制造有限公司"
+        }
+      ]
+    },
+    {
+      "name": "新启源探测装备",
+      "serial": 51,
+      "category": "工贸企业",
+      "person": "黄承军",
+      "phone": "15895857717",
+      "cell": "H13",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 87,
+          "name": "南京新启源探测装备有限责任公司"
+        }
+      ]
+    },
+    {
+      "name": "飞涛食品",
+      "serial": 52,
+      "category": "工贸企业",
+      "person": "刘燕",
+      "phone": "15077897416",
+      "cell": "H14",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 70,
+          "name": "南京飞涛食品有限公司"
+        }
+      ]
+    },
+    {
+      "name": "金恒信息科技股份",
+      "serial": 53,
+      "category": "工贸企业",
+      "person": "陈诚",
+      "phone": "13813038036",
+      "cell": "H15",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 128,
+          "name": "金恒信息科技股份"
+        }
+      ]
+    },
+    {
+      "name": "凯硕自动化科技",
+      "serial": 1,
+      "category": "仓储其他类企业（118家）",
+      "person": "刘爱锦",
+      "phone": "13851956534",
+      "cell": "H16",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 129,
+          "name": "凯硕自动化科技"
+        }
+      ]
+    },
+    {
+      "name": "精比例艺术设计",
+      "serial": 2,
+      "category": "仓储其他类企业（118家）",
+      "person": "周新军",
+      "phone": "13512513715",
+      "cell": "H17",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 130,
+          "name": "精比例艺术设计"
+        }
+      ]
+    },
+    {
+      "name": "荣春纸箱加工",
+      "serial": 3,
+      "category": "仓储其他类企业（118家）",
+      "person": "俞荣春",
+      "phone": "13382767622",
+      "cell": "H18",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 131,
+          "name": "荣春纸箱加工"
+        }
+      ]
+    },
+    {
+      "name": "窗外窗装饰材料",
+      "serial": 4,
+      "category": "仓储其他类企业（118家）",
+      "person": "孙火军",
+      "phone": "13913315453",
+      "cell": "H19",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 132,
+          "name": "窗外窗装饰材料"
+        }
+      ]
+    },
+    {
+      "name": "大家风范家居用品",
+      "serial": 5,
+      "category": "仓储其他类企业（118家）",
+      "person": "陆璐",
+      "phone": "18913825517",
+      "cell": "H20",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 133,
+          "name": "大家风范家居用品"
+        }
+      ]
+    },
+    {
+      "name": "塑彤贸易",
+      "serial": 6,
+      "category": "仓储其他类企业（118家）",
+      "person": "金美娟",
+      "phone": "13327820927",
+      "cell": "H21",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 134,
+          "name": "塑彤贸易"
+        }
+      ]
+    },
+    {
+      "name": "金强包装",
+      "serial": 7,
+      "category": "仓储其他类企业（118家）",
+      "person": "葛德金",
+      "phone": "13605150232",
+      "cell": "H22",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 135,
+          "name": "金强包装"
+        }
+      ]
+    },
+    {
+      "name": "益池能源科技",
+      "serial": 8,
+      "category": "仓储其他类企业（118家）",
+      "person": "周建兰",
+      "phone": "13305196056",
+      "cell": "H23",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 136,
+          "name": "益池能源科技"
+        }
+      ]
+    },
+    {
+      "name": "宝热化工",
+      "serial": 9,
+      "category": "仓储其他类企业（118家）",
+      "person": "孟良",
+      "phone": "17312270561",
+      "cell": "H24",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 137,
+          "name": "宝热化工"
+        }
+      ]
+    },
+    {
+      "name": "轩嘉食品",
+      "serial": 10,
+      "category": "仓储其他类企业（118家）",
+      "person": "董小伟",
+      "phone": "13327839500",
+      "cell": "H25",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 138,
+          "name": "轩嘉食品"
+        }
+      ]
+    },
+    {
+      "name": "奋果商贸",
+      "serial": 11,
+      "category": "仓储其他类企业（118家）",
+      "person": "曹素芳",
+      "phone": "13851541380",
+      "cell": "H26",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 139,
+          "name": "奋果商贸"
+        }
+      ]
+    },
+    {
+      "name": "通易财百货商贸",
+      "serial": 12,
+      "category": "仓储其他类企业（118家）",
+      "person": "翁贵勇",
+      "phone": "18555559696",
+      "cell": "H27",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 140,
+          "name": "通易财百货商贸"
+        }
+      ]
+    },
+    {
+      "name": "冉炯贸易",
+      "serial": 13,
+      "category": "仓储其他类企业（118家）",
+      "person": "董元江",
+      "phone": "13905191829",
+      "cell": "H28",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 141,
+          "name": "冉炯贸易"
+        }
+      ]
+    },
+    {
+      "name": "萨姆森控制设备（中国）",
+      "serial": 14,
+      "category": "仓储其他类企业（118家）",
+      "person": "王卫东",
+      "phone": "13337722333",
+      "cell": "H29",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 142,
+          "name": "萨姆森控制设备（中国）"
+        }
+      ]
+    },
+    {
+      "name": "迎顺烟酒",
+      "serial": 15,
+      "category": "仓储其他类企业（118家）",
+      "person": "袁连侠",
+      "phone": "15850705838",
+      "cell": "H30",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 143,
+          "name": "迎顺烟酒"
+        }
+      ]
+    },
+    {
+      "name": "鼎之荣商贸",
+      "serial": 16,
+      "category": "仓储其他类企业（118家）",
+      "person": "张晓辉",
+      "phone": "13913830777",
+      "cell": "H31",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 144,
+          "name": "鼎之荣商贸"
+        }
+      ]
+    },
+    {
+      "name": "上海沃格供应链(源氏木语)",
+      "serial": 17,
+      "category": "仓储其他类企业（118家）",
+      "person": "姚翱翔",
+      "phone": "15689748928",
+      "cell": "H32",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 145,
+          "name": "上海沃格供应链(源氏木语)"
+        }
+      ]
+    },
+    {
+      "name": "文晟百货",
+      "serial": 18,
+      "category": "仓储其他类企业（118家）",
+      "person": "王凯",
+      "phone": "19533488638",
+      "cell": "H33",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 146,
+          "name": "文晟百货"
+        }
+      ]
+    },
+    {
+      "name": "铭之居家具",
+      "serial": 19,
+      "category": "仓储其他类企业（118家）",
+      "person": "黄华",
+      "phone": "13851938610",
+      "cell": "H34",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 147,
+          "name": "铭之居家具"
+        }
+      ]
+    },
+    {
+      "name": "宠飞扬宠物用品",
+      "serial": 20,
+      "category": "仓储其他类企业（118家）",
+      "person": "梁坦",
+      "phone": "13913882443",
+      "cell": "H35",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 148,
+          "name": "宠飞扬宠物用品"
+        }
+      ]
+    },
+    {
+      "name": "明庐环保设备",
+      "serial": 21,
+      "category": "仓储其他类企业（118家）",
+      "person": "洪伟",
+      "phone": "13913008884",
+      "cell": "H36",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 149,
+          "name": "明庐环保设备"
+        }
+      ]
+    },
+    {
+      "name": "凯晏物资",
+      "serial": 22,
+      "category": "仓储其他类企业（118家）",
+      "person": "陈凯",
+      "phone": "13951911467",
+      "cell": "H37",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 150,
+          "name": "凯晏物资"
+        }
+      ]
+    },
+    {
+      "name": "泰州市华一耐火材料厂",
+      "serial": 23,
+      "category": "仓储其他类企业（118家）",
+      "person": "黄铁军",
+      "phone": "15365126762",
+      "cell": "H38",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 151,
+          "name": "泰州市华一耐火材料厂"
+        }
+      ]
+    },
+    {
+      "name": "禾沐晟冷暖工程",
+      "serial": 24,
+      "category": "仓储其他类企业（118家）",
+      "person": "张浩",
+      "phone": "18851787790",
+      "cell": "H39",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 152,
+          "name": "禾沐晟冷暖工程"
+        }
+      ]
+    },
+    {
+      "name": "沐之泽文化传媒",
+      "serial": 25,
+      "category": "仓储其他类企业（118家）",
+      "person": "肖加利",
+      "phone": "15189835020",
+      "cell": "H40",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 153,
+          "name": "沐之泽文化传媒"
+        }
+      ]
+    },
+    {
+      "name": "保利试听设备",
+      "serial": 26,
+      "category": "仓储其他类企业（118家）",
+      "person": "吴清伟",
+      "phone": "18969365000",
+      "cell": "H41",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 154,
+          "name": "保利试听设备"
+        }
+      ]
+    },
+    {
+      "name": "泓海生物工程（南京）",
+      "serial": 27,
+      "category": "仓储其他类企业（118家）",
+      "person": "刘佳佳",
+      "phone": "13057549790",
+      "cell": "H42",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 155,
+          "name": "泓海生物工程（南京）"
+        }
+      ]
+    },
+    {
+      "name": "启迪化工设备",
+      "serial": 28,
+      "category": "仓储其他类企业（118家）",
+      "person": "殷旭",
+      "phone": "13952058666",
+      "cell": "H43",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 156,
+          "name": "启迪化工设备"
+        }
+      ]
+    },
+    {
+      "name": "普迪科技实业",
+      "serial": 29,
+      "category": "仓储其他类企业（118家）",
+      "person": "陆明霞",
+      "phone": "13901597039",
+      "cell": "H44",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 157,
+          "name": "普迪科技实业"
+        }
+      ]
+    },
+    {
+      "name": "欧德旺百货商贸",
+      "serial": 30,
+      "category": "仓储其他类企业（118家）",
+      "person": "徐静文",
+      "phone": "18951747309",
+      "cell": "H45",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 158,
+          "name": "欧德旺百货商贸"
+        }
+      ]
+    },
+    {
+      "name": "玉腾商贸",
+      "serial": 31,
+      "category": "仓储其他类企业（118家）",
+      "person": "李玉",
+      "phone": "18994040931",
+      "cell": "H46",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 159,
+          "name": "玉腾商贸"
+        }
+      ]
+    },
+    {
+      "name": "诺畅贸易",
+      "serial": 32,
+      "category": "仓储其他类企业（118家）",
+      "person": "洪梅",
+      "phone": "15312020315",
+      "cell": "H47",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 160,
+          "name": "诺畅贸易"
+        }
+      ]
+    },
+    {
+      "name": "沧海酒业",
+      "serial": 33,
+      "category": "仓储其他类企业（118家）",
+      "person": "仓学良",
+      "phone": "18851605290",
+      "cell": "H48",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 161,
+          "name": "沧海酒业"
+        }
+      ]
+    },
+    {
+      "name": "策泰商贸",
+      "serial": 34,
+      "category": "仓储其他类企业（118家）",
+      "person": "何彦辉",
+      "phone": "13801595190",
+      "cell": "H49",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 162,
+          "name": "策泰商贸"
+        }
+      ]
+    },
+    {
+      "name": "羽玥洲商贸",
+      "serial": 35,
+      "category": "仓储其他类企业（118家）",
+      "person": "牛广洲",
+      "phone": "13776662470",
+      "cell": "H50",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 163,
+          "name": "羽玥洲商贸"
+        }
+      ]
+    },
+    {
+      "name": "鸿运通轮胎",
+      "serial": 36,
+      "category": "仓储其他类企业（118家）",
+      "person": "赵胜",
+      "phone": "13996470663",
+      "cell": "H51",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 164,
+          "name": "鸿运通轮胎"
+        }
+      ]
+    },
+    {
+      "name": "李凌云轮胎销售",
+      "serial": 37,
+      "category": "仓储其他类企业（118家）",
+      "person": "黄立辽",
+      "phone": "13851506592",
+      "cell": "H52",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 165,
+          "name": "李凌云轮胎销售"
+        }
+      ]
+    },
+    {
+      "name": "慕林笙文化传媒",
+      "serial": 38,
+      "category": "仓储其他类企业（118家）",
+      "person": "蒲东林",
+      "phone": "18351883722",
+      "cell": "H53",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 166,
+          "name": "慕林笙文化传媒"
+        }
+      ]
+    },
+    {
+      "name": "顺马钢结构",
+      "serial": 39,
+      "category": "仓储其他类企业（118家）",
+      "person": "李友奎",
+      "phone": "13851849634",
+      "cell": "H54",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 167,
+          "name": "顺马钢结构"
+        }
+      ]
+    },
+    {
+      "name": "南化建设",
+      "serial": 40,
+      "category": "仓储其他类企业（118家）",
+      "person": "王玮",
+      "phone": "13851463164",
+      "cell": "H55",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 168,
+          "name": "南化建设"
+        }
+      ]
+    },
+    {
+      "name": "中建二局建筑华东分公司",
+      "serial": 41,
+      "category": "仓储其他类企业（118家）",
+      "person": "任明祥",
+      "phone": "18913326918",
+      "cell": "H56",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 169,
+          "name": "中建二局建筑华东分公司"
+        }
+      ]
+    },
+    {
+      "name": "溧阳市天威化工设备安装",
+      "serial": 42,
+      "category": "仓储其他类企业（118家）",
+      "person": "马克顺",
+      "phone": "15951631601",
+      "cell": "H57",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 170,
+          "name": "溧阳市天威化工设备安装"
+        }
+      ]
+    },
+    {
+      "name": "荣亿建设发展",
+      "serial": 43,
+      "category": "仓储其他类企业（118家）",
+      "person": "戴龙春",
+      "phone": "13814198451",
+      "cell": "H58",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 171,
+          "name": "荣亿建设发展"
+        }
+      ]
+    },
+    {
+      "name": "思科赛斯设备安装工程",
+      "serial": 44,
+      "category": "仓储其他类企业（118家）",
+      "person": "崔冰",
+      "phone": "13605159555",
+      "cell": "H59",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 172,
+          "name": "思科赛斯设备安装工程"
+        }
+      ]
+    },
+    {
+      "name": "艾力特空调冷冻设备",
+      "serial": 45,
+      "category": "仓储其他类企业（118家）",
+      "person": "姜建新",
+      "phone": "13851564875",
+      "cell": "H60",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 173,
+          "name": "艾力特空调冷冻设备"
+        }
+      ]
+    },
+    {
+      "name": "岳阳长炼机电工程",
+      "serial": 46,
+      "category": "仓储其他类企业（118家）",
+      "person": "张吉利",
+      "phone": "13815448421",
+      "cell": "H61",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 174,
+          "name": "岳阳长炼机电工程"
+        }
+      ]
+    },
+    {
+      "name": "华鼎空调设备",
+      "serial": 47,
+      "category": "仓储其他类企业（118家）",
+      "person": "魏来",
+      "phone": "18761286262",
+      "cell": "H62",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 175,
+          "name": "华鼎空调设备"
+        }
+      ]
+    },
+    {
+      "name": "瀚然特种设备检测",
+      "serial": 48,
+      "category": "仓储其他类企业",
+      "person": "殷春来",
+      "phone": "13601457853",
+      "cell": "M3",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 176,
+          "name": "瀚然特种设备检测"
+        }
+      ]
+    },
+    {
+      "name": "米图餐饮管理",
+      "serial": 49,
+      "category": "仓储其他类企业",
+      "person": "陈再贵",
+      "phone": "13057667610",
+      "cell": "M4",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 177,
+          "name": "米图餐饮管理"
+        }
+      ]
+    },
+    {
+      "name": "鑫巨顺钢铁物流",
+      "serial": 50,
+      "category": "仓储其他类企业",
+      "person": "刘军",
+      "phone": "17751011113",
+      "cell": "M5",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 178,
+          "name": "鑫巨顺钢铁物流"
+        }
+      ]
+    },
+    {
+      "name": "金储物资贸易",
+      "serial": 51,
+      "category": "仓储其他类企业",
+      "person": "蔡辉",
+      "phone": "13915909882",
+      "cell": "M6",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 179,
+          "name": "金储物资贸易"
+        }
+      ]
+    },
+    {
+      "name": "恒金仓库",
+      "serial": 52,
+      "category": "仓储其他类企业",
+      "person": "常旗文",
+      "phone": "13327708977",
+      "cell": "M7",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 180,
+          "name": "恒金仓库"
+        }
+      ]
+    },
+    {
+      "name": "硕威物流",
+      "serial": 53,
+      "category": "仓储其他类企业",
+      "person": "张威",
+      "phone": "13072535868",
+      "cell": "M8",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 181,
+          "name": "硕威物流"
+        }
+      ]
+    },
+    {
+      "name": "友之源物流",
+      "serial": 54,
+      "category": "仓储其他类企业",
+      "person": "徐万奎",
+      "phone": "15261888288",
+      "cell": "M9",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 182,
+          "name": "友之源物流"
+        }
+      ]
+    },
+    {
+      "name": "满载化工贸易",
+      "serial": 55,
+      "category": "仓储其他类企业",
+      "person": "马忠翠",
+      "phone": "13770826128",
+      "cell": "M10",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 183,
+          "name": "满载化工贸易"
+        }
+      ]
+    },
+    {
+      "name": "港润科技发展",
+      "serial": 56,
+      "category": "仓储其他类企业",
+      "person": "陈行义",
+      "phone": "13913310269",
+      "cell": "M11",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 184,
+          "name": "港润科技发展"
+        }
+      ]
+    },
+    {
+      "name": "索邦物流供应链",
+      "serial": 57,
+      "category": "仓储其他类企业",
+      "person": "周洪发",
+      "phone": "13912990568",
+      "cell": "M12",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 185,
+          "name": "索邦物流供应链"
+        }
+      ]
+    },
+    {
+      "name": "欧阳文彬物流",
+      "serial": 58,
+      "category": "仓储其他类企业",
+      "person": "欧阳文彬",
+      "phone": "13776678921",
+      "cell": "M13",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 186,
+          "name": "欧阳文彬物流"
+        }
+      ]
+    },
+    {
+      "name": "冠锋汽车运输",
+      "serial": 59,
+      "category": "仓储其他类企业",
+      "person": "刘亚文",
+      "phone": "13813037875",
+      "cell": "M14",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 187,
+          "name": "冠锋汽车运输"
+        }
+      ]
+    },
+    {
+      "name": "路通物流",
+      "serial": 60,
+      "category": "仓储其他类企业",
+      "person": "汤经理",
+      "phone": "13770556405",
+      "cell": "M15",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 188,
+          "name": "路通物流"
+        }
+      ]
+    },
+    {
+      "name": "金航汽车科技",
+      "serial": 61,
+      "category": "仓储其他类企业",
+      "person": "蒋长震",
+      "phone": "13585157739",
+      "cell": "M16",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 189,
+          "name": "金航汽车科技"
+        }
+      ]
+    },
+    {
+      "name": "海鑫特钢",
+      "serial": 62,
+      "category": "仓储其他类企业",
+      "person": "张成",
+      "phone": "13382071570",
+      "cell": "M17",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 190,
+          "name": "海鑫特钢"
+        }
+      ]
+    },
+    {
+      "name": "月红再生资源",
+      "serial": 63,
+      "category": "仓储其他类企业",
+      "person": "陶月红",
+      "phone": "17368682381",
+      "cell": "M18",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 191,
+          "name": "月红再生资源"
+        }
+      ]
+    },
+    {
+      "name": "美悦新科技",
+      "serial": 64,
+      "category": "仓储其他类企业",
+      "person": "管其美",
+      "phone": "19951983384",
+      "cell": "M19",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 192,
+          "name": "美悦新科技"
+        }
+      ]
+    },
+    {
+      "name": "长荣化工",
+      "serial": 65,
+      "category": "仓储其他类企业",
+      "person": "陈文",
+      "phone": "13705151382",
+      "cell": "M20",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 193,
+          "name": "长荣化工"
+        }
+      ]
+    },
+    {
+      "name": "惠亦通商贸",
+      "serial": 66,
+      "category": "仓储其他类企业",
+      "person": "何俊",
+      "phone": "13382085676",
+      "cell": "M21",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 194,
+          "name": "惠亦通商贸"
+        }
+      ]
+    },
+    {
+      "name": "感叹汽车技术",
+      "serial": 67,
+      "category": "仓储其他类企业",
+      "person": "陆定安",
+      "phone": "17768147766",
+      "cell": "M22",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 195,
+          "name": "感叹汽车技术"
+        }
+      ]
+    },
+    {
+      "name": "振志酒业贸易",
+      "serial": 68,
+      "category": "仓储其他类企业",
+      "person": "朱宁燕",
+      "phone": "13770640193",
+      "cell": "M23",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 196,
+          "name": "振志酒业贸易"
+        }
+      ]
+    },
+    {
+      "name": "厚信机电科技",
+      "serial": 69,
+      "category": "仓储其他类企业",
+      "person": "常南京",
+      "phone": "17366220363",
+      "cell": "M24",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 197,
+          "name": "厚信机电科技"
+        }
+      ]
+    },
+    {
+      "name": "栖妮琪汽车服务",
+      "serial": 70,
+      "category": "仓储其他类企业",
+      "person": "黄乐",
+      "phone": "13382035352",
+      "cell": "M25",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 198,
+          "name": "栖妮琪汽车服务"
+        }
+      ]
+    },
+    {
+      "name": "快一步物流",
+      "serial": 71,
+      "category": "仓储其他类企业",
+      "person": "洪翠英",
+      "phone": "13601406776",
+      "cell": "M26",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 199,
+          "name": "快一步物流"
+        }
+      ]
+    },
+    {
+      "name": "大厂港务",
+      "serial": 72,
+      "category": "仓储其他类企业",
+      "person": "郑国忠",
+      "phone": "13851758764",
+      "cell": "M27",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 200,
+          "name": "大厂港务"
+        }
+      ]
+    },
+    {
+      "name": "佳途物流",
+      "serial": 73,
+      "category": "仓储其他类企业",
+      "person": "戚",
+      "phone": "14752828148",
+      "cell": "M28",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 201,
+          "name": "佳途物流"
+        }
+      ]
+    },
+    {
+      "name": "广天建设工程",
+      "serial": 74,
+      "category": "仓储其他类企业",
+      "person": "潘磊",
+      "phone": "19952411355",
+      "cell": "M29",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 202,
+          "name": "广天建设工程"
+        }
+      ]
+    },
+    {
+      "name": "安徽心相荣建筑劳务",
+      "serial": 75,
+      "category": "仓储其他类企业",
+      "person": "王成平",
+      "phone": "18851725035",
+      "cell": "M30",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 203,
+          "name": "安徽心相荣建筑劳务"
+        }
+      ]
+    },
+    {
+      "name": "陈营建筑工程",
+      "serial": 76,
+      "category": "仓储其他类企业",
+      "person": " 陈九槽",
+      "phone": "13951908972",
+      "cell": "M31",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 204,
+          "name": "陈营建筑工程"
+        }
+      ]
+    },
+    {
+      "name": "阔玉运输",
+      "serial": 77,
+      "category": "仓储其他类企业",
+      "person": "林玉山 ",
+      "phone": "13637009398",
+      "cell": "M32",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 205,
+          "name": "阔玉运输"
+        }
+      ]
+    },
+    {
+      "name": "卡邦汽车服务",
+      "serial": 78,
+      "category": "仓储其他类企业",
+      "person": "毛保松",
+      "phone": "18351857888",
+      "cell": "M33",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 206,
+          "name": "卡邦汽车服务"
+        }
+      ]
+    },
+    {
+      "name": "扬子金扬建设工程",
+      "serial": 79,
+      "category": "仓储其他类企业",
+      "person": "陆中华",
+      "phone": "15952098018",
+      "cell": "M34",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 207,
+          "name": "扬子金扬建设工程"
+        }
+      ]
+    },
+    {
+      "name": "花兆兰废旧物资回收部",
+      "serial": 80,
+      "category": "仓储其他类企业",
+      "person": "花兆兰",
+      "phone": "15305172226",
+      "cell": "M35",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 208,
+          "name": "花兆兰废旧物资回收部"
+        }
+      ]
+    },
+    {
+      "name": "沪特阀门销售中心",
+      "serial": 81,
+      "category": "仓储其他类企业",
+      "person": "徐华东",
+      "phone": "15952096737",
+      "cell": "M36",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 209,
+          "name": "沪特阀门销售中心"
+        }
+      ]
+    },
+    {
+      "name": "王小平礼仪服务中心",
+      "serial": 82,
+      "category": "仓储其他类企业",
+      "person": "王小平",
+      "phone": "13813906618",
+      "cell": "M37",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 210,
+          "name": "王小平礼仪服务中心"
+        }
+      ]
+    },
+    {
+      "name": "张国根门窗",
+      "serial": 83,
+      "category": "仓储其他类企业",
+      "person": "张国根",
+      "phone": "13851529753",
+      "cell": "M38",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 211,
+          "name": "张国根门窗"
+        }
+      ]
+    },
+    {
+      "name": "润之汽车维修",
+      "serial": 84,
+      "category": "仓储其他类企业",
+      "person": "刘俊彪",
+      "phone": "18652590606",
+      "cell": "M39",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 212,
+          "name": "润之汽车维修"
+        }
+      ]
+    },
+    {
+      "name": "爱腾汽车服务",
+      "serial": 85,
+      "category": "仓储其他类企业",
+      "person": "潘文生",
+      "phone": "13245200883",
+      "cell": "M40",
+      "method": "未匹配",
+      "matches": []
+    },
+    {
+      "name": "舒宜建设",
+      "serial": 86,
+      "category": "仓储其他类企业",
+      "person": "汪存富",
+      "phone": "18602507607",
+      "cell": "M41",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 213,
+          "name": "舒宜建设"
+        }
+      ]
+    },
+    {
+      "name": "江腾建筑安装工程",
+      "serial": 87,
+      "category": "仓储其他类企业",
+      "person": "许爱国",
+      "phone": "15251727768",
+      "cell": "M42",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 214,
+          "name": "江腾建筑安装工程"
+        }
+      ]
+    },
+    {
+      "name": "扬子检安",
+      "serial": 88,
+      "category": "仓储其他类企业",
+      "person": "陶其罗",
+      "phone": "15251720552",
+      "cell": "M43",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 215,
+          "name": "扬子检安"
+        }
+      ]
+    },
+    {
+      "name": "永大实业有",
+      "serial": 89,
+      "category": "仓储其他类企业",
+      "person": "崔亮",
+      "phone": "18752082107",
+      "cell": "M44",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 246,
+          "name": "永大实业有"
+        }
+      ]
+    },
+    {
+      "name": "泫东企业管理服务",
+      "serial": 90,
+      "category": "仓储其他类企业",
+      "person": "黄诚琪",
+      "phone": "13951869565",
+      "cell": "M45",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 217,
+          "name": "泫东企业管理服务"
+        }
+      ]
+    },
+    {
+      "name": "绿墙体育设施",
+      "serial": 91,
+      "category": "仓储其他类企业",
+      "person": "仇素华",
+      "phone": "15951875428",
+      "cell": "M46",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 218,
+          "name": "绿墙体育设施"
+        }
+      ]
+    },
+    {
+      "name": "大秦建材科技",
+      "serial": 92,
+      "category": "仓储其他类企业",
+      "person": "许亮",
+      "phone": "15850717007",
+      "cell": "M47",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 219,
+          "name": "大秦建材科技"
+        }
+      ]
+    },
+    {
+      "name": "桐城市皖中建筑南京分公司",
+      "serial": 93,
+      "category": "仓储其他类企业",
+      "person": "汪江",
+      "phone": "13285561626",
+      "cell": "M48",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 220,
+          "name": "桐城市皖中建筑南京分公司"
+        }
+      ]
+    },
+    {
+      "name": "卓卫机械加工厂",
+      "serial": 94,
+      "category": "仓储其他类企业",
+      "person": "卓卫",
+      "phone": "13770852812",
+      "cell": "M49",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 221,
+          "name": "卓卫机械加工厂"
+        }
+      ]
+    },
+    {
+      "name": "纳华生物科技",
+      "serial": 95,
+      "category": "仓储其他类企业",
+      "person": "王明珠",
+      "phone": "13814521842",
+      "cell": "M50",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 222,
+          "name": "纳华生物科技"
+        }
+      ]
+    },
+    {
+      "name": "芃运物流",
+      "serial": 96,
+      "category": "仓储其他类企业",
+      "person": "周玲玲",
+      "phone": "15852910317",
+      "cell": "M51",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 223,
+          "name": "芃运物流"
+        }
+      ]
+    },
+    {
+      "name": "纵川建设工程",
+      "serial": 97,
+      "category": "仓储其他类企业",
+      "person": "叶健梅",
+      "phone": "13951833443",
+      "cell": "M52",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 224,
+          "name": "纵川建设工程"
+        }
+      ]
+    },
+    {
+      "name": "徐业红机械设备加工部",
+      "serial": 98,
+      "category": "仓储其他类企业",
+      "person": "徐业红",
+      "phone": "15251732856",
+      "cell": "M53",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 225,
+          "name": "徐业红机械设备加工部"
+        }
+      ]
+    },
+    {
+      "name": "河南第一防腐工程",
+      "serial": 99,
+      "category": "仓储其他类企业",
+      "person": "林振威",
+      "phone": "18810688018",
+      "cell": "M54",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 226,
+          "name": "河南第一防腐工程"
+        }
+      ]
+    },
+    {
+      "name": "威达建设集团",
+      "serial": 100,
+      "category": "仓储其他类企业",
+      "person": "李志刚",
+      "phone": "13951948888",
+      "cell": "M55",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 227,
+          "name": "威达建设集团"
+        }
+      ]
+    },
+    {
+      "name": "再渡金属制品",
+      "serial": 101,
+      "category": "仓储其他类企业",
+      "person": "刘永洲",
+      "phone": "18851614805",
+      "cell": "M56",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 228,
+          "name": "再渡金属制品"
+        }
+      ]
+    },
+    {
+      "name": "启辰鑫糖烟酒",
+      "serial": 102,
+      "category": "仓储其他类企业",
+      "person": "张开瑞",
+      "phone": "18021520082",
+      "cell": "M57",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 229,
+          "name": "启辰鑫糖烟酒"
+        }
+      ]
+    },
+    {
+      "name": "杜广酒业",
+      "serial": 103,
+      "category": "仓储其他类企业",
+      "person": "任丘章",
+      "phone": "15195827532",
+      "cell": "M58",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 230,
+          "name": "杜广酒业"
+        }
+      ]
+    },
+    {
+      "name": "帅轩汽车维修",
+      "serial": 104,
+      "category": "仓储其他类企业",
+      "person": "宋礼凯",
+      "phone": "13912968002",
+      "cell": "M59",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 231,
+          "name": "帅轩汽车维修"
+        }
+      ]
+    },
+    {
+      "name": "瑞坤达再生资源回收",
+      "serial": 105,
+      "category": "仓储其他类企业",
+      "person": "贾远成",
+      "phone": "18260017511",
+      "cell": "M60",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 232,
+          "name": "瑞坤达再生资源回收"
+        }
+      ]
+    },
+    {
+      "name": "振兴摩托车配件",
+      "serial": 106,
+      "category": "仓储其他类企业",
+      "person": "蒋卫娟",
+      "phone": "13813035085",
+      "cell": "M61",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 233,
+          "name": "振兴摩托车配件"
+        }
+      ]
+    },
+    {
+      "name": "远厚钢结构安装",
+      "serial": 107,
+      "category": "仓储其他类企业",
+      "person": "钱志海",
+      "phone": "13815865921",
+      "cell": "M62",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 234,
+          "name": "远厚钢结构安装"
+        }
+      ]
+    },
+    {
+      "name": "龙族酒业（苏仪环保）",
+      "serial": 108,
+      "category": "仓储其他类企业",
+      "person": "宁剑",
+      "phone": "18013350988",
+      "cell": "R3",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 235,
+          "name": "龙族酒业（苏仪环保）"
+        }
+      ]
+    },
+    {
+      "name": "景业工贸",
+      "serial": 109,
+      "category": "仓储其他类企业",
+      "person": "徐林",
+      "phone": "13305153599",
+      "cell": "R4",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 236,
+          "name": "景业工贸"
+        }
+      ]
+    },
+    {
+      "name": "自在能活性炭",
+      "serial": 110,
+      "category": "仓储其他类企业",
+      "person": "金健鑫",
+      "phone": "15780198777",
+      "cell": "R5",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 237,
+          "name": "自在能活性炭"
+        }
+      ]
+    },
+    {
+      "name": "维克精密金属材料厂",
+      "serial": 111,
+      "category": "仓储其他类企业",
+      "person": "徐良俊",
+      "phone": "13801593005",
+      "cell": "R6",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 238,
+          "name": "维克精密金属材料厂"
+        }
+      ]
+    },
+    {
+      "name": "路热百货超市",
+      "serial": 112,
+      "category": "仓储其他类企业",
+      "person": "曾生才",
+      "phone": "13601408718",
+      "cell": "R7",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 239,
+          "name": "路热百货超市"
+        }
+      ]
+    },
+    {
+      "name": "康王机械设备",
+      "serial": 113,
+      "category": "仓储其他类企业",
+      "person": "王卫中",
+      "phone": "13372009985",
+      "cell": "R8",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 240,
+          "name": "康王机械设备"
+        }
+      ]
+    },
+    {
+      "name": "佳丽特广告制作中心",
+      "serial": 114,
+      "category": "仓储其他类企业",
+      "person": "徐丽平",
+      "phone": "15951874843",
+      "cell": "R9",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 241,
+          "name": "佳丽特广告制作中心"
+        }
+      ]
+    },
+    {
+      "name": "君信建设",
+      "serial": 115,
+      "category": "仓储其他类企业",
+      "person": "史瑶君",
+      "phone": "13809035465",
+      "cell": "R10",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 242,
+          "name": "君信建设"
+        }
+      ]
+    },
+    {
+      "name": "中源锐业（南京）管道工程",
+      "serial": 116,
+      "category": "仓储其他类企业",
+      "person": "陈建军",
+      "phone": "19951791349",
+      "cell": "R11",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 243,
+          "name": "中源锐业（南京）管道工程"
+        }
+      ]
+    },
+    {
+      "name": "显格建设",
+      "serial": 117,
+      "category": "仓储其他类企业",
+      "person": "沈继勇",
+      "phone": "15952041688",
+      "cell": "R12",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 244,
+          "name": "显格建设"
+        }
+      ]
+    },
+    {
+      "name": "齐双盈乳化液制造",
+      "serial": 118,
+      "category": "仓储其他类企业",
+      "person": "谈凤梅",
+      "phone": "13062522756",
+      "cell": "R13",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 245,
+          "name": "齐双盈乳化液制造"
+        }
+      ]
+    },
+    {
+      "name": "裕强复合新材料科技",
+      "serial": 1,
+      "category": "厂中厂出租单位（13家）",
+      "person": "武温兴",
+      "phone": "13915906558",
+      "cell": "R15",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 247,
+          "name": "裕强复合新材料科技"
+        }
+      ]
+    },
+    {
+      "name": "北投建筑配套",
+      "serial": 2,
+      "category": "厂中厂出租单位（13家）",
+      "person": "何兵",
+      "phone": "13951652630",
+      "cell": "R16",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 248,
+          "name": "北投建筑配套"
+        }
+      ]
+    },
+    {
+      "name": "迪邦士船舶配套设施",
+      "serial": 3,
+      "category": "厂中厂出租单位（13家）",
+      "person": "钱勇",
+      "phone": "15251883888",
+      "cell": "R17",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 249,
+          "name": "迪邦士船舶配套设施"
+        }
+      ]
+    },
+    {
+      "name": "宁湖管业",
+      "serial": 4,
+      "category": "厂中厂出租单位（13家）",
+      "person": "谢序琼",
+      "phone": "13705152956",
+      "cell": "R18",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 250,
+          "name": "宁湖管业"
+        }
+      ]
+    },
+    {
+      "name": "任斌机械",
+      "serial": 5,
+      "category": "厂中厂出租单位（13家）",
+      "person": "谢跃",
+      "phone": "15051889888",
+      "cell": "R19",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 251,
+          "name": "任斌机械"
+        }
+      ]
+    },
+    {
+      "name": "盛正商贸",
+      "serial": 6,
+      "category": "厂中厂出租单位（13家）",
+      "person": "李远东",
+      "phone": "13705150038",
+      "cell": "R20",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 252,
+          "name": "盛正商贸"
+        }
+      ]
+    },
+    {
+      "name": "奥佳化工",
+      "serial": 7,
+      "category": "厂中厂出租单位（13家）",
+      "person": "刘佳佳",
+      "phone": "13057549790",
+      "cell": "R21",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 253,
+          "name": "奥佳化工"
+        }
+      ]
+    },
+    {
+      "name": "畅达机械厂",
+      "serial": 8,
+      "category": "厂中厂出租单位（13家）",
+      "person": "张建",
+      "phone": "13182808118",
+      "cell": "R22",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 65,
+          "name": "南京畅达机械厂"
+        }
+      ]
+    },
+    {
+      "name": "中石化南京化工机械",
+      "serial": 9,
+      "category": "厂中厂出租单位（13家）",
+      "person": "江晨",
+      "phone": "15850719168",
+      "cell": "R23",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 43,
+          "name": "中石化南京化工机械有限公司"
+        }
+      ]
+    },
+    {
+      "name": "锦润制衣",
+      "serial": 10,
+      "category": "厂中厂出租单位（13家）",
+      "person": "周磊",
+      "phone": "13376072388",
+      "cell": "R24",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 75,
+          "name": "南京锦润制衣有限公司"
+        }
+      ]
+    },
+    {
+      "name": "许宗平(太子山路49号)",
+      "serial": 11,
+      "category": "厂中厂出租单位（13家）",
+      "person": "许宗平",
+      "phone": "15380993999",
+      "cell": "R25",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 254,
+          "name": "许宗平(太子山路49号)"
+        }
+      ]
+    },
+    {
+      "name": "钢铁集团江苏冶金机械",
+      "serial": 12,
+      "category": "厂中厂出租单位（13家）",
+      "person": "吴安龙",
+      "phone": "13951969152",
+      "cell": "R26",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 53,
+          "name": "南京钢铁集团江苏冶金机械有限公司"
+        }
+      ]
+    },
+    {
+      "name": "诚安石化装备工程",
+      "serial": 13,
+      "category": "厂中厂出租单位（13家）",
+      "person": "葛仁贵",
+      "phone": "13770666601",
+      "cell": "R27",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 64,
+          "name": "南京诚安石化装备工程有限公司"
+        }
+      ]
+    },
+    {
+      "name": "瀚博物流",
+      "serial": 1,
+      "category": "园中园出租单位（18家）",
+      "person": "黄永林",
+      "phone": "13327701155",
+      "cell": "R28",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 255,
+          "name": "瀚博物流"
+        }
+      ]
+    },
+    {
+      "name": "东荣生化制品",
+      "serial": 2,
+      "category": "园中园出租单位（18家）",
+      "person": "刘大梁",
+      "phone": "18913024211",
+      "cell": "R29",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 256,
+          "name": "东荣生化制品"
+        }
+      ]
+    },
+    {
+      "name": "淳久电气设备",
+      "serial": 3,
+      "category": "园中园出租单位（18家）",
+      "person": "汪国法",
+      "phone": "13505158402",
+      "cell": "R30",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 257,
+          "name": "淳久电气设备"
+        }
+      ]
+    },
+    {
+      "name": "润展塑化",
+      "serial": 4,
+      "category": "园中园出租单位（18家）",
+      "person": "张瑞弟",
+      "phone": "13705158689",
+      "cell": "R31",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 258,
+          "name": "润展塑化"
+        }
+      ]
+    },
+    {
+      "name": "苏源悦力电力",
+      "serial": 5,
+      "category": "园中园出租单位（18家）",
+      "person": "杨春山",
+      "phone": "13951868123",
+      "cell": "R32",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 259,
+          "name": "苏源悦力电力"
+        }
+      ]
+    },
+    {
+      "name": "华贸电力实业",
+      "serial": 6,
+      "category": "园中园出租单位（18家）",
+      "person": "蔡剑翔",
+      "phone": "15720817999",
+      "cell": "R33",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 260,
+          "name": "华贸电力实业"
+        }
+      ]
+    },
+    {
+      "name": "忠储工贸实业",
+      "serial": 7,
+      "category": "园中园出租单位（18家）",
+      "person": "成忠",
+      "phone": "15951988888",
+      "cell": "R34",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 261,
+          "name": "忠储工贸实业"
+        }
+      ]
+    },
+    {
+      "name": "四友建筑安装",
+      "serial": 8,
+      "category": "园中园出租单位（18家）",
+      "person": "魏来",
+      "phone": "18761286262",
+      "cell": "R35",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 262,
+          "name": "四友建筑安装"
+        }
+      ]
+    },
+    {
+      "name": "大洋制桶",
+      "serial": 9,
+      "category": "园中园出租单位（18家）",
+      "person": "赵元友",
+      "phone": "15077892178",
+      "cell": "R36",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 263,
+          "name": "大洋制桶"
+        }
+      ]
+    },
+    {
+      "name": "金晖机电检修",
+      "serial": 10,
+      "category": "园中园出租单位（18家）",
+      "person": "洪文龙",
+      "phone": "13776516117",
+      "cell": "R37",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 83,
+          "name": "南京金晖机电检修有限责任公司"
+        }
+      ]
+    },
+    {
+      "name": "鼎高物流",
+      "serial": 11,
+      "category": "园中园出租单位（18家）",
+      "person": "谢发辉",
+      "phone": "13382035352",
+      "cell": "R38",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 114,
+          "name": "南京鼎高物流"
+        }
+      ]
+    },
+    {
+      "name": "全意包装材料",
+      "serial": 12,
+      "category": "园中园出租单位（18家）",
+      "person": "陈长丰",
+      "phone": "13809037408",
+      "cell": "R39",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 91,
+          "name": "南京全意包装材料有限公司"
+        }
+      ]
+    },
+    {
+      "name": "众悦机械设备",
+      "serial": 13,
+      "category": "园中园出租单位（18家）",
+      "person": "王兴盛",
+      "phone": "13913851155",
+      "cell": "R40",
+      "method": "去除地区及公司后缀后名称一致",
+      "matches": [
+        {
+          "id": 84,
+          "name": "南京众悦机械设备有限责任公司"
+        }
+      ]
+    },
+    {
+      "name": "宜团家居",
+      "serial": 14,
+      "category": "园中园出租单位（18家）",
+      "person": "丁红卫",
+      "phone": "13951026855",
+      "cell": "R41",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 264,
+          "name": "宜团家居"
+        }
+      ]
+    },
+    {
+      "name": "港润科技发展",
+      "serial": 15,
+      "category": "园中园出租单位（18家）",
+      "person": "陈行义",
+      "phone": "13913310269",
+      "cell": "R42",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 184,
+          "name": "港润科技发展"
+        }
+      ]
+    },
+    {
+      "name": "苏仪环保",
+      "serial": 16,
+      "category": "园中园出租单位（18家）",
+      "person": "宁剑",
+      "phone": "18013350988",
+      "cell": "R43",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 265,
+          "name": "苏仪环保"
+        }
+      ]
+    },
+    {
+      "name": "金陵印刷厂",
+      "serial": 17,
+      "category": "园中园出租单位（18家）",
+      "person": "焦平久",
+      "phone": "18020125599",
+      "cell": "R44",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 266,
+          "name": "金陵印刷厂"
+        }
+      ]
+    },
+    {
+      "name": "中化学南京置业",
+      "serial": 18,
+      "category": "园中园出租单位（18家）",
+      "person": "董涛涛",
+      "phone": "13933926102",
+      "cell": "R45",
+      "method": "原名一致",
+      "matches": [
+        {
+          "id": 267,
+          "name": "中化学南京置业"
+        }
+      ]
+    }
+  ],
+  "unmatched_rows": [
+    {
+      "name": "爱腾汽车服务",
+      "serial": 85,
+      "category": "仓储其他类企业",
+      "person": "潘文生",
+      "phone": "13245200883",
+      "cell": "M40",
+      "method": "未匹配",
+      "matches": []
+    }
+  ],
+  "matched_database_count": 212,
+  "extra_database_companies": [
+    {
+      "name": "中交三航局第三工程有限公司建筑工业分公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.233462,
+      "place_id": 51,
+      "longitude": 118.797931,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "建材",
+      "contacts": [
+        {
+          "person": "黄瑞华",
+          "phone": "13951022259"
+        },
+        {
+          "person": "王佳龙",
+          "phone": "13584066645"
+        }
+      ]
+    },
+    {
+      "name": "南京康明服饰有限责任公司水洗分公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.239297,
+      "place_id": 54,
+      "longitude": 118.79129,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "轻工",
+      "contacts": [
+        {
+          "person": "赵友龙",
+          "phone": "13905180919"
+        },
+        {
+          "person": "秦庭华",
+          "phone": "13057592232"
+        }
+      ]
+    },
+    {
+      "name": "新疆大成鑫源金属科技有限公司南京分公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.230729,
+      "place_id": 77,
+      "longitude": 118.783883,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "机械",
+      "contacts": [
+        {
+          "person": "陈建军",
+          "phone": "15373178111"
+        },
+        {
+          "person": "王志国",
+          "phone": "19951933591"
+        }
+      ]
+    },
+    {
+      "name": "南京苏凌机械有限责任公司",
+      "remark": "Excel初始导入；坐标及监管归属待核实",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.241909,
+      "place_id": 85,
+      "longitude": 118.774841,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "机械",
+      "contacts": [
+        {
+          "person": "王建玉",
+          "phone": "13805172108"
+        },
+        {
+          "person": "杨永斌",
+          "phone": "13813023323"
+        }
+      ]
+    },
+    {
+      "name": "华润电力江苏检修",
+      "remark": "来源：2026.10.8!K44:O44；对象类型需与现有系统字典核对",
+      "status": "0",
+      "del_flag": "0",
+      "latitude": 32.208533,
+      "place_id": 216,
+      "longitude": 118.757278,
+      "place_type": "industry",
+      "coordinate_system": "GCJ02",
+      "industry_category": "仓储其他类企业",
+      "contacts": [
+        {
+          "person": "刘建民",
+          "phone": "13951868902"
+        }
+      ]
+    }
+  ],
+  "repeated_source_companies": [
+    {
+      "id": 114,
+      "name": "南京鼎高物流",
+      "rows": [
+        {
+          "name": "南京鼎高物流",
+          "cell": "C14"
+        },
+        {
+          "name": "鼎高物流",
+          "cell": "R38"
+        }
+      ]
+    },
+    {
+      "id": 75,
+      "name": "南京锦润制衣有限公司",
+      "rows": [
+        {
+          "name": "南京锦润制衣",
+          "cell": "C25"
+        },
+        {
+          "name": "锦润制衣",
+          "cell": "R24"
+        }
+      ]
+    },
+    {
+      "id": 43,
+      "name": "中石化南京化工机械有限公司",
+      "rows": [
+        {
+          "name": "中石化南京化工机械",
+          "cell": "C31"
+        },
+        {
+          "name": "中石化南京化工机械",
+          "cell": "R23"
+        }
+      ]
+    },
+    {
+      "id": 64,
+      "name": "南京诚安石化装备工程有限公司",
+      "rows": [
+        {
+          "name": "诚安石化装备工程",
+          "cell": "C38"
+        },
+        {
+          "name": "诚安石化装备工程",
+          "cell": "R27"
+        }
+      ]
+    },
+    {
+      "id": 84,
+      "name": "南京众悦机械设备有限责任公司",
+      "rows": [
+        {
+          "name": "众悦机械设备",
+          "cell": "C40"
+        },
+        {
+          "name": "众悦机械设备",
+          "cell": "R40"
+        }
+      ]
+    },
+    {
+      "id": 83,
+      "name": "南京金晖机电检修有限责任公司",
+      "rows": [
+        {
+          "name": "金晖机电检修",
+          "cell": "C44"
+        },
+        {
+          "name": "金晖机电检修",
+          "cell": "R37"
+        }
+      ]
+    },
+    {
+      "id": 65,
+      "name": "南京畅达机械厂",
+      "rows": [
+        {
+          "name": "畅达机械厂",
+          "cell": "C46"
+        },
+        {
+          "name": "畅达机械厂",
+          "cell": "R22"
+        }
+      ]
+    },
+    {
+      "id": 91,
+      "name": "南京全意包装材料有限公司",
+      "rows": [
+        {
+          "name": "全意包装材料",
+          "cell": "H3"
+        },
+        {
+          "name": "全意包装材料",
+          "cell": "R39"
+        }
+      ]
+    },
+    {
+      "id": 184,
+      "name": "港润科技发展",
+      "rows": [
+        {
+          "name": "港润科技发展",
+          "cell": "M11"
+        },
+        {
+          "name": "港润科技发展",
+          "cell": "R42"
+        }
+      ]
+    }
+  ]
+}

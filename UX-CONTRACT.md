@@ -1,5 +1,9 @@
 # Fire map interaction contract
 
+## Residential category label (2026-11-25)
+
+Business source: the user's approved rename from 高层建筑 to 居民小区. PLACE_LAYERS owns current frontend labels across dashboard counts, maps, lists, editors and details; normalizePlaceCategory handles old bookmarks, demo storage and completed import results. The highrise API/database code remains unchanged. FirePlaceImportParser accepts both names plus the existing 高层住宅 alias and retains source cell text; its LABELS map owns new template choices and preview labels. SQL/fire_place_residential_label.sql changes only the matching dictionary label. Existing 101 residential records, coordinates, schema and permissions stay unchanged. Verification: residential-category.test.mjs, dashboard-counts.browser.cjs, place-import.browser.cjs and tools/place-import/verify_project.py.
+
 ## Simulation alarm canonical workflow (2026-11-25)
 
 Business source: user's request for a 模拟报警 button beside 查询 and a complete normal alarm demonstration. Canonical owners are DeviceAccessView eventOnly, AlarmSimulationDialog (existing Element Plus controls and fire.scss), FireAlarmSimulationService, the scoped unified Fire119Mapper alarm query, dashboard refreshAlarms/createAlarmSignals, AlarmAnnunciator and AlarmDetail. The button requires alarms:simulate plus existing list/place access; the server enforces all three. The modal selects device/119, a real scoped GCJ02 in-scope place, content, and default-on entry to dashboard. It owns required validation, no-place/load-failure/retry states, keyboard/focus, submit locking and stable request identity across uncertain retries. New-dialog/content changes get a new identity. Saved rows always display 【模拟演示】; no fake device protocol or source-platform data is generated.

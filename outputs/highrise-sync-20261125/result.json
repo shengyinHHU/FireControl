@@ -1,0 +1,871 @@
+{
+  "completed": true,
+  "database": "dachang",
+  "batch": "dachang-excel-sync-20261125",
+  "counts": {
+    "update": 86,
+    "insert": 15,
+    "retire": 5,
+    "final": 101,
+    "coordinates_preserved": 75,
+    "coordinates_added": 26
+  },
+  "final_records": 101,
+  "map_records": 101,
+  "source_rows_verified": 101,
+  "raw_source_rows_verified": 101,
+  "schemas_unchanged": true,
+  "unrelated_records_unchanged": true,
+  "changes": [
+    {
+      "action": "update",
+      "id": 268,
+      "name": "凤滨嘉园商品房"
+    },
+    {
+      "action": "update",
+      "id": 269,
+      "name": "卸甲山庄"
+    },
+    {
+      "action": "update",
+      "id": 13,
+      "name": "桂馨园"
+    },
+    {
+      "action": "update",
+      "id": 270,
+      "name": "圣得山庄"
+    },
+    {
+      "action": "update",
+      "id": 14,
+      "name": "三丰公寓"
+    },
+    {
+      "action": "update",
+      "id": 271,
+      "name": "百悦家花园"
+    },
+    {
+      "action": "update",
+      "id": 272,
+      "name": "紫景园"
+    },
+    {
+      "action": "update",
+      "id": 273,
+      "name": "瑞景园"
+    },
+    {
+      "action": "update",
+      "id": 274,
+      "name": "腾泰雅苑"
+    },
+    {
+      "action": "update",
+      "id": 16,
+      "name": "恒丰世家"
+    },
+    {
+      "action": "update",
+      "id": 275,
+      "name": "新广厦"
+    },
+    {
+      "action": "update",
+      "id": 276,
+      "name": "宝润花园"
+    },
+    {
+      "action": "update",
+      "id": 17,
+      "name": "荣盛水景城"
+    },
+    {
+      "action": "update",
+      "id": 18,
+      "name": "兰亭苑"
+    },
+    {
+      "action": "update",
+      "id": 19,
+      "name": "水榭花苑"
+    },
+    {
+      "action": "update",
+      "id": 20,
+      "name": "欣城峰景"
+    },
+    {
+      "action": "update",
+      "id": 21,
+      "name": "新天地四季花街"
+    },
+    {
+      "action": "update",
+      "id": 22,
+      "name": "元茂大厦"
+    },
+    {
+      "action": "update",
+      "id": 23,
+      "name": "绣景雅苑"
+    },
+    {
+      "action": "update",
+      "id": 277,
+      "name": "聚富新寓"
+    },
+    {
+      "action": "update",
+      "id": 24,
+      "name": "银江花园"
+    },
+    {
+      "action": "update",
+      "id": 25,
+      "name": "碧景山庄"
+    },
+    {
+      "action": "update",
+      "id": 26,
+      "name": "旭东新城（含保障房）"
+    },
+    {
+      "action": "update",
+      "id": 27,
+      "name": "钻石星城（含保障房）"
+    },
+    {
+      "action": "update",
+      "id": 278,
+      "name": "宁馨家园"
+    },
+    {
+      "action": "update",
+      "id": 279,
+      "name": "凤滨嘉园安置房"
+    },
+    {
+      "action": "update",
+      "id": 28,
+      "name": "山潘新苑"
+    },
+    {
+      "action": "update",
+      "id": 280,
+      "name": "草芳新苑（含晓山北村）"
+    },
+    {
+      "action": "update",
+      "id": 281,
+      "name": "旭升花苑"
+    },
+    {
+      "action": "update",
+      "id": 282,
+      "name": "海棠花园"
+    },
+    {
+      "action": "update",
+      "id": 283,
+      "name": "欣乐南村"
+    },
+    {
+      "action": "update",
+      "id": 284,
+      "name": "欣乐北村"
+    },
+    {
+      "action": "update",
+      "id": 285,
+      "name": "中杨新村"
+    },
+    {
+      "action": "update",
+      "id": 286,
+      "name": "新庄东村"
+    },
+    {
+      "action": "update",
+      "id": 287,
+      "name": "杨庄南村"
+    },
+    {
+      "action": "update",
+      "id": 288,
+      "name": "新庄西村"
+    },
+    {
+      "action": "update",
+      "id": 289,
+      "name": "杨庄西村"
+    },
+    {
+      "action": "update",
+      "id": 290,
+      "name": "草芳路6号（原晓山南村）"
+    },
+    {
+      "action": "update",
+      "id": 291,
+      "name": "晓山公寓"
+    },
+    {
+      "action": "update",
+      "id": 292,
+      "name": "湖滨村南北苑"
+    },
+    {
+      "action": "update",
+      "id": 293,
+      "name": "湖滨新寓"
+    },
+    {
+      "action": "update",
+      "id": 294,
+      "name": "南钢六村"
+    },
+    {
+      "action": "update",
+      "id": 295,
+      "name": "南钢一村"
+    },
+    {
+      "action": "update",
+      "id": 296,
+      "name": "南钢二村"
+    },
+    {
+      "action": "update",
+      "id": 297,
+      "name": "南钢三村"
+    },
+    {
+      "action": "update",
+      "id": 298,
+      "name": "南钢四村"
+    },
+    {
+      "action": "update",
+      "id": 299,
+      "name": "南钢五村"
+    },
+    {
+      "action": "update",
+      "id": 300,
+      "name": "九龙洼"
+    },
+    {
+      "action": "update",
+      "id": 301,
+      "name": "凤南园"
+    },
+    {
+      "action": "update",
+      "id": 302,
+      "name": "太子山路小区"
+    },
+    {
+      "action": "update",
+      "id": 303,
+      "name": "新华四村"
+    },
+    {
+      "action": "update",
+      "id": 304,
+      "name": "太子阁小区"
+    },
+    {
+      "action": "update",
+      "id": 305,
+      "name": "杨庄新村"
+    },
+    {
+      "action": "update",
+      "id": 306,
+      "name": "新华七村"
+    },
+    {
+      "action": "update",
+      "id": 29,
+      "name": "化建新一村53-55栋"
+    },
+    {
+      "action": "update",
+      "id": 30,
+      "name": "扬子1村"
+    },
+    {
+      "action": "insert",
+      "id": 370,
+      "name": "扬子2村"
+    },
+    {
+      "action": "insert",
+      "id": 371,
+      "name": "扬子3村"
+    },
+    {
+      "action": "insert",
+      "id": 372,
+      "name": "扬子4村"
+    },
+    {
+      "action": "insert",
+      "id": 373,
+      "name": "扬子5村"
+    },
+    {
+      "action": "update",
+      "id": 31,
+      "name": "扬子6村"
+    },
+    {
+      "action": "insert",
+      "id": 374,
+      "name": "扬子7村"
+    },
+    {
+      "action": "insert",
+      "id": 375,
+      "name": "扬子8村"
+    },
+    {
+      "action": "insert",
+      "id": 376,
+      "name": "扬子9村"
+    },
+    {
+      "action": "insert",
+      "id": 377,
+      "name": "扬子10村"
+    },
+    {
+      "action": "insert",
+      "id": 378,
+      "name": "扬子11村"
+    },
+    {
+      "action": "insert",
+      "id": 379,
+      "name": "扬子12村"
+    },
+    {
+      "action": "insert",
+      "id": 380,
+      "name": "扬子17村"
+    },
+    {
+      "action": "insert",
+      "id": 381,
+      "name": "扬子18村"
+    },
+    {
+      "action": "update",
+      "id": 32,
+      "name": "扬子19村"
+    },
+    {
+      "action": "update",
+      "id": 33,
+      "name": "扬子14村（10-11栋）"
+    },
+    {
+      "action": "update",
+      "id": 34,
+      "name": "扬子20村"
+    },
+    {
+      "action": "update",
+      "id": 35,
+      "name": "扬子14村"
+    },
+    {
+      "action": "insert",
+      "id": 382,
+      "name": "扬子15村"
+    },
+    {
+      "action": "insert",
+      "id": 383,
+      "name": "扬子16村"
+    },
+    {
+      "action": "update",
+      "id": 36,
+      "name": "扬子21村"
+    },
+    {
+      "action": "update",
+      "id": 307,
+      "name": "化建新村（含化建新一村22栋-52栋）"
+    },
+    {
+      "action": "update",
+      "id": 308,
+      "name": "杨庄北村"
+    },
+    {
+      "action": "update",
+      "id": 309,
+      "name": "吴家洼小区"
+    },
+    {
+      "action": "update",
+      "id": 310,
+      "name": "新华二村（14-41栋）"
+    },
+    {
+      "action": "update",
+      "id": 311,
+      "name": "周洼新村"
+    },
+    {
+      "action": "update",
+      "id": 312,
+      "name": "山潘三村"
+    },
+    {
+      "action": "update",
+      "id": 313,
+      "name": "山潘四村"
+    },
+    {
+      "action": "update",
+      "id": 314,
+      "name": "山潘一村"
+    },
+    {
+      "action": "update",
+      "id": 315,
+      "name": "九村东巷"
+    },
+    {
+      "action": "update",
+      "id": 316,
+      "name": "九村西巷"
+    },
+    {
+      "action": "update",
+      "id": 317,
+      "name": "九村"
+    },
+    {
+      "action": "update",
+      "id": 318,
+      "name": "新华三村"
+    },
+    {
+      "action": "update",
+      "id": 319,
+      "name": "新华一村"
+    },
+    {
+      "action": "insert",
+      "id": 384,
+      "name": "新华二村（1-13栋）"
+    },
+    {
+      "action": "update",
+      "id": 320,
+      "name": "红旗村小区"
+    },
+    {
+      "action": "update",
+      "id": 321,
+      "name": "长冲村"
+    },
+    {
+      "action": "update",
+      "id": 322,
+      "name": "新华五村"
+    },
+    {
+      "action": "update",
+      "id": 323,
+      "name": "新华六村"
+    },
+    {
+      "action": "update",
+      "id": 324,
+      "name": "南磷新村"
+    },
+    {
+      "action": "update",
+      "id": 37,
+      "name": "山居花园"
+    },
+    {
+      "action": "update",
+      "id": 38,
+      "name": "铭望府"
+    },
+    {
+      "action": "update",
+      "id": 325,
+      "name": "时代芳华里"
+    },
+    {
+      "action": "update",
+      "id": 40,
+      "name": "芳华名邸"
+    },
+    {
+      "action": "update",
+      "id": 326,
+      "name": "云玥美著"
+    },
+    {
+      "action": "update",
+      "id": 42,
+      "name": "暄玥府"
+    },
+    {
+      "action": "merge",
+      "id": 12,
+      "target": 268,
+      "name": "凤滨嘉园"
+    },
+    {
+      "action": "merge",
+      "id": 15,
+      "target": 274,
+      "name": "滕泰雅苑"
+    },
+    {
+      "action": "merge",
+      "id": 39,
+      "target": 325,
+      "name": "时代芳华"
+    },
+    {
+      "action": "merge",
+      "id": 41,
+      "target": 326,
+      "name": "云玥美著苑"
+    },
+    {
+      "action": "split_summary",
+      "id": 327,
+      "target": null,
+      "name": "扬子小区"
+    }
+  ],
+  "backup": "D:\\javaprogram\\FireControl\\outputs\\highrise-sync-20261125\\backup-before-sync-20261125-195318-561546.json.gz",
+  "coordinate_notes": [
+    {
+      "name": "紫景园",
+      "lng": 118.731593,
+      "lat": 32.209195,
+      "source": "amap_poi",
+      "poi_id": "B00190AJAL",
+      "matched_address": "杨新路77号",
+      "status": "review",
+      "reason": "复用高德小区本体代表点",
+      "matched_name": "福基紫景园",
+      "inside_project_boundary": false
+    },
+    {
+      "name": "草芳新苑（含晓山北村）",
+      "lng": 118.73532,
+      "lat": 32.21795,
+      "source": "amap_poi",
+      "poi_id": "B00190D2M0",
+      "matched_address": "草芳路69号",
+      "status": "review",
+      "reason": "高德草芳社区住宅小区代表点（草芳路69号），草芳新苑店铺地址同属草芳路69号；含晓山北村的整个条目采用一个代表点",
+      "matched_name": "草芳社区",
+      "inside_project_boundary": true
+    },
+    {
+      "name": "欣乐南村",
+      "lng": 118.751198,
+      "lat": 32.228417,
+      "source": "amap_poi",
+      "poi_id": "B0LR35CDLK",
+      "matched_address": "园西路与园东广场交叉口东320米",
+      "status": "review",
+      "reason": "复用高德小区本体代表点",
+      "matched_name": "欣乐新村-南区",
+      "inside_project_boundary": true
+    },
+    {
+      "name": "欣乐北村",
+      "lng": 118.753107,
+      "lat": 32.233033,
+      "source": "amap_poi",
+      "poi_id": "B00190BWQ9",
+      "matched_address": "毕洼路234号",
+      "status": "review",
+      "reason": "高德欣乐新村毕洼路234号代表点；与北区店铺地址对应，区别于园西路南区",
+      "matched_name": "欣乐新村",
+      "inside_project_boundary": true
+    },
+    {
+      "name": "晓山公寓",
+      "lng": 118.73975,
+      "lat": 32.2087,
+      "source": "amap_geocode",
+      "poi_id": null,
+      "matched_address": "江苏省南京市六合区大厂街道杨新路195号",
+      "status": "review",
+      "reason": "按Excel完整门牌查询高德，优先采用门址级候选；另有门牌号候选，待现场核验",
+      "matched_name": "晓山公寓（杨新路195号门址）",
+      "inside_project_boundary": true
+    },
+    {
+      "name": "南钢二村",
+      "lng": 118.74736,
+      "lat": 32.20253,
+      "source": "amap_poi",
+      "poi_id": "B0FFGMNJ6G",
+      "matched_address": "大厂街道大厂",
+      "status": "review",
+      "reason": "复用高德小区本体代表点",
+      "matched_name": "南钢二村",
+      "inside_project_boundary": true
+    },
+    {
+      "name": "新华四村",
+      "lng": 118.754894,
+      "lat": 32.221168,
+      "source": "amap_poi",
+      "poi_id": "B00190YJNS",
+      "matched_address": "沿江工业开发区新华路",
+      "status": "review",
+      "reason": "复用高德小区本体代表点",
+      "matched_name": "新华四村",
+      "inside_project_boundary": true
+    },
+    {
+      "name": "扬子2村",
+      "lng": 118.764395,
+      "lat": 32.236451,
+      "source": "amap_poi",
+      "poi_id": "B001915SC3",
+      "matched_address": "团结路与扬村路交叉口东北100米",
+      "status": "review",
+      "reason": "高德小区本体代表点",
+      "matched_name": "扬子二村",
+      "inside_project_boundary": true
+    },
+    {
+      "name": "扬子3村",
+      "lng": 118.765992,
+      "lat": 32.238172,
+      "source": "amap_poi",
+      "poi_id": "B00190CPJA",
+      "matched_address": "大厂街道沿江工业开发区",
+      "status": "review",
+      "reason": "高德小区本体代表点",
+      "matched_name": "扬子三村",
+      "inside_project_boundary": true
+    },
+    {
+      "name": "扬子4村",
+      "lng": 118.767802,
+      "lat": 32.23929,
+      "source": "amap_poi",
+      "poi_id": "B0FFF3NA4I",
+      "matched_address": "平阳三路36正东方向120米",
+      "status": "review",
+      "reason": "高德小区本体代表点",
+      "matched_name": "扬子四村",
+      "inside_project_boundary": true
+    },
+    {
+      "name": "扬子5村",
+      "lng": 118.768849,
+      "lat": 32.240862,
+      "source": "amap_poi",
+      "poi_id": "B00190BYPO",
+      "matched_address": "沿江工业开发区",
+      "status": "review",
+      "reason": "高德小区本体代表点",
+      "matched_name": "扬子五村",
+      "inside_project_boundary": true
+    },
+    {
+      "name": "扬子7村",
+      "lng": 118.766506,
+      "lat": 32.241597,
+      "source": "amap_poi",
+      "poi_id": "B00190BYPL",
+      "matched_address": "大厂街道杨村三路",
+      "status": "review",
+      "reason": "高德小区本体代表点",
+      "matched_name": "扬子七村",
+      "inside_project_boundary": true
+    },
+    {
+      "name": "扬子8村",
+      "lng": 118.764964,
+      "lat": 32.243102,
+      "source": "amap_poi",
+      "poi_id": "B001916DWE",
+      "matched_address": "平顶山路188号西南方向170米",
+      "status": "review",
+      "reason": "高德小区本体代表点",
+      "matched_name": "扬子八村",
+      "inside_project_boundary": true
+    },
+    {
+      "name": "扬子9村",
+      "lng": 118.763459,
+      "lat": 32.241903,
+      "source": "amap_poi",
+      "poi_id": "B0FFF5NIXK",
+      "matched_address": "平阳三路与杨村二路交叉口东南280米",
+      "status": "review",
+      "reason": "高德小区本体代表点",
+      "matched_name": "扬子九村",
+      "inside_project_boundary": true
+    },
+    {
+      "name": "扬子10村",
+      "lng": 118.762345,
+      "lat": 32.239407,
+      "source": "amap_poi",
+      "poi_id": "B00190YPZU",
+      "matched_address": "扬村路149东北方向60米",
+      "status": "review",
+      "reason": "高德小区本体代表点",
+      "matched_name": "扬子十村",
+      "inside_project_boundary": true
+    },
+    {
+      "name": "扬子11村",
+      "lng": 118.760837,
+      "lat": 32.2418,
+      "source": "amap_poi",
+      "poi_id": "B00190YPZV",
+      "matched_address": "杨村二路与平阳三路交叉口南140米",
+      "status": "review",
+      "reason": "高德小区本体代表点",
+      "matched_name": "扬子十一村",
+      "inside_project_boundary": true
+    },
+    {
+      "name": "扬子12村",
+      "lng": 118.762334,
+      "lat": 32.241932,
+      "source": "amap_poi",
+      "poi_id": "B001914CCG",
+      "matched_address": "大厂街道六合区大厂",
+      "status": "review",
+      "reason": "高德小区本体代表点",
+      "matched_name": "扬子十二村",
+      "inside_project_boundary": true
+    },
+    {
+      "name": "扬子17村",
+      "lng": 118.756882,
+      "lat": 32.243291,
+      "source": "amap_poi",
+      "poi_id": "B0FFFZDTWC",
+      "matched_address": "杨村一路与扬村路交叉口东100米",
+      "status": "review",
+      "reason": "高德扬子十七村北区代表点，覆盖原表扬子17村条目，未精确到楼栋",
+      "matched_name": "扬子十七村北区",
+      "inside_project_boundary": true
+    },
+    {
+      "name": "扬子18村",
+      "lng": 118.758953,
+      "lat": 32.245281,
+      "source": "amap_poi",
+      "poi_id": "B001913SK1",
+      "matched_address": "扬村一路东150米",
+      "status": "review",
+      "reason": "高德小区本体代表点",
+      "matched_name": "扬子十八村",
+      "inside_project_boundary": true
+    },
+    {
+      "name": "扬子15村",
+      "lng": 118.75604,
+      "lat": 32.239121,
+      "source": "amap_poi",
+      "poi_id": "B00190BYOA",
+      "matched_address": "沿江工业开发区",
+      "status": "review",
+      "reason": "高德小区本体代表点",
+      "matched_name": "扬子十五村",
+      "inside_project_boundary": true
+    },
+    {
+      "name": "扬子16村",
+      "lng": 118.755355,
+      "lat": 32.241218,
+      "source": "amap_poi",
+      "poi_id": "B00190CQXK",
+      "matched_address": "大厂街道扬子第四社区社区居委会",
+      "status": "review",
+      "reason": "高德小区本体代表点",
+      "matched_name": "扬子十六村",
+      "inside_project_boundary": true
+    },
+    {
+      "name": "九村",
+      "lng": 118.761255,
+      "lat": 32.233549,
+      "source": "amap_poi",
+      "poi_id": "B0FFF2H26Y",
+      "matched_address": "葛关路与山畔街交叉口东北260米",
+      "status": "review",
+      "reason": "复用高德小区本体代表点",
+      "matched_name": "南化九村",
+      "inside_project_boundary": true
+    },
+    {
+      "name": "新华三村",
+      "lng": 118.752173,
+      "lat": 32.227124,
+      "source": "amap_poi",
+      "poi_id": "B0FFG02MHU",
+      "matched_address": "大厂新华路园东路口",
+      "status": "review",
+      "reason": "复用高德小区本体代表点",
+      "matched_name": "新华三村",
+      "inside_project_boundary": true
+    },
+    {
+      "name": "新华二村（1-13栋）",
+      "lng": 118.758364,
+      "lat": 32.227868,
+      "source": "amap_poi",
+      "poi_id": "B0FFHX7ZJ1",
+      "matched_address": "新华村路与毕洼路交叉口北150米",
+      "status": "review",
+      "reason": "高德新华二村东区代表点；搜索结果地址明确包含东区2幢，属于1-13栋范围；未逐栋核验",
+      "matched_name": "新华二村东区",
+      "inside_project_boundary": true
+    },
+    {
+      "name": "新华五村",
+      "lng": 118.747861,
+      "lat": 32.22522,
+      "source": "amap_poi",
+      "poi_id": "B00190YJNT",
+      "matched_address": "健民路1号",
+      "status": "review",
+      "reason": "复用高德小区本体代表点",
+      "matched_name": "新华五村",
+      "inside_project_boundary": true
+    },
+    {
+      "name": "新华六村",
+      "lng": 118.74387,
+      "lat": 32.222442,
+      "source": "amap_poi",
+      "poi_id": "B00190CQX3",
+      "matched_address": "新华路",
+      "status": "review",
+      "reason": "复用高德小区本体代表点",
+      "matched_name": "新华六村",
+      "inside_project_boundary": true
+    }
+  ]
+}

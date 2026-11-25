@@ -1,0 +1,1012 @@
+[
+  {
+    "placeId": 268,
+    "name": "凤滨嘉园商品房",
+    "placeType": "highrise",
+    "longitude": 118.745336,
+    "latitude": 32.205287,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂凤滨路18号"
+  },
+  {
+    "placeId": 269,
+    "name": "卸甲山庄",
+    "placeType": "highrise",
+    "longitude": 118.741826,
+    "latitude": 32.203602,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂街道凤滨路158号"
+  },
+  {
+    "placeId": 13,
+    "name": "桂馨园",
+    "placeType": "highrise",
+    "longitude": 118.73598,
+    "latitude": 32.206767,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂新华西路326号"
+  },
+  {
+    "placeId": 270,
+    "name": "圣得山庄",
+    "placeType": "highrise",
+    "longitude": 118.739822,
+    "latitude": 32.215058,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂新华路195号"
+  },
+  {
+    "placeId": 14,
+    "name": "三丰公寓",
+    "placeType": "highrise",
+    "longitude": 118.747682,
+    "latitude": 32.22343,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂新华路129号"
+  },
+  {
+    "placeId": 271,
+    "name": "百悦家花园",
+    "placeType": "highrise",
+    "longitude": 118.755958,
+    "latitude": 32.212527,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂育英路299号"
+  },
+  {
+    "placeId": 272,
+    "name": "紫景园",
+    "placeType": "highrise",
+    "longitude": 118.731593,
+    "latitude": 32.209195,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂杨新路77号"
+  },
+  {
+    "placeId": 273,
+    "name": "瑞景园",
+    "placeType": "highrise",
+    "longitude": 118.732011,
+    "latitude": 32.20725,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂杨新路66号"
+  },
+  {
+    "placeId": 274,
+    "name": "腾泰雅苑",
+    "placeType": "highrise",
+    "longitude": 118.739282,
+    "latitude": 32.217764,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂草芳路118号"
+  },
+  {
+    "placeId": 16,
+    "name": "恒丰世家",
+    "placeType": "highrise",
+    "longitude": 118.751932,
+    "latitude": 32.23209,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂毕洼西路299号"
+  },
+  {
+    "placeId": 275,
+    "name": "新广厦",
+    "placeType": "highrise",
+    "longitude": 118.740712,
+    "latitude": 32.218279,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂晓山路69号"
+  },
+  {
+    "placeId": 276,
+    "name": "宝润花园",
+    "placeType": "highrise",
+    "longitude": 118.733932,
+    "latitude": 32.214131,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂杨环路"
+  },
+  {
+    "placeId": 17,
+    "name": "荣盛水景城",
+    "placeType": "highrise",
+    "longitude": 118.740037,
+    "latitude": 32.223674,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂草芳路213号"
+  },
+  {
+    "placeId": 18,
+    "name": "兰亭苑",
+    "placeType": "highrise",
+    "longitude": 118.747253,
+    "latitude": 32.226934,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂草芳路600号"
+  },
+  {
+    "placeId": 19,
+    "name": "水榭花苑",
+    "placeType": "highrise",
+    "longitude": 118.759188,
+    "latitude": 32.238915,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂杨村路199号"
+  },
+  {
+    "placeId": 20,
+    "name": "欣城峰景",
+    "placeType": "highrise",
+    "longitude": 118.75452,
+    "latitude": 32.234813,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂欣乐路19号"
+  },
+  {
+    "placeId": 21,
+    "name": "新天地四季花街",
+    "placeType": "highrise",
+    "longitude": 118.76395,
+    "latitude": 32.230555,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂街道十村新天地8号"
+  },
+  {
+    "placeId": 22,
+    "name": "元茂大厦",
+    "placeType": "highrise",
+    "longitude": 118.761384,
+    "latitude": 32.231811,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂葛关路380号"
+  },
+  {
+    "placeId": 23,
+    "name": "绣景雅苑",
+    "placeType": "highrise",
+    "longitude": 118.751913,
+    "latitude": 32.239542,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂葛关路703号"
+  },
+  {
+    "placeId": 277,
+    "name": "聚富新寓",
+    "placeType": "highrise",
+    "longitude": 118.764908,
+    "latitude": 32.245598,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂平顶山路588号"
+  },
+  {
+    "placeId": 24,
+    "name": "银江花园",
+    "placeType": "highrise",
+    "longitude": 118.767541,
+    "latitude": 32.237052,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "南京市六合区大厂团结路8号"
+  },
+  {
+    "placeId": 25,
+    "name": "碧景山庄",
+    "placeType": "highrise",
+    "longitude": 118.775332,
+    "latitude": 32.235597,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "六合区丁家山路36号"
+  },
+  {
+    "placeId": 26,
+    "name": "旭东新城（含保障房）",
+    "placeType": "highrise",
+    "longitude": 118.743792,
+    "latitude": 32.228705,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂健民路400号"
+  },
+  {
+    "placeId": 27,
+    "name": "钻石星城（含保障房）",
+    "placeType": "highrise",
+    "longitude": 118.76181,
+    "latitude": 32.230323,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂街道新华路468号"
+  },
+  {
+    "placeId": 278,
+    "name": "宁馨家园",
+    "placeType": "highrise",
+    "longitude": 118.755703,
+    "latitude": 32.245259,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂杨村一路268号"
+  },
+  {
+    "placeId": 279,
+    "name": "凤滨嘉园安置房",
+    "placeType": "highrise",
+    "longitude": 118.745336,
+    "latitude": 32.205287,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂凤滨路18号"
+  },
+  {
+    "placeId": 28,
+    "name": "山潘新苑",
+    "placeType": "highrise",
+    "longitude": 118.753124,
+    "latitude": 32.230997,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂毕洼西路99号"
+  },
+  {
+    "placeId": 280,
+    "name": "草芳新苑（含晓山北村）",
+    "placeType": "highrise",
+    "longitude": 118.73532,
+    "latitude": 32.21795,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂草芳路西侧"
+  },
+  {
+    "placeId": 281,
+    "name": "旭升花苑",
+    "placeType": "highrise",
+    "longitude": 118.749432,
+    "latitude": 32.229075,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂园西路"
+  },
+  {
+    "placeId": 282,
+    "name": "海棠花园",
+    "placeType": "highrise",
+    "longitude": 118.741169,
+    "latitude": 32.216811,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂新华路68号"
+  },
+  {
+    "placeId": 283,
+    "name": "欣乐南村",
+    "placeType": "highrise",
+    "longitude": 118.751198,
+    "latitude": 32.228417,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂园西路"
+  },
+  {
+    "placeId": 284,
+    "name": "欣乐北村",
+    "placeType": "highrise",
+    "longitude": 118.753107,
+    "latitude": 32.233033,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂毕洼路"
+  },
+  {
+    "placeId": 285,
+    "name": "中杨新村",
+    "placeType": "highrise",
+    "longitude": 118.756703,
+    "latitude": 32.245547,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂杨村一路268号"
+  },
+  {
+    "placeId": 286,
+    "name": "新庄东村",
+    "placeType": "highrise",
+    "longitude": 118.736444,
+    "latitude": 32.209072,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂杨新路"
+  },
+  {
+    "placeId": 287,
+    "name": "杨庄南村",
+    "placeType": "highrise",
+    "longitude": 118.734798,
+    "latitude": 32.210152,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂杨环路"
+  },
+  {
+    "placeId": 288,
+    "name": "新庄西村",
+    "placeType": "highrise",
+    "longitude": 118.734474,
+    "latitude": 32.208656,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂杨新路"
+  },
+  {
+    "placeId": 289,
+    "name": "杨庄西村",
+    "placeType": "highrise",
+    "longitude": 118.732728,
+    "latitude": 32.209479,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂杨新路"
+  },
+  {
+    "placeId": 290,
+    "name": "草芳路6号（原晓山南村）",
+    "placeType": "highrise",
+    "longitude": 118.73687,
+    "latitude": 32.214739,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂草芳路6号"
+  },
+  {
+    "placeId": 291,
+    "name": "晓山公寓",
+    "placeType": "highrise",
+    "longitude": 118.73975,
+    "latitude": 32.2087,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂杨新路195号"
+  },
+  {
+    "placeId": 292,
+    "name": "湖滨村南北苑",
+    "placeType": "highrise",
+    "longitude": 118.739579,
+    "latitude": 32.203359,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂凤滨路"
+  },
+  {
+    "placeId": 293,
+    "name": "湖滨新寓",
+    "placeType": "highrise",
+    "longitude": 118.740081,
+    "latitude": 32.204911,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂凤滨路"
+  },
+  {
+    "placeId": 294,
+    "name": "南钢六村",
+    "placeType": "highrise",
+    "longitude": 118.735945,
+    "latitude": 32.203436,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "湖滨路1号"
+  },
+  {
+    "placeId": 295,
+    "name": "南钢一村",
+    "placeType": "highrise",
+    "longitude": 118.743922,
+    "latitude": 32.19692,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "幸福路"
+  },
+  {
+    "placeId": 296,
+    "name": "南钢二村",
+    "placeType": "highrise",
+    "longitude": 118.74736,
+    "latitude": 32.20253,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "宁钢路"
+  },
+  {
+    "placeId": 297,
+    "name": "南钢三村",
+    "placeType": "highrise",
+    "longitude": 118.741554,
+    "latitude": 32.198204,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "九龙路"
+  },
+  {
+    "placeId": 298,
+    "name": "南钢四村",
+    "placeType": "highrise",
+    "longitude": 118.743412,
+    "latitude": 32.20016,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "康乐路"
+  },
+  {
+    "placeId": 299,
+    "name": "南钢五村",
+    "placeType": "highrise",
+    "longitude": 118.750974,
+    "latitude": 32.204553,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "凤凰南路"
+  },
+  {
+    "placeId": 300,
+    "name": "九龙洼",
+    "placeType": "highrise",
+    "longitude": 118.741156,
+    "latitude": 32.195169,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "九龙路"
+  },
+  {
+    "placeId": 301,
+    "name": "凤南园",
+    "placeType": "highrise",
+    "longitude": 118.748709,
+    "latitude": 32.206338,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "杨新路"
+  },
+  {
+    "placeId": 302,
+    "name": "太子山路小区",
+    "placeType": "highrise",
+    "longitude": 118.756481,
+    "latitude": 32.214568,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "太子山路"
+  },
+  {
+    "placeId": 303,
+    "name": "新华四村",
+    "placeType": "highrise",
+    "longitude": 118.754894,
+    "latitude": 32.221168,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂新华路"
+  },
+  {
+    "placeId": 304,
+    "name": "太子阁小区",
+    "placeType": "highrise",
+    "longitude": 118.756481,
+    "latitude": 32.214568,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂旭东路"
+  },
+  {
+    "placeId": 305,
+    "name": "杨庄新村",
+    "placeType": "highrise",
+    "longitude": 118.734304,
+    "latitude": 32.212895,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂杨环路"
+  },
+  {
+    "placeId": 306,
+    "name": "新华七村",
+    "placeType": "highrise",
+    "longitude": 118.77007,
+    "latitude": 32.233208,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂新华东路"
+  },
+  {
+    "placeId": 29,
+    "name": "化建新一村53-55栋",
+    "placeType": "highrise",
+    "longitude": 118.740874,
+    "latitude": 32.210506,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂旭东路"
+  },
+  {
+    "placeId": 30,
+    "name": "扬子1村",
+    "placeType": "highrise",
+    "longitude": 118.766,
+    "latitude": 32.235032,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂杨村路"
+  },
+  {
+    "placeId": 370,
+    "name": "扬子2村",
+    "placeType": "highrise",
+    "longitude": 118.764395,
+    "latitude": 32.236451,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂杨村路"
+  },
+  {
+    "placeId": 371,
+    "name": "扬子3村",
+    "placeType": "highrise",
+    "longitude": 118.765992,
+    "latitude": 32.238172,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂杨村路"
+  },
+  {
+    "placeId": 372,
+    "name": "扬子4村",
+    "placeType": "highrise",
+    "longitude": 118.767802,
+    "latitude": 32.23929,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂杨村路"
+  },
+  {
+    "placeId": 373,
+    "name": "扬子5村",
+    "placeType": "highrise",
+    "longitude": 118.768849,
+    "latitude": 32.240862,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂杨村路"
+  },
+  {
+    "placeId": 31,
+    "name": "扬子6村",
+    "placeType": "highrise",
+    "longitude": 118.769013,
+    "latitude": 32.238189,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂杨村路"
+  },
+  {
+    "placeId": 374,
+    "name": "扬子7村",
+    "placeType": "highrise",
+    "longitude": 118.766506,
+    "latitude": 32.241597,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂杨村路"
+  },
+  {
+    "placeId": 375,
+    "name": "扬子8村",
+    "placeType": "highrise",
+    "longitude": 118.764964,
+    "latitude": 32.243102,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂杨村路"
+  },
+  {
+    "placeId": 376,
+    "name": "扬子9村",
+    "placeType": "highrise",
+    "longitude": 118.763459,
+    "latitude": 32.241903,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂杨村路"
+  },
+  {
+    "placeId": 377,
+    "name": "扬子10村",
+    "placeType": "highrise",
+    "longitude": 118.762345,
+    "latitude": 32.239407,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂杨村路"
+  },
+  {
+    "placeId": 378,
+    "name": "扬子11村",
+    "placeType": "highrise",
+    "longitude": 118.760837,
+    "latitude": 32.2418,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂杨村路"
+  },
+  {
+    "placeId": 379,
+    "name": "扬子12村",
+    "placeType": "highrise",
+    "longitude": 118.762334,
+    "latitude": 32.241932,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂杨村路"
+  },
+  {
+    "placeId": 380,
+    "name": "扬子17村",
+    "placeType": "highrise",
+    "longitude": 118.756882,
+    "latitude": 32.243291,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂杨村路"
+  },
+  {
+    "placeId": 381,
+    "name": "扬子18村",
+    "placeType": "highrise",
+    "longitude": 118.758953,
+    "latitude": 32.245281,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂杨村路"
+  },
+  {
+    "placeId": 32,
+    "name": "扬子19村",
+    "placeType": "highrise",
+    "longitude": 118.76073,
+    "latitude": 32.245771,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂杨村路"
+  },
+  {
+    "placeId": 33,
+    "name": "扬子14村（10-11栋）",
+    "placeType": "highrise",
+    "longitude": 118.758183,
+    "latitude": 32.241346,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂杨村路"
+  },
+  {
+    "placeId": 34,
+    "name": "扬子20村",
+    "placeType": "highrise",
+    "longitude": 118.757627,
+    "latitude": 32.244403,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂杨村路"
+  },
+  {
+    "placeId": 35,
+    "name": "扬子14村",
+    "placeType": "highrise",
+    "longitude": 118.758183,
+    "latitude": 32.241346,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂杨村路"
+  },
+  {
+    "placeId": 382,
+    "name": "扬子15村",
+    "placeType": "highrise",
+    "longitude": 118.75604,
+    "latitude": 32.239121,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂杨村路"
+  },
+  {
+    "placeId": 383,
+    "name": "扬子16村",
+    "placeType": "highrise",
+    "longitude": 118.755355,
+    "latitude": 32.241218,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂杨村路"
+  },
+  {
+    "placeId": 36,
+    "name": "扬子21村",
+    "placeType": "highrise",
+    "longitude": 118.755073,
+    "latitude": 32.237553,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂杨村路"
+  },
+  {
+    "placeId": 307,
+    "name": "化建新村（含化建新一村22栋-52栋）",
+    "placeType": "highrise",
+    "longitude": 118.738876,
+    "latitude": 32.209649,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂新华西路"
+  },
+  {
+    "placeId": 308,
+    "name": "杨庄北村",
+    "placeType": "highrise",
+    "longitude": 118.738663,
+    "latitude": 32.210825,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂新华西路"
+  },
+  {
+    "placeId": 309,
+    "name": "吴家洼小区",
+    "placeType": "highrise",
+    "longitude": 118.758122,
+    "latitude": 32.212709,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "凤凰南路"
+  },
+  {
+    "placeId": 310,
+    "name": "新华二村（14-41栋）",
+    "placeType": "highrise",
+    "longitude": 118.758697,
+    "latitude": 32.227978,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "新华二村"
+  },
+  {
+    "placeId": 311,
+    "name": "周洼新村",
+    "placeType": "highrise",
+    "longitude": 118.757179,
+    "latitude": 32.224143,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "周洼新村"
+  },
+  {
+    "placeId": 312,
+    "name": "山潘三村",
+    "placeType": "highrise",
+    "longitude": 118.760274,
+    "latitude": 32.238151,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "扬村路，九村西路"
+  },
+  {
+    "placeId": 313,
+    "name": "山潘四村",
+    "placeType": "highrise",
+    "longitude": 118.759508,
+    "latitude": 32.237612,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "葛关路，九村西路、扬村二路"
+  },
+  {
+    "placeId": 314,
+    "name": "山潘一村",
+    "placeType": "highrise",
+    "longitude": 118.763166,
+    "latitude": 32.234053,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "新华路、葛关路、九村西路、杨村路"
+  },
+  {
+    "placeId": 315,
+    "name": "九村东巷",
+    "placeType": "highrise",
+    "longitude": 118.759696,
+    "latitude": 32.23505,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "新华路、葛关路、九村西路、杨村路"
+  },
+  {
+    "placeId": 316,
+    "name": "九村西巷",
+    "placeType": "highrise",
+    "longitude": 118.759702,
+    "latitude": 32.234035,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "新华路、葛关路、九村西路、杨村路"
+  },
+  {
+    "placeId": 317,
+    "name": "九村",
+    "placeType": "highrise",
+    "longitude": 118.761255,
+    "latitude": 32.233549,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "新华路、葛关路、九村西路、杨村路"
+  },
+  {
+    "placeId": 318,
+    "name": "新华三村",
+    "placeType": "highrise",
+    "longitude": 118.752173,
+    "latitude": 32.227124,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "新华路"
+  },
+  {
+    "placeId": 319,
+    "name": "新华一村",
+    "placeType": "highrise",
+    "longitude": 118.759324,
+    "latitude": 32.22767,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "新华路"
+  },
+  {
+    "placeId": 384,
+    "name": "新华二村（1-13栋）",
+    "placeType": "highrise",
+    "longitude": 118.758364,
+    "latitude": 32.227868,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "新华路"
+  },
+  {
+    "placeId": 320,
+    "name": "红旗村小区",
+    "placeType": "highrise",
+    "longitude": 118.764992,
+    "latitude": 32.225089,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "旭东路"
+  },
+  {
+    "placeId": 321,
+    "name": "长冲村",
+    "placeType": "highrise",
+    "longitude": 118.77908,
+    "latitude": 32.240242,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "毕洼路"
+  },
+  {
+    "placeId": 322,
+    "name": "新华五村",
+    "placeType": "highrise",
+    "longitude": 118.747861,
+    "latitude": 32.22522,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "新华路、健民路"
+  },
+  {
+    "placeId": 323,
+    "name": "新华六村",
+    "placeType": "highrise",
+    "longitude": 118.74387,
+    "latitude": 32.222442,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "新华路、健民路、草芳路、晓山路"
+  },
+  {
+    "placeId": 324,
+    "name": "南磷新村",
+    "placeType": "highrise",
+    "longitude": 118.770079,
+    "latitude": 32.225027,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "南磷、葛关路"
+  },
+  {
+    "placeId": 37,
+    "name": "山居花园",
+    "placeType": "highrise",
+    "longitude": 118.740475,
+    "latitude": 32.205975,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "大厂新华西路"
+  },
+  {
+    "placeId": 38,
+    "name": "铭望府",
+    "placeType": "highrise",
+    "longitude": 118.756876,
+    "latitude": 32.231394,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "南京市六合区大厂街道山潘东街3号"
+  },
+  {
+    "placeId": 325,
+    "name": "时代芳华里",
+    "placeType": "highrise",
+    "longitude": 118.756962,
+    "latitude": 32.229664,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "南京市六合区山潘东街2号"
+  },
+  {
+    "placeId": 40,
+    "name": "芳华名邸",
+    "placeType": "highrise",
+    "longitude": 118.758029,
+    "latitude": 32.230648,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "南京市六合区山潘东街4号"
+  },
+  {
+    "placeId": 326,
+    "name": "云玥美著",
+    "placeType": "highrise",
+    "longitude": 118.752101,
+    "latitude": 32.224468,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "南京市六合区大厂街道园东路2号"
+  },
+  {
+    "placeId": 42,
+    "name": "暄玥府",
+    "placeType": "highrise",
+    "longitude": 118.755911,
+    "latitude": 32.230395,
+    "coordinateSystem": "GCJ02",
+    "locationStatus": "review",
+    "address": "南京市六合区毕洼路61号"
+  }
+]

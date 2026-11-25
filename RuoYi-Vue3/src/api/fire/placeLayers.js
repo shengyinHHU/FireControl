@@ -1,11 +1,18 @@
 // Stable database codes are the source of truth for resource layers.
 export const PLACE_LAYERS = Object.freeze([
   { label: '重点企业', type: 'industry', color: '#e7bd70', glyph: '企' },
-  { label: '高层建筑', type: 'highrise', color: '#73bfff', glyph: '楼' },
+  { label: '居民小区', type: 'highrise', color: '#73bfff', glyph: '楼' },
   { label: '综合商业体', type: 'commercial', color: '#c5a5ff', glyph: '商' },
   { label: '养老机构', type: 'elderly', color: '#73dcc3', glyph: '养' },
 ])
 export const placeLayer = (type) => PLACE_LAYERS.find(layer => layer.type === type)
+
+// Old bookmarks, demo caches and completed import batches retain their original labels.
+export function normalizePlaceCategory(category) {
+  return ['高层建筑', '高层住宅', '居民小区', 'highrise'].includes(category)
+    ? placeLayer('highrise').label
+    : category
+}
 
 export function hasMapCoordinates(lng, lat) {
   const present = value => value !== null && value !== undefined && String(value).trim() !== ''

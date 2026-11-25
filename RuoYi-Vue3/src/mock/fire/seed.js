@@ -1,6 +1,6 @@
 export function createSeed(now = new Date()) {
   const date = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Shanghai' }).format(now)
-  const categories = ['重点企业', '高层建筑', '综合商业体', '养老院']
+  const categories = ['重点企业', '居民小区', '综合商业体', '养老院']
   const names = ['扬子石化厂区', '扬子精细化工', '凤滨嘉园', '山潘花园', '大厂商业中心', '新华广场', '欣乐养老服务中心', '幸福颐养院', '化建科技园', '四周物流园', '扬子新材料科技', '大厂机电制造厂']
   const places = names.map((name, i) => ({ id: `p${i + 1}`, name, category: categories[i >= 8 ? 0 : Math.floor(i / 2)], gridId: `g${i % 3 + 1}`, address: `大厂街道${['新华路', '葛关路', '园东路'][i % 3]}${28 + i * 16}号`, owner: ['王强', '刘洋', '张敏'][i % 3], phone: `1380000${String(1000 + i)}`, risk: ['一般', '较高', '低'][i % 3], lng: 118.736 + (i % 3) * .019, lat: 32.216 + Math.floor(i / 3) * .007, crs: 'GCJ02', description: '落实消防安全责任制，定期开展设施巡检和应急演练。' }))
   const grids = ['扬子第一社区', '欣乐社区', '四周社区'].map((name, i) => ({ id: `g${i + 1}`, name, owner: ['李建国', '周静', '陈海'][i], phone: `1390000100${i}`, polygon: [[118.728 + i * .019, 32.207], [118.746 + i * .019, 32.211], [118.745 + i * .019, 32.248], [118.727 + i * .019, 32.244]], description: '消防安全网格责任区' }))

@@ -1,7 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import fs from 'node:fs'
-import vm from 'node:vm'
 import { parse, compileTemplate, compileScript } from '@vue/compiler-sfc'
 import { transform } from 'esbuild'
 import { incidentKind, incidentSummary, filterIncidents, incidentIcon } from '../../src/api/fire/incidentPresentation.js'
@@ -29,10 +28,21 @@ test('pending map component and CSS compile', async () => {
  compileScript(descriptor,{id:'map'})
  await transform(fs.readFileSync('src/api/fire/mapPresentation.css.pending','utf8'),{loader:'css'})
 })
-test('grid call navigates directly to the requested meeting URL', () => {
- const s=fs.readFileSync('src/components/Fire/ResourcePage.vue','utf8')
- const code=s.match(/function callGrid\(\) \{[\s\S]*?\n\}/)[0]
- const urls=[];const ctx=vm.createContext({window:{location:{assign:u=>urls.push(u)}}})
- vm.runInContext(code,ctx);ctx.callGrid()
- assert.deepEqual(urls,['https://www.jnrhtx.top/meeting/index?from=Dc'])
+test('grid rows use the shared dial action with their own contact and call permission', () => {
+ const filename='src/components/Fire/ResourcePage.vue'
+ const {descriptor,errors}=parse(fs.readFileSync(filename,'utf8'),{filename})
+ assert.deepEqual(errors,[])
+ const script=compileScript(descriptor,{id:'grid-dial'})
+ assert.equal(script.imports.ContactDialLink.source,'./ContactDialLink.vue')
+ const actions=[]
+ function visit(node) {
+  if(node.type===1&&node.tag==='ContactDialLink')actions.push(node)
+  for(const child of node.children||[])visit(child)
+ }
+ visit(descriptor.template.ast)
+ assert.equal(actions.length,1,'one shared dial action per grid row')
+ const directive=(name,arg)=>actions[0].props.find(p=>p.type===7&&p.name===name&&(!arg||p.arg?.content===arg))?.exp?.content
+ assert.equal(directive('if').replace(/\s+/g,''),"resource==='grids'&&canFire('grids','call')")
+ assert.equal(directive('bind','name'),'row.owner')
+ assert.equal(directive('bind','phone'),'row.phone')
 })

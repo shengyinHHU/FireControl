@@ -56,8 +56,15 @@ const server = spawn(process.execPath, ['node_modules/vite/bin/vite.js', '--mode
     fail = false
     await page.locator('.command-screen > .fire-error').getByRole('button', { name: '重试' }).click()
     await assertCounts([1001, 1, 1, 0])
+    await page.locator('.map-layer-toggle').click()
+    const layers = page.locator('.map-layer-buttons')
+    assert.equal(await layers.getByRole('button', { name: '居民小区', exact: true }).count(), 1)
+    assert.equal(await layers.getByRole('button', { name: '高层建筑', exact: true }).count(), 0)
+    await layers.getByRole('button', { name: '居民小区', exact: true }).click()
+    await page.locator('.map-layer-toggle').click()
+    checks.push('map layer uses the same residential display label as overview and list filters')
     assert.ok(requests.some(r => r.page === 2 && r.size === 1000), 'load the second page')
-    for (const [name, count] of [['重点企业', 1001], ['高层建筑', 1], ['综合商业体', 1], ['养老机构', 0]]) {
+    for (const [name, count] of [['重点企业', 1001], ['居民小区', 1], ['综合商业体', 1], ['养老机构', 0]]) {
       await category(name).click()
       assert.equal(await page.locator('.place-rows button').count(), count)
       assert.equal(await page.locator('.places-panel .tiny').textContent(), `${count} 处`)
@@ -67,7 +74,7 @@ const server = spawn(process.execPath, ['node_modules/vite/bin/vite.js', '--mode
     checks.push('all four category counts match clicked lists, including zero and unlocated records beyond row 1000')
     await category('养老机构').click()
     assert.equal(await page.locator('.place-rows button').count(), 1004, 'unfiltered list includes government')
-    await category('高层建筑').focus(); await page.keyboard.press('Enter')
+    await category('居民小区').focus(); await page.keyboard.press('Enter')
     assert.equal(await page.locator('.place-rows button').count(), 1)
     await page.setViewportSize({ width: 390, height: 844 })
     await page.screenshot({ path: output + '/narrow.png', fullPage: true })

@@ -1,0 +1,294 @@
+[
+  {
+    "TABLE_NAME": "fire_119_incident",
+    "COLUMN_NAME": "place_id"
+  },
+  {
+    "TABLE_NAME": "fire_alarm_simulation",
+    "COLUMN_NAME": "place_id"
+  },
+  {
+    "TABLE_NAME": "fire_gateway",
+    "COLUMN_NAME": "place_id"
+  },
+  {
+    "TABLE_NAME": "fire_inspection_post",
+    "COLUMN_NAME": "place_id"
+  },
+  {
+    "TABLE_NAME": "fire_inspection_record",
+    "COLUMN_NAME": "place_id"
+  },
+  {
+    "TABLE_NAME": "fire_place",
+    "COLUMN_NAME": "place_id"
+  },
+  {
+    "TABLE_NAME": "fire_place",
+    "COLUMN_NAME": "source_key"
+  },
+  {
+    "TABLE_NAME": "fire_place",
+    "COLUMN_NAME": "name"
+  },
+  {
+    "TABLE_NAME": "fire_place",
+    "COLUMN_NAME": "place_type"
+  },
+  {
+    "TABLE_NAME": "fire_place",
+    "COLUMN_NAME": "industry_category"
+  },
+  {
+    "TABLE_NAME": "fire_place",
+    "COLUMN_NAME": "management_company"
+  },
+  {
+    "TABLE_NAME": "fire_place",
+    "COLUMN_NAME": "credit_code"
+  },
+  {
+    "TABLE_NAME": "fire_place",
+    "COLUMN_NAME": "dept_id"
+  },
+  {
+    "TABLE_NAME": "fire_place",
+    "COLUMN_NAME": "supervisor_user_id"
+  },
+  {
+    "TABLE_NAME": "fire_place",
+    "COLUMN_NAME": "community_name"
+  },
+  {
+    "TABLE_NAME": "fire_place",
+    "COLUMN_NAME": "grid_id"
+  },
+  {
+    "TABLE_NAME": "fire_place",
+    "COLUMN_NAME": "address"
+  },
+  {
+    "TABLE_NAME": "fire_place",
+    "COLUMN_NAME": "normalized_address"
+  },
+  {
+    "TABLE_NAME": "fire_place",
+    "COLUMN_NAME": "adcode"
+  },
+  {
+    "TABLE_NAME": "fire_place",
+    "COLUMN_NAME": "main_risk_sources"
+  },
+  {
+    "TABLE_NAME": "fire_place",
+    "COLUMN_NAME": "risk_level"
+  },
+  {
+    "TABLE_NAME": "fire_place",
+    "COLUMN_NAME": "employee_count"
+  },
+  {
+    "TABLE_NAME": "fire_place",
+    "COLUMN_NAME": "building_area_m2"
+  },
+  {
+    "TABLE_NAME": "fire_place",
+    "COLUMN_NAME": "resident_elderly_count"
+  },
+  {
+    "TABLE_NAME": "fire_place",
+    "COLUMN_NAME": "disabled_elderly_count"
+  },
+  {
+    "TABLE_NAME": "fire_place",
+    "COLUMN_NAME": "highrise_building_count"
+  },
+  {
+    "TABLE_NAME": "fire_place",
+    "COLUMN_NAME": "passenger_flow_raw"
+  },
+  {
+    "TABLE_NAME": "fire_place",
+    "COLUMN_NAME": "mini_fire_station_equipment"
+  },
+  {
+    "TABLE_NAME": "fire_place",
+    "COLUMN_NAME": "emergency_team_count"
+  },
+  {
+    "TABLE_NAME": "fire_place",
+    "COLUMN_NAME": "longitude"
+  },
+  {
+    "TABLE_NAME": "fire_place",
+    "COLUMN_NAME": "latitude"
+  },
+  {
+    "TABLE_NAME": "fire_place",
+    "COLUMN_NAME": "coordinate_system"
+  },
+  {
+    "TABLE_NAME": "fire_place",
+    "COLUMN_NAME": "coordinate_source"
+  },
+  {
+    "TABLE_NAME": "fire_place",
+    "COLUMN_NAME": "location_status"
+  },
+  {
+    "TABLE_NAME": "fire_place",
+    "COLUMN_NAME": "matched_address"
+  },
+  {
+    "TABLE_NAME": "fire_place",
+    "COLUMN_NAME": "amap_poi_id"
+  },
+  {
+    "TABLE_NAME": "fire_place",
+    "COLUMN_NAME": "location_checked_by"
+  },
+  {
+    "TABLE_NAME": "fire_place",
+    "COLUMN_NAME": "location_checked_at"
+  },
+  {
+    "TABLE_NAME": "fire_place",
+    "COLUMN_NAME": "status"
+  },
+  {
+    "TABLE_NAME": "fire_place",
+    "COLUMN_NAME": "del_flag"
+  },
+  {
+    "TABLE_NAME": "fire_place",
+    "COLUMN_NAME": "create_by"
+  },
+  {
+    "TABLE_NAME": "fire_place",
+    "COLUMN_NAME": "create_time"
+  },
+  {
+    "TABLE_NAME": "fire_place",
+    "COLUMN_NAME": "update_by"
+  },
+  {
+    "TABLE_NAME": "fire_place",
+    "COLUMN_NAME": "update_time"
+  },
+  {
+    "TABLE_NAME": "fire_place",
+    "COLUMN_NAME": "remark"
+  },
+  {
+    "TABLE_NAME": "fire_place",
+    "COLUMN_NAME": "revision"
+  },
+  {
+    "TABLE_NAME": "fire_place_contact",
+    "COLUMN_NAME": "contact_id"
+  },
+  {
+    "TABLE_NAME": "fire_place_contact",
+    "COLUMN_NAME": "place_id"
+  },
+  {
+    "TABLE_NAME": "fire_place_contact",
+    "COLUMN_NAME": "contact_role"
+  },
+  {
+    "TABLE_NAME": "fire_place_contact",
+    "COLUMN_NAME": "contact_name"
+  },
+  {
+    "TABLE_NAME": "fire_place_contact",
+    "COLUMN_NAME": "phone"
+  },
+  {
+    "TABLE_NAME": "fire_place_contact",
+    "COLUMN_NAME": "sort_order"
+  },
+  {
+    "TABLE_NAME": "fire_place_contact",
+    "COLUMN_NAME": "status"
+  },
+  {
+    "TABLE_NAME": "fire_place_contact",
+    "COLUMN_NAME": "del_flag"
+  },
+  {
+    "TABLE_NAME": "fire_place_contact",
+    "COLUMN_NAME": "create_by"
+  },
+  {
+    "TABLE_NAME": "fire_place_contact",
+    "COLUMN_NAME": "create_time"
+  },
+  {
+    "TABLE_NAME": "fire_place_contact",
+    "COLUMN_NAME": "update_by"
+  },
+  {
+    "TABLE_NAME": "fire_place_contact",
+    "COLUMN_NAME": "update_time"
+  },
+  {
+    "TABLE_NAME": "fire_place_contact",
+    "COLUMN_NAME": "remark"
+  },
+  {
+    "TABLE_NAME": "fire_place_import_row",
+    "COLUMN_NAME": "import_row_id"
+  },
+  {
+    "TABLE_NAME": "fire_place_import_row",
+    "COLUMN_NAME": "source_key"
+  },
+  {
+    "TABLE_NAME": "fire_place_import_row",
+    "COLUMN_NAME": "batch_no"
+  },
+  {
+    "TABLE_NAME": "fire_place_import_row",
+    "COLUMN_NAME": "file_name"
+  },
+  {
+    "TABLE_NAME": "fire_place_import_row",
+    "COLUMN_NAME": "file_sha256"
+  },
+  {
+    "TABLE_NAME": "fire_place_import_row",
+    "COLUMN_NAME": "sheet_name"
+  },
+  {
+    "TABLE_NAME": "fire_place_import_row",
+    "COLUMN_NAME": "row_number"
+  },
+  {
+    "TABLE_NAME": "fire_place_import_row",
+    "COLUMN_NAME": "source_serial"
+  },
+  {
+    "TABLE_NAME": "fire_place_import_row",
+    "COLUMN_NAME": "raw_data"
+  },
+  {
+    "TABLE_NAME": "fire_place_import_row",
+    "COLUMN_NAME": "place_id"
+  },
+  {
+    "TABLE_NAME": "fire_place_import_row",
+    "COLUMN_NAME": "import_status"
+  },
+  {
+    "TABLE_NAME": "fire_place_import_row",
+    "COLUMN_NAME": "error_message"
+  },
+  {
+    "TABLE_NAME": "fire_place_import_row",
+    "COLUMN_NAME": "create_by"
+  },
+  {
+    "TABLE_NAME": "fire_place_import_row",
+    "COLUMN_NAME": "create_time"
+  }
+]

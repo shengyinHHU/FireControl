@@ -1,6 +1,6 @@
 # 真实场所地图图层
 
-四类标签通过 fire_place.place_type 匹配：重点企业 industry、高层建筑 highrise、综合商业体 commercial、养老院 elderly。
+四类标签通过 fire_place.place_type 匹配：重点企业 industry、居民小区 highrise、综合商业体 commercial、养老院 elderly。
 
 ## 使用
 

@@ -1,0 +1,493 @@
+[
+  {
+    "kind": "poi",
+    "params": {
+      "keywords": "扬子二村",
+      "city": "南京市",
+      "citylimit": "true",
+      "offset": "5",
+      "page": "1",
+      "extensions": "base",
+      "output": "JSON"
+    },
+    "fingerprint": "38ed8f906bf21ef8dad553afc610cd960e828c797c3c66417282617ab25e313f",
+    "name": "扬子2村",
+    "record_key": "扬子2村"
+  },
+  {
+    "kind": "poi",
+    "params": {
+      "keywords": "扬子三村",
+      "city": "南京市",
+      "citylimit": "true",
+      "offset": "5",
+      "page": "1",
+      "extensions": "base",
+      "output": "JSON"
+    },
+    "fingerprint": "f17d52d1133d56f765b2019024cd2d3491824084622428e6fa9aec69138e318f",
+    "name": "扬子3村",
+    "record_key": "扬子3村"
+  },
+  {
+    "kind": "poi",
+    "params": {
+      "keywords": "扬子四村",
+      "city": "南京市",
+      "citylimit": "true",
+      "offset": "5",
+      "page": "1",
+      "extensions": "base",
+      "output": "JSON"
+    },
+    "fingerprint": "a75cd28ff40c8ef211ed73317b0b44b43763ec4b08e510fc2452a47fbe53e539",
+    "name": "扬子4村",
+    "record_key": "扬子4村"
+  },
+  {
+    "kind": "poi",
+    "params": {
+      "keywords": "扬子五村",
+      "city": "南京市",
+      "citylimit": "true",
+      "offset": "5",
+      "page": "1",
+      "extensions": "base",
+      "output": "JSON"
+    },
+    "fingerprint": "6b27024c646f6de8451c83a7831a344024dc4cdeee358da90882ed4879d7cafc",
+    "name": "扬子5村",
+    "record_key": "扬子5村"
+  },
+  {
+    "kind": "poi",
+    "params": {
+      "keywords": "扬子七村",
+      "city": "南京市",
+      "citylimit": "true",
+      "offset": "5",
+      "page": "1",
+      "extensions": "base",
+      "output": "JSON"
+    },
+    "fingerprint": "031d83733934543fc09e35bd7304c873cbb3a34510746bfebd3e13d36f546678",
+    "name": "扬子7村",
+    "record_key": "扬子7村"
+  },
+  {
+    "kind": "poi",
+    "params": {
+      "keywords": "扬子八村",
+      "city": "南京市",
+      "citylimit": "true",
+      "offset": "5",
+      "page": "1",
+      "extensions": "base",
+      "output": "JSON"
+    },
+    "fingerprint": "0b6862a0885da9f7da2fe1b2d7fb55300374e32e385a1fab906d557d3fbb01e4",
+    "name": "扬子8村",
+    "record_key": "扬子8村"
+  },
+  {
+    "kind": "poi",
+    "params": {
+      "keywords": "扬子九村",
+      "city": "南京市",
+      "citylimit": "true",
+      "offset": "5",
+      "page": "1",
+      "extensions": "base",
+      "output": "JSON"
+    },
+    "fingerprint": "1f94a1aee8c89a728a684905d4185b0c6822dc7b53a67447f238e3adaccc5d7a",
+    "name": "扬子9村",
+    "record_key": "扬子9村"
+  },
+  {
+    "kind": "poi",
+    "params": {
+      "keywords": "扬子十村",
+      "city": "南京市",
+      "citylimit": "true",
+      "offset": "5",
+      "page": "1",
+      "extensions": "base",
+      "output": "JSON"
+    },
+    "fingerprint": "941d9c4a4ffd8d40a58f6b19b42a84ebeca65ca20b22b91b4970c99550012a19",
+    "name": "扬子10村",
+    "record_key": "扬子10村"
+  },
+  {
+    "kind": "poi",
+    "params": {
+      "keywords": "扬子十一村",
+      "city": "南京市",
+      "citylimit": "true",
+      "offset": "5",
+      "page": "1",
+      "extensions": "base",
+      "output": "JSON"
+    },
+    "fingerprint": "424a24a6080e3e7592b1379abf0e4e13720eb389293a981db3624b909a1ba50e",
+    "name": "扬子11村",
+    "record_key": "扬子11村"
+  },
+  {
+    "kind": "poi",
+    "params": {
+      "keywords": "扬子十二村",
+      "city": "南京市",
+      "citylimit": "true",
+      "offset": "5",
+      "page": "1",
+      "extensions": "base",
+      "output": "JSON"
+    },
+    "fingerprint": "1eb25d8ff08ddcfe67d33394cc2fc7b686ec60bfb32522e58b58a2d02f4e2c55",
+    "name": "扬子12村",
+    "record_key": "扬子12村"
+  },
+  {
+    "kind": "poi",
+    "params": {
+      "keywords": "扬子十五村",
+      "city": "南京市",
+      "citylimit": "true",
+      "offset": "5",
+      "page": "1",
+      "extensions": "base",
+      "output": "JSON"
+    },
+    "fingerprint": "91ce7a2ec6fda504ed0a2b0c1ceb118641e624e7098367560aa4f7e40a06d770",
+    "name": "扬子15村",
+    "record_key": "扬子15村"
+  },
+  {
+    "kind": "poi",
+    "params": {
+      "keywords": "扬子十六村",
+      "city": "南京市",
+      "citylimit": "true",
+      "offset": "5",
+      "page": "1",
+      "extensions": "base",
+      "output": "JSON"
+    },
+    "fingerprint": "105ac287c1adddf55c41ae9b954ef0c0c59b12ec76ac14b6d35dbb71ce6b5f50",
+    "name": "扬子16村",
+    "record_key": "扬子16村"
+  },
+  {
+    "kind": "poi",
+    "params": {
+      "keywords": "扬子十七村",
+      "city": "南京市",
+      "citylimit": "true",
+      "offset": "5",
+      "page": "1",
+      "extensions": "base",
+      "output": "JSON"
+    },
+    "fingerprint": "2e159f282f65f8347e4e0de9a05a0435d292ad83f64ee1a252e0cb469244abaf",
+    "name": "扬子17村",
+    "record_key": "扬子17村"
+  },
+  {
+    "kind": "poi",
+    "params": {
+      "keywords": "扬子十八村",
+      "city": "南京市",
+      "citylimit": "true",
+      "offset": "5",
+      "page": "1",
+      "extensions": "base",
+      "output": "JSON"
+    },
+    "fingerprint": "07f8112a0e9cdebe6127a923b433ad8d4ffa2e4a2c0f1b68e1c4e6f979e0cb98",
+    "name": "扬子18村",
+    "record_key": "扬子18村"
+  },
+  {
+    "kind": "poi",
+    "params": {
+      "keywords": "新华二村1幢",
+      "city": "南京市",
+      "citylimit": "true",
+      "offset": "5",
+      "page": "1",
+      "extensions": "base",
+      "output": "JSON"
+    },
+    "fingerprint": "9ca3980288d44e548845428808f685ee33ffca3cd571fe920094552642710aec",
+    "name": "新华二村（1-13栋）",
+    "record_key": "新华二村（1-13栋）"
+  },
+  {
+    "kind": "poi",
+    "params": {
+      "keywords": "新华二村13幢",
+      "city": "南京市",
+      "citylimit": "true",
+      "offset": "5",
+      "page": "1",
+      "extensions": "base",
+      "output": "JSON"
+    },
+    "fingerprint": "47d95005511486455ecbc30d4d66deb30bff2851f1b77a8419f5d26fa79fc5f2",
+    "name": "新华二村（1-13栋）",
+    "record_key": "新华二村（1-13栋）"
+  },
+  {
+    "kind": "poi",
+    "params": {
+      "keywords": "新华二村西区",
+      "city": "南京市",
+      "citylimit": "true",
+      "offset": "5",
+      "page": "1",
+      "extensions": "base",
+      "output": "JSON"
+    },
+    "fingerprint": "b9b17d9f7eed209f1328c58ae273e3190080b7fad00d6b1f2e33d11cf8a9eb30",
+    "name": "新华二村（1-13栋）",
+    "record_key": "新华二村（1-13栋）"
+  },
+  {
+    "kind": "poi",
+    "params": {
+      "keywords": "新华二村东区",
+      "city": "南京市",
+      "citylimit": "true",
+      "offset": "5",
+      "page": "1",
+      "extensions": "base",
+      "output": "JSON"
+    },
+    "fingerprint": "446f865e3a99cb04109fd919157d814bc2b79bc2d64759eec2032e4191ae92a5",
+    "name": "新华二村（1-13栋）",
+    "record_key": "新华二村（1-13栋）"
+  },
+  {
+    "kind": "poi",
+    "params": {
+      "keywords": "紫景园",
+      "city": "南京市",
+      "citylimit": "true",
+      "offset": "5",
+      "page": "1",
+      "extensions": "base",
+      "output": "JSON"
+    },
+    "fingerprint": "3c276be3fecb957e41bd0187a964bf86312bf9626b2af44035d2d18a2ae27c60",
+    "name": "紫景园",
+    "record_key": "紫景园"
+  },
+  {
+    "kind": "poi",
+    "params": {
+      "keywords": "草芳新苑",
+      "city": "南京市",
+      "citylimit": "true",
+      "offset": "5",
+      "page": "1",
+      "extensions": "base",
+      "output": "JSON"
+    },
+    "fingerprint": "4cf8a0e6e982d5e655ae085a989b93605dc92408443ca5f7e7f7a9cd629db886",
+    "name": "草芳新苑",
+    "record_key": "草芳新苑"
+  },
+  {
+    "kind": "poi",
+    "params": {
+      "keywords": "欣乐南村",
+      "city": "南京市",
+      "citylimit": "true",
+      "offset": "5",
+      "page": "1",
+      "extensions": "base",
+      "output": "JSON"
+    },
+    "fingerprint": "f3eb5a2a331b4f88b269ba90f2db283e7d7d3c932d6d430ad09f12992eb17f5d",
+    "name": "欣乐南村",
+    "record_key": "欣乐南村"
+  },
+  {
+    "kind": "poi",
+    "params": {
+      "keywords": "欣乐北村",
+      "city": "南京市",
+      "citylimit": "true",
+      "offset": "5",
+      "page": "1",
+      "extensions": "base",
+      "output": "JSON"
+    },
+    "fingerprint": "7b1411b6bb2ea0784475f2e9fee51b522f4d7b40d85a898bfce9eef55c25f763",
+    "name": "欣乐北村",
+    "record_key": "欣乐北村"
+  },
+  {
+    "kind": "poi",
+    "params": {
+      "keywords": "晓山公寓",
+      "city": "南京市",
+      "citylimit": "true",
+      "offset": "5",
+      "page": "1",
+      "extensions": "base",
+      "output": "JSON"
+    },
+    "fingerprint": "6a42698df448b63bf222dcf47c5991d5e03e8a1d0ba2368c603dfabad11fe4b9",
+    "name": "晓山公寓",
+    "record_key": "晓山公寓"
+  },
+  {
+    "kind": "poi",
+    "params": {
+      "keywords": "南钢二村",
+      "city": "南京市",
+      "citylimit": "true",
+      "offset": "5",
+      "page": "1",
+      "extensions": "base",
+      "output": "JSON"
+    },
+    "fingerprint": "fb9660b8e8d7d0cbd11d79d2982496b9078d8bd12b6122b947cbfb63fe03b334",
+    "name": "南钢二村",
+    "record_key": "南钢二村"
+  },
+  {
+    "kind": "poi",
+    "params": {
+      "keywords": "新华四村",
+      "city": "南京市",
+      "citylimit": "true",
+      "offset": "5",
+      "page": "1",
+      "extensions": "base",
+      "output": "JSON"
+    },
+    "fingerprint": "09de7a2eda3723eb62df1884549d993471a1a47394aaf03499e5cc30ac885572",
+    "name": "新华四村",
+    "record_key": "新华四村"
+  },
+  {
+    "kind": "poi",
+    "params": {
+      "keywords": "南化九村",
+      "city": "南京市",
+      "citylimit": "true",
+      "offset": "5",
+      "page": "1",
+      "extensions": "base",
+      "output": "JSON"
+    },
+    "fingerprint": "313e352a0960ac3c98138b5e80748a99852b4cf46d3b4bf8c9cd0a36ed483240",
+    "name": "南化九村",
+    "record_key": "南化九村"
+  },
+  {
+    "kind": "poi",
+    "params": {
+      "keywords": "新华三村",
+      "city": "南京市",
+      "citylimit": "true",
+      "offset": "5",
+      "page": "1",
+      "extensions": "base",
+      "output": "JSON"
+    },
+    "fingerprint": "e84263c7f2eb1dccf1c2c6f661a4d7d661dd435cb9ddca8de5215a16279ee738",
+    "name": "新华三村",
+    "record_key": "新华三村"
+  },
+  {
+    "kind": "poi",
+    "params": {
+      "keywords": "新华五村",
+      "city": "南京市",
+      "citylimit": "true",
+      "offset": "5",
+      "page": "1",
+      "extensions": "base",
+      "output": "JSON"
+    },
+    "fingerprint": "a2c32888ed0c728d428a7bed0f990c1ac620209e3c88d566fb4d694395e79306",
+    "name": "新华五村",
+    "record_key": "新华五村"
+  },
+  {
+    "kind": "poi",
+    "params": {
+      "keywords": "新华六村",
+      "city": "南京市",
+      "citylimit": "true",
+      "offset": "5",
+      "page": "1",
+      "extensions": "base",
+      "output": "JSON"
+    },
+    "fingerprint": "2e0ad49477ce8f9af31093774f6e21ec6a5382e7da81563e484bb12a185aff78",
+    "name": "新华六村",
+    "record_key": "新华六村"
+  },
+  {
+    "kind": "poi",
+    "params": {
+      "keywords": "南京大厂杨新路195号",
+      "city": "南京市",
+      "citylimit": "true",
+      "offset": "5",
+      "page": "1",
+      "extensions": "base",
+      "output": "JSON"
+    },
+    "fingerprint": "dfcb8b4ce820e7efa060ef8378bf983cc2c73be75f0e3e65f962749007529b4e",
+    "name": "晓山公寓",
+    "record_key": "晓山公寓"
+  },
+  {
+    "kind": "poi",
+    "params": {
+      "keywords": "草芳新苑小区",
+      "city": "南京市",
+      "citylimit": "true",
+      "offset": "5",
+      "page": "1",
+      "extensions": "base",
+      "output": "JSON"
+    },
+    "fingerprint": "37b42ff6a93fa3e55f0d4d92476072147089c6f35704140fafe1852a5075b454",
+    "name": "草芳新苑",
+    "record_key": "草芳新苑"
+  },
+  {
+    "kind": "poi",
+    "params": {
+      "keywords": "扬子十五村南区",
+      "city": "南京市",
+      "citylimit": "true",
+      "offset": "5",
+      "page": "1",
+      "extensions": "base",
+      "output": "JSON"
+    },
+    "fingerprint": "60bd0d1d23e38881e5e73232710b1dd1360ac00892b6ddac00c819998ebffefe",
+    "name": "扬子15村",
+    "record_key": "扬子15村"
+  },
+  {
+    "kind": "geocode",
+    "params": {
+      "address": "南京市六合区大厂街道杨新路195号",
+      "city": "南京市",
+      "output": "JSON"
+    },
+    "fingerprint": "af5112602667b1d6ff28e034a9bd1652e703d7b778d6f0c4fdc38b095a9a4ac6",
+    "name": "晓山公寓",
+    "record_key": "晓山公寓"
+  }
+]
