@@ -1,0 +1,59 @@
+{
+  "findings": [
+    {
+      "category": "violation",
+      "file": "RuoYi-Vue3/src/components/Fire/MeetingConsole.vue",
+      "line": 22,
+      "message": "Application-owned form does not declare its validation owner.",
+      "remediation": "Add noValidate/novalidate and implement the canonical validation contract.",
+      "ruleId": "form.novalidate-missing",
+      "severity": "error"
+    },
+    {
+      "category": "violation",
+      "file": "RuoYi-Vue3/src/components/Fire/MeetingConsole.vue",
+      "line": 23,
+      "message": "Application-owned form does not declare its validation owner.",
+      "remediation": "Add noValidate/novalidate and implement the canonical validation contract.",
+      "ruleId": "form.novalidate-missing",
+      "severity": "error"
+    },
+    {
+      "category": "violation",
+      "file": "RuoYi-Vue3/src/components/Fire/MeetingConsole.vue",
+      "line": 24,
+      "message": "Application-owned form does not declare its validation owner.",
+      "remediation": "Add noValidate/novalidate and implement the canonical validation contract.",
+      "ruleId": "form.novalidate-missing",
+      "severity": "error"
+    },
+    {
+      "category": "violation",
+      "file": "RuoYi-Vue3/src/components/Fire/MeetingConsole.vue",
+      "line": 25,
+      "message": "Application-owned form does not declare its validation owner.",
+      "remediation": "Add noValidate/novalidate and implement the canonical validation contract.",
+      "ruleId": "form.novalidate-missing",
+      "severity": "error"
+    },
+    {
+      "category": "violation",
+      "file": "RuoYi-Vue3/src/components/Fire/MeetingConsole.vue",
+      "line": 15,
+      "message": "Native select conflicts with recorded Select/Listbox ownership: authored.",
+      "remediation": "Record Select/Listbox as native or reuse the authored canonical owner.",
+      "ruleId": "ownership.native-select-conflict",
+      "severity": "error"
+    }
+  ],
+  "mode": "strict",
+  "projectRoot": "D:\\javaprogram\\FireControl",
+  "schemaVersion": 1,
+  "summary": {
+    "errors": 5,
+    "total": 5,
+    "unresolved": 0,
+    "violations": 5,
+    "warnings": 0
+  }
+}

@@ -26,7 +26,9 @@ public class FireIngestService {
  }
  @Transactional(rollbackFor=Exception.class)
  public void rawChunk(String session,String ip,byte[] raw) {
-  mapper.insertMessage(message(mapper.sessionGateway(session),session,ip,"RX",raw,null,"RAW_CHUNK",null,null,null));
+  Long gateway=mapper.sessionGateway(session);
+  mapper.insertMessage(message(gateway,session,ip,"RX",raw,null,"RAW_CHUNK",null,null,null));
+  if(updates!=null)updates.deviceChangedAfterCommit(gateway);
  }
  /** Transaction proxy returns only after commit. Caller must not send before this returns. */
  @Transactional(rollbackFor=Exception.class)
@@ -81,11 +83,13 @@ public class FireIngestService {
     @Override public void afterCommit(){updates.changed(changedGateway);}
    });
   }
+  if(updates!=null)updates.deviceChangedAfterCommit(gatewayId);
   if(replyCommand==0)return new Receipt(allowed && frame!=null && Gb26875.u(raw[4])==1?source:null,rxId,null,null);
   byte[] reply=Gb26875.response(raw,replyCommand,LocalDateTime.now(ZoneId.of("Asia/Shanghai")));
   Map<String,Object> tx=message(gatewayId,session,ip,"TX",reply,Gb26875.decode(reply),"REPLY",null,null,"QUEUED");
   mapper.insertMessage(tx);
   return new Receipt(source,rxId,number(tx.get("messageId")),reply);
  }
- public void transmission(Long id,String status,String error){mapper.updateTransmission(id,status,error);}
+ @Transactional(rollbackFor=Exception.class)
+ public void transmission(Long id,String status,String error){mapper.updateTransmission(id,status,error);if(updates!=null)updates.deviceChangedAfterCommit(mapper.messageGateway(id));}
 }

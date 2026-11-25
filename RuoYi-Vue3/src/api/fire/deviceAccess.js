@@ -14,8 +14,8 @@ export const normalizeDeviceRow = row => {
 export async function incident119Status() {
   return (await request({ url: '/fire/119/status' })).data
 }
-export async function listDeviceRecords(resource, query = {}) {
-  const res = await request({ url: urls[resource], params: query })
+export async function listDeviceRecords(resource, query = {}, options = {}) {
+  const res = await request({ url: urls[resource], params: query, silentError: !!options.silentError })
   const rows = res.rows.map(normalizeDeviceRow)
   return { ...res, rows: resource === 'alarms' ? visibleLocalAlarms(rows) : rows }
 }

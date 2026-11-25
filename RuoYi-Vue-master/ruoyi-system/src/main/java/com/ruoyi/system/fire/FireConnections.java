@@ -18,4 +18,8 @@ public class FireConnections {
  public void seen(String ip,String session){peers.computeIfAbsent(ip,k->new ConcurrentHashMap<>()).put(session,System.currentTimeMillis());}
  public void closed(String ip,String session){if(ip!=null){var sessions=peers.get(ip);if(sessions!=null)sessions.remove(session);}}
  public boolean online(String ip){if(ip==null)return false;var sessions=peers.get(ip);return sessions!=null && sessions.values().stream().anyMatch(t->System.currentTimeMillis()-t<=properties.getOnlineSeconds()*1000L);}
+ public boolean online(String ip,Object receivedAt){
+  java.util.Date time=receivedAt instanceof java.util.Date d?d:receivedAt instanceof java.time.LocalDateTime t?java.util.Date.from(t.atZone(java.time.ZoneId.of("Asia/Shanghai")).toInstant()):null;
+  return online(ip)||(time!=null&&recent(time));
+ }
 }

@@ -12,6 +12,7 @@ import com.ruoyi.system.fire.FireConnections;
 @Service
 public class FireAssetService {
  @org.springframework.beans.factory.annotation.Autowired private IFirePlaceService places;
+ @org.springframework.beans.factory.annotation.Autowired(required=false) private com.ruoyi.system.fire.FireAlarmUpdates updates;
  private final FireAssetMapper mapper;private final FireAccessService reads;private final FireConnections connections;
  public FireAssetService(FireAssetMapper m,FireAccessService r,FireConnections c){mapper=m;reads=r;connections=c;}
  private static ServiceException error(String m){return new ServiceException(m);}
@@ -34,10 +35,11 @@ public class FireAssetService {
   Long oldPlace=old==null||old.get("placeId")==null?null:((Number)old.get("placeId")).longValue();
   if(a.placeId!=null&&!a.placeId.equals(oldPlace)){var q=new FirePlace();q.setPlaceId(a.placeId);if(places==null||places.selectMapPlaces(q).isEmpty())throw error("关联机构不存在或无权访问");}
   var r=args(a);r.put("identityChanged",old!=null&&!Objects.equals(old.get("allowedIp"),a.allowedIp));
-  try{if(a.id==null){mapper.insertGateway(r);return ((Number)r.get("id")).longValue();}mapper.updateGateway(r);
+  try{if(a.id==null){mapper.insertGateway(r);Long id=((Number)r.get("id")).longValue();if(updates!=null)updates.deviceChangedAfterCommit(id);return id;}mapper.updateGateway(r);
+   if(updates!=null)updates.deviceChangedAfterCommit(a.id);
    if(!Objects.equals(old.get("sourceAddress"),a.sourceAddress)||!Objects.equals(old.get("centerAddress"),a.centerAddress)||!Objects.equals(old.get("allowedIp"),a.allowedIp)||!Objects.equals(old.get("enabled"),a.enabled))invalidate((String)old.get("allowedIp"));return a.id;}
   catch(org.springframework.dao.DuplicateKeyException e){throw error("装置编号或来源IP已存在（含历史删除记录），请核对");}
  }
  @Transactional(rollbackFor=Exception.class)
- public void deleteGateway(Long id,Long revision){var row=lock(id,revision);Map<String,Object> r=new HashMap<>();r.put("id",id);r.put("actor",SecurityUtils.getUsername());mapper.deleteGateway(r);invalidate((String)row.get("allowedIp"));}
+ public void deleteGateway(Long id,Long revision){var row=lock(id,revision);Map<String,Object> r=new HashMap<>();r.put("id",id);r.put("actor",SecurityUtils.getUsername());mapper.deleteGateway(r);invalidate((String)row.get("allowedIp"));if(updates!=null)updates.deviceChangedAfterCommit(id);}
 }

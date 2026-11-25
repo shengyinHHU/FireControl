@@ -13,12 +13,14 @@ public class FireAccessService {
  public FireAccessService(FireAccessMapper m,FireConnections c){mapper=m;connections=c;}
  @DataScope(deptAlias="g",userAlias="g",userField="supervisor_user_id",permission="fire:alarms:list")
  public List<Long> alarmGatewayIds(FireAccessQuery q){return mapper.alarmGatewayIds(q);}
+ @DataScope(deptAlias="g",userAlias="g",userField="supervisor_user_id",permission="fire:gateways:list")
+ public List<Long> deviceGatewayIds(FireAccessQuery q){return mapper.alarmGatewayIds(q);}
  private boolean gatewayOnline(Map<String,Object> row){
   Object enabled=row.getOrDefault("gatewayEnabled",row.get("enabled"));
   if(enabled!=null&&!"0".equals(enabled))return false;
   String ip=(String)row.getOrDefault("allowedIp",row.get("gatewayIp"));
   Object received=row.getOrDefault("gatewayLastSeen",row.get("lastSeen"));
-  return connections.online(ip)||(received instanceof Date&&connections.recent((Date)received));
+  return connections.online(ip,received);
  }
  private List<Map<String,Object>> normalize(List<Map<String,Object>> rows){
   SimpleDateFormat fmt=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");fmt.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));

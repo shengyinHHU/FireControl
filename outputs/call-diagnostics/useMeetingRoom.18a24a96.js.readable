@@ -1,0 +1,698 @@
+import {
+  A as ee,
+  u as Fe,
+  a as Ve,
+  Q as R,
+  H as K,
+  a6 as Ie,
+  a5 as Oe,
+  a7 as xe,
+  a1 as Be,
+  z as D
+} from "./index.72795bbd.js";
+import {
+  W as $e
+} from "./websocket.468e3e42.js";
+import {
+  c as _e,
+  f as Ue
+} from "./index.777bbe52.js";
+import {
+  L as Q
+} from "./index.975eaa25.js";
+import {
+  i as G,
+  n as je,
+  h as He,
+  j as Y,
+  k as Je,
+  a as Z,
+  u as ze,
+  l as T,
+  f as We
+} from "./index.20a17cce.js";
+
+function Xe() {
+  return ee({
+    browserStatus: "0",
+    setPartListVal: null,
+    localLiveForm: null,
+    isOwner: !1,
+    chatToValue: "all",
+    chatToLabel: "所有人",
+    chatToList: [{
+      text: "所有人",
+      value: "all"
+    }],
+    isConfigChat: !0,
+    isConfigRecord: !0,
+    isAllMphone: !0,
+    isAllCamera: !0,
+    curMode: "2",
+    targetStreamsPhone: "",
+    isCamera: !0,
+    isMphone: !0,
+    isShare: !1,
+    videoStreams: [],
+    staffList: [],
+    staActNum: 0,
+    deviceList: [],
+    devActNum: 0,
+    allMeetPartList: [],
+    integrationIds: [],
+    isShowPart: !1,
+    isPartType: "1",
+    isShowChat: !1,
+    isNewMsg: !1,
+    isConfig: !1,
+    isJoinRoom: !0,
+    isShowBtn: !0,
+    isFullScreen: !1,
+    isRecord: !1,
+    isStartFull: !1,
+    isStartFullBtn: !1,
+    meetConfigData: {},
+    meetLong: null,
+    meetLongVal: null
+  })
+}
+
+function Ke() {
+  return ee({
+    userName: "",
+    loginKey: "",
+    roomName: "",
+    roomNumber: "",
+    audioDevice: "",
+    videoDevice: "",
+    videoUrl: "",
+    pushVideoUrl: "",
+    currentUser: "",
+    roomLink: "",
+    phonenumber: ""
+  })
+}
+
+function tt(w = {}) {
+  const te = Fe(),
+    c = Ve(),
+    oe = "https://dict.jnrhtx.top:18880",
+    o = w.state || Xe(),
+    i = w.liveForm || Ke();
+  let M = new $e("wss://dict.jnrhtx.top:18880/ws"),
+    a = null,
+    F = !1,
+    C = !1;
+  const L = new Map,
+    u = w.showMessage || ((e, t) => console.log(e, t)),
+    V = w.onExit || null,
+    I = w.onDeviceStreamStalled || null,
+    ne = e => (e == null ? void 0 : e.identity) && e.identity.indexOf("stream_") === 0,
+    O = e => {
+      if (!e) return 0;
+      if (typeof e.getCurrentTime == "function") {
+        const n = Number(e.getCurrentTime());
+        return Number.isNaN(n) ? 0 : n
+      }
+      const t = Number(e.currentTime);
+      return Number.isNaN(t) ? 0 : t
+    },
+    N = e => {
+      const t = L.get(e);
+      t != null && t.timer && clearInterval(t.timer), L.delete(e)
+    },
+    re = () => {
+      L.forEach((e, t) => {
+        N(t)
+      })
+    },
+    ae = e => {
+      var m, l;
+      const t = (e == null ? void 0 : e.identity) || "",
+        n = t.indexOf("stream_") === 0 ? t.replace("stream_", "") : t,
+        r = o.videoStreams.find(d => d.identity === t) || {},
+        s = o.deviceList.find(d => d.identity === t || d.phoneNumber === t || d.phoneNumber === n) || {};
+      return {
+        ...s,
+        ...(e == null ? void 0 : e.busData) || {},
+        ...(r == null ? void 0 : r.busData) || {},
+        id: n || ((m = e == null ? void 0 : e.busData) == null ? void 0 : m.id) || ((l = r == null ? void 0 : r.busData) == null ? void 0 : l.id) || s.id,
+        deviceId: n,
+        identity: t
+      }
+    },
+    se = e => {
+      const t = ae(e);
+      typeof I == "function" ? I(t, e) : q(t)
+    },
+    ie = (e, t) => {
+      if (!o.isOwner || !ne(e) || !t) return;
+      const n = e.identity;
+      N(n);
+      let r = O(t),
+        s = 0,
+        m = 0;
+      console.log("[设备流健康检查] start", {
+        identity: n,
+        currentTime: r
+      });
+      const l = setInterval(() => {
+        const d = document.getElementById(`video-${n}`);
+        if (!d || !document.body.contains(d)) {
+          N(n);
+          return
+        }
+        const h = O(d);
+        m += 1, console.log("[设备流健康检查] videoElm.getCurrentTime()", {
+          identity: n,
+          currentTime: h,
+          lastTime: r,
+          staleCount: s,
+          checkCount: m
+        }), h === r ? s += 1 : (s = 0, r = h), s >= 5 && (console.log("[设备流健康检查] 时间戳连续5秒未更新，重新接入设备", {
+          identity: n,
+          currentTime: h
+        }), N(n), se(e)), m >= 120 && (console.log("[设备流健康检查] 120秒检查结束，停止监控", {
+          identity: n,
+          currentTime: h
+        }), N(n))
+      }, 1e3);
+      L.set(n, {
+        timer: l
+      })
+    },
+    x = () => "123123",
+    B = async () => {
+      const e = {
+          userId: c.query.phonenumber,
+          org: "default",
+          roomMode: "auto",
+          baseUrl: oe
+        },
+        t = {
+          roomNum: c.query.roomNumber,
+          cameraStatus: !0,
+          microphoneStatus: !0
+        };
+      a = new Q(e), $(), await a.joinRoom(t), i.roomLink = x(), a != null && a.changeAudioDevice && a.changeAudioDevice(i.audioDevice), a != null && a.changeVideoDevice && a.changeVideoDevice(i.videoDevice), H()
+    }, v = (e = !0, t = null) => {
+      if (F) return !1;
+      if (F = !0, re(), a) {
+        const n = a;
+        a = null, console.log("调用退出会议接口"), n.leaveRoom().catch(() => {}), n.closeSocket(), M.close()
+      }
+      if (U().catch(() => {}), !e) return !1;
+      t ? te.push(t) : V && V()
+    }, y = () => {
+      v(!1)
+    }, ue = () => {
+      C || typeof window == "undefined" || (window.addEventListener("pagehide", y), window.addEventListener("beforeunload", y), window.addEventListener("unload", y), C = !0)
+    }, ce = () => {
+      !C || typeof window == "undefined" || (window.removeEventListener("pagehide", y), window.removeEventListener("beforeunload", y), window.removeEventListener("unload", y), C = !1)
+    }, le = () => {
+      var e;
+      return a ? G({
+        meetingNum: (e = c.query) == null ? void 0 : e.roomNumber,
+        status: 2,
+        endTime: R()
+      }).then(t => {
+        var n;
+        return t.code == 200 ? (a.deleteRoom((n = c.query) == null ? void 0 : n.phonenumber), !0) : !1
+      }) : Promise.resolve(!1)
+    }, $ = () => {
+      !a || (a.on("errorPush", e => {
+        e.type == "makeCall" && u("error", e.message), e.type == "getToken" && (u("error", "会议房间已关闭"), setTimeout(() => {
+          var t;
+          o.isOwner && G({
+            meetingNum: (t = c.query) == null ? void 0 : t.roomNumber,
+            status: 2,
+            endTime: R()
+          }), v()
+        }, 2e3))
+      }), a.on("messageReceived", e => {
+        console.log("接收即时消息", e)
+      }), a.on("activeSpeakerChange", e => {
+        console.log(`【${e.length}个人】正在说话`)
+      }), a.on("makeCallSuccess", () => {
+        u("success", "外呼成功")
+      }), a.on("roomCreatedFail", () => {
+        u("error", "会议创建失败，请重试")
+      }), a.on("roomConnected", () => {
+        o.isJoinRoom = !0
+      }), a.on("joinRoomError", () => {
+        o.isJoinRoom = !1
+      }), a.on("roomDisconnected", () => {
+        v()
+      }), a.on("localCameraChange", e => {
+        o.isCamera = e
+      }), a.on("localMicrophoneChange", e => {
+        o.isMphone = e
+      }), a.on("localScreenShareChange", e => {
+        o.isShare = e, u("success", e ? "屏幕共享已打开" : "屏幕共享已关闭")
+      }), a.on("startRecording", () => {
+        u("success", "开始录制"), o.isRecord = !0
+      }), a.on("stopRecording", () => {
+        u("success", "停止录制"), o.isRecord = !1
+      }), a.on("startPulling", e => {
+        u("success", "开始拉流"), i.videoUrl = e
+      }), a.on("stopPulling", () => {
+        u("success", "停止拉流")
+      }), a.on("imageUploadSuccess", () => {
+        u("success", "截屏保存成功")
+      }), a.on("imageUploadFail", () => {
+        u("error", "截屏保存失败，请检查接口后重试")
+      }), a.on("videoCallRender", e => {
+        console.log(`【${e.identity}】的音视频通话渲染`), a && (o.isShare = a.isShareEnable), e != null && e.remove ? _(e) : P(e)
+      }), a.on("requestDeviceOpen", e => {
+        e.input == "1" ? a.changeMicrophoneStatus() : e.input == "2" && a.changeCameraStatus()
+      }))
+    }, _ = e => {
+      let t = -1;
+      N(e.identity), o.videoStreams.forEach((n, r) => {
+        n.identity == e.identity && (t = r, (e.identity.indexOf("sip_") > -1 || e.identity.indexOf("stream_") > -1) && f(16, "status", 3, {
+          phoneNumber: n == null ? void 0 : n.name,
+          userName: n == null ? void 0 : n.name
+        }))
+      }), t != -1 && (o.videoStreams.splice(t, 1), b(), g(), K(() => {
+        const n = document.getElementById(`video-${e.identity}`);
+        e.videoTrack && e.videoTrack.detach(n || void 0), e.audioTrack && e.audioTrack.detach(n || void 0), n && (n.srcObject = null, n.src = "", n == null || n.remove())
+      }))
+    }, P = e => {
+      let t = -1;
+      o.videoStreams.forEach((n, r) => {
+        n.identity === e.identity && (t = r)
+      }), t == -1 ? (e && Ie(e == null ? void 0 : e.metadata) && JSON.parse(e == null ? void 0 : e.metadata).isOwner ? o.videoStreams.unshift(e) : (o.videoStreams.push(e), (e.identity.indexOf("sip_") > -1 || e.identity.indexOf("stream_") > -1) && f(16, "status", 0, {
+        phoneNumber: e.name,
+        userName: e.name
+      })), o.setPartListVal || (o.setPartListVal = setTimeout(() => {
+        b(), g(), o.setPartListVal = null, clearTimeout(o.setPartListVal)
+      }, 500))) : (e.busData = o.videoStreams[t].busData, o.videoStreams[t] = e, K(() => {
+        var s, m, l;
+        const n = document.getElementById(`video-${e.identity}`);
+        ((s = n == null ? void 0 : n.dataset) == null ? void 0 : s.videoIdentity) === e.identity && (e.videoTrack && ((m = e.videoTrack) == null || m.attach(n)), e.audioTrack && !e.isLocal && ((l = e.audioTrack) == null || l.attach(n)), ie(e, n)), k(e.name)
+      }))
+    }, g = () => {
+      o.videoStreams.forEach(e => {
+        P(e)
+      })
+    }, me = () => {
+      o.staffList.forEach(e => {
+        e.phoneNumber == i.phonenumber && f(16, "isMirror", e.isMirror == "1" ? "0" : "1", {
+          phoneNumber: i.phonenumber,
+          userName: i.userName
+        })
+      })
+    }, de = () => {
+      o.isCamera ? f(16, "isCameraEnable", 0, {
+        phoneNumber: i.phonenumber,
+        userName: i.userName
+      }) : o.isOwner || o.isAllCamera ? f(16, "isCameraEnable", 1, {
+        phoneNumber: i.phonenumber,
+        userName: i.userName
+      }) : u("warning", "主持人已设置【全员闭画】")
+    }, fe = () => {
+      o.isMphone ? f(16, "isMicrophoneEnable", 0, {
+        phoneNumber: i.phonenumber,
+        userName: i.userName
+      }) : o.isOwner || o.isAllMphone ? f(16, "isMicrophoneEnable", 1, {
+        phoneNumber: i.phonenumber,
+        userName: i.userName
+      }) : u("warning", "主持人已设置【全员闭麦】")
+    }, he = e => {
+      e.phoneNumber == i.phonenumber ? e.isCameraEnable == "1" ? f(16, "isCameraEnable", 0, {
+        phoneNumber: e.phoneNumber,
+        userName: e.name
+      }) : o.isOwner || o.isAllCamera ? f(16, "isCameraEnable", 1, {
+        phoneNumber: e.phoneNumber,
+        userName: e.name
+      }) : u("warning", "主持人已设置【全员闭画】") : o.isOwner && f(16, "isCameraEnable", e.isCameraEnable == "1" ? 0 : 1, {
+        phoneNumber: e.phoneNumber,
+        userName: e.name
+      })
+    }, pe = e => {
+      const t = e.isMicrophoneEnable == "1" ? 0 : 1;
+      e.phoneNumber == i.phonenumber ? e.isMicrophoneEnable == "1" ? f(16, "isMicrophoneEnable", 0, {
+        phoneNumber: e.phoneNumber,
+        userName: e.name
+      }) : o.isOwner || o.isAllMphone ? f(16, "isMicrophoneEnable", 1, {
+        phoneNumber: e.phoneNumber,
+        userName: e.name
+      }) : u("warning", "主持人已设置【全员闭麦】") : o.isOwner && f(16, "isMicrophoneEnable", t, {
+        phoneNumber: e.phoneNumber,
+        userName: e.name
+      })
+    }, ge = e => {
+      if (!o.isOwner) return;
+      const t = e.moveType == "2" ? 2 : 1;
+      f(16, "status", t, {
+        phoneNumber: e == null ? void 0 : e.phoneNumber,
+        userName: e == null ? void 0 : e.name
+      })
+    }, be = () => {
+      a == null || a.flipCamera()
+    }, Ne = e => {
+      o.isOwner && f(15, "phoneNumber", (e == null ? void 0 : e.phoneNumber) || (e == null ? void 0 : e.name))
+    }, ve = e => {
+      const t = {
+        id: e.identity.split("_")[1]
+      };
+      q(t)
+    }, q = e => {
+      _e({
+        deviceId: e.id
+      }).then(t => {
+        var n;
+        t.code == 200 && t.data && je({
+          org: "default",
+          room: (n = c.query) == null ? void 0 : n.roomNumber,
+          identity: `stream_${e.id}`,
+          url: t.data
+        }).then(r => {
+          r.code == 200 && u("success", "操作成功，请等待视频流入会")
+        })
+      })
+    }, ye = () => {
+      o.isShowChat = !o.isShowChat, o.isNewMsg = !1
+    }, we = (e = null) => {
+      const t = e || o.curChat;
+      if (!t) return !1;
+      o.chatToValue == "all" || !o.chatToValue ? f(2, 2, t) : f(12, 12, t, {
+        phoneNumber: o.chatToValue,
+        userName: o.chatToLabel
+      }), o.curChat = ""
+    }, Se = async () => {
+      var e;
+      try {
+        const t = Oe(window.location.origin, `/meeting/before?roomNumber=${(e=c.query)==null?void 0:e.roomNumber}`);
+        await navigator.clipboard.writeText(t), u("success", "会议链接复制成功")
+      } catch {
+        u("error", "会议链接复制失败")
+      }
+    }, Me = (e = null) => {
+      const t = e || document.documentElement;
+      return t.requestFullscreen ? t.requestFullscreen() : t.mozRequestFullScreen ? t.mozRequestFullScreen() : t.webkitRequestFullscreen ? t.webkitRequestFullscreen() : t.msRequestFullscreen ? t.msRequestFullscreen() : Promise.reject(new Error("当前浏览器不支持全屏API"))
+    }, U = () => document != null && document.exitFullscreen ? document.exitFullscreen() : document != null && document.mozCancelFullScreen ? document.mozCancelFullScreen() : document != null && document.webkitExitFullscreen ? document.webkitExitFullscreen() : document != null && document.msExitFullscreen ? document.msExitFullscreen() : Promise.reject(new Error("当前浏览器不支持退出全屏API")), A = (e, t) => {
+      var r;
+      const n = e.map(s => {
+        var m;
+        return {
+          meetingId: (m = c.query) == null ? void 0 : m.roomNumber,
+          name: s.userName,
+          phoneNumber: s.phoneNumber,
+          deptName: s.deptName,
+          isHost: "0",
+          isPoint: "0",
+          isMicrophoneEnable: "0",
+          isCameraEnable: "1",
+          invitedTime: R(),
+          type: "0",
+          identity: s.phoneNumber,
+          isHomeowner: "0",
+          isShare: "0",
+          position: s.position,
+          isVolte: t == "1" ? "1" : "0"
+        }
+      });
+      return He({
+        meetingNum: (r = c.query) == null ? void 0 : r.roomNumber,
+        tbMeetingStaffList: n
+      }).then(s => s.code == 200 ? (t != "1" && u("success", t == "2" ? "邀约短信发送成功" : "邀请成功"), b(), !0) : !1).catch(s => (t == "2" && u("error", s), !1))
+    }, Ce = (e, t) => {
+      Ue({
+        phoneNumber: e
+      }).then(n => {
+        var r, s;
+        n.code == 200 && ((s = (r = n == null ? void 0 : n.data) == null ? void 0 : r.rows) == null ? void 0 : s.length) > 0 ? A([n.data.rows[0]], t) : A([{
+          userName: "",
+          phoneNumber: e,
+          deptName: "",
+          position: ""
+        }], t)
+      })
+    }, Le = e => {
+      Y({
+        meetingNum: c.query.roomNumber,
+        phoneNumber: e
+      }).then(t => {
+        var n;
+        if (t.code == 200 && (t == null ? void 0 : t.data) && ((n = t.data) == null ? void 0 : n.status) == 0) return u("warning", "拨号对象已在会！"), !1;
+        a == null || a.makeCall(e, e), Je({
+          phoneNumber: e
+        })
+      })
+    }, b = async () => {
+      var e, t;
+      !((e = c.query) != null && e.roomNumber) || await Z((t = c.query) == null ? void 0 : t.roomNumber).then(n => {
+        var r, s, m;
+        n.code == 200 && n.data ? (o.staffList = ((r = n.data) == null ? void 0 : r.tbMeetingStaffList) || [], o.deviceList = ((s = n.data) == null ? void 0 : s.tbMeetingDeviceList) || [], o.integrationIds = ((m = n.data) == null ? void 0 : m.integrationIds) || ["18602569975", "stream_893"], o.allMeetPartList = [...o.staffList, ...o.deviceList], o.staffList.forEach(l => {
+          var d;
+          l.phoneNumber == ((d = c.query) == null ? void 0 : d.phonenumber) && (o.isCamera = l.isCameraEnable == 1, f(16, "isCameraEnable", o.isCamera ? 1 : 0, {
+            phoneNumber: i.phonenumber,
+            userName: i.userName
+          }), o.isMphone = l.isMicrophoneEnable == 1, f(16, "isMicrophoneEnable", o.isMphone ? 1 : 0, {
+            phoneNumber: i.phonenumber,
+            userName: i.userName
+          }))
+        }), o.videoStreams.forEach(l => {
+          o.allMeetPartList.forEach(d => {
+            l.identity == d.phoneNumber && (l.busData = d)
+          })
+        }), o.staActNum = o.staffList.filter(l => l.status == 0).length, o.devActNum = o.deviceList.filter(l => l.status == 0).length) : u("error", "当前会议号无效！")
+      }).catch(() => {})
+    }, j = async (e = {}) => {
+      if (!c.query.roomNumber || !c.query.phonenumber) return !1;
+      await Y({
+        meetingNum: c.query.roomNumber,
+        phoneNumber: c.query.phonenumber
+      }).then(t => {
+        t.code == 200 && t.data ? (i.userName = t.data.name, i.phonenumber = t.data.phoneNumber, o.isOwner = t.data.isHomeowner == 1, e.onSuccess && e.onSuccess(), J(), z()) : u("error", "您无权参与当前会议")
+      }).catch(t => {
+        u("error", t)
+      })
+    }, H = async () => {
+      var e, t;
+      !((e = c.query) != null && e.roomNumber) || await Z((t = c.query) == null ? void 0 : t.roomNumber).then(n => {
+        var r, s, m, l, d, h, S, p;
+        n.code == 200 && n.data ? (i.roomName = (r = n.data) == null ? void 0 : r.meetingTheme, i.roomNumber = (s = n.data) == null ? void 0 : s.meetingNum, o.meetLongVal = setInterval(() => {
+          var X;
+          o.meetLong = xe((X = n.data) == null ? void 0 : X.startTime)
+        }, 1e3), o.isConfigChat = ((m = n.data) == null ? void 0 : m.isChatting) == 1, o.isConfigRecord = ((l = n.data) == null ? void 0 : l.isRecording) == 1, o.isAllMphone = ((d = n.data) == null ? void 0 : d.isAllMicrophone) == "1", o.isAllCamera = ((h = n.data) == null ? void 0 : h.isAllVideo) == "1", o.curMode = String((S = n.data) == null ? void 0 : S.layoutMode) || "1", o.targetStreamsPhone = (p = n.data) == null ? void 0 : p.phoneNumber, o.meetConfigData = {
+          isConfigChat: o.isConfigChat,
+          isConfigRecord: o.isConfigRecord,
+          isAllMphone: o.isAllMphone,
+          isAllCamera: o.isAllCamera,
+          curMode: o.curMode
+        }, g(), o.isStartFullBtn = !0) : u("error", "获取当前会议详情失败！")
+      })
+    }, J = async () => {
+      setTimeout(() => {
+        var e, t;
+        ze({
+          meetingNum: (e = c.query) == null ? void 0 : e.roomNumber,
+          phoneNumber: (t = c.query) == null ? void 0 : t.phonenumber,
+          status: "0"
+        }), f(0, 0)
+      }, 3e3), await B()
+    }, k = (e, t = null) => {
+      e ? o.staffList.forEach(n => {
+        if (n.phoneNumber == e) {
+          n.isMirror = t || n.isMirror;
+          const r = document.getElementById(`video-${e}`);
+          r && (r.style.transform = `scaleX(${n.isMirror=="1"?"-1":"1"})`)
+        }
+      }) : o.staffList.forEach(n => {
+        const r = document.getElementById(`video-${n.phoneNumber}`);
+        r && (r.style.transform = `scaleX(${n.isMirror=="1"?"-1":"1"})`)
+      })
+    }, z = () => {
+      M.connect(), f(0, 0), W()
+    }, f = (e, t, n = "", r = {}, s = "") => {
+      M.send({
+        cmd: e,
+        data: {
+          type: t,
+          message: n,
+          fileName: s,
+          meetingNo: c.query.roomNumber,
+          senderPhone: i.phonenumber,
+          senderName: i.userName,
+          receiverPhone: r == null ? void 0 : r.phoneNumber,
+          receiverName: r == null ? void 0 : r.userName
+        }
+      })
+    }, W = () => {
+      M.addMessageHandler("", e => {
+        const t = JSON.parse(e);
+        console.log("wsBus接收的消息：", t), [2, 3, 4, 12].includes(Number(t.type)) && (o.chatMsg = t, o.isNewMsg = !o.isShowChat), t.type == 13 && (o.chatMsg = t, o.isNewMsg = !o.isShowChat, u("success", `【${t.senderName||t.senderPhone}】举手~`)), t.type == "isRecording" && (o.isConfigRecord = t.message == "1", u("success", `主持人已设置【${t.message=="1"?"允许录制":"禁止录制"}】`)), t.type == "isChatting" && (o.isConfigChat = t.message == "1", u("success", `主持人已设置【${t.message=="1"?"允许聊天":"禁止聊天"}】`)), t.type == "layoutMode" && (o.curMode = t.message, o.targetStreamsPhone = "", g()), t.type == "phoneNumber" && (o.targetStreamsPhone = t.message, g()), t.type == "isAllVideo" && (b(), o.isAllCamera = t.message == "1", u("success", `主持人已设置【${o.isAllCamera?"全员开画":"全员闭画"}】`), o.isOwner && o.videoStreams.forEach(n => {
+          var r, s;
+          T({
+            org: "default",
+            room: (r = c.query) == null ? void 0 : r.roomNumber,
+            owner: (s = c.query) == null ? void 0 : s.phonenumber,
+            identity: n.identity,
+            input: 2,
+            cmd: !o.isAllCamera
+          })
+        })), t.type == "isAllMicrophone" && (b(), o.isAllMphone = t.message == "1", u("success", `主持人已设置【${o.isAllMphone?"全员开麦":"全员闭麦"}】`), o.isOwner && o.videoStreams.forEach(n => {
+          var r, s;
+          T({
+            org: "default",
+            room: (r = c.query) == null ? void 0 : r.roomNumber,
+            owner: (s = c.query) == null ? void 0 : s.phonenumber,
+            identity: n.identity,
+            input: 1,
+            cmd: !o.isAllMphone
+          })
+        })), t.type == "deviceOnline" && b(), t.type == "isMirror" && k(t.senderPhone, t.message), t.type == "status" && (E(t.receiverPhone, "status", t.message), o.isOwner && t.message != 0 && o.videoStreams.forEach(n => {
+          n.name == t.receiverPhone && (a == null || a.moveoutParticipant(n.identity))
+        })), t.type == "isCameraEnable" && (E(t.receiverPhone, "isCameraEnable", t.message), i.phonenumber == t.receiverPhone && (o.isCamera = t.message == "1"), o.isOwner && o.videoStreams.forEach(n => {
+          var r, s;
+          n.name == t.receiverPhone && T({
+            org: "default",
+            room: (r = c.query) == null ? void 0 : r.roomNumber,
+            owner: (s = c.query) == null ? void 0 : s.phonenumber,
+            identity: n.identity,
+            input: 2,
+            cmd: t.message != "1"
+          })
+        })), t.type == "isMicrophoneEnable" && (E(t.receiverPhone, "isMicrophoneEnable", t.message), i.phonenumber == t.receiverPhone && (o.isMphone = t.message == "1"), o.isOwner && o.videoStreams.forEach(n => {
+          var r, s;
+          n.name == t.receiverPhone && T({
+            org: "default",
+            room: (r = c.query) == null ? void 0 : r.roomNumber,
+            owner: (s = c.query) == null ? void 0 : s.phonenumber,
+            identity: n.identity,
+            input: 1,
+            cmd: t.message != "1"
+          })
+        }))
+      })
+    }, E = (e, t, n) => {
+      let r = !1;
+      o.staffList.forEach(s => {
+        s.phoneNumber == e && (r = !0, s[t] = n)
+      }), r || o.deviceList.forEach(s => {
+        s.phoneNumber == e && (s[t] = n)
+      }), g()
+    }, Ee = () => {
+      window.location.reload()
+    }, De = () => {
+      const e = window.location.href;
+      navigator.clipboard.writeText(e), u("success", "复制成功")
+    }, Te = async (e, t, n = {}) => {
+      var l, d, h, S;
+      o.browserStatus = "0", (await navigator.mediaDevices.getUserMedia({
+        audio: !0,
+        video: !0
+      })).getTracks().forEach(p => p.stop());
+      const {
+        audioDevices: s,
+        videoDevices: m
+      } = await Q.getDeviceList();
+      e.value = s.map(p => ({
+        label: p.label,
+        value: p.deviceId
+      })), t.value = m.map(p => ({
+        label: p.label,
+        value: p.deviceId
+      })), o.localLiveForm = JSON.parse(localStorage.getItem("createLiveForm")) || {}, localStorage.removeItem("createLiveForm"), i.audioDevice = ((l = e.value[0]) == null ? void 0 : l.value) || ((d = o.localLiveForm) == null ? void 0 : d.audioDevice) || "default", i.videoDevice = ((h = t.value[0]) == null ? void 0 : h.value) || ((S = o.localLiveForm) == null ? void 0 : S.videoDevice) || "default", j(n)
+    }, Pe = async (e = {}) => {
+      var n, r, s, m;
+      if (!((n = c.query) != null && n.roomNumber)) return u("error", "未获取到会议号"), !1;
+      if (!((r = c.query) != null && r.phonenumber)) return u("error", "未获取到参会人信息"), !1;
+      const t = () => {
+        e.onFail ? e.onFail() : v()
+      };
+      try {
+        const l = await We({
+          meetingNum: (s = c.query) == null ? void 0 : s.roomNumber,
+          phoneNumber: (m = c.query) == null ? void 0 : m.phonenumber
+        });
+        if (l.code == 200 && l.data) {
+          const d = await Be();
+          return o.browserStatus = d, o.browserStatus == "0" && e.onSuccess && e.onSuccess(), !0
+        } else return u("error", l.msg), setTimeout(() => t(), 2e3), !1
+      } catch (l) {
+        return u("error", l), setTimeout(() => t(), 2e3), !1
+      }
+    }, qe = () => {
+      v(!1), ce(), o.meetLongVal && clearInterval(o.meetLongVal)
+    }, Ae = () => a, ke = () => {
+      D(() => i.audioDevice, e => {
+        a != null && a.changeAudioDevice && a.changeAudioDevice(e)
+      }), D(() => i.videoDevice, e => {
+        a != null && a.changeVideoDevice && a.changeVideoDevice(e)
+      })
+    }, Re = () => {
+      D(() => o.videoStreams, () => {
+        o.chatToList = [{
+          text: "所有人",
+          value: "all"
+        }], o.videoStreams.forEach(e => {
+          var t, n, r, s, m;
+          (e == null ? void 0 : e.busData) && ((t = e == null ? void 0 : e.busData) == null ? void 0 : t.type) == 0 && ((n = e == null ? void 0 : e.busData) == null ? void 0 : n.position) != "拨号" && ((r = e == null ? void 0 : e.busData) == null ? void 0 : r.phoneNumber) != i.phonenumber && o.chatToList.push({
+            text: (s = e == null ? void 0 : e.busData) == null ? void 0 : s.name,
+            value: (m = e == null ? void 0 : e.busData) == null ? void 0 : m.phoneNumber
+          })
+        })
+      }, {
+        deep: !0
+      }), D(() => o.chatToValue, () => {
+        o.chatToList.forEach(e => {
+          e.value == o.chatToValue && (o.chatToLabel = e.text)
+        })
+      }, {
+        deep: !0
+      })
+    };
+  return ue(), {
+    state: o,
+    liveForm: i,
+    setInviteLink: x,
+    enterRoom: B,
+    exitRoom: v,
+    deleteRoomRequest: le,
+    initRoomEvent: $,
+    delVideoDom: _,
+    updateVideoDom: P,
+    updateAllVideoDom: g,
+    changeMirror: me,
+    changeCamera: de,
+    changeMphone: fe,
+    changePartCamera: he,
+    changePartMphone: pe,
+    moveoutPart: ge,
+    flipCamera: be,
+    changeTargetStreams: Ne,
+    reconnectDevice: ve,
+    pullDeviceStream: q,
+    changeChatStatus: ye,
+    chatSendMsg: we,
+    copyLink: Se,
+    openFullscreen: Me,
+    closeFullscreen: U,
+    sureMeetPart: A,
+    smsInvite: Ce,
+    beforeVolte: Le,
+    getPartList: b,
+    handleCurPartInfo: j,
+    handleCurMeetInfo: H,
+    handMeetEvent: J,
+    syncMirror: k,
+    createScoketBus: z,
+    sendSocketBus: f,
+    initSocketBus: W,
+    verifyStaffDeviceList: E,
+    refreshPage: Ee,
+    copyMeetLink: De,
+    initMeeting: Te,
+    checkMeetingEntry: Pe,
+    cleanupMeeting: qe,
+    getLiveClient: Ae,
+    setupDeviceWatchers: ke,
+    setupChatToListWatcher: Re
+  }
+}
+export {
+  Xe as a, Ke as c, tt as u
+};

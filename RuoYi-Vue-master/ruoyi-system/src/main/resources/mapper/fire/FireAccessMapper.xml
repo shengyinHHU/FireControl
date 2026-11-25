@@ -73,4 +73,6 @@
 <select id="gatewayCount" resultType="long">SELECT COUNT(*) <include refid="joins"/> WHERE g.del_flag='0' <include refid="scope"/></select>
 <update id="bindRawSession">UPDATE fire_protocol_message SET gateway_id=#{gatewayId} WHERE session_id=#{session} AND gateway_id IS NULL AND parse_status='RAW_CHUNK'</update>
 <select id="sessionGateway" resultType="long">SELECT gateway_id FROM fire_protocol_message WHERE session_id=#{session} AND gateway_id IS NOT NULL ORDER BY message_id DESC LIMIT 1</select>
+<select id="messageGateway" resultType="long">SELECT gateway_id FROM fire_protocol_message WHERE message_id=#{id}</select>
+<select id="gatewayPresence" resultType="map">SELECT gateway_id AS id,allowed_ip AS ip,last_received_at AS receivedAt FROM fire_gateway WHERE enabled='0' AND del_flag='0'</select>
 </mapper>

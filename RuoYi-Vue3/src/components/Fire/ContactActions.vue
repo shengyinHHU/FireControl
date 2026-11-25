@@ -1,6 +1,6 @@
 <template>
   <span class="contact-actions" @click.stop @dblclick.stop>
-    <ContactDialLink :name="name" />
+    <ContactDialLink :name="name" :phone="phone" />
     <el-tooltip v-if="canSms()" :content="reason || '发送短信'">
       <span class="sms-trigger-wrap">
         <el-button link type="primary" :disabled="!!reason" :aria-label="`${name || '联系人'}的发送短信${reason ? '：' + reason : ''}`" @click.stop="openSmsComposer(source, $event.currentTarget)">

@@ -11,6 +11,7 @@
       <el-tab-pane v-if="!eventOnly" label="通信报文" name="protocolMessages" />
     </el-tabs>
     <div class="fire-table-card" :aria-busy="loading">
+      <p v-if="!embedded" class="muted device-update-status" role="status">{{ updateState === 'connected' ? '实时更新已连接' : updateState === 'denied' ? '实时更新不可用，请检查登录和权限' : '正在连接实时更新，定期校准' }}</p>
       <el-form inline novalidate @submit.prevent="search">
         <el-form-item :label="eventOnly ? '地址或内容' : '单位或装置'"><el-input v-model="keyword" clearable placeholder="输入名称后查询" @clear="search" /></el-form-item>
         <el-form-item v-if="eventOnly" label="接入来源"><el-select v-model="source" clearable placeholder="全部来源" style="width:160px" @change="changeSource">
@@ -47,7 +48,9 @@
 import { visibleLocalAlarms } from '@/api/fire/localAlarmHandling'
 import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { fire } from '@/api/fire'
+import { listDeviceRecords } from '@/api/fire/deviceAccess'
+import { createTableRefresh, reconcileTableRows } from '@/api/fire/tableRefresh'
+import { useDeviceUpdates } from '@/views/fire/useDeviceUpdates'
 import { canFire } from '@/api/fire/access'
 import StatusTag from './StatusTag.vue'
 import AlarmDetail from './AlarmDetail.vue'
@@ -59,7 +62,6 @@ const keyword = ref(String(route.query.keyword || '')), kind = ref(String(route.
 const source = ref(props.eventOnly ? String(route.query.source || '') : 'device'), caseType = ref(String(route.query.caseType || ''))
 const page = ref(Math.max(1, Number(route.query.page) || 1)), rows = ref([]), total = ref(0), loading = ref(false), error = ref('')
 const detailOpen = ref(false), eventOpen = ref(false), selected = ref(null), selectedId = ref('')
-let revision = 0, timer
 const definitions = {
  gateways: [['name','装置名称',230],['placeName','所属单位'],['model','型号'],['serial','协议地址'],['status','通信状态'],['deviceStatus','装置上报状态',260],['lastSeen','最后有效报文',190]],
  alarms: [['name','事件内容',300],['placeName','所属单位'],['gatewayName','上报装置',220],['occurredAt','服务器接收时间',190],['deviceTime','设备事件时间',190],['status','记录状态']],
@@ -67,17 +69,20 @@ const definitions = {
 }
 const columns = computed(() => (props.eventOnly ? [['source','来源',140],['name','警情内容',280],['caseTypeName','案件类型',130],['caseNatureName','案件性质',120],['placeName','案发地址或单位',260],['occurredAt','来警或接收时间',190],['status','案件或记录状态',150]] : definitions[tab.value]).map(([key,label,width]) => ({key,label,width})))
 
-async function load() {
- const current = ++revision
- loading.value = true; error.value = ''
+const refreshQueue = createTableRefresh(async (silent, isCurrent) => {
+ if (!silent) loading.value = true
  try {
-  const res = await fire.list(tab.value, { pageNum: page.value, pageSize:20, gatewayId:props.gatewayId, keyword:keyword.value, kind:tab.value==='alarms'?kind.value:'', source:tab.value==='alarms'?source.value:'', caseType:caseType.value })
-  if(current!==revision) return
+  const res = await listDeviceRecords(tab.value, { pageNum: page.value, pageSize:20, gatewayId:props.gatewayId, keyword:keyword.value, kind:tab.value==='alarms'?kind.value:'', source:tab.value==='alarms'?source.value:'', caseType:caseType.value }, { silentError: silent })
+  if(!isCurrent()) return
   if(page.value>1 && (page.value-1)*20>=res.total){page.value=Math.max(1,Math.ceil(res.total/20));persist();load();return}
-  rows.value=res.rows;total.value=res.total
- } catch(e) { if(current===revision) { rows.value=[];total.value=0;error.value=e.message || '设备记录加载失败' } }
- finally {if(current===revision)loading.value=false}
-}
+  rows.value=reconcileTableRows(rows.value,res.rows);total.value=res.total;error.value=''
+ } catch(e) { if(isCurrent()) { if(!silent){rows.value=[];total.value=0}error.value=(e.message || '设备记录加载失败')+(silent?'；当前保留上次成功记录，将自动重试':'') } }
+ finally {if(isCurrent())loading.value=false}
+}, { paused: () => document.hidden || detailOpen.value || eventOpen.value })
+// Preserve the independent 119 record page's cadence, now without a background loading overlay.
+const updateState = useDeviceUpdates(() => refreshQueue.refresh(true), props.embedded || !props.eventOnly ? 'gateways' : 'alarms', props.eventOnly ? 5000 : 60000)
+function load() { refreshQueue.refresh() }
+watch([detailOpen,eventOpen], () => refreshQueue.resume())
 function persist() { if(props.embedded)return;router.replace({ query:{...route.query,tab:tab.value,keyword:keyword.value || undefined,kind:kind.value || undefined,source:source.value || undefined,caseType:caseType.value || undefined,page:String(page.value)} }) }
 function search() { page.value=1;persist();load() }
 function changeSource() { kind.value='';caseType.value='';search() }
@@ -92,9 +97,10 @@ watch(() => route.query, q => {
  tab.value=nextTab;page.value=nextPage;keyword.value=nextKeyword;kind.value=nextKind;source.value=nextSource;caseType.value=nextCase
  detailOpen.value=false;eventOpen.value=false;load()
 })
-onMounted(() => {load();timer=setInterval(() => { if(!loading.value && !error.value && !detailOpen.value && !eventOpen.value)load() },5000)})
-onBeforeUnmount(() => { revision++;clearInterval(timer) })
+onMounted(load)
+onBeforeUnmount(() => refreshQueue.stop())
 </script>
 <style scoped>
 .device-raw { white-space:pre-wrap;overflow-wrap:anywhere;max-height:320px;overflow:auto; }
+.device-update-status { min-height:20px; margin:0 0 8px; font-size:12px; }
 </style>

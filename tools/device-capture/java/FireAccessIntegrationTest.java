@@ -76,9 +76,12 @@ public class FireAccessIntegrationTest {
   var context=new org.springframework.context.annotation.AnnotationConfigApplicationContext();
   context.register(org.springframework.boot.jackson.autoconfigure.JacksonAutoConfiguration.class,FireIngestService.class);
   java.util.concurrent.atomic.AtomicInteger committedSignals=new java.util.concurrent.atomic.AtomicInteger();
+  java.util.concurrent.atomic.AtomicInteger deviceSignals=new java.util.concurrent.atomic.AtomicInteger();
   java.util.concurrent.atomic.AtomicLong visibleAtSignal=new java.util.concurrent.atomic.AtomicLong();
   var updates=new FireAlarmUpdates(){@Override public void changed(Long gateway){
    try{visibleAtSignal.set(count("fire_event"));}catch(Exception e){throw new RuntimeException(e);}committedSignals.incrementAndGet();super.changed(gateway);
+  }@Override public void deviceChanged(Long gateway){
+   try{check(count("fire_protocol_message")>0,"device signal sees committed protocol messages");}catch(Exception e){throw new RuntimeException(e);}deviceSignals.incrementAndGet();super.deviceChanged(gateway);
   }};
   context.registerBean(FireAlarmUpdates.class,()->updates);
   context.registerBean(FireAccessMapper.class,()->mapper);
@@ -104,6 +107,15 @@ public class FireAccessIntegrationTest {
   try(var s=db.createStatement();var r=s.executeQuery("SELECT status_bits FROM fire_gateway")){r.next();check(r.getInt(1)==0x14,"latest device state");}
   var q=new FireAccessQuery();check(mapper.gateways(q).size()==1,"gateway query");check(mapper.events(q).size()==5,"event query");check(mapper.alarmGatewayIds(q).size()==1,"SSE gateway scope query");
   check(mapper.messages(q).size()==16,"message query");check(mapper.gatewayCount(q)==1,"gateway count");
+  int heartbeatBefore=deviceSignals.get();long heartbeatEvents=count("fire_event");
+  var heartbeatReceipt=ingest(service,Gb26875.unhex("404037000102380813090311c80000000000640000000000000002d82323"),"10.5.90.49");
+  check(heartbeatReceipt.reply()!=null&&deviceSignals.get()==heartbeatBefore+1&&count("fire_event")==heartbeatEvents,"empty valid heartbeat publishes device update without inventing an alarm");
+  check(mapper.messageGateway(heartbeatReceipt.sendId())!=null&&mapper.gatewayPresence().size()==1,"message ownership and presence snapshot queries");
+  var receiptProps=new FireDeviceProperties();var receiptConnections=new FireConnections(receiptProps);
+  // DATETIME(0) can round a fresh receipt into the next second; use a bounded past fixture.
+  try(var s=db.createStatement()){s.executeUpdate("UPDATE fire_gateway SET last_received_at=NOW()-INTERVAL 1 SECOND");}
+  Object storedReceipt=mapper.gatewayPresence().get(0).get("receivedAt");
+  check(receiptConnections.online("10.5.90.49",storedReceipt),"actual MySQL timestamp type is compatible with presence monitoring: "+storedReceipt+" ("+(storedReceipt==null?"null":storedReceipt.getClass())+"), now="+java.time.Instant.now()+", JVM="+java.time.ZoneId.systemDefault());
   q.getParams().put("dataScope"," AND g.dept_id=999999");check(mapper.gateways(q).isEmpty(),"gateway scope");
   check(mapper.events(q).isEmpty(),"event scope");check(mapper.alarmGatewayIds(q).isEmpty(),"SSE scope excludes unauthorized gateway");check(mapper.messages(q).isEmpty(),"raw message scope");
   check(((Number)mapper.eventStats(q).get("eventTotal")).longValue()==0,"statistics scope");q=new FireAccessQuery();
@@ -140,11 +152,12 @@ public class FireAccessIntegrationTest {
   check(failed,"persistence failure propagates before reply");
   check(count("fire_protocol_message")==before,"RX and TX rolled back on business failure");
   // Register the notification, then force a later reply INSERT failure: rollback must publish nothing.
-  int beforeLateRollback=committedSignals.get();long beforeLateEvents=count("fire_event");
+  int beforeLateRollback=committedSignals.get(),deviceBeforeRollback=deviceSignals.get();long beforeLateEvents=count("fire_event");
   try(var s=db.createStatement()){s.execute("CREATE TRIGGER fail_reply BEFORE INSERT ON fire_protocol_message FOR EACH ROW BEGIN IF NEW.direction='TX' THEN SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT='forced reply rollback'; END IF; END");}
   boolean lateFailed=false;try{ingest(service,frame(118,24,new byte[]{5,1,2,0,12,20,10,26}),"10.5.90.49");}catch(Exception e){lateFailed=true;}
   try(var s=db.createStatement()){s.execute("DROP TRIGGER fail_reply");}
   check(lateFailed&&count("fire_event")==beforeLateEvents&&committedSignals.get()==beforeLateRollback,"registered afterCommit notification is discarded on later transaction rollback");
+  check(deviceSignals.get()==deviceBeforeRollback,"device notification is discarded on reply transaction rollback");
   // Local-only, bounded lifecycle test. Actual device and port 2000 are never used.
   // The trusted localhost device above is a separate IP identity.
   var props=new FireDeviceProperties();props.setEnabled(true);props.setBindAddress("127.0.0.1");props.setIdleSeconds(5);

@@ -19,3 +19,12 @@ test('disconnect cleanup aborts the SSE request and ignores late changes', async
  stop();await new Promise(resolve=>setTimeout(resolve,10))
  assert.equal(options.signal.aborted,true);assert.equal(changes,0)
 })
+
+test('device streams accept their own events and report authorization failure', async () => {
+ const received=[],parse=createSseParser(event=>received.push(event),['ready','device-change'])
+ parse('event: device-cha');parse('nge\ndata: refresh\n\nevent: alarm-change\ndata: ignored\n\n')
+ assert.deepEqual(received,['device-change'])
+ const states=[]
+ const stop=startAlarmStream({url:'/fire/devices/stream?resource=gateways',getToken:()=> 'fixture',onChange:()=>{},onState:value=>states.push(value),fetchImpl:async()=>({status:401,ok:false})})
+ await new Promise(resolve=>setTimeout(resolve,10));stop();assert.deepEqual(states,['connecting','denied'])
+})

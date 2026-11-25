@@ -1,0 +1,375 @@
+import {
+  _ as H,
+  j as b,
+  u as z,
+  A as M,
+  z as T,
+  m as F,
+  a1 as G,
+  O as J,
+  r as p,
+  o as g,
+  c as C,
+  d as n,
+  f as v,
+  w as I,
+  C as B,
+  D as V,
+  K,
+  E as W,
+  s as X,
+  F as Y,
+  i as $,
+  k as Z,
+  Q as L,
+  G as ee,
+  p as te,
+  h as oe
+} from "./index.72795bbd.js";
+import U from "./select.c0090e87.js";
+import ie from "./message.369a0444.js";
+import {
+  m as se
+} from "./config.2992850e.js";
+import {
+  c as ae
+} from "./index.20a17cce.js";
+import {
+  L as ne
+} from "./index.975eaa25.js";
+const m = f => (te("data-v-6602bd81"), f = f(), oe(), f),
+  ce = {
+    class: "quickMeet popupBox"
+  },
+  re = {
+    class: "popupBox-title"
+  },
+  le = m(() => n("div", {
+    class: "title-left"
+  }, null, -1)),
+  de = {
+    class: "title-center"
+  },
+  ue = {
+    class: "title-right"
+  },
+  ve = {
+    class: "popupBox-content"
+  },
+  me = {
+    class: "popupBox-content-video",
+    ref: "previewVideo",
+    autoplay: ""
+  },
+  pe = {
+    key: 0,
+    class: "per-tip"
+  },
+  fe = m(() => n("div", {
+    class: "per-tip"
+  }, "点击授权麦克风和摄像头", -1)),
+  _e = {
+    class: "popupBox-footer"
+  },
+  ge = {
+    class: "popupBox-footer-left"
+  },
+  he = {
+    class: "left-video"
+  },
+  ke = m(() => n("div", {
+    class: "left-img video-img-status1"
+  }, null, -1)),
+  we = m(() => n("div", {
+    class: "left-text"
+  }, "摄像头", -1)),
+  De = {
+    class: "left-video-select"
+  },
+  ye = {
+    class: "left-microphone"
+  },
+  be = m(() => n("div", {
+    class: "left-img microphone-img-status1"
+  }, null, -1)),
+  Ce = m(() => n("div", {
+    class: "left-text"
+  }, "麦克风", -1)),
+  Ie = {
+    class: "left-video-select"
+  },
+  Ne = {
+    class: "popupBox-footer-right"
+  },
+  xe = $("检测信号"),
+  Se = $("开始会议"),
+  Me = {
+    __name: "quickMeet",
+    emits: ["closeQuickMeet"],
+    setup(f, {
+      emit: P
+    }) {
+      const {
+        proxy: h
+      } = Z(), l = b(null), E = z(), k = b([]), w = b([]);
+      let N = null;
+      const i = M({
+          stream: null,
+          userInfo: null,
+          isChecking: !1,
+          isStarting: !1,
+          browserStatus: "0",
+          isPreviewing: !1
+        }),
+        e = M({
+          roomName: "",
+          userName: "",
+          videoDevice: "",
+          audioDevice: ""
+        });
+      let _ = null;
+      T(() => e.audioDevice, () => {
+        clearTimeout(_), _ = setTimeout(() => {
+          D()
+        }, 100)
+      }), T(() => e.videoDevice, () => {
+        clearTimeout(_), _ = setTimeout(() => {
+          D()
+        }, 100)
+      });
+      const q = async () => {
+        var o, s;
+        let t = {
+          userId: (s = (o = i.userInfo) == null ? void 0 : o.user) == null ? void 0 : s.phonenumber,
+          org: "default",
+          roomName: e == null ? void 0 : e.roomName,
+          roomMode: "auto",
+          baseUrl: "https://dict.jnrhtx.top:18880"
+        };
+        return N = new ne(t), await N.createRoom()
+      }, O = async () => {
+        var t, o, s, r, a;
+        if (!(e != null && e.roomName)) return l.value = {
+          type: "warning",
+          content: "请输入会议主题"
+        }, !1;
+        i.isStarting = !0;
+        try {
+          let d = await q();
+          if (!d) return l.value = {
+            type: "danger",
+            content: "服务出错，无法创建会议"
+          }, i.isStarting = !1, !1;
+          let c = {
+            ...se,
+            startTime: L(),
+            status: "1",
+            meetingNum: d,
+            meetingTheme: e == null ? void 0 : e.roomName,
+            tbMeetingStaffList: [{
+              meetingId: d,
+              name: (t = i.userInfo) == null ? void 0 : t.user.nickName,
+              phoneNumber: (o = i.userInfo) == null ? void 0 : o.user.phonenumber,
+              deptName: ((r = (s = i.userInfo) == null ? void 0 : s.user.dept) == null ? void 0 : r.deptName) || "default",
+              isHost: "1",
+              isCameraEnable: "1",
+              isMicrophoneEnable: "1",
+              type: "0",
+              identity: (a = i.userInfo) == null ? void 0 : a.user.phonenumber,
+              isHomeowner: "1",
+              isShare: "0",
+              position: "主持人",
+              isMirror: "0",
+              isVolte: "0",
+              isPc: "1"
+            }]
+          };
+          ae(c).then(u => {
+            u.code == 200 && Q(d)
+          }).catch(u => {
+            l.value = {
+              type: "danger",
+              content: u
+            }
+          })
+        } catch {
+          i.isStarting = !1, l.value = {
+            type: "danger",
+            content: "创建会议失败，请稍后再试！"
+          }
+        }
+      }, Q = t => {
+        var s;
+        S();
+        let o = {
+          type: "quickMeet",
+          videoDevice: e.videoDevice,
+          audioDevice: e.audioDevice
+        };
+        localStorage.setItem("createLiveForm", JSON.stringify(o)), E.push({
+          name: "meetingLivekit",
+          query: {
+            phonenumber: (s = i.userInfo) == null ? void 0 : s.user.phonenumber,
+            roomNumber: t
+          }
+        })
+      }, x = async () => {
+        var a, d;
+        (await navigator.mediaDevices.getUserMedia({
+          audio: !0,
+          video: !0
+        })).getTracks().forEach(c => c.stop());
+        const o = await navigator.mediaDevices.enumerateDevices(),
+          s = o.filter(c => c.kind === "audioinput"),
+          r = o.filter(c => c.kind === "videoinput");
+        w.value = s.map(c => ({
+          label: c.label,
+          value: c.deviceId
+        })), k.value = r.map(c => ({
+          label: c.label,
+          value: c.deviceId
+        })), e.audioDevice = (a = w.value[0]) == null ? void 0 : a.value, e.videoDevice = (d = k.value[0]) == null ? void 0 : d.value, D()
+      }, S = () => {
+        y(), P("closeQuickMeet")
+      }, D = async () => {
+        if (!(e.videoDevice && e.audioDevice)) return l.value = {
+          type: "warning",
+          content: "请选择视频和音频设备"
+        }, !1;
+        y(), await new Promise(a => setTimeout(a, 100));
+        const t = await navigator.mediaDevices.enumerateDevices(),
+          o = t.find(a => a.kind === "audioinput" && a.deviceId === e.audioDevice),
+          s = t.find(a => a.kind === "videoinput" && a.deviceId === e.videoDevice),
+          r = {
+            audio: o ? {
+              deviceId: {
+                exact: e.audioDevice
+              }
+            } : !0,
+            video: s ? {
+              deviceId: {
+                exact: e.videoDevice
+              },
+              width: {
+                ideal: 1280
+              },
+              height: {
+                ideal: 635
+              }
+            } : !0
+          };
+        try {
+          i.stream = await navigator.mediaDevices.getUserMedia(r), h.$refs.previewVideo.srcObject = i.stream
+        } catch (a) {
+          console.error("无法访问摄像头或麦克风", a), l.value = {
+            type: "danger",
+            content: `无法访问设备: ${a.message}`
+          }
+        }
+      }, y = () => {
+        i.stream && (i.stream.getTracks().forEach(t => t.stop()), i.stream = null), h.$refs.previewVideo && (h.$refs.previewVideo.srcObject = null)
+      }, j = () => {
+        i.isChecking = !0;
+        let t = "";
+        if ("connection" in navigator) {
+          const {
+            effectiveType: o,
+            downlink: s,
+            rtt: r
+          } = navigator.connection;
+          s > 5 && r < 100 ? t = "优秀" : s > 2 && r < 300 ? t = "良好" : s > .5 && r < 600 ? t = "一般" : t = "较差"
+        } else return l.value = {
+          type: "danger",
+          content: "当前浏览器无法检测网络情况"
+        }, !1;
+        setTimeout(() => {
+          l.value = {
+            type: "success",
+            content: `当前网络状况【${t}】`
+          }, i.isChecking = !1
+        }, 3e3)
+      }, R = async () => {
+        await ee().then(t => {
+          var o, s, r, a;
+          t.code == 200 && (i.userInfo = t, ((r = (s = (o = i.userInfo) == null ? void 0 : o.user) == null ? void 0 : s.dept) == null ? void 0 : r.deptName.indexOf("江宁")) > -1 ? e.roomName = "分析研判会" : e.roomName = `${L().slice(5,16)} ${(a=t==null?void 0:t.user)==null?void 0:a.nickName}的快速会议`)
+        })
+      }, A = async () => {
+        await navigator.mediaDevices.enumerateDevices().then(t => {
+          i.browserStatus = "0"
+        }), x()
+      };
+      return F(async () => {
+        R(), G().then(t => {
+          i.browserStatus = t, t == "0" && x()
+        })
+      }), J(() => {
+        y()
+      }), (t, o) => {
+        const s = p("el-input"),
+          r = p("CircleClose"),
+          a = p("el-icon"),
+          d = p("van-icon"),
+          c = p("el-button");
+        return g(), C("div", ce, [n("div", re, [le, n("div", de, [v(s, {
+          modelValue: e.roomName,
+          "onUpdate:modelValue": o[0] || (o[0] = u => e.roomName = u)
+        }, null, 8, ["modelValue"])]), n("div", ue, [v(a, {
+          onClick: S
+        }, {
+          default: I(() => [v(r)]),
+          _: 1
+        })])]), n("div", ve, [B(n("video", me, null, 512), [
+          [V, i.browserStatus == "0"]
+        ]), B(n("div", {
+          class: "popupBox-content-video popupBox-content-per",
+          onClick: A
+        }, [i.browserStatus == "1" ? (g(), C("div", pe, "当前浏览器不支持RTC，请更换浏览器")) : (g(), C(K, {
+          key: 1
+        }, [v(d, {
+          name: "play-circle-o"
+        }), fe], 64))], 512), [
+          [V, i.browserStatus != "0"]
+        ])]), n("div", _e, [n("div", ge, [n("div", he, [ke, we, n("div", De, [v(U, {
+          list: k.value,
+          select: e.videoDevice,
+          "onUpdate:select": o[1] || (o[1] = u => e.videoDevice = u)
+        }, null, 8, ["list", "select"])])]), n("div", ye, [be, Ce, n("div", Ie, [v(U, {
+          list: w.value,
+          select: e.audioDevice,
+          "onUpdate:select": o[2] || (o[2] = u => e.audioDevice = u)
+        }, null, 8, ["list", "select"])])])]), n("div", Ne, [v(c, {
+          class: "footer-right-btn",
+          loading: i.isChecking,
+          onClick: j,
+          style: {
+            background: "#01bcff"
+          }
+        }, {
+          default: I(() => [xe]),
+          _: 1
+        }, 8, ["loading"]), v(c, {
+          class: "footer-right-btn",
+          loading: i.isStarting,
+          style: {
+            background: "#005df1"
+          },
+          onClick: O
+        }, {
+          default: I(() => [Se]),
+          _: 1
+        }, 8, ["loading"])])]), l.value ? (g(), W(ie, {
+          key: 0,
+          onClick: o[3] || (o[3] = X(() => {}, ["stop"])),
+          config: l.value,
+          onClose: o[4] || (o[4] = u => l.value = null)
+        }, null, 8, ["config"])) : Y("", !0)])
+      }
+    }
+  };
+var Pe = H(Me, [
+  ["__scopeId", "data-v-6602bd81"]
+]);
+export {
+  Pe as
+  default
+};

@@ -1,0 +1,12 @@
+{
+  "rootCause": "ContactActions did not forward phone after ContactDialLink gained a required phone input in 92e4e5c. Missing phone caused the rendered dial action to be disabled.",
+  "history": "The omission predates conflict cleanup d7daf4b; that cleanup did not adapt the wrapper.",
+  "regressionBeforeFix": "contact-dial.browser.cjs failed: a persisted phone must reach the shared dial component (actual disabled=true)",
+  "browserAfterFix": "passed; see browser.json",
+  "currentNavigation": "New tab with noopener,noreferrer; original page and place dialog remain open. Brief duplicate-click suppression unlocks after one second.",
+  "targetedTests": { "command": "node --test tests/fire/contact-dial.test.mjs", "passed": 4, "failed": 0 },
+  "productionBuild": { "command": "npm run build:prod", "result": "passed" },
+  "strictUiAudit": { "result": "5 existing findings in unchanged MeetingConsole.vue", "evidence": "premium-audit.json" },
+  "realCallsMade": false,
+  "deployment": "Frontend only: refresh the development page, or deploy the rebuilt frontend resources. No backend change required for this fix."
+}

@@ -1,0 +1,37 @@
+{
+  "backendCompile": "passed",
+  "frontendProductionBuild": "passed",
+  "isolatedDatabase": {
+    "command": "python tools/device-capture/verify_project.py",
+    "businessDatabaseAccessed": false,
+    "ingestionChecks": 687,
+    "assetChecks": 45,
+    "sseLifecycleChecks": 12,
+    "deviceRealtimeChecks": 12,
+    "result": "passed"
+  },
+  "browser": {
+    "realtime": "passed; see browser.json",
+    "existingDeviceManagement": "passed, 12 checks",
+    "usesControlledHttpAndSse": true,
+    "liveDeviceAcceptancePerformed": false
+  },
+  "frontendTests": {
+    "passed": 84,
+    "total": 85,
+    "existingFailure": "tests/fire/incident-presentation.test.mjs:32 expects callGrid in unchanged ResourcePage.vue"
+  },
+  "strictUiAudit": {
+    "existingFindings": 5,
+    "file": "RuoYi-Vue3/src/components/Fire/MeetingConsole.vue",
+    "details": "Four form novalidate findings and one native select ownership finding in unchanged code"
+  },
+  "deployment": {
+    "backendRestartRequired": true,
+    "matchingFrontendDeploymentRequired": true,
+    "databaseMigrationRequired": false,
+    "messageBrokerRequired": false,
+    "backendInstancesSupported": 1,
+    "proxyRequirement": "Honor X-Accel-Buffering: no for /fire/devices/stream"
+  }
+}

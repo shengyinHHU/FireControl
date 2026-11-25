@@ -1,0 +1,1027 @@
+import {
+  _ as Ne,
+  A as ee,
+  j as v,
+  z as K,
+  m as Ve,
+  r as k,
+  o as g,
+  c as C,
+  d as s,
+  e as _,
+  f as l,
+  w as a,
+  K as R,
+  E as S,
+  F as oe,
+  C as Ie,
+  D as we,
+  aa as q,
+  a0 as u,
+  L as A,
+  i as c,
+  t as b,
+  p as Ue,
+  h as Ee
+} from "./index.72795bbd.js";
+import {
+  C as te
+} from "./clipboard.c4f03888.js";
+import {
+  L as J
+} from "./index.975eaa25.js";
+import {
+  o as Re
+} from "./index.20a17cce.js";
+const p = P => (Ue("data-v-e01e7092"), P = P(), Ee(), P),
+  Pe = {
+    class: "contain"
+  },
+  xe = {
+    key: 0,
+    class: "tip-box"
+  },
+  Le = c(" 提示："),
+  Me = p(() => s("br", null, null, -1)),
+  $e = c(" 1、推流：用户点击推流，自动生成推流地址，SDK会将当前视频推送至指定服务器地址；"),
+  Be = p(() => s("br", null, null, -1)),
+  je = c(" 2、拉流：用户点击拉流，自动生成拉流地址，SDK会将已经上传至拉流地址的视频拉入房间；"),
+  Te = p(() => s("br", null, null, -1)),
+  Fe = c(" 3、邀请：点击邀请，分享给其他用户，其他用户可以通过链接直接进入房间。 "),
+  Oe = [Le, Me, $e, Be, je, Te, Fe],
+  Ge = {
+    key: 1,
+    class: "tip-box"
+  },
+  Ke = c(" 提示："),
+  qe = p(() => s("br", null, null, -1)),
+  Ae = c(" 1、输入后台管理系统中已经维护的账号和密码，点击【登陆】进行登录，然后输入房间名，点击【创建房间】即可创建房间；"),
+  Je = p(() => s("br", null, null, -1)),
+  ze = [Ke, qe, Ae, Je],
+  He = {
+    class: "btn-list"
+  },
+  Qe = c("创建房间"),
+  We = c("加入房间"),
+  Xe = c("退出房间"),
+  Ye = {
+    key: 0,
+    class: "btn"
+  },
+  Ze = c("推流"),
+  eo = c(" 推流"),
+  oo = p(() => s("br", null, null, -1)),
+  to = c(" 将视频的内容推送至服务器的过程。"),
+  lo = p(() => s("br", null, null, -1)),
+  ao = c(" 即指的是把采集阶段封包好的内容传输到服务器的过程。"),
+  io = p(() => s("br", null, null, -1)),
+  so = c(" 1、点击前须先加入房间"),
+  no = p(() => s("br", null, null, -1)),
+  co = c(" 2、点击推流后将向指定节点推流，并在推流地址字段返回当前推流地址 "),
+  ro = p(() => s("div", {
+    class: "btn-icon"
+  }, null, -1)),
+  uo = c("停止推流"),
+  mo = {
+    key: 2,
+    class: "btn"
+  },
+  po = c("拉流"),
+  _o = c(" 拉流"),
+  vo = p(() => s("br", null, null, -1)),
+  ho = c(" 指服务器已有视频内容，用指定地址进行拉取的过程。"),
+  go = p(() => s("br", null, null, -1)),
+  fo = c(" 即是指服务器里面有流媒体视频文件，这些视频文件根据"),
+  yo = p(() => s("br", null, null, -1)),
+  bo = c(" 不同的网络协议类型被读取的过程。"),
+  ko = p(() => s("br", null, null, -1)),
+  Co = c(" 1、点击前须先加入房间，并输入拉流地址"),
+  Do = p(() => s("br", null, null, -1)),
+  So = c(" 2、点击后将开始拉流 "),
+  No = p(() => s("div", {
+    class: "btn-icon"
+  }, null, -1)),
+  Vo = c("停止拉流"),
+  Io = c("开始录制"),
+  wo = p(() => s("i", {
+    class: "record-icon"
+  }, null, -1)),
+  Uo = c("停止录制"),
+  Eo = c("截屏"),
+  Ro = c("PC邀请"),
+  Po = c("小程序邀请"),
+  xo = c("外呼邀请"),
+  Lo = p(() => s("div", {
+    id: "video-wrap"
+  }, null, -1)),
+  Mo = {
+    id: "screenshare-area"
+  },
+  $o = p(() => s("div", null, [s("span", {
+    id: "screenshare-info"
+  }), s("span", {
+    id: "screenshare-resolution"
+  })], -1)),
+  Bo = p(() => s("video", {
+    id: "screenshare-video",
+    autoplay: "",
+    playsinline: ""
+  }, null, -1)),
+  jo = [$o, Bo],
+  To = {
+    id: "img-box"
+  },
+  Fo = p(() => s("h5", null, "屏幕截图", -1)),
+  Oo = ["src"],
+  Go = {
+    class: "link-content",
+    id: "link-content"
+  },
+  Ko = {
+    class: "link-title"
+  },
+  qo = {
+    class: "link-list"
+  },
+  Ao = {
+    class: "list-title"
+  },
+  Jo = {
+    class: "link-list"
+  },
+  zo = {
+    class: "list-title"
+  },
+  Ho = {
+    class: "link-list"
+  },
+  Qo = {
+    class: "list-title"
+  },
+  Wo = {
+    class: "link-btn"
+  },
+  Xo = c("一键复制"),
+  Yo = {
+    class: "link-content",
+    id: "mini-link-content"
+  },
+  Zo = {
+    class: "link-title"
+  },
+  et = {
+    class: "link-list"
+  },
+  ot = {
+    class: "list-title"
+  },
+  tt = {
+    class: "link-list"
+  },
+  lt = {
+    class: "list-title"
+  },
+  at = {
+    class: "link-list"
+  },
+  it = {
+    class: "list-title"
+  },
+  st = {
+    class: "link-btn"
+  },
+  nt = c("一键复制"),
+  ct = {
+    class: "makecall"
+  },
+  rt = {
+    class: "dialog-bottom"
+  },
+  dt = c("语音呼叫"),
+  ut = {
+    __name: "livekit",
+    setup(P) {
+      const z = "https://dict.jnrhtx.top:18880",
+        le = "https://dict.jnrhtx.top:18880",
+        o = ee({
+          userName: "",
+          loginKey: "",
+          roomName: "",
+          roomNumber: "",
+          audioDevice: "",
+          videoDevice: "",
+          outputDevice: "",
+          echoCancellation: "0",
+          autoGain: "0",
+          noiseCancellation: "0",
+          videoUrl: "",
+          pushVideoUrl: "",
+          currentUser: "",
+          roomLink: ""
+        }),
+        y = ee({
+          invitedName: "",
+          phone: ""
+        });
+      let N = v(!1),
+        H = v([]),
+        Q = v([]),
+        W = v([]),
+        M = v(""),
+        t = null,
+        ae = v(!1),
+        D = v(null),
+        I = v(null);
+      v(null);
+      let w = v(!1),
+        x = v(!1),
+        ie = v(""),
+        $ = v(!1),
+        B = v(!1),
+        j = v(!1),
+        T = v(!0),
+        F = v(!0),
+        O = v(!1),
+        U = v(!1);
+      K(() => o.audioDevice, e => {
+        t && t.changeAudioDevice(e)
+      }), K(() => o.videoDevice, e => {
+        t && t.changeVideoDevice(e)
+      }), K(() => o.outputDevice, e => {
+        t && t.changeOutputDevice(e)
+      });
+      const X = () => {
+          t && (t.leaveRoom(), t = null), location.reload()
+        },
+        Y = () => {
+          !t || (t.on("activeSpeakerChange", e => {
+            console.log("当前正在讲话", e)
+          }), t.on("makeCallSuccess", e => {
+            u({
+              message: "外呼成功",
+              type: "success"
+            }), N.value = !1
+          }), t.on("roomCreatedSuccess", e => {
+            console.log("roomCreatedSuccess", e), u({
+              message: "房间创建成功，房间号为" + e,
+              type: "success"
+            })
+          }), t.on("roomCreatedFail", e => {
+            console.log("roomCreatedFail", e), u({
+              message: "房间创建失败，请重试",
+              type: "error"
+            })
+          }), t.on("roomConnected", e => {
+            console.log("roomConnected", e), u({
+              message: "房间连接成功",
+              type: "success"
+            }), U.value = !0
+          }), t.on("joinRoomError", e => {
+            console.log("joinRoomError", e), u({
+              message: "加入房间失败，请重试",
+              type: "error"
+            }), U.value = !1
+          }), t.on("roomDisconnected", e => {
+            console.log("roomDisconnected", e), u({
+              message: "房间连接已关闭",
+              type: "error"
+            }), U.value = !1, X()
+          }), t.on("localCameraChange", e => {
+            console.log("localCameraChange", e);
+            let i = "";
+            T.value = e, e ? i = "摄像头已打开" : i = "摄像头已关闭", u({
+              message: i,
+              type: "success"
+            })
+          }), t.on("localMicrophoneChange", e => {
+            console.log("localMicrophoneChange", e);
+            let i = "";
+            F.value = e, e ? i = "麦克风已打开" : i = "麦克风已关闭", u({
+              message: i,
+              type: "success"
+            })
+          }), t.on("localScreenShareChange", e => {
+            console.log("localScreenShareChange", e);
+            let i = "";
+            O.value = e, e ? i = "屏幕共享已打开" : i = "屏幕共享已关闭", u({
+              message: i,
+              type: "success"
+            })
+          }), t.on("startPushing", e => {
+            console.log("startPushing", e), u({
+              message: "开始视频推流",
+              type: "success"
+            }), $.value = !0
+          }), t.on("stopPushing", e => {
+            console.log("stopPushing", e), u({
+              message: "停止视频推流",
+              type: "success"
+            }), $.value = !1
+          }), t.on("startRecording", e => {
+            console.log("startRecording", e), u({
+              message: "开始录制",
+              type: "success"
+            }), B.value = !0
+          }), t.on("stopRecording", e => {
+            console.log("stopRecording", e), u({
+              message: "停止录制",
+              type: "success"
+            }), B.value = !1
+          }), t.on("startPulling", e => {
+            console.log("startPulling", e), u({
+              message: "开始拉流",
+              type: "success"
+            }), j.value = !0, o.videoUrl = e
+          }), t.on("stopPulling", e => {
+            console.log("stopPulling", e), u({
+              message: "停止拉流",
+              type: "success"
+            }), j.value = !1
+          }), t.on("imageUploadSuccess", e => {
+            console.log("imageUploadSuccess", e), M.value = e, u({
+              message: "截屏保存成功",
+              type: "success"
+            })
+          }), t.on("imageUploadFail", e => {
+            console.log("imageUploadFail", e), u({
+              message: "截屏保存失败，请检查接口后重试",
+              type: "error"
+            })
+          }), t.on("videoCallRender", e => {
+            t && (T.value = t.isCameraEnable, F.value = t.isMicrophoneEnable, O.value = t.isScreenShareEnabled);
+            const i = document.getElementById("video-wrap");
+            if (!i) {
+              u({
+                message: "视频会议容器不存在",
+                type: "error"
+              });
+              return
+            }
+            let r = document.getElementById(`participant-${e.identity}`);
+            !r && !e.remove && (r = document.createElement("div"), r.id = `participant-${e.identity}`, r.className = "participant", r.innerHTML = `
+        <video id="video-${e.identity}" class="p-video" autoplay></video>
+        <div class="describe">
+          <div id="${e.identity}" class="identity">${e.name}</div>
+          <div class="tools">
+            <div id="hangoff-${e.identity}" class="hangoff"></div>
+            <div id="camera-${e.identity}" class="camera"></div>
+            <div id="microphone-${e.identity}" class="microphone"></div>
+          </div>
+        </div>
+      `, i.appendChild(r));
+            let d = document.getElementById(`video-${e.identity}`);
+            d && (d.controls = !0);
+            let h = document.getElementById(`microphone-${e.identity}`),
+              f = document.getElementById(`camera-${e.identity}`),
+              V = document.getElementById(`hangoff-${e.identity}`);
+            const E = () => {
+                t.changeParticipantMicrophoneStatus(e.identity, !0)
+              },
+              L = () => {
+                t.changeParticipantMicrophoneStatus(e.identity, !1)
+              },
+              m = () => {
+                t.moveoutParticipant(e.identity)
+              };
+            if (h && e.isMicrophoneEnabled ? (h.className = "microphone microphone-active", h.onclick = E) : h && !e.isMicrophoneEnabled && (h.className = "microphone microphone-inactive", h.onclick = L), f && e.isCameraEnabled ? (f.className = "camera camera-active", f.onclick = () => {
+                t.changeParticipantCameraStatus(e.identity, !0)
+              }) : f && !e.isCameraEnabled && (f.className = "camera camera-inactive", f.onclick = () => {
+                t.changeParticipantCameraStatus(e.identity, !1)
+              }), V && (V.onclick = m), e.remove) {
+              d && (d.srcObject = null, d.src = "", d == null || d.remove(), d = null), e.videoTrack && e.videoTrack.detach(d), e.audioTrack && e.audioTrack.detach(d), r && (r == null || r.remove());
+              return
+            }
+            e.videoTrack && e.videoTrack.attach(d), e.audioTrack && e.audioTrack.attach(d)
+          }), t.on("requestDeviceOpen", e => {
+            console.log("房主请求打开设备", e), e.input == "1" ? u({
+              message: "房主请求与会者打开麦克风",
+              type: "success"
+            }) : e.input == "2" && u({
+              message: "房主请求与会者打开摄像头",
+              type: "success"
+            })
+          }))
+        },
+        se = () => {
+          let e = localStorage.getItem("org");
+          return `${le}#/invite?roomName=${o.roomName}&roomNum=${o.roomNumber}&org=${e}`
+        },
+        ne = async () => {
+          if (localStorage.setItem("username", o.userName), localStorage.setItem("org", "default"), D.value = localStorage.getItem("username"), I.value = localStorage.getItem("org"), o.roomName === "") {
+            console.log("请输入房间名，房间名不能为空");
+            return
+          }
+          if (!D.value || !I.value) {
+            console.log("创建房间前请先登录");
+            return
+          }
+          let e = {
+            userId: D.value,
+            org: I.value,
+            roomName: o.roomName,
+            roomMode: "auto",
+            baseUrl: z
+          };
+          t = new J(e), Y(), o.roomNumber = await t.createRoom(), o.roomLink = se();
+          let i = {
+              audioDeviceId: o.audioDevice,
+              videoDeviceId: o.videoDevice,
+              outputDeviceId: o.outputDevice,
+              autoGainControl: o.autoGain,
+              echoCancellation: o.echoCancellation,
+              noiseSuppression: o.noiseCancellation,
+              roomNum: o.roomNumber
+            },
+            r = null;
+          r = await t.joinRoom(i), console.log("activeDevice", r), o.audioDevice = r.audioInputDevice, o.videoDevice = r.videoInputDevice, o.outputDevice = r.audioOutputDevice
+        }, ce = async () => {
+          D.value = localStorage.getItem("username"), I.value = localStorage.getItem("org");
+          let e = {
+              audioDeviceId: o.audioDevice,
+              videoDeviceId: o.videoDevice,
+              outputDeviceId: o.outputDevice,
+              autoGainControl: o.autoGain,
+              echoCancellation: o.echoCancellation,
+              noiseSuppression: o.noiseCancellation,
+              roomNum: o.roomNumber
+            },
+            i = {
+              userId: D.value,
+              org: I.value,
+              roomName: o.roomName,
+              roomMode: "auto",
+              baseUrl: z
+            },
+            r = null;
+          t ? r = await t.joinRoom(e) : (t = new J(i), Y(), r = await t.joinRoom(e)), console.log("activeDevice", r), o.audioDevice = r.audioInputDevice, o.videoDevice = r.videoInputDevice, o.outputDevice = r.audioOutputDevice
+        }, re = () => {
+          t.changeCameraStatus()
+        }, de = () => {
+          t.changeMicrophoneStatus()
+        }, ue = async () => {
+          if (!t) return;
+          let e = {
+              width: 400,
+              height: 280,
+              quality: 1
+            },
+            i = `video-${t.room.localParticipant.identity}`;
+          document.getElementById(i) ? await t.uploadScreenShot(i, e) : console.error("要截图的元素id不存在，请确认是否加入房间")
+        }, me = async () => {
+          let e = await t.pushVideoStream();
+          o.pushVideoUrl = e
+        }, pe = async () => {
+          await t.startRecord()
+        }, _e = async () => {
+          await t.stopRecord()
+        }, ve = async () => {
+          await t.pullStream(o.videoUrl, "stream_" + new Date().getTime().toString(36) + Math.ceil(Math.random() * 1e4))
+        }, he = async () => {
+          await t.stopPullStream()
+        }, ge = async () => {
+          await t.stopPushVideoStream()
+        }, fe = () => {
+          t.changeScreenShareStatus()
+        }, ye = () => {
+          if (D.value)
+            if (o.roomName)
+              if (o.roomNumber) {
+                if (!o.roomLink) {
+                  u({
+                    message: "无法获取房间链接",
+                    type: "error"
+                  });
+                  return
+                }
+              } else {
+                u({
+                  message: "无法获取房间号，请确认房间是否创建",
+                  type: "error"
+                });
+                return
+              }
+          else {
+            u({
+              message: "无法获取房间名",
+              type: "error"
+            });
+            return
+          } else {
+            u({
+              message: "无法获取到用户名，请先登录",
+              type: "error"
+            });
+            return
+          }
+          w.value = !0
+        }, be = () => {
+          if (D.value)
+            if (o.roomName) {
+              if (!o.roomNumber) {
+                u({
+                  message: "无法获取房间号，请确认房间是否创建",
+                  type: "error"
+                });
+                return
+              }
+            } else {
+              u({
+                message: "无法获取房间名",
+                type: "error"
+              });
+              return
+            }
+          else {
+            u({
+              message: "无法获取到用户名，请先登录",
+              type: "error"
+            });
+            return
+          }
+          let e = {
+            path: "/pages/demo/demo",
+            query: encodeURI(`roomName=${o.roomName}&roomNum=${o.roomNumber}&tenantId=1478649882954985474`),
+            env_version: "develop"
+          };
+          Re(e).then(i => {
+            console.log("生成小程序接口返回", i)
+          })
+        }, ke = () => {
+          new te("#copy-btn", {
+            target: () => document.getElementById("link-content")
+          })
+        }, Ce = () => {
+          new te("#copy-btn2", {
+            target: () => document.getElementById("mini-link-content")
+          })
+        }, De = () => {
+          N.value = !0, y.invitedName = "", y.phone = ""
+        }, Se = async () => {
+          (!y.invitedName || !y.phone) && u({
+            message: "请先输入受邀者入会姓名和手机号",
+            type: "error"
+          }), await t.makeCall(y.invitedName, y.phone)
+        };
+      return Ve(async () => {
+        const {
+          audioDevices: e,
+          videoDevices: i,
+          outputDevices: r
+        } = await J.getDeviceList();
+        H.value = e.map(d => ({
+          label: d.label,
+          value: d.deviceId
+        })), Q.value = i.map(d => ({
+          label: d.label,
+          value: d.deviceId
+        })), W.value = r.map(d => ({
+          label: d.label,
+          value: d.deviceId
+        }))
+      }), (e, i) => {
+        const r = k("el-input"),
+          d = k("el-form-item"),
+          h = k("el-col"),
+          f = k("el-row"),
+          V = k("el-option"),
+          E = k("el-select"),
+          L = k("el-form"),
+          m = k("el-button"),
+          Z = k("el-tooltip"),
+          G = k("el-dialog");
+        return g(), C(R, null, [s("div", Pe, [_(U) ? (g(), C("div", xe, Oe)) : (g(), C("div", Ge, ze)), l(L, {
+          model: o,
+          "label-position": "right",
+          "label-width": "100px"
+        }, {
+          default: a(() => [l(f, {
+            gutter: 20,
+            style: {
+              "margin-bottom": "40px"
+            }
+          }, {
+            default: a(() => [l(h, {
+              span: 6
+            }, {
+              default: a(() => [l(d, {
+                label: "用户名",
+                prop: "userName"
+              }, {
+                default: a(() => [l(r, {
+                  modelValue: o.userName,
+                  "onUpdate:modelValue": i[0] || (i[0] = n => o.userName = n)
+                }, null, 8, ["modelValue"])]),
+                _: 1
+              })]),
+              _: 1
+            }), l(h, {
+              span: 6
+            }, {
+              default: a(() => [l(d, {
+                label: "房间名",
+                prop: "roomName"
+              }, {
+                default: a(() => [l(r, {
+                  modelValue: o.roomName,
+                  "onUpdate:modelValue": i[1] || (i[1] = n => o.roomName = n)
+                }, null, 8, ["modelValue"])]),
+                _: 1
+              })]),
+              _: 1
+            }), l(h, {
+              span: 6
+            }, {
+              default: a(() => [l(d, {
+                label: "房间号",
+                prop: "roomNumber"
+              }, {
+                default: a(() => [l(r, {
+                  modelValue: o.roomNumber,
+                  "onUpdate:modelValue": i[2] || (i[2] = n => o.roomNumber = n)
+                }, null, 8, ["modelValue"])]),
+                _: 1
+              })]),
+              _: 1
+            })]),
+            _: 1
+          }), l(f, {
+            gutter: 20,
+            style: {
+              "margin-bottom": "40px"
+            }
+          }, {
+            default: a(() => [l(h, {
+              span: 6
+            }, {
+              default: a(() => [l(d, {
+                label: "音频设备",
+                prop: "audioDevice"
+              }, {
+                default: a(() => [l(E, {
+                  modelValue: o.audioDevice,
+                  "onUpdate:modelValue": i[3] || (i[3] = n => o.audioDevice = n)
+                }, {
+                  default: a(() => [(g(!0), C(R, null, A(_(H), n => (g(), S(V, {
+                    key: n.value,
+                    label: n.label,
+                    value: n.value
+                  }, null, 8, ["label", "value"]))), 128))]),
+                  _: 1
+                }, 8, ["modelValue"])]),
+                _: 1
+              })]),
+              _: 1
+            }), l(h, {
+              span: 6
+            }, {
+              default: a(() => [l(d, {
+                label: "视频设备",
+                prop: "videoDevice"
+              }, {
+                default: a(() => [l(E, {
+                  modelValue: o.videoDevice,
+                  "onUpdate:modelValue": i[4] || (i[4] = n => o.videoDevice = n)
+                }, {
+                  default: a(() => [(g(!0), C(R, null, A(_(Q), n => (g(), S(V, {
+                    key: n.value,
+                    label: n.label,
+                    value: n.value
+                  }, null, 8, ["label", "value"]))), 128))]),
+                  _: 1
+                }, 8, ["modelValue"])]),
+                _: 1
+              })]),
+              _: 1
+            }), l(h, {
+              span: 6
+            }, {
+              default: a(() => [l(d, {
+                label: "输出设备",
+                prop: "outputDevice"
+              }, {
+                default: a(() => [l(E, {
+                  modelValue: o.outputDevice,
+                  "onUpdate:modelValue": i[5] || (i[5] = n => o.outputDevice = n)
+                }, {
+                  default: a(() => [(g(!0), C(R, null, A(_(W), n => (g(), S(V, {
+                    key: n.value,
+                    label: n.label,
+                    value: n.value
+                  }, null, 8, ["label", "value"]))), 128))]),
+                  _: 1
+                }, 8, ["modelValue"])]),
+                _: 1
+              })]),
+              _: 1
+            })]),
+            _: 1
+          }), l(f, {
+            gutter: 20,
+            style: {
+              "margin-bottom": "40px"
+            }
+          }, {
+            default: a(() => [l(h, {
+              span: 6
+            }, {
+              default: a(() => [l(d, {
+                label: "拉流地址",
+                prop: "videoUrl"
+              }, {
+                default: a(() => [l(r, {
+                  modelValue: o.videoUrl,
+                  "onUpdate:modelValue": i[6] || (i[6] = n => o.videoUrl = n)
+                }, null, 8, ["modelValue"])]),
+                _: 1
+              })]),
+              _: 1
+            }), l(h, {
+              span: 6
+            }, {
+              default: a(() => [l(d, {
+                label: "推流地址",
+                prop: "pushVideoUrl"
+              }, {
+                default: a(() => [l(r, {
+                  modelValue: o.pushVideoUrl,
+                  "onUpdate:modelValue": i[7] || (i[7] = n => o.pushVideoUrl = n)
+                }, null, 8, ["modelValue"])]),
+                _: 1
+              })]),
+              _: 1
+            })]),
+            _: 1
+          })]),
+          _: 1
+        }, 8, ["model"]), s("div", He, [l(m, {
+          type: "primary",
+          plain: "",
+          class: "btn",
+          onClick: ne
+        }, {
+          default: a(() => [Qe]),
+          _: 1
+        }), l(m, {
+          type: "primary",
+          plain: "",
+          class: "btn",
+          onClick: ce
+        }, {
+          default: a(() => [We]),
+          _: 1
+        }), l(m, {
+          type: "danger",
+          plain: "",
+          class: "btn",
+          onClick: X
+        }, {
+          default: a(() => [Xe]),
+          _: 1
+        }), _(U) ? (g(), C(R, {
+          key: 0
+        }, [l(m, {
+          type: "primary",
+          plain: "",
+          class: "btn",
+          onClick: re
+        }, {
+          default: a(() => [c(b(_(T) ? "禁用摄像头" : "启用摄像头"), 1)]),
+          _: 1
+        }), l(m, {
+          type: "primary",
+          plain: "",
+          class: "btn",
+          onClick: de
+        }, {
+          default: a(() => [c(b(_(F) ? "禁用麦克风" : "启用麦克风"), 1)]),
+          _: 1
+        }), _($) ? (g(), S(m, {
+          key: 1,
+          type: "primary",
+          plain: "",
+          class: "btn",
+          onClick: ge
+        }, {
+          default: a(() => [uo]),
+          _: 1
+        })) : (g(), C("div", Ye, [l(m, {
+          type: "primary",
+          plain: "",
+          onClick: me
+        }, {
+          default: a(() => [Ze]),
+          _: 1
+        }), l(Z, {
+          effect: "light",
+          placement: "bottom-start"
+        }, {
+          content: a(() => [eo, oo, to, lo, ao, io, so, no, co]),
+          default: a(() => [ro]),
+          _: 1
+        })])), _(j) ? (g(), S(m, {
+          key: 3,
+          type: "primary",
+          plain: "",
+          class: "btn",
+          onClick: he
+        }, {
+          default: a(() => [Vo]),
+          _: 1
+        })) : (g(), C("div", mo, [l(m, {
+          type: "primary",
+          plain: "",
+          onClick: ve
+        }, {
+          default: a(() => [po]),
+          _: 1
+        }), l(Z, {
+          effect: "light",
+          placement: "bottom-start"
+        }, {
+          content: a(() => [_o, vo, ho, go, fo, yo, bo, ko, Co, Do, So]),
+          default: a(() => [No]),
+          _: 1
+        })])), _(B) ? (g(), S(m, {
+          key: 5,
+          type: "primary",
+          plain: "",
+          class: "btn",
+          onClick: _e
+        }, {
+          default: a(() => [wo, Uo]),
+          _: 1
+        })) : (g(), S(m, {
+          key: 4,
+          type: "primary",
+          plain: "",
+          class: "btn",
+          onClick: pe
+        }, {
+          default: a(() => [Io]),
+          _: 1
+        })), l(m, {
+          type: "primary",
+          plain: "",
+          class: "btn",
+          onClick: ue
+        }, {
+          default: a(() => [Eo]),
+          _: 1
+        }), l(m, {
+          type: "primary",
+          plain: "",
+          class: "btn",
+          onClick: fe
+        }, {
+          default: a(() => [c(b(_(O) ? "取消共享屏幕" : "共享屏幕"), 1)]),
+          _: 1
+        }), l(m, {
+          type: "primary",
+          plain: "",
+          class: "btn",
+          onClick: ye
+        }, {
+          default: a(() => [Ro]),
+          _: 1
+        }), l(m, {
+          type: "primary",
+          plain: "",
+          class: "btn",
+          onClick: be
+        }, {
+          default: a(() => [Po]),
+          _: 1
+        }), l(m, {
+          type: "primary",
+          plain: "",
+          class: "btn",
+          onClick: De
+        }, {
+          default: a(() => [xo]),
+          _: 1
+        })], 64)) : oe("", !0)]), Lo, Ie(s("div", Mo, jo, 512), [
+          [we, _(ae)]
+        ]), s("div", To, [Fo, _(M) ? (g(), C("img", {
+          key: 0,
+          class: "img-show",
+          src: _(M),
+          alt: ""
+        }, null, 8, Oo)) : oe("", !0)])]), l(G, {
+          title: "邀请链接",
+          width: "30%",
+          modelValue: _(w),
+          "onUpdate:modelValue": i[8] || (i[8] = n => q(w) ? w.value = n : w = n),
+          modal: ""
+        }, {
+          default: a(() => [s("div", Go, [s("div", Ko, b(_(D) + " 邀请您参加视频会议"), 1), s("div", qo, [s("div", Ao, "房间名：" + b(o.roomName), 1)]), s("div", Jo, [s("div", zo, "房间号：" + b(o.roomNumber), 1)]), s("div", Ho, [s("div", Qo, "房间链接：" + b(o.roomLink), 1)]), s("div", Wo, [l(m, {
+            id: "copy-btn",
+            type: "info",
+            style: {
+              padding: "0 10px"
+            },
+            onClick: ke
+          }, {
+            default: a(() => [Xo]),
+            _: 1
+          })])])]),
+          _: 1
+        }, 8, ["modelValue"]), l(G, {
+          title: "邀请链接",
+          width: "30%",
+          modelValue: _(x),
+          "onUpdate:modelValue": i[9] || (i[9] = n => q(x) ? x.value = n : x = n),
+          modal: ""
+        }, {
+          default: a(() => [s("div", Yo, [s("div", Zo, b(_(D) + " 邀请您参加视频会议,请通过小程序打开链接"), 1), s("div", et, [s("div", ot, "房间名：" + b(o.roomName), 1)]), s("div", tt, [s("div", lt, "房间号：" + b(o.roomNumber), 1)]), s("div", at, [s("div", it, "小程序链接：" + b(_(ie)), 1)]), s("div", st, [l(m, {
+            id: "copy-btn2",
+            type: "info",
+            style: {
+              padding: "0 10px"
+            },
+            onClick: Ce
+          }, {
+            default: a(() => [nt]),
+            _: 1
+          })])])]),
+          _: 1
+        }, 8, ["modelValue"]), l(G, {
+          title: "外呼邀请",
+          width: "30%",
+          modelValue: _(N),
+          "onUpdate:modelValue": i[12] || (i[12] = n => q(N) ? N.value = n : N = n),
+          modal: ""
+        }, {
+          default: a(() => [s("div", ct, [l(L, {
+            model: y,
+            "label-position": "left",
+            "label-width": "140px"
+          }, {
+            default: a(() => [l(f, {
+              gutter: 20,
+              style: {
+                "margin-bottom": "40px"
+              },
+              justify: "center"
+            }, {
+              default: a(() => [l(h, {
+                span: 18
+              }, {
+                default: a(() => [l(d, {
+                  label: "受邀者入会姓名",
+                  prop: "invitedName"
+                }, {
+                  default: a(() => [l(r, {
+                    modelValue: y.invitedName,
+                    "onUpdate:modelValue": i[10] || (i[10] = n => y.invitedName = n)
+                  }, null, 8, ["modelValue"])]),
+                  _: 1
+                })]),
+                _: 1
+              })]),
+              _: 1
+            }), l(f, {
+              gutter: 20,
+              style: {
+                "margin-bottom": "40px"
+              },
+              justify: "center"
+            }, {
+              default: a(() => [l(h, {
+                span: 18
+              }, {
+                default: a(() => [l(d, {
+                  label: "电话号码",
+                  prop: "v"
+                }, {
+                  default: a(() => [l(r, {
+                    modelValue: y.phone,
+                    "onUpdate:modelValue": i[11] || (i[11] = n => y.phone = n)
+                  }, null, 8, ["modelValue"])]),
+                  _: 1
+                })]),
+                _: 1
+              })]),
+              _: 1
+            })]),
+            _: 1
+          }, 8, ["model"]), s("div", rt, [l(m, {
+            type: "primary",
+            plain: "",
+            class: "btn",
+            onClick: Se
+          }, {
+            default: a(() => [dt]),
+            _: 1
+          })])])]),
+          _: 1
+        }, 8, ["modelValue"])], 64)
+      }
+    }
+  };
+var ht = Ne(ut, [
+  ["__scopeId", "data-v-e01e7092"]
+]);
+export {
+  ht as
+  default
+};

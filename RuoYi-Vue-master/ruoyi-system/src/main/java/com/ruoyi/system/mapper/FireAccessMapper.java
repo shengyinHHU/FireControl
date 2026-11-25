@@ -9,6 +9,8 @@ public interface FireAccessMapper {
  void insertMessage(Map<String,Object> row);
  void updateTransmission(@Param("id") Long id,@Param("status") String status,@Param("error") String error);
  Long sessionGateway(String session);
+ Long messageGateway(Long id);
+ List<Map<String,Object>> gatewayPresence();
  void bindRawSession(@Param("session") String session,@Param("gatewayId") Long gatewayId);
  void touchGateway(Map<String,Object> row);
  void updateGatewayState(Map<String,Object> row);

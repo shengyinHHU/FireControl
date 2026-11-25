@@ -88,8 +88,14 @@ try:
  lifecycle_test=run(["java","-Dfile.encoding=UTF-8","-cp",str(classes)+os.pathsep+cp,"SseLifecycleTest"],timeout=20)
  print(lifecycle_test.stdout.decode(errors="replace"))
  if lifecycle_test.returncode:raise RuntimeError(lifecycle_test.stderr.decode(errors="replace"))
+ realtime=ROOT/"tools/device-capture/java/DeviceRealtimeTest.java"
+ compiled=run(["javac","-encoding","UTF-8","-cp",str(classes)+os.pathsep+cp,"-d",classes,realtime],timeout=30)
+ if compiled.returncode:raise RuntimeError(compiled.stderr.decode(errors="replace"))
+ realtime_test=run(["java","-Dfile.encoding=UTF-8","-cp",str(classes)+os.pathsep+cp,"DeviceRealtimeTest"],timeout=20)
+ print(realtime_test.stdout.decode(errors="replace"))
+ if realtime_test.returncode:raise RuntimeError(realtime_test.stderr.decode(errors="replace"))
  report=dict(isolated_mysql=True,business_database_accessed=False,sql_repeat_safe=True,legacy_host_removal=True,history_preserved=True,role_grants_preserved=True,places=102,gateways=1,
-             sse_lifecycle=lifecycle_test.stdout.decode(errors="replace").splitlines()[-1],asset_management=asset_test.stdout.decode(errors="replace").splitlines()[-1],inventory=36,capture_frames=8,verification="FIRE_ACCESS_INTEGRATION_OK",output=tested.stdout.decode(errors="replace").splitlines()[-1])
+             device_realtime=realtime_test.stdout.decode(errors="replace").splitlines()[-1],sse_lifecycle=lifecycle_test.stdout.decode(errors="replace").splitlines()[-1],asset_management=asset_test.stdout.decode(errors="replace").splitlines()[-1],inventory=36,capture_frames=8,verification="FIRE_ACCESS_INTEGRATION_OK",output=tested.stdout.decode(errors="replace").splitlines()[-1])
  out=ROOT/"docs/verification/fire-device-integration.json";out.parent.mkdir(parents=True,exist_ok=True);out.write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
  print("Verified. Temporary database: "+str(work))
 finally:

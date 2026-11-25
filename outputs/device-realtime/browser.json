@@ -1,0 +1,20 @@
+{
+  "actualVue": true,
+  "fixtureHTTP": true,
+  "fixtureSSE": true,
+  "businessDatabaseAccessed": false,
+  "checks": [
+    "authenticated SSE connects; no requests or loading flash during the former 5-second interval",
+    "20 events produce one silent request; row DOM survives and no loading overlay appears",
+    "page number is preserved; failed background reads retain data without repeated error toasts and recover",
+    "device event and protocol status tabs update in real time through one shared connection",
+    "stream reconnects and reconciles; keyboard and 390px layout exercised",
+    "60-second silent reconciliation remains available for missed events",
+    "gateway-only role subscribes without requiring alarm permission"
+  ],
+  "gatewayCalls": 10,
+  "eventCalls": 3,
+  "messageCalls": 6,
+  "maxActive": 1,
+  "errors": []
+}

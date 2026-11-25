@@ -1,0 +1,18 @@
+{
+  "actualVue": true,
+  "fixtureHttp": true,
+  "externalNavigationStubbed": true,
+  "realCallsMade": false,
+  "checks": [
+    "place dialing opens a separate tab with no opener and preserves the original page and dialog",
+    "country code and separators normalize without reusing the previous contact phone",
+    "missing phone disables dialing; multiple numbers/landlines recover with feedback; SMS still opens independently",
+    "inspection reuses the fix, keyboard activation works at 390px and dialing does not start video"
+  ],
+  "destinations": [
+    "https://www.jnrhtx.top/meeting/index?from=Dc&phone=13800000001",
+    "https://www.jnrhtx.top/meeting/index?from=Dc&phone=13900000002",
+    "https://www.jnrhtx.top/meeting/index?from=Dc&phone=13700000003"
+  ],
+  "errors": []
+}

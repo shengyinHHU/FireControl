@@ -1,0 +1,37 @@
+{
+  "site": "https://www.jnrhtx.top/meeting/index?from=Dc",
+  "userSymptom": "Second call connects by telephone, but desktop meeting exits or becomes blank without video",
+  "inspection": "Read-only inspection of public deployed JavaScript; no browser media session or real call performed",
+  "confirmed": [
+    {
+      "asset": "https://www.jnrhtx.top/assets/useMeetingRoom.18a24a96.js",
+      "finding": "roomDisconnected handler calls exitRoom without inspecting disconnect reason",
+      "readableLine": 244
+    },
+    {
+      "asset": "https://www.jnrhtx.top/assets/index.bbe2f1c8.js",
+      "finding": "onExit navigates to meeting index or before page",
+      "readableLine": 347
+    },
+    {
+      "asset": "https://www.jnrhtx.top/assets/index.975eaa25.js",
+      "finding": "joinRoom media setup catch has no exception binding but references error",
+      "reproduced": {
+        "name": "ReferenceError",
+        "message": "error is not defined"
+      }
+    }
+  ],
+  "sdkSha256": "ffaac358cdb5b1364f570736a663e4a4fce33c4f495b1e2d8b27d03247adca84",
+  "unconfirmed": [
+    "The actual disconnect reason in the second call",
+    "Whether the media error handler runs in the reported failing session",
+    "Whether two tabs reuse the same participant identity"
+  ],
+  "neededEvidence": [
+    "Console exception and stack at failure",
+    "WebSocket leave/disconnect reason",
+    "Whether a fresh tab with all old meeting tabs closed still reproduces"
+  ],
+  "realCallsMade": false
+}
